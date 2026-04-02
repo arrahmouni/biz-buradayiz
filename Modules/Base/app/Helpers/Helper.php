@@ -30,7 +30,9 @@ if(!function_exists('createTranslateArray')) {
     function createTranslateArray(string $field = 'title', string $key, string $module = 'permission') : array
     {
         $translatedData = [];
-        foreach(LaravelLocalization::getSupportedLanguagesKeys() as $langCode) {
+        $locales = config('translatable.locales', LaravelLocalization::getSupportedLanguagesKeys());
+
+        foreach($locales as $langCode) {
             $translatedData[$langCode] = [
                 $field => trans("{$module}::" . $key, [], $langCode)
             ];

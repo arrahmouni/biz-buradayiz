@@ -45,11 +45,13 @@ class ContentFactory extends Factory
 
             $localeMapping = [
                 'en' => 'en_US',
-                'ar' => 'ar_SA',
+                // 'ar' => 'ar_SA',
+                'tr' => 'tr_TR',
             ];
 
             foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties) {
-                $faker = \Faker\Factory::create($localeMapping[$localeCode]);
+                $fakerLocale = $localeMapping[$localeCode] ?? 'en_US';
+                $faker = \Faker\Factory::create($fakerLocale);
 
                 $transModel[$localeCode] = $content->translations()->create([
                     'locale'            => $localeCode,
