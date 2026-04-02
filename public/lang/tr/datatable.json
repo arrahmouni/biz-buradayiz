@@ -1,0 +1,243 @@
+{
+    "emptyTable": "Tabloda gosterilecek veri yok",
+    "info": "_TOTAL_ kayittan _START_ - _END_ arasi gosteriliyor",
+    "infoEmpty": "0 kayittan 0 - 0 arasi gosteriliyor",
+    "infoFiltered": "(_MAX_ toplam kayittan filtrelendi)",
+    "infoThousands": ",",
+    "lengthMenu": "_MENU_ kayit goster",
+    "loadingRecords": "Yukleniyor...",
+    "processing": "Yukleniyor...",
+    "search": "Ara:",
+    "zeroRecords": "Eslesen kayit bulunamadi",
+    "thousands": ",",
+    "paginate": {
+        "first": "Ilk",
+        "last": "Son",
+        "next": "Sonraki",
+        "previous": "Onceki"
+    },
+    "aria": {
+        "sortAscending": ": sutunu artan sirada siralamak icin etkinlestir",
+        "sortDescending": ": sutunu azalan sirada siralamak icin etkinlestir"
+    },
+    "autoFill": {
+        "cancel": "Iptal",
+        "fill": "Tum hucreleri <i>%d</i> ile doldur",
+        "fillHorizontal": "Hucreleri yatay doldur",
+        "fillVertical": "Hucreleri dikey doldur"
+    },
+    "buttons": {
+        "collection": "Koleksiyon <span class='ui-button-icon-primary ui-icon ui-icon-triangle-1-s'/>",
+        "colvis": "Sutun Gorunurlugu",
+        "colvisRestore": "Gorunurlugu geri yukle",
+        "copy": "Kopyala",
+        "copyKeys": "Tablo verisini panoya kopyalamak icin ctrl veya u2318 + C tuslarina basin.<br><br>Iptal etmek icin bu mesaja tiklayin veya ESC tusuna basin.",
+        "copySuccess": {
+            "1": "1 satir panoya kopyalandi",
+            "_": "%d satir panoya kopyalandi"
+        },
+        "copyTitle": "Panoya Kopyala",
+        "csv": "CSV",
+        "excel": "Excel",
+        "pageLength": {
+            "-1": "Tum satirlari goster",
+            "_": "%d satir goster"
+        },
+        "pdf": "PDF",
+        "print": "Yazdir",
+        "updateState": "Guncelle",
+        "stateRestore": "Durum %d",
+        "savedStates": "Kaydedilmis Durumlar",
+        "renameState": "Yeniden Adlandir",
+        "removeState": "Kaldir",
+        "removeAllStates": "Tum Durumlari Kaldir",
+        "createState": "Durum Olustur"
+    },
+    "searchBuilder": {
+        "add": "Kosul Ekle",
+        "button": {
+            "0": "Arama Olusturucu",
+            "_": "Arama Olusturucu (%d)"
+        },
+        "clearAll": "Tumunu Temizle",
+        "condition": "Kosul",
+        "conditions": {
+            "date": {
+                "after": "Sonra",
+                "before": "Once",
+                "between": "Arasinda",
+                "empty": "Bos",
+                "equals": "Esittir",
+                "not": "Degil",
+                "notBetween": "Arasinda Degil",
+                "notEmpty": "Bos Degil"
+            },
+            "number": {
+                "between": "Arasinda",
+                "empty": "Bos",
+                "equals": "Esittir",
+                "gt": "Buyuktur",
+                "gte": "Buyuk Esittir",
+                "lt": "Kucuktur",
+                "lte": "Kucuk Esittir",
+                "not": "Degil",
+                "notBetween": "Arasinda Degil",
+                "notEmpty": "Bos Degil"
+            },
+            "string": {
+                "contains": "Icerir",
+                "empty": "Bos",
+                "endsWith": "Ile Biter",
+                "equals": "Esittir",
+                "not": "Degil",
+                "notEmpty": "Bos Degil",
+                "startsWith": "Ile Baslar",
+                "notContains": "Icermez",
+                "notStartsWith": "Ile Baslamaz",
+                "notEndsWith": "Ile Bitmez"
+            },
+            "array": {
+                "without": "Haric",
+                "notEmpty": "Bos Degil",
+                "not": "Degil",
+                "contains": "Icerir",
+                "empty": "Bos",
+                "equals": "Esittir"
+            }
+        },
+        "data": "Veri",
+        "deleteTitle": "Filtreleme kuralini sil",
+        "leftTitle": "Kriter Cikintisini Azalt",
+        "logicAnd": "Ve",
+        "logicOr": "Veya",
+        "rightTitle": "Kriter Cikintisini Artir",
+        "title": {
+            "0": "Arama Olusturucu",
+            "_": "Arama Olusturucu (%d)"
+        },
+        "value": "Deger"
+    },
+    "searchPanes": {
+        "clearMessage": "Tumunu Temizle",
+        "collapse": {
+            "0": "Arama Panelleri",
+            "_": "Arama Panelleri (%d)"
+        },
+        "count": "{total}",
+        "countFiltered": "{shown} ({total})",
+        "emptyPanes": "Arama paneli yok",
+        "loadMessage": "Arama panelleri yukleniyor",
+        "title": "Etkin Filtreler - %d",
+        "showMessage": "Tumunu Goster",
+        "collapseMessage": "Tumunu Daralt"
+    },
+    "select": {
+        "cells": {
+            "1": "1 hucre secildi",
+            "_": "%d hucre secildi"
+        },
+        "columns": {
+            "1": "1 sutun secildi",
+            "_": "%d sutun secildi"
+        },
+        "rows": {
+            "1": "1 satir secildi",
+            "_": "%d satir secildi"
+        }
+    },
+    "datetime": {
+        "previous": "Onceki",
+        "next": "Sonraki",
+        "hours": "Saat",
+        "minutes": "Dakika",
+        "seconds": "Saniye",
+        "unknown": "-",
+        "amPm": [
+            "am",
+            "pm"
+        ],
+        "weekdays": [
+            "Paz",
+            "Pzt",
+            "Sal",
+            "Car",
+            "Per",
+            "Cum",
+            "Cmt"
+        ],
+        "months": [
+            "Ocak",
+            "Subat",
+            "Mart",
+            "Nisan",
+            "Mayis",
+            "Haziran",
+            "Temmuz",
+            "Agustos",
+            "Eylul",
+            "Ekim",
+            "Kasim",
+            "Aralik"
+        ]
+    },
+    "editor": {
+        "close": "Kapat",
+        "create": {
+            "button": "Yeni",
+            "title": "Yeni kayit olustur",
+            "submit": "Olustur"
+        },
+        "edit": {
+            "button": "Duzenle",
+            "title": "Kaydi Duzenle",
+            "submit": "Guncelle"
+        },
+        "remove": {
+            "button": "Sil",
+            "title": "Sil",
+            "submit": "Sil",
+            "confirm": {
+                "1": "1 satiri silmek istediginize emin misiniz?",
+                "_": "%d satiri silmek istediginize emin misiniz?"
+            }
+        },
+        "error": {
+            "system": "Bir sistem hatasi olustu (<a target=\"\\\" rel=\"nofollow\" href=\"\\\">Daha fazla bilgi</a>)."
+        },
+        "multi": {
+            "title": "Birden Fazla Deger",
+            "info": "Secilen ogeler bu girdi icin farkli degerler iceriyor. Bu girdiyi duzenleyip tum ogeleri ayni degere ayarlamak icin buraya tiklayin veya dokunun, aksi halde her biri kendi degerini koruyacaktir.",
+            "restore": "Degisiklikleri Geri Al",
+            "noMulti": "Bu girdi tekil olarak duzenlenebilir, ancak grup olarak duzenlenemez."
+        }
+    },
+    "stateRestore": {
+        "renameTitle": "Durumu Yeniden Adlandir",
+        "renameLabel": "%s icin yeni ad:",
+        "renameButton": "Yeniden Adlandir",
+        "removeTitle": "Durumu Kaldir",
+        "removeSubmit": "Kaldir",
+        "removeJoiner": " ve ",
+        "removeError": "Durum kaldirilamadi.",
+        "removeConfirm": "%s kaldirilacak. Emin misiniz?",
+        "emptyStates": "Kaydedilmis durum yok",
+        "emptyError": "Ad bos olamaz.",
+        "duplicateError": "Bu adla bir durum zaten var.",
+        "creationModal": {
+            "toggleLabel": "Icerir:",
+            "title": "Yeni Durum Olustur",
+            "select": "Sec",
+            "searchBuilder": "Arama Olusturucu",
+            "search": "Ara",
+            "scroller": "Kaydirma Konumu",
+            "paging": "Sayfalama",
+            "order": "Siralama",
+            "name": "Ad:",
+            "columns": {
+                "visible": "Sutun Gorunurlugu",
+                "search": "Sutun Aramasi"
+            },
+            "button": "Olustur"
+        }
+    }
+}

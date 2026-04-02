@@ -1,0 +1,111 @@
+<?php
+
+/*
+|--------------------------------------------------------------------------
+| Package Translations
+|--------------------------------------------------------------------------
+|
+| Default translation namespace for the package: `response`.
+| Default translation file: `messages`.
+|
+*/
+
+return [
+    'response_message_types'    => [
+        'success'               => [
+            'title'             => 'Basarili',
+            'description'       => 'Islem basariyla tamamlandi',
+        ],
+        'error'                 => [
+            'title'             => 'Hata !!',
+            'description'       => 'Bir seyler ters gitti !!',
+        ],
+        'warning'               => [
+            'title'             => 'Uyari',
+            'description'       => 'Uyari',
+        ],
+        'info'                  => [
+            'title'             => 'Bilgi',
+            'description'       => 'Bilgi',
+        ],
+    ],
+    'web_response_messages'                                         => [
+        'operation_successfully_done'                               => 'Islem basariyla tamamlandi',
+        'operation_faield'                                          => 'Islem basarisiz oldu',
+        'validation_error'                                          => 'Lutfen girdiginiz verileri kontrol edip tekrar deneyin.',
+        'under_maintenance'                                         => 'Bakim modunda.',
+        'login_success'                                             => 'Giris basarili',
+        'logout_success'                                            => 'Cikis basarili',
+        'dont_have_permission'                                      => 'Bu islemi yapmak icin yeterli yetkiniz yok.',
+        'record_not_found'                                          => 'Kayit bulunamadi',
+        'page_not_found'                                            => 'Sayfa bulunamadi',
+        'root_role_cannot_be_deleted_or_updated'                    => 'Root rol silinemez veya guncellenemez.',
+        'data_fetched_success'                                      => 'Veriler basariyla alindi',
+        'login_failed_wrong_email'                                  => 'E-posta kayitli degil',
+        'login_failed_wrong_password_or_inactive'                   => 'Sifre yanlis veya hesap aktif degil',
+        'login_failed_user_role'                                    => 'Kontrol paneline giris yapmak icin yetkiniz yok.',
+        'method_not_allowed'                                        => 'Uzgunuz, kullandiginiz istek metodu bu URL icin izinli degil.',
+        'login_failed_inactive'                                     => 'Hesabiniz aktif degil. Lutfen yonetici ile iletisime gecin.',
+        'login_required'                                            => 'Bu sayfaya erismek icin giris yapmaniz gerekiyor.',
+        'login_to_another_account_success'                          => 'Yeni bir hesaba giris yaptiniz.',
+        'old_admin_account_not_found'                               => 'Onceki admin hesabi bulunamadi',
+        'back_to_previos_account_success'                           => 'Onceki hesabiniza basariyla geri dondunuz.',
+        'cant_login_to_same_account'                                => 'Ayni hesaba tekrar giris yapamazsiniz.',
+        'cant_login_to_root_account'                                => 'Root hesaba giris yapamazsiniz.',
+        'cant_login_to_inactive_account'                            => 'Pasif bir hesaba giris yapamazsiniz.',
+        'auth_failed'                                               => 'Kimlik dogrulama basarisiz',
+        'cache_cleared'                                             => 'Onbellek basariyla temizlendi.',
+        'logs_cleared'                                              => 'Loglar basariyla temizlendi.',
+        'permissions_reset'                                         => 'Yetkiler basariyla sifirlandi.',
+        'image_deleted_successfully'                                => 'Gorsel basariyla silindi.',
+        'reached_maximum_number_of_files'                           => 'Maksimum dosya sayisina ulastiniz.',
+        'you_must_delete_files_first'                               => 'Yeni bir dosya eklemeden once dosyalari silmelisiniz. En fazla :count dosya ekleyebilirsiniz',
+        'content_cannot_be_deleted'                                 => 'Bu icerik silinemez.',
+        'content_cannot_be_deleted_because_it_related_to_product'   => 'Bu icerik bir urunle iliskili oldugu icin silinemez.',
+        'category_cannot_be_deleted'                                => 'Bu kategori silinemez.',
+        'language_updated_successfully'                             => 'Dil basariyla guncellendi.',
+        'variables_must_be_string_or_number'                        => 'Bildirim degiskenleri metin veya sayi olmalidir.',
+        'firebase_token_saved'                                      => 'Firebase token kaydedildi.',
+        'subscribed_to_topic_successfully'                          => 'Topige basariyla abone olundu.',
+        'failed_to_subscribe_to_topic'                              => 'Topige abone olunurken hata olustu.',
+        'unsubscribed_from_topic_successfully'                      => 'Topikten abonelik basariyla kaldirildi.',
+        'unsubscribed_from_all_topics_successfully'                 => 'Tum topiklerden abonelik basariyla kaldirildi.',
+        'firebase_token_saved_successfully'                         => 'Firebase token basariyla kaydedildi.',
+        'failed_to_fetch_notifications'                             => 'Bildirimler alinirken bir hata olustu.',
+        'user_has_no_firebase_token'                                => 'Kullanicinin firebase tokeni yok.',
+        'email_sent_successfully'                                   => 'E-posta basariyla gonderildi.',
+        'email_sent_failed'                                         => 'E-posta gonderimi basarisiz oldu.',
+        'this_action_is_not_allowed_in_production'                  => 'Bu isleme production ortaminda izin verilmez.',
+        'reply_sent_successfully'                                   => 'Yanit basariyla gonderildi.',
+        'error_occured_while_fetching_data'                         => 'Veriler alinirken bir hata olustu. Lutfen daha sonra tekrar deneyin.',
+    ],
+    'api_response_messages'                                         => [
+        'user_registered_successfully'                              => 'Kullanici basariyla kaydoldu.',
+        'user_not_found'                                            => 'Kullanici bulunamadi.',
+        'password_not_correct'                                      => 'Uzgunuz, sifreniz yanlis. Lutfen bilgilerinizi kontrol edip tekrar deneyin.',
+        'your_account_is_not_active'                                => 'Hesabiniz pasif oldugu icin erisim saglayamazsiniz. Hesabi aktif etmek icin lutfen yonetimle iletisime gecin',
+        'login_successfully'                                        => 'Giris basarili',
+        'new_password_cannot_be_same_as_old_password'               => 'Uzgunuz, yeni sifre eski sifreyle ayni olamaz.',
+        'password_changed_successfully'                             => 'Sifre basariyla degistirildi.',
+        'logout_successfully'                                       => 'Cikis basarili',
+        'login_required'                                            => 'Islem icin giris gereklidir. Islemi tamamlamak icin lutfen giris yapin.',
+        'login_failed_inactive'                                     => 'Hesabiniz aktif degil. Lutfen yonetici ile iletisime gecin.',
+        'data_loaded_successfully'                                  => 'Veriler basariyla yuklendi.',
+        'language_changed_successfully'                             => 'Dil basariyla degistirildi.',
+        'old_password_is_incorrect'                                 => 'Uzgunuz, eski sifreniz yanlis. Lutfen bilgilerinizi kontrol edip tekrar deneyin.',
+        'profile_updated_successfully'                              => 'Profil basariyla guncellendi.',
+        'page_not_found'                                            => 'Sayfa bulunamadi',
+        'record_not_found'                                          => 'Kayit bulunamadi',
+        'created_successfully'                                      => 'Basariyla olusturuldu.',
+        'updated_successfully'                                      => 'Basariyla guncellendi.',
+        'deleted_successfully'                                      => 'Basariyla silindi.',
+        'proccess_successfully'                                     => 'Islem basariyla tamamlandi.',
+        'firebase_token_saved_successfully'                         => 'Firebase token basariyla kaydedildi.',
+        'user_has_no_firebase_token'                                => 'Kullanicinin firebase tokeni yok.',
+        'notification_sent_successfully'                            => 'Bildirim basariyla gonderildi.',
+        'notification_failed'                                       => 'Bildirim gonderilemedi.',
+        'variables_must_be_string_or_number'                        => 'Bildirim degiskenleri metin veya sayi olmalidir.',
+        'notification_template_not_found'                           => 'Bildirim sablonu bulunamadi.',
+    ],
+];
+
