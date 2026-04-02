@@ -33,7 +33,7 @@ class DashboardController extends BaseController
             $this->data['toDate']       = Carbon::parse($dateRange[1])->format('Y-m-d');
         }
 
-        $this->getUsersData(); $this->getContentData(); $this->getCrmData();
+        $this->getUsersData(); $this->getContentData(); // $this->getCrmData();
 
         if($request->ajax()) return sendSuccessInternalResponse(data: $this->data);
 
@@ -69,13 +69,13 @@ class DashboardController extends BaseController
 
     private function getContentData()
     {
-        $this->data['statistics']['contents'][] = dashboardSetItem(
-            key         : 'content_categories',
-            label       : trans('admin::dashboard.aside_menu.content_category_management.content_categories'),
-            modelClass  : ContentCategory::class,
-            fromDate    : $this->data['fromDate'],
-            toDate      : $this->data['toDate'],
-        );
+        // $this->data['statistics']['contents'][] = dashboardSetItem(
+        //     key         : 'content_categories',
+        //     label       : trans('admin::dashboard.aside_menu.content_category_management.content_categories'),
+        //     modelClass  : ContentCategory::class,
+        //     fromDate    : $this->data['fromDate'],
+        //     toDate      : $this->data['toDate'],
+        // );
 
         foreach (BaseContentTypes::all() as $type) {
             $this->data['statistics']['contents'][] = dashboardSetItem(
