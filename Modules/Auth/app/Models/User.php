@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Modules\Auth\Enums\permissions\UserPermissions;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as AuditableTrait;
 
@@ -21,13 +20,15 @@ class User extends Authenticatable implements Auditable
 
     const VIEW_PATH = 'users';
 
+    const SERVICE_PROVIDER = 'service_provider';
+    const CUSTOMER = 'customer';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
         'email',
         'password',
         'type',
@@ -74,6 +75,16 @@ class User extends Authenticatable implements Auditable
             'email_verified_at' => 'datetime',
             'password'          => 'hashed',
         ];
+    }
+
+    /**
+     * Create a new factory instance for the model.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    protected static function newFactory()
+    {
+        return \Modules\Auth\database\factories\UserFactory::new();
     }
 
     public function getAuthPasswordName()
