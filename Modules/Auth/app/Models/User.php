@@ -40,7 +40,9 @@ class User extends Authenticatable implements Auditable
         'email_verified_at',
         'remember_token',
         'provider',
-        'provider_id'
+        'provider_id',
+        'service_id',
+        'city_id',
     ];
 
     protected $hidden = [
