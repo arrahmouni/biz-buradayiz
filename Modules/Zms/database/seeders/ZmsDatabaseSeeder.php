@@ -13,6 +13,12 @@ use Modules\Zms\Models\CountryTranslation;
 class ZmsDatabaseSeeder extends Seeder
 {
     /**
+     * Only geography for this ISO 3166-1 alpha-2 country is seeded (TR = Türkiye).
+     * Use an empty string to seed every country from the template files (large import).
+     */
+    private const SEEDED_COUNTRY_ISO2 = 'TR';
+
+    /**
      * Run the database seeds.
      */
     public function run(): void
@@ -39,6 +45,25 @@ class ZmsDatabaseSeeder extends Seeder
         $cities                 = require module_path('Zms', 'database/seederTemplates/cities.php');
         $cityTranslations       = require module_path('Zms', 'database/seederTemplates/city_translations.php');
 
+        if (self::SEEDED_COUNTRY_ISO2 !== '') {
+            [
+                $countries,
+                $countryTranslations,
+                $states,
+                $stateTranslations,
+                $cities,
+                $cityTranslations,
+            ] = $this->filterTemplatesToCountry(
+                $countries,
+                $countryTranslations,
+                $states,
+                $stateTranslations,
+                $cities,
+                $cityTranslations,
+                self::SEEDED_COUNTRY_ISO2,
+            );
+        }
+
         foreach(collect($countries)->chunk(100) as $chunkedCountries) {
             Country::insert($chunkedCountries->toArray());
         }
@@ -57,5 +82,71 @@ class ZmsDatabaseSeeder extends Seeder
         foreach(collect($cityTranslations)->chunk(100) as $chunkedCityTranslations) {
             CityTranslation::insert($chunkedCityTranslations->toArray());
         }
+    }
+
+    /**
+     * @param  array<int, array<string, mixed>>  $countries
+     * @param  array<int, array<string, mixed>>  $countryTranslations
+     * @param  array<int, array<string, mixed>>  $states
+     * @param  array<int, array<string, mixed>>  $stateTranslations
+     * @param  array<int, array<string, mixed>>  $cities
+     * @param  array<int, array<string, mixed>>  $cityTranslations
+     * @return array{0: array, 1: array, 2: array, 3: array, 4: array, 5: array}
+     */
+    private function filterTemplatesToCountry(
+        array $countries,
+        array $countryTranslations,
+        array $states,
+        array $stateTranslations,
+        array $cities,
+        array $cityTranslations,
+        string $iso2,
+    ): array {
+        $iso2 = strtoupper($iso2);
+        $countries = array_values(array_filter(
+            $countries,
+            static fn (array $row): bool => ($row['iso2'] ?? '') === $iso2,
+        ));
+
+        if ($countries === []) {
+            throw new \RuntimeException("Zms seeder: no country with iso2 [{$iso2}] in countries template.");
+        }
+
+        $countryId = (int) $countries[0]['id'];
+        $countryTranslations = array_values(array_filter(
+            $countryTranslations,
+            static fn (array $row): bool => (int) $row['country_id'] === $countryId,
+        ));
+
+        $states = array_values(array_filter(
+            $states,
+            static fn (array $row): bool => (int) $row['country_id'] === $countryId,
+        ));
+        $stateIds = array_fill_keys(array_column($states, 'id'), true);
+
+        $stateTranslations = array_values(array_filter(
+            $stateTranslations,
+            static fn (array $row): bool => isset($stateIds[(int) $row['state_id']]),
+        ));
+
+        $cities = array_values(array_filter(
+            $cities,
+            static fn (array $row): bool => isset($stateIds[(int) $row['state_id']]),
+        ));
+        $cityIds = array_fill_keys(array_column($cities, 'id'), true);
+
+        $cityTranslations = array_values(array_filter(
+            $cityTranslations,
+            static fn (array $row): bool => isset($cityIds[(int) $row['city_id']]),
+        ));
+
+        return [
+            $countries,
+            $countryTranslations,
+            $states,
+            $stateTranslations,
+            $cities,
+            $cityTranslations,
+        ];
     }
 }
