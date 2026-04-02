@@ -40,9 +40,9 @@ class ViewServiceProvider extends ServiceProvider
             $this->regiserCmsAsideMenu();
             $this->registerZmsAsideMenu();
             $this->registerConfigAsideMenu();
-            $this->registerNotificationAsideMenu();
-            $this->registerCrmAsideMenu();
-            $this->registerLogAsideMenu();
+            // $this->registerNotificationAsideMenu();
+            // $this->registerCrmAsideMenu();
+            // $this->registerLogAsideMenu();
         });
     }
 
@@ -243,69 +243,69 @@ class ViewServiceProvider extends ServiceProvider
         ]);
 
         // Start Content Category Section
-        app('adminHelper')->asideMenu([
-            'id'        => 'content_category_section',
-            'parent_id' => 'content_management',
-            'type'      => 'item',
-            'icon'      => 'bi bi-layers-fill',
-            'title'     => trans('admin::dashboard.aside_menu.content_category_management.content_categories'),
-            'order'     => 1,
-        ]);
+        // app('adminHelper')->asideMenu([
+        //     'id'        => 'content_category_section',
+        //     'parent_id' => 'content_management',
+        //     'type'      => 'item',
+        //     'icon'      => 'bi bi-layers-fill',
+        //     'title'     => trans('admin::dashboard.aside_menu.content_category_management.content_categories'),
+        //     'order'     => 1,
+        // ]);
 
-        if (app('owner') || (app('admin')->can(ContentCategoryPermissions::READ))) {
-            app('adminHelper')->asideMenu([
-                'id'        => 'view_content_category',
-                'parent_id' => 'content_category_section',
-                'type'      => 'item',
-                'link'      => route('cms.content_categories.index'),
-                'title'     => trans('admin::base.view_all'),
-                'order'     => 4,
-            ]);
-        }
+        // if (app('owner') || (app('admin')->can(ContentCategoryPermissions::READ))) {
+        //     app('adminHelper')->asideMenu([
+        //         'id'        => 'view_content_category',
+        //         'parent_id' => 'content_category_section',
+        //         'type'      => 'item',
+        //         'link'      => route('cms.content_categories.index'),
+        //         'title'     => trans('admin::base.view_all'),
+        //         'order'     => 4,
+        //     ]);
+        // }
 
-        if (app('owner') || app('admin')->can(ContentCategoryPermissions::CREATE)) {
-            app('adminHelper')->asideMenu([
-                'id'        => 'create_content_category',
-                'parent_id' => 'content_category_section',
-                'type'      => 'item',
-                'link'      => route('cms.content_categories.create'),
-                'title'     => trans('admin::base.create_new'),
-                'order'     => 5,
-            ]);
-        }
+        // if (app('owner') || app('admin')->can(ContentCategoryPermissions::CREATE)) {
+        //     app('adminHelper')->asideMenu([
+        //         'id'        => 'create_content_category',
+        //         'parent_id' => 'content_category_section',
+        //         'type'      => 'item',
+        //         'link'      => route('cms.content_categories.create'),
+        //         'title'     => trans('admin::base.create_new'),
+        //         'order'     => 5,
+        //     ]);
+        // }
         // End Content Category Section
 
         // Start Content Tag Section
-        app('adminHelper')->asideMenu([
-            'id'        => 'content_tag_section',
-            'parent_id' => 'content_management',
-            'type'      => 'item',
-            'icon'      => 'fa-solid fa-tag',
-            'title'     => trans('admin::dashboard.aside_menu.content_tag_management.content_tags'),
-            'order'     => 20,
-        ]);
+        // app('adminHelper')->asideMenu([
+        //     'id'        => 'content_tag_section',
+        //     'parent_id' => 'content_management',
+        //     'type'      => 'item',
+        //     'icon'      => 'fa-solid fa-tag',
+        //     'title'     => trans('admin::dashboard.aside_menu.content_tag_management.content_tags'),
+        //     'order'     => 20,
+        // ]);
 
-        if (app('owner') || (app('admin')->can(ContentTagPermissions::READ))) {
-            app('adminHelper')->asideMenu([
-                'id'        => 'view_content_tag',
-                'parent_id' => 'content_tag_section',
-                'type'      => 'item',
-                'link'      => route('cms.content_tags.index'),
-                'title'     => trans('admin::base.view_all'),
-                'order'     => 4,
-            ]);
-        }
+        // if (app('owner') || (app('admin')->can(ContentTagPermissions::READ))) {
+        //     app('adminHelper')->asideMenu([
+        //         'id'        => 'view_content_tag',
+        //         'parent_id' => 'content_tag_section',
+        //         'type'      => 'item',
+        //         'link'      => route('cms.content_tags.index'),
+        //         'title'     => trans('admin::base.view_all'),
+        //         'order'     => 4,
+        //     ]);
+        // }
 
-        if (app('owner') || app('admin')->can(ContentTagPermissions::CREATE)) {
-            app('adminHelper')->asideMenu([
-                'id'        => 'create_content_tag',
-                'parent_id' => 'content_tag_section',
-                'type'      => 'item',
-                'link'      => route('cms.content_tags.create'),
-                'title'     => trans('admin::base.create_new'),
-                'order'     => 5,
-            ]);
-        }
+        // if (app('owner') || app('admin')->can(ContentTagPermissions::CREATE)) {
+        //     app('adminHelper')->asideMenu([
+        //         'id'        => 'create_content_tag',
+        //         'parent_id' => 'content_tag_section',
+        //         'type'      => 'item',
+        //         'link'      => route('cms.content_tags.create'),
+        //         'title'     => trans('admin::base.create_new'),
+        //         'order'     => 5,
+        //     ]);
+        // }
         // End Content Tag Section
 
         // Start Content Section [Dynamic]

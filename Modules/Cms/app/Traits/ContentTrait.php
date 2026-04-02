@@ -14,36 +14,36 @@ trait ContentTrait
     ];
 
     public static $typeList = [
-        BaseContentTypes::SLIDERS => [
-            'icon'                  => 'fas fa-sliders-h',
-            'show_in_menu'          => true,
-            'name'                  => 'cms::contents.content_categories.sliders',
-            'fields'                => [
-                'title'             => [
-                    'required'      => true,
-                ],
-                'link'              => [
-                    'required'      => false,
-                ],
-                'image'             => [
-                    'required'      => true,
-                    'dimensions'    => [
-                        'preview'   => '400x220',
-                        '400x200',
-                    ],
-                ],
-                'select'            => [
-                    'placement'     => [
-                        'required'  => true,
-                        'multiple'  => false,
-                        'isAjax'    => false,
-                        'data'      => [
-                            'home'  => 'cms::contents.sliders.placement.home',
-                        ],
-                    ],
-                ],
-            ],
-        ],
+        // BaseContentTypes::SLIDERS => [
+        //     'icon'                  => 'fas fa-sliders-h',
+        //     'show_in_menu'          => true,
+        //     'name'                  => 'cms::contents.content_categories.sliders',
+        //     'fields'                => [
+        //         'title'             => [
+        //             'required'      => true,
+        //         ],
+        //         'link'              => [
+        //             'required'      => false,
+        //         ],
+        //         'image'             => [
+        //             'required'      => true,
+        //             'dimensions'    => [
+        //                 'preview'   => '400x220',
+        //                 '400x200',
+        //             ],
+        //         ],
+        //         'select'            => [
+        //             'placement'     => [
+        //                 'required'  => true,
+        //                 'multiple'  => false,
+        //                 'isAjax'    => false,
+        //                 'data'      => [
+        //                     'home'  => 'cms::contents.sliders.placement.home',
+        //                 ],
+        //             ],
+        //         ],
+        //     ],
+        // ],
 
         BaseContentTypes::BLOGS     => [
             'icon'                  => 'fas fa-blog',
