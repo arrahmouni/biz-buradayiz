@@ -10,6 +10,7 @@ class ServiceTranslation extends BaseModel
         'service_id',
         'locale',
         'name',
+        'description',
     ];
 
     public $timestamps = false;

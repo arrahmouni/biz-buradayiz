@@ -3,6 +3,7 @@
 namespace Modules\Platform\Http\Services;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Modules\Base\Http\Services\BaseCrudService;
 use Modules\Platform\Enums\permissions\ServicePermissions;
 use Modules\Platform\Models\Service as CrudModel;
@@ -15,6 +16,7 @@ class ServiceService extends BaseCrudService
 
     protected $unnecessaryFieldsForCrud = [
         'name',
+        'description',
     ];
 
     /**
@@ -27,7 +29,7 @@ class ServiceService extends BaseCrudService
     {
         $modelData = $this->prepareModelData($data);
 
-        $translations = $this->createTranslations($data, 'name');
+        $translations = $this->createTranslations($data, 'name', ['description']);
 
         $model = DB::transaction(function () use($modelData, $translations){
             $model = CrudModel::create($modelData);
@@ -53,7 +55,7 @@ class ServiceService extends BaseCrudService
 
         DB::transaction(function () use($data, $model, $modelData){
             $model->update($modelData);
-            $this->updateTranslations($model, $data, 'name');
+            $this->updateTranslations($model, $data, 'name', ['description']);
         });
 
         return $model;
@@ -88,6 +90,11 @@ class ServiceService extends BaseCrudService
             })
             ->addColumn('name', function ($model) {
                 return $model->smartTrans('name');
+            })
+            ->addColumn('description', function ($model) {
+                $text = $model->smartTrans('description');
+
+                return $text !== '' && $text !== null ? Str::limit(strip_tags((string) $text), 120) : '—';
             })
 
             ->addColumn('actions', function ($model) {

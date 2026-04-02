@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->enum('status', AdminStatus::all())->default(AdminStatus::ACTIVE);
             $table->string('type')->nullable();
-            $table->foreignId('service_id')->nullable()->constrained('services')->nullOnDelete();
-            $table->foreignId('city_id')->nullable()->constrained('cities')->nullOnDelete();
+            $table->unsignedBigInteger('service_id')->nullable();
+            $table->unsignedBigInteger('city_id')->nullable();
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('email')->unique();

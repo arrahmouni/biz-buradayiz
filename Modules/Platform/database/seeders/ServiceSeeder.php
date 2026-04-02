@@ -16,20 +16,20 @@ class ServiceSeeder extends Seeder
         $services = [
             [
                 'translations'  => [
-                    'en'        => ['name' => 'Towing service'],
-                    'tr'        => ['name' => 'Çekiç Hizmeti']
+                    'en'        => ['name' => 'Towing service', 'description' => 'Towing service description'],
+                    'tr'        => ['name' => 'Çekiç Hizmeti', 'description' => 'Çekiç Hizmeti açıklaması']
                 ],
             ],
             [
                 'translations'  => [
-                    'en'        => ['name' => 'Transportation service'],
-                    'tr'        => ['name' => 'Taşıma Hizmeti']
+                    'en'        => ['name' => 'Transportation service', 'description' => 'Transportation service description'],
+                    'tr'        => ['name' => 'Taşıma Hizmeti', 'description' => 'Taşıma Hizmeti açıklaması']
                 ],
             ],
             [
                 'translations'  => [
-                    'en'        => ['name' => 'Repair service'],
-                    'tr'        => ['name' => 'Onarım Hizmeti']
+                    'en'        => ['name' => 'Repair service', 'description' => 'Repair service description'],
+                    'tr'        => ['name' => 'Onarım Hizmeti', 'description' => 'Onarım Hizmeti açıklaması']
                 ],
             ],
 
@@ -42,6 +42,7 @@ class ServiceSeeder extends Seeder
                     'service_id' => $serviceModel->id,
                     'locale' => $locale,
                     'name' => $translation['name'],
+                    'description' => $translation['description'],
                 ]);
             }
         }

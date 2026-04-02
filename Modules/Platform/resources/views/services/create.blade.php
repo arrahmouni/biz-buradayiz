@@ -45,7 +45,12 @@
                                                     'show'      => true,
                                                     'required'  => true,
                                                     'value'     => null,
-                                                ]
+                                                ],
+                                                'description'  => [
+                                                    'show'      => true,
+                                                    'required'  => false,
+                                                    'value'     => null,
+                                                ],
                                             ]
                                         ])
                                     </div>

@@ -66,6 +66,7 @@
                     @slot('columns')
                         {{-- Datatable Columns --}}
                         <th> @lang('admin::datatable.base_columns.name') </th>
+                        <th> @lang('admin::datatable.base_columns.description') </th>
                     @endslot
 
                     <script>
@@ -73,6 +74,10 @@
                             {
                                 data: 'name',
                                 name: 'name',
+                            },
+                            {
+                                data: 'description',
+                                name: 'description',
                             },
                         @endslot
                     </script>

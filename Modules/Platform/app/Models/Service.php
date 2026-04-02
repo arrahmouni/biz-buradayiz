@@ -22,7 +22,7 @@ class Service extends BaseModel
 
     public $timestamps = true;
 
-    public $translatedAttributes = ['name'];
+    public $translatedAttributes = ['name', 'description'];
 
     protected $with = [
         'translations'

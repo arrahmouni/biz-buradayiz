@@ -50,6 +50,13 @@
                                                         return $model->smartTrans('name', $locale, true);
                                                     },
                                                 ],
+                                                'description'  => [
+                                                    'show'      => true,
+                                                    'required'  => false,
+                                                    'value'     => function($model, $locale) {
+                                                        return $model->smartTrans('description', $locale, true);
+                                                    },
+                                                ],
                                             ]
                                         ])
                                     </div>
