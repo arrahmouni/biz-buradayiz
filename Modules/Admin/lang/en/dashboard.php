@@ -28,6 +28,7 @@ return [
             'permissions'                   => 'Permissions',
             'admins'                        => 'Admins',
             'users'                         => 'Users',
+            'service_providers'             => 'Service Providers',
         ],
         'zone_management'                   => [
             'title'                         => 'Zone Management',

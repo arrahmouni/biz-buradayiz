@@ -20,7 +20,7 @@ class User extends Authenticatable implements Auditable
 
     const VIEW_PATH = 'users';
 
-    const SERVICE_PROVIDER = 'service_provider';
+    const SERVICE_PROVIDER = 'service-provider';
     const CUSTOMER = 'customer';
 
     /**

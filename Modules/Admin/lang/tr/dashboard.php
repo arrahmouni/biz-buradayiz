@@ -28,6 +28,7 @@ return [
             'permissions'                   => 'Yetkiler',
             'admins'                        => 'Yöneticiler',
             'users'                         => 'Kullanıcılar',
+            'service_providers'             => 'Hizmet Sağlayıcıları',
         ],
         'zone_management'                   => [
             'title'                         => 'Bölge Yönetimi',
