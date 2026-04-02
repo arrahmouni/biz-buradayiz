@@ -1,0 +1,14 @@
+{
+    "name": "Base",
+    "alias": "base",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Base\\Providers\\BaseServiceProvider"
+    ],
+    "files": [
+        "app//Helpers//Helper.php",
+        "app//Constants//Constants.php"
+    ]
+}
