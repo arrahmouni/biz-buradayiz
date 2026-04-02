@@ -28,7 +28,7 @@ class CityController extends BaseCrudController
 
     protected $hasSoftDelete = false;
 
-    protected $hasDisabled = false;
+    protected $hasDisabled = true;
 
     protected $hasBulkActions = false;
 
@@ -47,6 +47,22 @@ class CityController extends BaseCrudController
     {
         $request->merge(['state_id' => $request->state_id]);
         return parent::datatable($request);
+    }
+
+    public function getModelForAjax(Request $request)
+    {
+        if (! $request->filled('state_id')) {
+            return $this->model::query()->whereRaw('0 = 1');
+        }
+
+        $this->data['model'] = $this->model::query()->where('state_id', $request->state_id);
+
+        if ($request->has('q')) {
+            $term = trim($request->q);
+            $this->data['model'] = $this->data['model']->simpleSearch($term);
+        }
+
+        return $this->data['model'];
     }
 
     /**
@@ -72,7 +88,7 @@ class CityController extends BaseCrudController
     {
         app($this->updateRequest);
 
-        $this->data['model'] = $this->model->getModel($request->model);
+        $this->data['model'] = $this->crudService->getModel(id: $request->model, withTrashed: $this->hasSoftDelete, withDisabled: $this->hasDisabled);
 
         try
         {

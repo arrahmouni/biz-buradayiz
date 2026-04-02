@@ -4,18 +4,29 @@ namespace Modules\Auth\Http\Requests;
 
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
+use Modules\Auth\Enums\UserType;
 use Modules\Base\Http\Requests\BaseRequest;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use Modules\Admin\Enums\AdminStatus;
 
 class UserCrudRequest extends BaseRequest
 {
+    protected function prepareForValidation(): void
+    {
+        if ($this->route('userType') !== null) {
+            $this->merge(['type' => $this->route('userType')]);
+        }
+    }
+
     /**
      * Get the validation rules that apply to the request.
      */
     public function rules(): array
     {
+        $type = $this->input('type');
+
         $rules = [
+            'type'          => ['required', Rule::in(UserType::values())],
             'first_name'    => ['required', 'string', 'max:255'],
             'last_name'     => ['required', 'string', 'max:255'],
             'email'         => ['required', 'string', 'email', 'max:255', Rule::unique('users', 'email')->ignore($this->model)],
@@ -25,7 +36,15 @@ class UserCrudRequest extends BaseRequest
             'status'        => ['required', 'in:' . implode(',', AdminStatus::all())],
         ];
 
-        if($this->isUpdate()) {
+        if ($type === UserType::ServiceProvider->value) {
+            $rules['service_id'] = ['required', 'exists:services,id'];
+            $rules['city_id']    = ['required', 'exists:cities,id'];
+        } else {
+            $rules['service_id'] = ['prohibited'];
+            $rules['city_id']    = ['prohibited'];
+        }
+
+        if ($this->isUpdate()) {
             array_push($rules['password'], 'nullable');
         } else {
             array_push($rules['password'], 'required');

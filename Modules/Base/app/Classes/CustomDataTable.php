@@ -184,7 +184,10 @@ class CustomDataTable
     public function addShowLog()
     {
         if ($this->can(SHOW_LOG_ACTION) && in_array(Auditable::class, class_uses($this->model)) &&  $this->model->audits()->exists())
-            $this->addAction(SHOW_LOG_ACTION, 'fa-solid fa-clock-rotate-left', 3, route: route('log.activity_log.index', array_merge($this->routeParameters, ['type'  => strtolower(str_replace('_', '-', $this->modelName))])));
+            $this->addAction(SHOW_LOG_ACTION, 'fa-solid fa-clock-rotate-left', 3, route: route('log.activity_log.index', [
+                'type'  => strtolower(str_replace('_', '-', $this->modelName)),
+                'model' => $this->routeParameters['model'] ?? $this->model->id,
+            ]));
 
         return $this;
     }

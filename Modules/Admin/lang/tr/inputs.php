@@ -317,6 +317,30 @@ return [
             'placeholder'           => 'Lutfen bir soyad girin',
             'help'                  => 'Bir soyad girin (gerekli)',
         ],
+
+        'service_id'                => [
+            'label'                 => 'Hizmet türü',
+            'placeholder'           => 'Bir hizmet seçin',
+            'help'                  => 'Hizmet türünü seçin (gerekli)',
+        ],
+
+        'country_id'                => [
+            'label'                 => 'Ülke',
+            'placeholder'           => 'Bir ülke seçin',
+            'help'                  => 'Ülke seçin (hizmet sağlayıcılar için gerekli)',
+        ],
+
+        'state_id'                  => [
+            'label'                 => 'Şehir',
+            'placeholder'           => 'Bir şehir seçin',
+            'help'                  => 'Şehir seçin (hizmet sağlayıcılar için gerekli)',
+        ],
+
+        'city_id'                   => [
+            'label'                 => 'İlçe',
+            'placeholder'           => 'Bir ilçe seçin',
+            'help'                  => 'İlçe seçin (hizmet sağlayıcılar için gerekli)',
+        ],
     ],
 
     'notification_template_crud'    => [

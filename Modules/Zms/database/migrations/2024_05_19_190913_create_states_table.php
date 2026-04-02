@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('native_name');
             $table->float('lat', 10, 6)->nullable();
             $table->float('lng', 10, 6)->nullable();
+            $table->timestamp('disabled_at')->nullable();
         });
     }
 

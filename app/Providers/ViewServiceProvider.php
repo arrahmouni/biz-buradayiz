@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Modules\Admin\Enums\permissions\AdminPermissions;
+use Modules\Auth\Enums\UserType;
 use Modules\Auth\Enums\permissions\UserPermissions;
 use Modules\Cms\Enums\permissions\ContentCategoryPermissions;
 use Modules\Cms\Enums\permissions\ContentTagPermissions;
@@ -113,24 +114,40 @@ class ViewServiceProvider extends ServiceProvider
         ]);
 
         if (app('owner') || app('admin')->can(UserPermissions::READ)) {
+            // app('adminHelper')->asideMenu([
+            //     'id'        => 'view_users_customers',
+            //     'parent_id' => 'users_section',
+            //     'type'      => 'item',
+            //     'link'      => route('auth.users.index', ['userType' => UserType::Customer->value]),
+            //     'title'     => trans('admin::dashboard.aside_menu.user_management.customers'),
+            //     'order'     => 4,
+            // ]);
             app('adminHelper')->asideMenu([
-                'id'        => 'view_users',
+                'id'        => 'view_users_service_providers',
                 'parent_id' => 'users_section',
                 'type'      => 'item',
-                'link'      => route('auth.users.index'),
-                'title'     => trans('admin::base.view_all'),
-                'order'     => 4,
+                'link'      => route('auth.users.index', ['userType' => UserType::ServiceProvider->value]),
+                'title'     => trans('admin::dashboard.aside_menu.user_management.service_providers'),
+                'order'     => 5,
             ]);
         }
 
-        if (app('owner') || app('admin')->can(AdminPermissions::CREATE)) {
+        if (app('owner') || app('admin')->can(UserPermissions::CREATE)) {
+            // app('adminHelper')->asideMenu([
+            //     'id'        => 'create_users_customer',
+            //     'parent_id' => 'users_section',
+            //     'type'      => 'item',
+            //     'link'      => route('auth.users.create', ['userType' => UserType::Customer->value]),
+            //     'title'     => trans('admin::dashboard.aside_menu.user_management.create_customer'),
+            //     'order'     => 6,
+            // ]);
             app('adminHelper')->asideMenu([
-                'id'        => 'create_users',
+                'id'        => 'create_users_service_provider',
                 'parent_id' => 'users_section',
                 'type'      => 'item',
-                'link'      => route('auth.users.create'),
-                'title'     => trans('admin::base.create_new'),
-                'order'     => 4,
+                'link'      => route('auth.users.create', ['userType' => UserType::ServiceProvider->value]),
+                'title'     => trans('admin::dashboard.aside_menu.user_management.create_service_provider'),
+                'order'     => 7,
             ]);
         }
         // End User Section

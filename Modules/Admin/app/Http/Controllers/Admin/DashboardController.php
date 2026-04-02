@@ -4,6 +4,7 @@ namespace Modules\Admin\Http\Controllers\Admin;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Modules\Auth\Enums\UserType;
 use Modules\Auth\Models\User;
 use Modules\Admin\Models\Admin;
 use Modules\Cms\Models\Content;
@@ -52,10 +53,11 @@ class DashboardController extends BaseController
 
         $this->data['statistics']['users'][] = dashboardSetItem(
             key         : 'user',
-            label       : trans('admin::dashboard.aside_menu.user_management.users'),
+            label       : trans('admin::dashboard.aside_menu.user_management.service_providers'),
             modelClass  : User::class,
             fromDate    : $this->data['fromDate'],
-            toDate      : $this->data['toDate']
+            toDate      : $this->data['toDate'],
+            route       : route('auth.users.index', ['userType' => UserType::ServiceProvider->value]),
         );
 
         $this->data['statistics']['users'][] = dashboardSetItem(

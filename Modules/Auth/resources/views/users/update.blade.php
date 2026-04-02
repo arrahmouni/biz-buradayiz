@@ -3,8 +3,10 @@
 @section('toolbar')
     @include('admin::includes.toolbar', [
         'options'               => [
-            'title'             => trans('admin::dashboard.aside_menu.user_management.users'),
-            'backUrl'           => route('auth.users.index'),
+            'title'             => $isServiceProvider
+                ? trans('admin::dashboard.aside_menu.user_management.service_providers')
+                : trans('admin::dashboard.aside_menu.user_management.customers'),
+            'backUrl'           => route('auth.users.index', ['userType' => $userType->value]),
             'actions'           => [
                 'save'          => true,
                 'back'          => true,
@@ -18,7 +20,7 @@
         <div class="row g-5">
             <div class="col-lg-3"></div>
 
-            <div class="col-xxl-6 col-12">
+            <div class="col-12">
                 <div class="card card-bordered mb-5">
                     <div class="card-header">
                         <h3 class="card-title">
@@ -29,7 +31,7 @@
                         @component('admin::components.forms.form', [
                                 'options'       => [
                                     'isAjax'    => true,
-                                    'action'    => route('auth.users.postUpdate', [$model->id]),
+                                    'action'    => route('auth.users.postUpdate', ['userType' => $userType->value, 'model' => $model->id]),
                                     'method'    => 'PUT',
                                 ]
                             ])
@@ -151,6 +153,9 @@
                                     </div>
                                 </div>
 
+                                @if($isServiceProvider)
+                                    @include('auth::users.partials.service-provider-fields', ['model' => $model])
+                                @endif
 
                                 <div class="separator separator-dashed my-5"></div>
 

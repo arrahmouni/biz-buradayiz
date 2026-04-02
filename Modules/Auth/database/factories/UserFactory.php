@@ -5,8 +5,8 @@ namespace Modules\Auth\database\factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+use Modules\Auth\Enums\UserType;
 use Modules\Auth\Models\User;
-use Modules\Base\Enums\Gender;
 use Modules\Platform\Models\Service;
 use Modules\Zms\Models\City;
 
@@ -24,7 +24,7 @@ class UserFactory extends Factory
         return [
             'first_name'        => fake()->firstName(),
             'last_name'         => fake()->lastName(),
-            'type'              => User::SERVICE_PROVIDER,
+            'type'              => UserType::ServiceProvider,
             'phone_number'      => '+' . fake()->unique()->numerify('90##########'),
             'email'             => fake()->unique()->safeEmail(),
             'password'          => 'password',

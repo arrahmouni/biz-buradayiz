@@ -659,6 +659,16 @@
 
         const select2Ajax = $('.select2-ajax');
 
+        function syncSelect2AjaxDependentDisabled($child) {
+            let parentSel = $child.attr('data-parent-select');
+            if (!parentSel || !$child.length) {
+                return;
+            }
+            let parentVal = $(parentSel).val();
+            let isEmpty = !parentVal || parentVal === '' || (Array.isArray(parentVal) && parentVal.length === 0);
+            $child.prop('disabled', isEmpty);
+        }
+
         if(select2Ajax.length > 0) {
             select2Ajax.each(function () {
                 let $selectElement  = $(this);
@@ -667,9 +677,20 @@
                 let multiple        = $selectElement.attr('data-multiple');
                 let dropdownParent  = $selectElement.attr('data-dropdown-parent');
                 let allowClear      = $selectElement.attr('data-allow-clear');
-                let disabled        = $selectElement.attr('data-disabled');
+                let disabled        = $selectElement.is(':disabled');
                 let selectedData    = $selectElement.attr('data-selected');
                 let withImg         = $selectElement.attr('data-with-img');
+                let ajaxExtra       = {};
+                let rawAjaxExtra    = $selectElement.attr('data-ajax-extra');
+                if (rawAjaxExtra) {
+                    try {
+                        ajaxExtra = JSON.parse(rawAjaxExtra);
+                    } catch (e) {
+                        ajaxExtra = {};
+                    }
+                }
+                let parentSel       = $selectElement.attr('data-parent-select');
+                let parentParam     = $selectElement.attr('data-ajax-parent-param');
 
                 // handle selected data
                 if(isNotEmpty(selectedData)) {
@@ -715,11 +736,19 @@
                         dataType: 'json',
                         delay: 250,
                         data: function (params) {
-                            return {
+                            let payload = {
                                 q: params.term,
                                 page: params.page || 1,
-                                is_select: true
+                                is_select: true,
+                                ...ajaxExtra
                             };
+                            if (parentSel && parentParam) {
+                                let parentVal = $(parentSel).val();
+                                if (parentVal) {
+                                    payload[parentParam] = parentVal;
+                                }
+                            }
+                            return payload;
                         },
                         processResults: function (data, params) {
                             params.page = params.page || 1;
@@ -755,8 +784,92 @@
                     }
                 });
 
+                if (parentSel && parentParam) {
+                    syncSelect2AjaxDependentDisabled($selectElement);
+                }
+
+                let autoSelectFirst = $selectElement.attr('data-auto-select-first') === 'true';
+
+                if (autoSelectFirst) {
+                    let buildAjaxPayload = function (term, page) {
+                        let payload = {
+                            q: term !== undefined && term !== null ? term : '',
+                            page: page || 1,
+                            is_select: true,
+                            ...ajaxExtra
+                        };
+                        if (parentSel && parentParam) {
+                            let parentVal = $(parentSel).val();
+                            if (parentVal) {
+                                payload[parentParam] = parentVal;
+                            }
+                        }
+                        return payload;
+                    };
+
+                    let tryAutoSelectFirst = function () {
+                        if ($selectElement.attr('data-auto-select-first') !== 'true') {
+                            return;
+                        }
+                        if ($selectElement.val()) {
+                            return;
+                        }
+                        if (parentSel && parentParam && ! $(parentSel).val()) {
+                            return;
+                        }
+                        $.ajax({
+                            url: url,
+                            dataType: 'json',
+                            data: buildAjaxPayload('', 1),
+                        }).done(function (data) {
+                            if (data.results && data.results.length > 0 && ! $selectElement.val()) {
+                                let first = data.results[0];
+                                if (first.id !== undefined && first.id !== null && first.id !== '') {
+                                    let option = new Option(first.text, first.id, true, true);
+                                    $selectElement.append(option).trigger('change');
+                                }
+                            }
+                        });
+                    };
+
+                    $selectElement.data('tryAutoSelectFirst', tryAutoSelectFirst);
+                    setTimeout(tryAutoSelectFirst, 0);
+                }
+
             });
         }
+
+        $(document).on('change', 'select[data-clear-dependents]', function () {
+            let raw = $(this).attr('data-clear-dependents');
+            if (!raw) {
+                return;
+            }
+            raw.split(',').forEach(function (sel) {
+                let $target = $(sel.trim());
+                if ($target.length) {
+                    $target.val(null).trigger('change');
+                }
+            });
+        });
+
+        $(document).on('change', 'select.select2-ajax', function () {
+            let srcId = '#' + $(this).attr('id');
+            $('.select2-ajax[data-auto-select-first="true"]').each(function () {
+                let $child = $(this);
+                if ($child.attr('data-parent-select') === srcId) {
+                    let fn = $child.data('tryAutoSelectFirst');
+                    if (typeof fn === 'function') {
+                        setTimeout(fn, 50);
+                    }
+                }
+            });
+            $('.select2-ajax').each(function () {
+                let $child = $(this);
+                if ($child.attr('data-parent-select') === srcId) {
+                    syncSelect2AjaxDependentDisabled($child);
+                }
+            });
+        });
     });
 </script>
 

@@ -3,8 +3,11 @@
 namespace Modules\Auth\Models;
 
 use Laravel\Sanctum\HasApiTokens;
+use Modules\Auth\Enums\UserType;
 use Modules\Auth\Models\Address;
 use Modules\Admin\Traits\UserTrait;
+use Modules\Platform\Models\Service;
+use Modules\Zms\Models\City;
 use Modules\Base\Trait\ModelHelper;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -19,9 +22,6 @@ class User extends Authenticatable implements Auditable
     use UserTrait, HasApiTokens, HasFactory, Notifiable, SoftDeletes, ModelHelper, AuditableTrait;
 
     const VIEW_PATH = 'users';
-
-    const SERVICE_PROVIDER = 'service-provider';
-    const CUSTOMER = 'customer';
 
     /**
      * The attributes that are mass assignable.
@@ -76,6 +76,7 @@ class User extends Authenticatable implements Auditable
         return [
             'email_verified_at' => 'datetime',
             'password'          => 'hashed',
+            'type'              => UserType::class,
         ];
     }
 
@@ -99,6 +100,16 @@ class User extends Authenticatable implements Auditable
     public function addresses()
     {
         return $this->hasMany(Address::class);
+    }
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class)->withTrashed()->withDisabled();
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class);
     }
 
     // End Relationships

@@ -33,6 +33,10 @@ class CityService extends BaseCrudService
 
         $model = CrudModel::where('state_id', $data['state_id'] ?? null);
 
+        if ($this->hasWithDisabled()) {
+            $model = $model->withDisabled();
+        }
+
         return DataTables::of($model)
             ->filter(function ($query) use ($data) {
                 if(isset($data['search']['value']) && !empty($data['search']['value'])){

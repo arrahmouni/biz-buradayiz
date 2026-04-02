@@ -24,7 +24,7 @@ return [
         'exit'              => [
             'title'         => 'Emin misin?',
             'desc'          => 'Değişikliklerinizi kaydetmeden çıkmak istediğinizden emin misiniz? Bunu yaparsanız, son değişikliklerin tümünü kaybedersiniz.',
-            'confirm_btn'   => 'Çıkış',
+            'confirm_btn'   => 'Evet, çıkış yap',
         ],
     ],
 

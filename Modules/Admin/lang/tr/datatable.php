@@ -48,7 +48,7 @@ return [
             'native_name'               => 'Yerel Ad',
             'phone_code'                => 'Telefon Kodu',
             'currency'                  => 'Para birimi',
-            'states_count'              => 'Eyalet Sayısı',
+            'states_count'              => 'Şehir Sayısı',
             'cities_count'              => 'Şehir Sayısı',
         ]
     ],
@@ -126,7 +126,13 @@ return [
     ],
     'users'                             => [
         'list_title'                    => 'Kullanıcı Listesi',
+        'list_title_customers'          => 'Müşteri Listesi',
+        'list_title_service_providers'  => 'Hizmet Sağlayıcıları Listesi',
         'columns'                       => [
+            'service_type'              => 'Hizmet türü',
+            'country'                   => 'Ülke',
+            'state'                     => 'Şehir',
+            'city'                      => 'İlçe',
         ],
     ],
     'notification_templates'            => [

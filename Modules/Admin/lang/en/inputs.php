@@ -317,6 +317,30 @@ return [
             'placeholder'           => 'Please enter a Last Name',
             'help'                  => 'Enter a Last Name (required)',
         ],
+
+        'service_id'                => [
+            'label'                 => 'Service type',
+            'placeholder'           => 'Select a service',
+            'help'                  => 'Select the service type (required)',
+        ],
+
+        'country_id'                => [
+            'label'                 => 'Country',
+            'placeholder'           => 'Select a country',
+            'help'                  => 'Select country (required for service providers)',
+        ],
+
+        'state_id'                  => [
+            'label'                 => 'State',
+            'placeholder'           => 'Select a state',
+            'help'                  => 'Select state (required for service providers)',
+        ],
+
+        'city_id'                   => [
+            'label'                 => 'City',
+            'placeholder'           => 'Select a city',
+            'help'                  => 'Select city (required for service providers)',
+        ],
     ],
 
     'notification_template_crud'    => [

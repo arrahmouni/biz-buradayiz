@@ -64,6 +64,15 @@ class Country extends BaseModel implements Auditable
     }
     // End Scopes
 
+    public function formAjaxArray($selected = true): array
+    {
+        return [
+            'id'       => $this->id,
+            'text'     => $this->smartTrans('name') ?? $this->native_name,
+            'selected' => $selected,
+        ];
+    }
+
     // End Get Data From Model
 
     // Start Mutators & Accessors

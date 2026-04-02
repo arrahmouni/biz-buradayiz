@@ -1,11 +1,15 @@
-@extends('admin::layouts.master', ['title' => trans('admin::cruds.users.add')])
+@extends('admin::layouts.master', ['title' => $isServiceProvider
+    ? trans('admin::dashboard.aside_menu.user_management.create_service_provider')
+    : trans('admin::dashboard.aside_menu.user_management.create_customer')])
 
 @section('toolbar')
     @include('admin::includes.toolbar', [
         'options'                   => [
-            'title'                 => trans('admin::dashboard.aside_menu.user_management.users'),
-            'backUrl'               => route('auth.users.index'),
-            'createUrl'             => route('auth.users.create'),
+            'title'                 => $isServiceProvider
+                ? trans('admin::dashboard.aside_menu.user_management.create_service_provider')
+                : trans('admin::dashboard.aside_menu.user_management.create_customer'),
+            'backUrl'               => route('auth.users.index', ['userType' => $userType->value]),
+            'createUrl'             => route('auth.users.create', ['userType' => $userType->value]),
             'actions'               => [
                 'save'              => true,
                 'saveAndCreateNew'  => true,
@@ -20,18 +24,20 @@
         <div class="row g-5">
             <div class="col-lg-3"></div>
 
-            <div class="col-xxl-6 col-12">
+            <div class="col-12">
                 <div class="card card-bordered mb-5">
                     <div class="card-header">
                         <h3 class="card-title">
-                            @lang('admin::cruds.users.add')
+                            {{ $isServiceProvider
+                                ? trans('admin::dashboard.aside_menu.user_management.create_service_provider')
+                                : trans('admin::dashboard.aside_menu.user_management.create_customer') }}
                         </h3>
                     </div>
                     <div class="card-body">
                         @component('admin::components.forms.form', [
                                 'options'       => [
                                     'isAjax'    => true,
-                                    'action'    => route('auth.users.postCreate'),
+                                    'action'    => route('auth.users.postCreate', ['userType' => $userType->value]),
                                 ]
                             ])
                             @slot('fields')
@@ -141,6 +147,10 @@
                                         ])
                                     </div>
                                 </div>
+
+                                @if($isServiceProvider)
+                                    @include('auth::users.partials.service-provider-fields', ['model' => null])
+                                @endif
 
                                 <div class="separator separator-dashed my-5"></div>
                             @endslot

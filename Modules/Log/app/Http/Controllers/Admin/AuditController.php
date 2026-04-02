@@ -14,6 +14,7 @@ use Modules\Crm\Models\Contactus;
 use Modules\Crm\Models\Subscribe;
 use Modules\Zms\Models\Country;
 use Modules\Base\Http\Controllers\BaseController;
+use Modules\Auth\Enums\UserType;
 use Modules\Auth\Enums\permissions\UserPermissions;
 use Modules\Cms\Enums\permissions\BlogsPermissions;
 use Modules\Cms\Enums\permissions\PagesPermissions;
@@ -120,7 +121,7 @@ class AuditController extends BaseController implements HasMiddleware
                 break;
             case UserPermissions::PERMISSION_NAMESPACE :
                 $this->modelName = trans('admin::dashboard.aside_menu.user_management.users');
-                app('adminHelper')->addBreadcrumbs($this->modelName, route('auth.users.index'));
+                app('adminHelper')->addBreadcrumbs($this->modelName, route('auth.users.index', ['userType' => UserType::Customer->value]));
                 break;
             case SlidersPermissions::PERMISSION_NAMESPACE :
                 $this->modelName = trans_choice('cms::contents.content_categories.sliders', 1);

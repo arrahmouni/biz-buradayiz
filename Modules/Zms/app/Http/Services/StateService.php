@@ -30,7 +30,17 @@ class StateService extends BaseCrudService
 
     public function getDataTable(array $data) : JsonResponse
     {
-        $model = CrudModel::where('country_id', $data['country_id'] ?? null)->withCount('cities');
+        $model = CrudModel::where('country_id', $data['country_id'] ?? null);
+
+        if ($this->hasWithDisabled()) {
+            $model = $model->withDisabled();
+        }
+
+        $model = $model->withCount([
+            'cities' => function ($query) {
+                $query->withDisabled();
+            },
+        ]);
 
         return DataTables::of($model)
             ->filter(function ($query) use ($data) {

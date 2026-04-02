@@ -128,7 +128,13 @@ return [
     ],
     'users'                             => [
         'list_title'                    => 'قائمة المستخدمين',
+        'list_title_customers'          => 'قائمة العملاء',
+        'list_title_service_providers'  => 'قائمة مقدمي الخدمة',
         'columns'                       => [
+            'service_type'              => 'نوع الخدمة',
+            'country'                   => 'الدولة',
+            'state'                     => 'المنطقة',
+            'city'                      => 'المدينة',
         ],
     ],
     'notification_templates'            => [

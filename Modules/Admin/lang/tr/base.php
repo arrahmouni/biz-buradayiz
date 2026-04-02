@@ -14,7 +14,7 @@ return [
     'search'                                => 'Aramak',
     'reply'                                 => 'Cevap vermek',
     'send'                                  => 'Göndermek',
-    'close'                                 => 'Kapalı',
+    'close'                                 => 'Kapat',
     'operation_aborted'                     => 'İşlem iptal edildi :)',
     'view_archive'                          => 'Arşivi Görüntüle',
     'hide_archive'                          => 'Arşivi Gizle',

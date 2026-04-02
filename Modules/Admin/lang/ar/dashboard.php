@@ -28,6 +28,10 @@ return [
             'permissions'                   => 'الصلاحيات',
             'admins'                        => 'المشرفين',
             'users'                         => 'المستخدمين',
+            'customers'                     => 'العملاء',
+            'service_providers'             => 'مقدمو الخدمة',
+            'create_customer'               => 'عميل جديد',
+            'create_service_provider'       => 'مقدم خدمة جديد',
         ],
         'zone_management'                   => [
             'title'                         => 'إدارة المناطق',

@@ -20,7 +20,7 @@ return [
     ],
 
     'aside_menu'                            => [
-        'home'                              => 'Ev',
+        'home'                              => 'Anasayfa',
         'dashboard'                         => 'Kontrol Paneli',
         'user_management'                   => [
             'title'                         => 'Kullanıcı Yönetimi',
@@ -28,7 +28,10 @@ return [
             'permissions'                   => 'Yetkiler',
             'admins'                        => 'Yöneticiler',
             'users'                         => 'Kullanıcılar',
+            'customers'                     => 'Müşteriler',
             'service_providers'             => 'Hizmet Sağlayıcıları',
+            'create_customer'               => 'Yeni müşteri',
+            'create_service_provider'       => 'Yeni hizmet sağlayıcı',
         ],
         'zone_management'                   => [
             'title'                         => 'Bölge Yönetimi',
@@ -39,11 +42,11 @@ return [
         ],
         'state_management'                  => [
             'title'                         => 'Devlet Yönetimi',
-            'states'                        => 'Eyaletler',
+            'states'                        => 'Şehirler',
         ],
         'city_management'                   => [
             'title'                         => 'Şehir Yönetimi',
-            'cities'                        => 'Şehirler',
+            'cities'                        => 'İlçeler',
         ],
         'setting_management'                => [
             'title'                         => 'Ayar Yönetimi',

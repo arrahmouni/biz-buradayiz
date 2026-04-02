@@ -126,7 +126,13 @@ return [
     ],
     'users'                             => [
         'list_title'                    => 'Users List',
+        'list_title_customers'          => 'Customers List',
+        'list_title_service_providers'  => 'Service Providers List',
         'columns'                       => [
+            'service_type'              => 'Service type',
+            'country'                   => 'Country',
+            'state'                     => 'State',
+            'city'                      => 'City',
         ],
     ],
     'notification_templates'            => [

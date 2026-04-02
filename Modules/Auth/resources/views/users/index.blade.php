@@ -1,11 +1,15 @@
 @extends('admin::layouts.master', [
-    'title' => trans('admin::dashboard.aside_menu.user_management.users')
+    'title' => $isServiceProvider
+        ? trans('admin::dashboard.aside_menu.user_management.service_providers')
+        : trans('admin::dashboard.aside_menu.user_management.customers'),
 ])
 
 @section('toolbar')
     @component('admin::includes.toolbar', [
             'options'               => [
-                'title'             => trans('admin::dashboard.aside_menu.user_management.users'),
+                'title'             => $isServiceProvider
+                    ? trans('admin::dashboard.aside_menu.user_management.service_providers')
+                    : trans('admin::dashboard.aside_menu.user_management.customers'),
                 'actions'           => [
                     'filter'        => true,
                     'search'        => true,
@@ -36,38 +40,33 @@
     <div id="kt_content_container" class="container-fluid">
         <div class="card shadow-sm ">
 
-            <!--begin::Card header-->
             <div class="card-header">
-                <!--begin::Card title-->
                 <div class="card-title">
                     @include('admin::components.datatables.header.title', [
                         'options'   => [
                             'role'  => $viewTrashPermission,
-                            'title' => trans('admin::datatable.users.list_title'),
+                            'title' => $isServiceProvider
+                                ? trans('admin::datatable.users.list_title_service_providers')
+                                : trans('admin::datatable.users.list_title_customers'),
                         ]
                     ])
                 </div>
-                <!--begin::Card title-->
 
-                <!--begin::Card toolbar-->
                 <div class="card-toolbar flex-row-reverse">
                     @include('admin::components.datatables.header.toolbar', [
                         'options'               => [
                             'role'              => $createPermission,
                             'multiActions'      => $bulkActionDropdown,
-                            'route'             => route('auth.users.create'),
+                            'route'             => route('auth.users.create', ['userType' => $userType->value]),
                         ]
                     ])
                 </div>
-                <!--end::Card toolbar-->
             </div>
-            <!--end::Card header-->
 
-            <!--begin::Card body-->
             <div class="card-body  py-4">
                 @component('admin::components.datatables.table', [
                         'options'           => [
-                            'url'           => route('auth.users.datatable'),
+                            'url'           => route('auth.users.datatable', ['userType' => $userType->value]),
                             'filter'        => true,
                         ]
                     ])
@@ -76,6 +75,11 @@
                         <th> @lang('admin::datatable.base_columns.phone_number') </th>
                         <th style="width: 8%"> @lang('admin::datatable.base_columns.status') </th>
                         <th> @lang('admin::datatable.admins.columns.joined_date') </th>
+                        @if($isServiceProvider)
+                            <th> @lang('admin::datatable.users.columns.service_type') </th>
+                            <th> @lang('admin::datatable.users.columns.state') </th>
+                            <th> @lang('admin::datatable.users.columns.city') </th>
+                        @endif
                     @endslot
 
                     <script>
@@ -137,12 +141,40 @@
                                     `;
                                 }
                             },
+                            @if($isServiceProvider)
+                            {
+                                data: 'service_name',
+                                name: 'service_name',
+                                orderable: false,
+                                searchable: false,
+                                render: function (data, type, row, meta) {
+                                    return `<span class="text-gray-700 fw-semibold">${data ?? '—'}</span>`;
+                                }
+                            },
+                            {
+                                data: 'state_name',
+                                name: 'state_name',
+                                orderable: false,
+                                searchable: false,
+                                render: function (data, type, row, meta) {
+                                    return `<span class="text-gray-700 fw-semibold">${data ?? '—'}</span>`;
+                                }
+                            },
+                            {
+                                data: 'city_name',
+                                name: 'city_name',
+                                orderable: false,
+                                searchable: false,
+                                render: function (data, type, row, meta) {
+                                    return `<span class="text-gray-700 fw-semibold">${data ?? '—'}</span>`;
+                                }
+                            },
+                            @endif
                         @endslot
                     </script>
 
                 @endcomponent
             </div>
-            <!--end::Card body-->
         </div>
     </div>
 @endsection

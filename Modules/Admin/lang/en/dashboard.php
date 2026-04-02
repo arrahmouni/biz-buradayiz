@@ -28,7 +28,10 @@ return [
             'permissions'                   => 'Permissions',
             'admins'                        => 'Admins',
             'users'                         => 'Users',
+            'customers'                     => 'Customers',
             'service_providers'             => 'Service Providers',
+            'create_customer'               => 'New customer',
+            'create_service_provider'       => 'New service provider',
         ],
         'zone_management'                   => [
             'title'                         => 'Zone Management',

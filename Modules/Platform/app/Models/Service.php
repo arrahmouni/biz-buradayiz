@@ -55,8 +55,9 @@ class Service extends BaseModel
     public function formAjaxArray($selected = true)
     {
         return [
-            'id'            => $this->id,
-            'selected'      => $selected
+            'id'       => $this->id,
+            'text'     => $this->smartTrans('name') ?? (string) $this->id,
+            'selected' => $selected,
         ];
     }
 
