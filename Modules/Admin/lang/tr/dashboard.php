@@ -100,6 +100,14 @@ return [
             'activity_logs'                 => 'Etkinlik Günlükleri',
             'activity_log_type'             => ':type | Etkinlik Günlüğü | # :id',
         ],
+        'service_management'                => [
+            'title'                         => 'Hizmet Yönetimi',
+            'services'                      => 'Hizmetler',
+        ],
+        'platform_management'               => [
+            'title'                         => 'Platform Yönetimi',
+            'services'                      => 'Hizmetler',
+        ],
     ],
 
     'breadcrumbs'                           => [

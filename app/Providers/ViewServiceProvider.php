@@ -2,21 +2,22 @@
 
 namespace App\Providers;
 
-use Modules\Cms\Models\Content;
 use Illuminate\Support\ServiceProvider;
-use Modules\Auth\Enums\permissions\UserPermissions;
 use Modules\Admin\Enums\permissions\AdminPermissions;
+use Modules\Auth\Enums\permissions\UserPermissions;
 use Modules\Cms\Enums\permissions\ContentCategoryPermissions;
 use Modules\Cms\Enums\permissions\ContentTagPermissions;
+use Modules\Cms\Models\Content;
 use Modules\Config\Enums\permissions\SettingPermissions;
-use Modules\Permission\Enums\permissions\RolePermissions;
-use Modules\Permission\Enums\permissions\AbilityPermissions;
-use Modules\Zms\Enums\permissions\CountryPermissions;
 use Modules\Crm\Enums\permissions\ContactusPermissions;
 use Modules\Crm\Enums\permissions\SubscribePermissions;
 use Modules\Log\Enums\permissions\ApiLogPermissions;
 use Modules\Notification\Enums\permissions\NotificationPermissions;
 use Modules\Notification\Enums\permissions\NotificationTemplatePermissions;
+use Modules\Permission\Enums\permissions\AbilityPermissions;
+use Modules\Permission\Enums\permissions\RolePermissions;
+use Modules\Platform\Enums\permissions\ServicePermissions;
+use Modules\Zms\Enums\permissions\CountryPermissions;
 
 class ViewServiceProvider extends ServiceProvider
 {
@@ -40,6 +41,7 @@ class ViewServiceProvider extends ServiceProvider
             $this->regiserCmsAsideMenu();
             $this->registerZmsAsideMenu();
             $this->registerConfigAsideMenu();
+            $this->registerPlatformAsideMenu();
             // $this->registerNotificationAsideMenu();
             // $this->registerCrmAsideMenu();
             // $this->registerLogAsideMenu();
@@ -550,4 +552,49 @@ class ViewServiceProvider extends ServiceProvider
         }
         // End Api Log Section
     }
+
+    private function registerPlatformAsideMenu()
+    {
+        app('adminHelper')->asideMenu([
+            'id'    => 'platform_management',
+            'type'  => 'header',
+            'title' => trans('admin::dashboard.aside_menu.platform_management.title'),
+            'order' => 1500,
+        ]);
+
+        // Start Service Section
+        app('adminHelper')->asideMenu([
+            'id'        => 'service_section',
+            'parent_id' => 'platform_management',
+            'type'      => 'item',
+            'icon'      => 'fa-solid fa-cog',
+            'title'     => trans('admin::dashboard.aside_menu.platform_management.services'),
+            'order'     => 1,
+        ]);
+
+        if (app('owner') || (app('admin')->can(ServicePermissions::READ))) {
+            app('adminHelper')->asideMenu([
+                'id'        => 'view_services',
+                'parent_id' => 'service_section',
+                'type'      => 'item',
+                'link'      => route('platform.services.index'),
+                'title'     => trans('admin::base.view_all'),
+                'order'     => 1,
+            ]);
+        }
+
+        if (app('owner') || app('admin')->can(ServicePermissions::CREATE)) {
+            app('adminHelper')->asideMenu([
+                'id'        => 'create_service',
+                'parent_id' => 'service_section',
+                'type'      => 'item',
+                'link'      => route('platform.services.create'),
+                'title'     => trans('admin::base.create_new'),
+                'order'     => 2,
+            ]);
+        }
+        // End Service Section
+    }
+
+
 }

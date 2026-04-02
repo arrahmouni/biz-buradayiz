@@ -100,6 +100,14 @@ return [
             'activity_logs'                 => 'Activity Logs',
             'activity_log_type'             => ':type | Activity Log | # :id',
         ],
+        'service_management'                => [
+            'title'                         => 'Service Management',
+            'services'                      => 'Services',
+        ],
+        'platform_management'               => [
+            'title'                         => 'Platform Management',
+            'services'                      => 'Services',
+        ],
     ],
 
     'breadcrumbs'                           => [

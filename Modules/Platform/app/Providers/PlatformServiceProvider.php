@@ -26,7 +26,7 @@ class PlatformServiceProvider extends ServiceProvider
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
-        $this->loadMigrationsFrom(module_path($this->name, '$MIGRATIONS_PATH$'));
+        $this->loadMigrationsFrom(module_path($this->name, 'database/migrations'));
     }
 
     /**
@@ -68,8 +68,8 @@ class PlatformServiceProvider extends ServiceProvider
             $this->loadTranslationsFrom($langPath, $this->nameLower);
             $this->loadJsonTranslationsFrom($langPath);
         } else {
-            $this->loadTranslationsFrom(module_path($this->name, '$PATH_LANG$'), $this->nameLower);
-            $this->loadJsonTranslationsFrom(module_path($this->name, '$PATH_LANG$'));
+            $this->loadTranslationsFrom(module_path($this->name, 'lang'), $this->nameLower);
+            $this->loadJsonTranslationsFrom(module_path($this->name, 'lang'));
         }
     }
 
@@ -103,7 +103,7 @@ class PlatformServiceProvider extends ServiceProvider
     public function registerViews(): void
     {
         $viewPath = resource_path('views/modules/'.$this->nameLower);
-        $sourcePath = module_path($this->name, '$PATH_VIEWS$');
+        $sourcePath = module_path($this->name, 'resources/views');
 
         $this->publishes([$sourcePath => $viewPath], ['views', $this->nameLower.'-module-views']);
 

@@ -273,4 +273,12 @@ return [
     'crm'                               => [
         'title'                         => 'Customer Relationship',
     ],
+    'services'                          => [
+        'title'                         => 'Services',
+        'add'                           => 'Add New Service',
+        'edit'                          => 'Edit Service',
+        'delete'                        => 'Delete Service',
+        'restore'                       => 'Restore Service',
+        'permanent_delete'              => 'Permanent Deletion Service',
+    ],
 ];

@@ -21,6 +21,7 @@ return [
         'contactus_management'              => 'Bize Ulaşın',
         'subscribe_management'              => 'Yonetimi\'ye abone ol',
         'api_log_management'                => 'API Günlüğü Yonetimi',
+        'service_management'                => 'Hizmet Yönetimi',
     ],
 
     'roles'                                 => [

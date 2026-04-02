@@ -7,6 +7,10 @@ use Modules\Permission\Enums\permissions\AbilityPermissions;
 
 return [
     'models' => [
+        'service' => [
+            'name' => 'service',
+            'icon' => 'bi bi-building',
+        ],
         'role'                                      => [
             'name'                                  => 'role',
             'icon'                                  => 'fas fa-user-cog',

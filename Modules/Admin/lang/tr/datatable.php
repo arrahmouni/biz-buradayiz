@@ -189,4 +189,10 @@ return [
             'action_date'               => 'Eylem Tarihi',
         ],
     ],
+    'services'                          => [
+        'list_title'                    => 'Hizmetler Listesi',
+        'columns'                       => [
+            'name'                      => 'Ad',
+        ],
+    ],
 ];

@@ -273,4 +273,12 @@ return [
     'crm'                               => [
         'title'                         => 'Müşteri İlişkileri',
     ],
+    'services'                          => [
+        'title'                         => 'Hizmetler',
+        'add'                           => 'Yeni Hizmet Ekle',
+        'edit'                          => 'Hizmeti Düzenle',
+        'delete'                        => 'Hizmeti Sil',
+        'restore'                       => 'Hizmeti Geri Yükle',
+        'permanent_delete'              => 'Kalıcı Silme Hizmeti',
+    ],
 ];
