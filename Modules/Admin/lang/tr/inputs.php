@@ -318,6 +318,12 @@ return [
             'help'                  => 'Bir soyad girin (gerekli)',
         ],
 
+        'central_phone'             => [
+            'label'                 => 'Merkez telefon',
+            'placeholder'           => 'örn. +905551234567',
+            'help'                  => 'İsteğe bağlı. Sadece rakamlar; başta tek + kullanılabilir.',
+        ],
+
         'image'                     => [
             'subText'               => 'İzin verilen dosya türleri: :types | Maksimum dosya boyutu: :size MB',
         ],

@@ -318,6 +318,12 @@ return [
             'help'                  => 'Enter a Last Name (required)',
         ],
 
+        'central_phone'             => [
+            'label'                 => 'Central phone',
+            'placeholder'           => 'e.g. +905551234567',
+            'help'                  => 'Optional. Digits only; you may prefix with + once.',
+        ],
+
         'image'                     => [
             'subText'               => 'Allowed file types: :types | Maximum file size: :size MB',
         ],

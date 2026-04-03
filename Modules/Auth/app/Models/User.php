@@ -42,6 +42,7 @@ class User extends Authenticatable implements HasMedia, Auditable
         'first_name',
         'last_name',
         'phone_number',
+        'central_phone',
         'email_verified_at',
         'remember_token',
         'provider',
@@ -129,7 +130,7 @@ class User extends Authenticatable implements HasMedia, Auditable
     public function scopeSimpleSearch($query, $search)
     {
         return $query->whereAny(
-            ['id', 'first_name', 'last_name', 'phone_number', 'email'],
+            ['id', 'first_name', 'last_name', 'phone_number', 'central_phone', 'email'],
             'LIKE',
             '%' . $search . '%'
         );

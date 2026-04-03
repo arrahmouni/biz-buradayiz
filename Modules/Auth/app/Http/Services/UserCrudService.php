@@ -79,6 +79,10 @@ class UserCrudService extends BaseCrudService
             $data['city_id'] = null;
         }
 
+        if (array_key_exists('central_phone', $data) && $data['central_phone'] === '') {
+            $data['central_phone'] = null;
+        }
+
         return $data;
     }
 

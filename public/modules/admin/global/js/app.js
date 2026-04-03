@@ -112,6 +112,33 @@ isPhoneKey = (event) => { // Accept only +, -, numbers
     return true;
 }
 
+isPlusDigitKey = (event) => {
+    var charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode <= 31) {
+        return true;
+    }
+    if (charCode >= 48 && charCode <= 57) {
+        return true;
+    }
+    if (charCode === 43) {
+        var v = event.target.value || '';
+        return v.indexOf('+') === -1;
+    }
+    return false;
+}
+
+sanitizePlusDigitsInput = (value) => {
+    if (value === null || value === undefined) {
+        return '';
+    }
+    var s = String(value).replace(/[^0-9+]/g, '');
+    var plusIdx = s.indexOf('+');
+    if (plusIdx === -1) {
+        return s;
+    }
+    return '+' + s.slice(plusIdx + 1).replace(/\+/g, '');
+}
+
 // Check localStorage for the user's preferred mode
 document.addEventListener('DOMContentLoaded', () => {
     const preferredMode = localStorage.getItem('mode');
@@ -123,6 +150,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     changeThemeMode(preferredMode, elements);
+});
+
+$(document).on('input', '.js-only-plus-digits', function () {
+    var start = this.selectionStart;
+    var end = this.selectionEnd;
+    var val = $(this).val();
+    var cleaned = sanitizePlusDigitsInput(val);
+
+    $(this).val(cleaned);
+    if (this.setSelectionRange) {
+        this.setSelectionRange(start, end);
+    }
 });
 
 // When user type on input-upper class name, it will be converted to uppercase

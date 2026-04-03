@@ -26,6 +26,7 @@ class UserFactory extends Factory
             'last_name'         => fake()->lastName(),
             'type'              => UserType::ServiceProvider,
             'phone_number'      => '+' . fake()->unique()->numerify('90##########'),
+            'central_phone'     => $this->faker->phoneNumber,
             'email'             => fake()->unique()->safeEmail(),
             'password'          => 'password',
             'lang'              => fake()->randomElement(LaravelLocalization::getSupportedLanguagesKeys()),

@@ -11,6 +11,7 @@
             'label'                 => null,
             'onlyDigit'             => false,
             'isPhone'               => false,
+            'onlyPlusDigits'        => false,
             'solid'                 => true,
             'required'              => false,
             'additional_info'       => [],

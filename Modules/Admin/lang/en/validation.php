@@ -7,4 +7,5 @@ return  [
     'iso2.regex'                            => 'The ISO2 code must be in the format XX',
     'iso3.regex'                            => 'The ISO3 code must be in the format XXX',
     'cant_add_fields_without_title'         => 'You cannot add content without a title. Please add a title first.',
+    'central_phone_regex'                   => 'Central phone may contain digits only, with an optional single + at the start.',
 ];

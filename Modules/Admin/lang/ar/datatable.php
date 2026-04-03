@@ -15,6 +15,7 @@ return [
         'description'                   => 'الوصف',
         'email'                         => 'البريد الإلكتروني',
         'phone_number'                  => 'رقم الهاتف',
+        'central_phone'                 => 'هاتف مركزي',
         'created_at'                    => 'تاريخ الإنشاء',
         'updated_at'                    => 'تاريخ التعديل',
         'deleted_at'                    => 'تاريخ الحذف',

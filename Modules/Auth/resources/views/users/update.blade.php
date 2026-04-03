@@ -150,6 +150,23 @@
 
                                 <div class="row">
                                     <div class="col-lg-6 col-12 mb-10 form-group">
+                                        @include('admin::components.inputs.text', [
+                                            'options'           => [
+                                                'name'              => 'central_phone',
+                                                'label'             => trans('admin::inputs.user_crud.central_phone.label'),
+                                                'placeholder'       => trans('admin::inputs.user_crud.central_phone.placeholder'),
+                                                'help'              => trans('admin::inputs.user_crud.central_phone.help'),
+                                                'required'          => false,
+                                                'value'             => $model->central_phone,
+                                                'onlyPlusDigits'    => true,
+                                                'inputmode'         => 'tel',
+                                            ],
+                                        ])
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-6 col-12 mb-10 form-group">
                                         @include('admin::components.inputs.password', [
                                             'options'           => [
                                                 'name'          => 'password',

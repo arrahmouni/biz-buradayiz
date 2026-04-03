@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('last_name')->nullable();
             $table->string('email')->unique();
             $table->string('phone_number')->nullable()->unique();
+            $table->string('central_phone')->nullable();
             $table->enum('provider', SocialiteProviders::all())->nullable()->default(null);
             $table->string('provider_id')->nullable();
             $table->timestamp('email_verified_at')->nullable();

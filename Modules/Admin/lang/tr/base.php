@@ -11,7 +11,7 @@ return [
     'filter'                                => 'Filtre',
     'filter_options'                        => 'Filtre Seçenekleri',
     'select_option'                         => 'Seçeneği Seçin',
-    'search'                                => 'Aramak',
+    'search'                                => 'Ara...',
     'reply'                                 => 'Cevap vermek',
     'send'                                  => 'Göndermek',
     'close'                                 => 'Kapat',

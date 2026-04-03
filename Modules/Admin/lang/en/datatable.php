@@ -15,6 +15,7 @@ return [
         'description'                   => 'Description',
         'email'                         => 'Email',
         'phone_number'                  => 'Phone Number',
+        'central_phone'                 => 'Central phone',
         'created_at'                    => 'Created At',
         'updated_at'                    => 'Updated At',
         'deleted_at'                    => 'Deleted At',

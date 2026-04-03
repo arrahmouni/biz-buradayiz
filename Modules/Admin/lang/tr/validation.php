@@ -7,4 +7,5 @@ return  [
     'iso2.regex'                            => 'ISO2 kodu XX formatinda olmalidir',
     'iso3.regex'                            => 'ISO3 kodu XXX formatinda olmalidir',
     'cant_add_fields_without_title'         => 'Baslik olmadan icerik ekleyemezsiniz. Lutfen once bir baslik ekleyin.',
+    'central_phone_regex'                   => 'Merkez telefon yalnızca rakamlardan oluşmalıdır; isteğe bağlı olarak başa tek + eklenebilir.',
 ];

@@ -34,6 +34,7 @@ class UserCrudRequest extends BaseRequest
             'last_name'     => ['required', 'string', 'max:255'],
             'email'         => ['required', 'string', 'email', 'max:255', Rule::unique('users', 'email')->ignore($this->model)],
             'phone_number'  => ['required', 'string', 'min:9', 'max:20', Rule::unique('users', 'phone_number')->ignore($this->model)],
+            'central_phone' => ['nullable', 'string', 'max:255', 'regex:/^\+?[0-9]*$/'],
             'password'      => ['confirmed', Password::defaults()],
             'lang'          => ['required', 'in:' . implode(',', LaravelLocalization::getSupportedLanguagesKeys())],
             'status'        => ['required', 'in:' . implode(',', AdminStatus::all())],
@@ -62,5 +63,12 @@ class UserCrudRequest extends BaseRequest
     public function authorize(): bool
     {
         return true;
+    }
+
+    public function messages(): array
+    {
+        return [
+            'central_phone.regex' => trans('admin::validation.central_phone_regex'),
+        ];
     }
 }

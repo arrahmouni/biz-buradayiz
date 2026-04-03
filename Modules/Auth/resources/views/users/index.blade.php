@@ -73,6 +73,7 @@
                     @slot('columns')
                         <th style="width: 30%"> @lang('admin::datatable.admins.columns.user') </th>
                         <th> @lang('admin::datatable.base_columns.phone_number') </th>
+                        <th> @lang('admin::datatable.base_columns.central_phone') </th>
                         <th style="width: 8%"> @lang('admin::datatable.base_columns.status') </th>
                         <th> @lang('admin::datatable.admins.columns.joined_date') </th>
                         @if($isServiceProvider)
@@ -114,6 +115,18 @@
                                 searchable  : false,
                                 render      : function (data, type, row, meta) {
                                     return isEmpty(data) ? "{{ DEFAULT_PHONE }}" :
+                                    `
+                                        <a href="tel:${data}" class="text-dark fw-bolder text-hover-primary">${data}</a>
+                                    `;
+                                }
+                            },
+                            {
+                                data        : 'central_phone',
+                                name        : 'central_phone',
+                                orderable   : false,
+                                searchable  : false,
+                                render      : function (data, type, row, meta) {
+                                    return isEmpty(data) ? '—' :
                                     `
                                         <a href="tel:${data}" class="text-dark fw-bolder text-hover-primary">${data}</a>
                                     `;
