@@ -318,6 +318,10 @@ return [
             'help'                  => 'Enter a Last Name (required)',
         ],
 
+        'image'                     => [
+            'subText'               => 'Allowed file types: :types | Maximum file size: :size MB',
+        ],
+
         'service_id'                => [
             'label'                 => 'Service type',
             'placeholder'           => 'Select a service',

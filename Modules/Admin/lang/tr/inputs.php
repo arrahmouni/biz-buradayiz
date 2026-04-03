@@ -318,6 +318,10 @@ return [
             'help'                  => 'Bir soyad girin (gerekli)',
         ],
 
+        'image'                     => [
+            'subText'               => 'İzin verilen dosya türleri: :types | Maksimum dosya boyutu: :size MB',
+        ],
+
         'service_id'                => [
             'label'                 => 'Hizmet türü',
             'placeholder'           => 'Bir hizmet seçin',

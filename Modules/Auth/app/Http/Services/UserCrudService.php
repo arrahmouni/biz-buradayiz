@@ -18,6 +18,8 @@ class UserCrudService extends BaseCrudService
     protected $unnecessaryFieldsForCrud = [
         'country_id',
         'state_id',
+        'image',
+        'image_remove',
     ];
 
     public function createModel(array $data): CrudModel
@@ -25,8 +27,11 @@ class UserCrudService extends BaseCrudService
         $data = $this->normalizeUserCrudPayload($data);
         $modelData = $this->prepareModelData($data);
 
-        $model = DB::transaction(function () use ($modelData) {
-            return CrudModel::create($modelData);
+        $model = DB::transaction(function () use ($modelData, $data) {
+            $model = CrudModel::create($modelData);
+            $this->uploadImageForModel($model, $data, CrudModel::MEDIA_COLLECTION, 'image');
+
+            return $model;
         });
 
         return $model;
@@ -44,12 +49,27 @@ class UserCrudService extends BaseCrudService
         DB::transaction(function () use ($data, $model, $modelData) {
             $model->update($modelData);
 
+            if (isset($data['image_remove']) && $data['image_remove'] == true) {
+                $this->removeUserImage($model);
+            }
+
+            $this->uploadImageForModel($model, $data, CrudModel::MEDIA_COLLECTION, 'image');
+
             if ($data['status'] != AdminStatus::ACTIVE) {
                 $this->removeFcmToken($model);
             }
         });
 
         return $model;
+    }
+
+    private function removeUserImage(CrudModel $model): void
+    {
+        $media = $model->getFirstMedia(CrudModel::MEDIA_COLLECTION);
+
+        if ($media) {
+            $media->delete();
+        }
     }
 
     private function normalizeUserCrudPayload(array $data): array
@@ -74,7 +94,7 @@ class UserCrudService extends BaseCrudService
         $userType = $data['userType'] ?? null;
         $isServiceProvider = $userType === UserType::ServiceProvider->value;
 
-        $model = CrudModel::query();
+        $model = CrudModel::query()->with('media');
 
         if ($userType !== null) {
             $model->where('type', $userType);

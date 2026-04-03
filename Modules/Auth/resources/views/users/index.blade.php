@@ -95,7 +95,7 @@
                                             <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
                                                 <a href="javascript:;">
                                                     <div class="symbol-label">
-                                                        <img src="{{ asset('images/default/avatars/user.png') }}" alt="${row.full_name}" class="w-100" />
+                                                        <img src="${row.image_url}" alt="${row.full_name}" class="w-100" onerror="this.onerror=null; this.src='{{ asset('images/default/avatars/user.png') }}';" />
                                                     </div>
                                                 </a>
                                             </div>

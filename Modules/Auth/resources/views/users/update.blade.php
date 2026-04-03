@@ -37,6 +37,27 @@
                             ])
                             @slot('fields')
 
+                                <div class="fv-row d-flex justify-content-center">
+                                    <div class="d-flex flex-column align-items-center mb-10 form-group">
+                                        @include('admin::components.inputs.image', [
+                                            'options'       => [
+                                                'name'              => 'image',
+                                                'removeFieldName'   => 'image_remove',
+                                                'isAvatar'          => true,
+                                                'width'             => '125',
+                                                'height'            => '125',
+                                                'circle'            => true,
+                                                'value'             => $model->getFirstMedia(\Modules\Auth\Models\User::MEDIA_COLLECTION)?->getUrl(),
+                                                'subText'           => trans('admin::inputs.user_crud.image.subText', [
+                                                    'types' => getImageTypes(true),
+                                                    'size'  => config('base.file.image.max_size'),
+                                                ]),
+                                                'accept'            => getImageTypes(),
+                                            ]
+                                        ])
+                                    </div>
+                                </div>
+
                                 <div class="row">
                                     <div class="col-lg-6 col-12 mb-10 form-group">
                                         @include('admin::components.inputs.select', [

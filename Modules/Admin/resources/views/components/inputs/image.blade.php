@@ -21,6 +21,7 @@
             'cancelText'    => trans('admin::strings.cancel_image'),
             'removeText'    => trans('admin::strings.remove_image'),
             'canRemove'     => true,
+            'removeFieldName' => 'avatar_remove',
             'view'          => 'DEFAULT', // DEFAULT | INLINE
             'input_size'    => 'col-lg-8',
             'label_size'    => 'col-lg-12',

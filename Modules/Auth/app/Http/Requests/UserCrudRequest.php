@@ -3,6 +3,7 @@
 namespace Modules\Auth\Http\Requests;
 
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\File;
 use Illuminate\Validation\Rules\Password;
 use Modules\Auth\Enums\UserType;
 use Modules\Base\Http\Requests\BaseRequest;
@@ -26,6 +27,8 @@ class UserCrudRequest extends BaseRequest
         $type = $this->input('type');
 
         $rules = [
+            'image'         => ['nullable', 'image', File::image()->types(config('base.file.image.accepted_types'))->max(config('base.file.image.max_size') . 'mb')],
+            'image_remove'  => ['nullable', 'boolean'],
             'type'          => ['required', Rule::in(UserType::values())],
             'first_name'    => ['required', 'string', 'max:255'],
             'last_name'     => ['required', 'string', 'max:255'],

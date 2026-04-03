@@ -16,12 +16,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Auditable as AuditableTrait;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class User extends Authenticatable implements Auditable
+class User extends Authenticatable implements HasMedia, Auditable
 {
-    use UserTrait, HasApiTokens, HasFactory, Notifiable, SoftDeletes, ModelHelper, AuditableTrait;
+    use UserTrait, HasApiTokens, HasFactory, Notifiable, SoftDeletes, ModelHelper, AuditableTrait, InteractsWithMedia;
 
     const VIEW_PATH = 'users';
+
+    public const MEDIA_COLLECTION = 'user_image';
 
     /**
      * The attributes that are mass assignable.
@@ -54,7 +59,8 @@ class User extends Authenticatable implements Auditable
         'full_name',
         'phone_number_without_country_code',
         'status_format',
-        'created_at_format'
+        'created_at_format',
+        'image_url',
     ];
 
     /**
@@ -88,6 +94,11 @@ class User extends Authenticatable implements Auditable
     protected static function newFactory()
     {
         return \Modules\Auth\database\factories\UserFactory::new();
+    }
+
+    public function registerMediaConversions(?Media $media = null): void
+    {
+        $this->addMediaCollection(self::MEDIA_COLLECTION);
     }
 
     public function getAuthPasswordName()
@@ -158,6 +169,13 @@ class User extends Authenticatable implements Auditable
     {
         return Attribute::make(
             get: fn ($value, $attributes) => substr($attributes['phone_number'], 3),
+        );
+    }
+
+    protected function imageUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->getFirstMedia(self::MEDIA_COLLECTION)?->getUrl() ?? asset('images/default/avatars/user.png'),
         );
     }
     // End Accessors
