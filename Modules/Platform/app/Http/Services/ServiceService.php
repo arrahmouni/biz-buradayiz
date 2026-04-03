@@ -96,6 +96,11 @@ class ServiceService extends BaseCrudService
 
                 return $text !== '' && $text !== null ? Str::limit(strip_tags((string) $text), 120) : '—';
             })
+            ->addColumn('show_in_search_filters', function ($model) {
+                return $model->show_in_search_filters
+                    ? trans('admin::confirmations.yes')
+                    : trans('admin::confirmations.no');
+            })
 
             ->addColumn('actions', function ($model) {
                 $excludeActions = [VIEW_ACTION];

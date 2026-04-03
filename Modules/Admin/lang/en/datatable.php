@@ -199,6 +199,7 @@ return [
         'list_title'                    => 'Services List',
         'columns'                       => [
             'name'                      => 'Name',
+            'show_in_search_filters'    => 'In search filters',
         ],
     ],
 ];

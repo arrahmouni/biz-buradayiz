@@ -36,7 +36,9 @@ class ServiceSeeder extends Seeder
         ];
 
         foreach ($services as $service) {
-            $serviceModel = Service::create();
+            $serviceModel = Service::create([
+                'show_in_search_filters' => true,
+            ]);
             foreach ($service['translations'] as $locale => $translation) {
                 ServiceTranslation::create([
                     'service_id' => $serviceModel->id,

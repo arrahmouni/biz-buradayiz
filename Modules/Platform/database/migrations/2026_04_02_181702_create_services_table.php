@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
             $table->id();
-            
+            $table->boolean('show_in_search_filters')->default(false);
 
             $table->timestamps();
             $table->timestamp('disabled_at')->nullable();

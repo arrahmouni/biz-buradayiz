@@ -6,12 +6,19 @@ use Modules\Base\Http\Requests\BaseRequest;
 
 class ServiceRequest extends BaseRequest
 {
+    protected function prepareForValidation(): void
+    {
+        if (! $this->has('show_in_search_filters')) {
+            $this->merge(['show_in_search_filters' => false]);
+        }
+    }
 
     public function rules(): array
     {
         return [
             'name' => ['required', 'array'],
             'description' => ['nullable', 'array'],
+            'show_in_search_filters' => ['sometimes', 'boolean'],
         ];
     }
 

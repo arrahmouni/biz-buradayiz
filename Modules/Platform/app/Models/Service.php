@@ -17,10 +17,14 @@ class Service extends BaseModel
     const VIEW_PATH = 'services';
 
     protected $fillable = [
-
+        'show_in_search_filters',
     ];
 
     public $timestamps = true;
+
+    protected $casts = [
+        'show_in_search_filters' => 'boolean',
+    ];
 
     public $translatedAttributes = ['name', 'description'];
 
@@ -47,6 +51,14 @@ class Service extends BaseModel
     public function scopeAdvancedSearch($query, $search)
     {
         return $query;
+    }
+
+    /**
+     * Limit to services offered as options in public website search filters.
+     */
+    public function scopeForSearchFilters($query)
+    {
+        return $query->where('show_in_search_filters', true);
     }
     // End Scopes
 

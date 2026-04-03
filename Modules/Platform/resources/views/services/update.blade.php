@@ -32,9 +32,10 @@
                     <div class="card-body">
                         @component('admin::components.forms.form', [
                                 'options'       => [
-                                    'isAjax'    => true,
-                                    'action'    => route('platform.services.postUpdate', [$model->id]),
-                                    'method'    => 'PUT',
+                                    'isAjax'            => true,
+                                    'action'            => route('platform.services.postUpdate', [$model->id]),
+                                    'method'            => 'PUT',
+                                    'addEmptyCheckbox'  => true,
                                 ]
                             ])
                             @slot('fields')
@@ -58,6 +59,17 @@
                                                     },
                                                 ],
                                             ]
+                                        ])
+                                    </div>
+                                    <div class="col-12 mt-5">
+                                        @include('admin::components.inputs.switch', [
+                                            'options' => [
+                                                'name'      => 'show_in_search_filters',
+                                                'label'     => trans('admin::cruds.services.show_in_search_filters'),
+                                                'checked'   => (bool) old('show_in_search_filters', $model->show_in_search_filters),
+                                                'value'     => '1',
+                                                'view'      => 'INLINE',
+                                            ],
                                         ])
                                     </div>
                                 </div>

@@ -67,6 +67,7 @@
                         {{-- Datatable Columns --}}
                         <th> @lang('admin::datatable.base_columns.name') </th>
                         <th> @lang('admin::datatable.base_columns.description') </th>
+                        <th> @lang('admin::datatable.services.columns.show_in_search_filters') </th>
                     @endslot
 
                     <script>
@@ -78,6 +79,12 @@
                             {
                                 data: 'description',
                                 name: 'description',
+                            },
+                            {
+                                data: 'show_in_search_filters',
+                                name: 'show_in_search_filters',
+                                orderable: false,
+                                searchable: false,
                             },
                         @endslot
                     </script>

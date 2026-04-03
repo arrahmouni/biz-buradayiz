@@ -199,6 +199,7 @@ return [
         'list_title'                    => 'Hizmetler Listesi',
         'columns'                       => [
             'name'                      => 'Ad',
+            'show_in_search_filters'    => 'Arama filtrelerinde',
         ],
     ],
 ];
