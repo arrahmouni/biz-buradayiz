@@ -104,9 +104,9 @@
                         <th class="min-w-275px"> @lang('admin::datatable.package_subscriptions.columns.user') </th>
                         <th class=""> @lang('admin::datatable.package_subscriptions.columns.package') </th>
                         <th class="min-w-125px"> @lang('admin::datatable.package_subscriptions.columns.ordered_price') </th>
+                        <th class="min-w-175px"> @lang('admin::datatable.package_subscriptions.columns.payment_method') </th>
                         <th class="min-w-125px"> @lang('admin::datatable.package_subscriptions.columns.status') </th>
                         <th class="min-w-140px"> @lang('admin::datatable.package_subscriptions.columns.payment_status') </th>
-                        <th class="min-w-175px"> @lang('admin::datatable.package_subscriptions.columns.payment_method') </th>
                     @endslot
 
                     <script>
@@ -162,30 +162,6 @@
                                 }
                             },
                             {
-                                data: 'status_badge',
-                                name: 'status_badge',
-                                orderable: false,
-                                searchable: false,
-                                render: function (data, type, row, meta) {
-                                    if (! data || ! data.label) {
-                                        return '<span class="text-muted">—</span>';
-                                    }
-                                    return '<span class="btn btn-sm btn-font-sm btn-label-' + data.color + ' text-center w-100">' + data.label + '</span>';
-                                }
-                            },
-                            {
-                                data: 'payment_status_badge',
-                                name: 'payment_status_badge',
-                                orderable: false,
-                                searchable: false,
-                                render: function (data, type, row, meta) {
-                                    if (! data || ! data.label) {
-                                        return '<span class="text-muted">—</span>';
-                                    }
-                                    return '<span class="btn btn-sm btn-font-sm btn-label-' + data.color + ' text-center w-100">' + data.label + '</span>';
-                                }
-                            },
-                            {
                                 data: 'payment_method_format',
                                 name: 'payment_method_format',
                                 orderable: false,
@@ -209,6 +185,30 @@
                                             <span class="text-gray-800 fw-semibold fs-7 lh-sm">${label}</span>
                                         </div>
                                     `;
+                                }
+                            },
+                            {
+                                data: 'status_badge',
+                                name: 'status_badge',
+                                orderable: false,
+                                searchable: false,
+                                render: function (data, type, row, meta) {
+                                    if (! data || ! data.label) {
+                                        return '<span class="text-muted">—</span>';
+                                    }
+                                    return '<span class="btn btn-sm btn-font-sm btn-label-' + data.color + ' text-center w-100">' + data.label + '</span>';
+                                }
+                            },
+                            {
+                                data: 'payment_status_badge',
+                                name: 'payment_status_badge',
+                                orderable: false,
+                                searchable: false,
+                                render: function (data, type, row, meta) {
+                                    if (! data || ! data.label) {
+                                        return '<span class="text-muted">—</span>';
+                                    }
+                                    return '<span class="btn btn-sm btn-font-sm btn-label-' + data.color + ' text-center w-100">' + data.label + '</span>';
                                 }
                             },
                         @endslot
