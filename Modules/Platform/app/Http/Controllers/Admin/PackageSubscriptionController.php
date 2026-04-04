@@ -7,6 +7,7 @@ use Modules\Auth\Enums\permissions\UserPermissions;
 use Modules\Auth\Enums\UserType;
 use Modules\Auth\Models\User;
 use Modules\Base\Http\Controllers\BaseCrudController;
+use Modules\Platform\Enums\PackageSubscriptionPaymentStatus;
 use Modules\Platform\Enums\permissions\PackageSubscriptionPermissions;
 use Modules\Platform\Http\Requests\PackageSubscriptionRequest;
 use Modules\Platform\Http\Services\PackageSubscriptionService;
@@ -62,6 +63,15 @@ class PackageSubscriptionController extends BaseCrudController
         }
 
         return $middlewares;
+    }
+
+    public function index()
+    {
+        $this->data['package_subscriptions_awaiting_verification_count'] = PackageSubscription::query()
+            ->where('payment_status', PackageSubscriptionPaymentStatus::AwaitingVerification)
+            ->count();
+
+        return parent::index();
     }
 
     public function serviceProviderPreview(User $user)

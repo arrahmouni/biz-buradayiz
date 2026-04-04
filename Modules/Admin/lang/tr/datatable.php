@@ -216,6 +216,8 @@ return [
     ],
     'package_subscriptions' => [
         'list_title' => 'Paket abonelikleri',
+        'quick_filter_awaiting_verification' => 'Ödeme onayı bekleyenler',
+        'quick_filter_awaiting_verification_title' => 'Ödeme doğrulaması bekleyen abonelikleri listele',
         'columns' => [
             'user' => 'Kullanıcı',
             'created_at' => 'Abonelik tarihi',

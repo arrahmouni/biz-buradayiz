@@ -199,6 +199,8 @@ return [
     ],
     'package_subscriptions' => [
         'list_title' => 'اشتراكات الباقات',
+        'quick_filter_awaiting_verification' => 'بانتظار اعتماد الدفع',
+        'quick_filter_awaiting_verification_title' => 'عرض الاشتراكات التي تنتظر التحقق من الدفع',
         'columns' => [
             'user' => 'المستخدم',
             'package' => 'الباقة (عند الطلب)',

@@ -71,13 +71,27 @@
 
             <div class="card-header">
                 <div class="card-title">
-                    @include('admin::components.datatables.header.title', [
-                        'options'   => [
-                            'role'  => $viewTrashPermission ?? null,
-                            'title' => trans('admin::datatable.package_subscriptions.list_title'),
-                            'withSwitchArchive' => false,
-                        ]
-                    ])
+                    <div class="d-flex flex-wrap align-items-center gap-3">
+                        @include('admin::components.datatables.header.title', [
+                            'options'   => [
+                                'role'  => $viewTrashPermission ?? null,
+                                'title' => trans('admin::datatable.package_subscriptions.list_title'),
+                                'withSwitchArchive' => false,
+                            ]
+                        ])
+                        @if(($package_subscriptions_awaiting_verification_count ?? 0) > 0)
+                        <button
+                            type="button"
+                            class="btn btn-sm btn-light-danger fw-semibold"
+                            id="package-subscriptions-filter-awaiting-verification"
+                            title="{{ trans('admin::datatable.package_subscriptions.quick_filter_awaiting_verification_title') }}"
+                        >
+                            <i class="bi bi-patch-check fs-6 me-1"></i>
+                            {{ trans('admin::datatable.package_subscriptions.quick_filter_awaiting_verification') }}
+                                <span class="badge badge-danger ms-2">{{ $package_subscriptions_awaiting_verification_count }}</span>
+                            </button>
+                        @endif
+                    </div>
                 </div>
 
                 <div class="card-toolbar flex-row-reverse">
@@ -219,3 +233,24 @@
         </div>
     </div>
 @endsection
+
+@push('script')
+    <script>
+        $(function () {
+            const awaitingVerificationValue = @json(PackageSubscriptionPaymentStatus::AwaitingVerification->value);
+
+            $('#package-subscriptions-filter-awaiting-verification').on('click', function () {
+                const $select = $('#data-table-filter select[name="payment_status"]');
+                if (!$select.length) {
+                    return;
+                }
+
+                $select.val(awaitingVerificationValue).trigger('change');
+
+                if ($.fn.DataTable.isDataTable('#data-table')) {
+                    $('#data-table').DataTable().ajax.reload();
+                }
+            });
+        });
+    </script>
+@endpush

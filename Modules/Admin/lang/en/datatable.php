@@ -216,6 +216,8 @@ return [
     ],
     'package_subscriptions' => [
         'list_title' => 'Package subscriptions',
+        'quick_filter_awaiting_verification' => 'Pending payment approval',
+        'quick_filter_awaiting_verification_title' => 'Show subscriptions waiting for payment verification',
         'columns' => [
             'user' => 'User',
             'created_at' => 'Subscription date',

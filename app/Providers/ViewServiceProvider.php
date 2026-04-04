@@ -17,9 +17,11 @@ use Modules\Notification\Enums\permissions\NotificationPermissions;
 use Modules\Notification\Enums\permissions\NotificationTemplatePermissions;
 use Modules\Permission\Enums\permissions\AbilityPermissions;
 use Modules\Permission\Enums\permissions\RolePermissions;
+use Modules\Platform\Enums\PackageSubscriptionPaymentStatus;
 use Modules\Platform\Enums\permissions\PackagePermissions;
 use Modules\Platform\Enums\permissions\PackageSubscriptionPermissions;
 use Modules\Platform\Enums\permissions\ServicePermissions;
+use Modules\Platform\Models\PackageSubscription;
 use Modules\Zms\Enums\permissions\CountryPermissions;
 
 class ViewServiceProvider extends ServiceProvider
@@ -660,6 +662,10 @@ class ViewServiceProvider extends ServiceProvider
         ]);
 
         if (app('owner') || app('admin')->can(PackageSubscriptionPermissions::READ)) {
+            $packageSubscriptionsAwaitingVerificationCount = PackageSubscription::query()
+                ->where('payment_status', PackageSubscriptionPaymentStatus::AwaitingVerification)
+                ->count();
+
             app('adminHelper')->asideMenu([
                 'id' => 'view_package_subscriptions',
                 'parent_id' => 'package_subscription_section',
@@ -667,6 +673,7 @@ class ViewServiceProvider extends ServiceProvider
                 'link' => route('platform.package_subscriptions.index'),
                 'title' => trans('admin::base.view_all'),
                 'order' => 1,
+                'badge_count' => $packageSubscriptionsAwaitingVerificationCount,
             ]);
         }
 

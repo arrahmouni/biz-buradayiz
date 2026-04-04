@@ -312,7 +312,7 @@ return [
         'restore' => 'Paket aboneliğini geri yükle',
         'permanent_delete' => 'Paket aboneliğini kalıcı sil',
         'statuses' => [
-            'pending_payment' => 'Ödeme bekleniyor',
+            'pending_payment' => 'Ödeme bekleniyor / Beklemede',
             'active' => 'Aktif',
             'cancelled' => 'İptal edildi',
             'expired' => 'Süresi doldu',

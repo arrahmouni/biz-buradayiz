@@ -312,7 +312,7 @@ return [
         'restore' => 'Restore package subscription',
         'permanent_delete' => 'Permanent deletion package subscription',
         'statuses' => [
-            'pending_payment' => 'Pending payment',
+            'pending_payment' => 'Pending payment / Pending',
             'active' => 'Active',
             'cancelled' => 'Cancelled',
             'expired' => 'Expired',
