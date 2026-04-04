@@ -18,6 +18,7 @@ return new class extends Migration
             $table->char('currency', 3)->default('TRY');
             $table->enum('billing_period', BillingPeriod::values())->default(BillingPeriod::Monthly->value);
             $table->unsignedInteger('sort_order')->default(0);
+            $table->unsignedInteger('connections_count')->default(1);
             $table->timestamps();
             $table->disableable();
             $table->softDeletes();

@@ -120,7 +120,7 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-lg-6 col-12 mb-10 form-group">
+                                    <div class="col-lg-4 col-12 mb-10 form-group">
                                         @include('admin::components.inputs.text', [
                                             'options' => [
                                                 'name'      => 'sort_order',
@@ -131,7 +131,18 @@
                                             ],
                                         ])
                                     </div>
-                                    <div class="col-lg-6 col-12 mb-10 form-group">
+                                    <div class="col-lg-4 col-12 mb-10 form-group">
+                                        @include('admin::components.inputs.text', [
+                                            'options' => [
+                                                'name'      => 'connections_count',
+                                                'type'      => 'number',
+                                                'label'     => trans('admin::cruds.packages.connections_count'),
+                                                'required'  => true,
+                                                'value'     => old('connections_count', $model->connections_count),
+                                            ],
+                                        ])
+                                    </div>
+                                    <div class="col-lg-4 col-12 mb-10 form-group">
                                         @include('admin::components.inputs.select', [
                                             'options' => [
                                                 'name'      => 'billing_period',

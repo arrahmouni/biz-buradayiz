@@ -19,15 +19,16 @@ class PackageRequest extends BaseRequest
     public function rules(): array
     {
         return [
-            'price'         => ['required', 'numeric', 'min:0'],
-            'currency'      => ['required', 'string', 'max:3', Rule::exists('countries', 'currency')],
-            'billing_period'=> ['required', Rule::enum(BillingPeriod::class)],
-            'sort_order'    => ['nullable', 'integer', 'min:0'],
-            'service_ids'   => ['required', 'array', 'min:1'],
-            'service_ids.*' => ['required', 'integer', Rule::exists('services', 'id')],
-            'name'          => ['required', 'array'],
-            'description'   => ['nullable', 'array'],
-            'features'      => ['nullable', 'array'],
+            'price'             => ['required', 'numeric', 'min:0'],
+            'currency'          => ['required', 'string', 'max:3', Rule::exists('countries', 'currency')],
+            'billing_period'    => ['required', Rule::enum(BillingPeriod::class)],
+            'sort_order'        => ['nullable', 'integer', 'min:0'],
+            'connections_count' => ['required', 'integer', 'min:1'],
+            'service_ids'       => ['required', 'array', 'min:1'],
+            'service_ids.*'     => ['required', 'integer', Rule::exists('services', 'id')],
+            'name'              => ['required', 'array'],
+            'description'       => ['nullable', 'array'],
+            'features'          => ['nullable', 'array'],
         ];
     }
 

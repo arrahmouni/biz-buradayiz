@@ -211,6 +211,7 @@ return [
             'price' => 'Fiyat',
             'billing_period' => 'Faturalama',
             'services' => 'Hizmetler',
+            'connections_count' => 'Çağrı sayısı',
         ],
     ],
 ];

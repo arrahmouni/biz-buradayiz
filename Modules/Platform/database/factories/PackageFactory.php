@@ -18,6 +18,7 @@ class PackageFactory extends Factory
             'currency' => 'TRY',
             'billing_period' => fake()->randomElement(BillingPeriod::cases()),
             'sort_order' => 0,
+            'connections_count' => fake()->numberBetween(1, 50),
         ];
     }
 

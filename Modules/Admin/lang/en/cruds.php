@@ -296,6 +296,7 @@ return [
         'sort_order'                    => 'Sort order',
         'services'                      => 'Linked services',
         'services_placeholder'          => 'Select one or more services',
+        'connections_count'             => 'Number of calls',
         'billing_periods'               => [
             'monthly'                   => 'Monthly',
             'yearly'                    => 'Yearly',

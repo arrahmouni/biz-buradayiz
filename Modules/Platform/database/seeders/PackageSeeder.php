@@ -26,6 +26,7 @@ class PackageSeeder extends Seeder
                 'currency' => 'TRY',
                 'billing_period' => BillingPeriod::Monthly,
                 'sort_order' => 10,
+                'connections_count' => 5,
                 'service_ids' => [$services->first()->id],
                 'translations' => [
                     'en' => [
@@ -45,6 +46,7 @@ class PackageSeeder extends Seeder
                 'currency' => 'TRY',
                 'billing_period' => BillingPeriod::Yearly,
                 'sort_order' => 20,
+                'connections_count' => 25,
                 'service_ids' => $services->take(min(2, $services->count()))->pluck('id')->all(),
                 'translations' => [
                     'en' => [

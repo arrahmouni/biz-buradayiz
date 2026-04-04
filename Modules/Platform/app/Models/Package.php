@@ -24,6 +24,7 @@ class Package extends BaseModel
         'currency',
         'billing_period',
         'sort_order',
+        'connections_count',
     ];
 
     public $timestamps = true;
@@ -43,6 +44,7 @@ class Package extends BaseModel
         return [
             'price' => 'decimal:2',
             'billing_period' => BillingPeriod::class,
+            'connections_count' => 'integer',
         ];
     }
 

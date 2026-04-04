@@ -60,6 +60,7 @@
                         <th> @lang('admin::datatable.base_columns.name') </th>
                         <th> @lang('admin::datatable.packages.columns.price') </th>
                         <th> @lang('admin::datatable.packages.columns.billing_period') </th>
+                        <th> @lang('admin::datatable.packages.columns.connections_count') </th>
                         <th> @lang('admin::datatable.packages.columns.services') </th>
                     @endslot
 
@@ -78,6 +79,12 @@
                             {
                                 data: 'billing_period',
                                 name: 'billing_period',
+                                orderable: false,
+                                searchable: false,
+                            },
+                            {
+                                data: 'connections_count',
+                                name: 'connections_count',
                                 orderable: false,
                                 searchable: false,
                             },

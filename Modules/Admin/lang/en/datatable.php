@@ -211,6 +211,7 @@ return [
             'price' => 'Price',
             'billing_period' => 'Billing',
             'services' => 'Services',
+            'connections_count' => 'Number of calls',
         ],
     ],
 ];

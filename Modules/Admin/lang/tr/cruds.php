@@ -296,6 +296,7 @@ return [
         'sort_order'                    => 'Sıralama',
         'services'                      => 'Bağlı Hizmetler',
         'services_placeholder'          => 'Bir veya daha fazla hizmet seçin',
+        'connections_count'             => 'Çağrı sayısı',
         'billing_periods'               => [
             'monthly'                   => 'Aylık',
             'yearly'                    => 'Yıllık',
