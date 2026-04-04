@@ -19,6 +19,7 @@ return new class extends Migration
             $table->timestamp('starts_at');
             $table->timestamp('ends_at')->nullable();
             $table->timestamp('cancelled_at')->nullable();
+            $table->unsignedInteger('remaining_connections')->nullable();
             $table->timestamps();
 
             $table->index(['user_id', 'status']);

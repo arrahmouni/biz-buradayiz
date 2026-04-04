@@ -16,6 +16,7 @@ class PackageSubscription extends BaseModel
         'starts_at',
         'ends_at',
         'cancelled_at',
+        'remaining_connections',
     ];
 
     protected function casts(): array
