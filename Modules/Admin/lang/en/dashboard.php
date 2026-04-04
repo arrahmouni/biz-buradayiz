@@ -116,6 +116,7 @@ return [
             'title' => 'Platform Management',
             'services' => 'Services',
             'packages' => 'Packages',
+            'package_subscriptions' => 'Package subscriptions',
         ],
     ],
 

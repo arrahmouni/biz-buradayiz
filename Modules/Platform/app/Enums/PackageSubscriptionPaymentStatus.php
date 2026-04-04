@@ -2,12 +2,14 @@
 
 namespace Modules\Platform\Enums;
 
-enum PackageSubscriptionStatus: string
+enum PackageSubscriptionPaymentStatus: string
 {
-    case PendingPayment = 'pending_payment';
-    case Active = 'active';
+    case Pending = 'pending';
+    case AwaitingVerification = 'awaiting_verification';
+    case Paid = 'paid';
+    case Failed = 'failed';
+    case Refunded = 'refunded';
     case Cancelled = 'cancelled';
-    case Expired = 'expired';
 
     /**
      * @return list<string>
@@ -24,7 +26,7 @@ enum PackageSubscriptionStatus: string
     {
         return collect(self::cases())
             ->mapWithKeys(fn (self $case) => [
-                $case->value => trans('admin::cruds.package_subscriptions.statuses.'.$case->value),
+                $case->value => trans('admin::cruds.package_subscriptions.payment_statuses.'.$case->value),
             ])
             ->all();
     }
@@ -35,10 +37,12 @@ enum PackageSubscriptionStatus: string
     public function datatableBadgeColor(): string
     {
         return match ($this) {
-            self::Active => 'success',
-            self::PendingPayment => 'warning',
+            self::Paid => 'success',
+            self::Pending => 'warning',
+            self::AwaitingVerification => 'info',
+            self::Failed,
             self::Cancelled => 'danger',
-            self::Expired => 'light',
+            self::Refunded => 'light',
         };
     }
 }

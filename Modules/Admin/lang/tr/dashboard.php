@@ -116,6 +116,7 @@ return [
             'title' => 'Platform Yönetimi',
             'services' => 'Hizmetler',
             'packages' => 'Paketler',
+            'package_subscriptions' => 'Paket abonelikleri',
         ],
     ],
 

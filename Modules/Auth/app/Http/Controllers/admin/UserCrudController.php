@@ -2,13 +2,12 @@
 
 namespace Modules\Auth\Http\Controllers\admin;
 
-use Exception;
 use Illuminate\Http\Request;
+use Modules\Auth\Enums\permissions\UserPermissions;
 use Modules\Auth\Enums\UserType;
-use Modules\Auth\Models\User;
 use Modules\Auth\Http\Requests\UserCrudRequest;
 use Modules\Auth\Http\Services\UserCrudService;
-use Modules\Auth\Enums\permissions\UserPermissions;
+use Modules\Auth\Models\User;
 use Modules\Base\Http\Controllers\BaseCrudController;
 
 class UserCrudController extends BaseCrudController
@@ -55,7 +54,7 @@ class UserCrudController extends BaseCrudController
 
                 app('adminHelper')->addBreadcrumbs(
                     $breadcrumbTitle,
-                    route($this->routePrefix . '.index', $this->routeParameters)
+                    route($this->routePrefix.'.index', $this->routeParameters)
                 );
             }
         }
@@ -66,65 +65,29 @@ class UserCrudController extends BaseCrudController
         parent::__construct();
     }
 
-    public function update(Request $request)
+    public function getModelForAjax(Request $request)
     {
-        app('adminHelper')->addBreadcrumbs(trans('admin::dashboard.breadcrumbs.edit'));
+        $query = parent::getModelForAjax($request);
 
-        $this->data['model'] = $this->crudService->getModel(
-            id: $request->model,
-            withTrashed: $this->hasSoftDelete,
-            withDisabled: $this->hasDisabled
-        );
+        $userType = $this->resolveAjaxListUserType($request);
 
-        if ($this->userType === UserType::ServiceProvider) {
-            $this->data['model']->loadMissing([
-                'service.translations',
-                'city.translations',
-                'city.state.translations',
-                'city.state.country.translations',
-            ]);
+        if ($userType !== null) {
+            $query->where('type', $userType->value);
         }
 
-        return view($this->module . '::' . $this->model::VIEW_PATH . '.update', $this->data);
+        return $query;
     }
 
-    public function datatable(Request $request)
+    protected function resolveAjaxListUserType(Request $request): ?UserType
     {
         if ($this->userType !== null) {
-            $request->merge(['userType' => $this->userType->value]);
+            return $this->userType;
         }
 
-        return $this->crudService->getDataTable($request->all());
-    }
-
-    public function postUpdate(Request $request)
-    {
-        app($this->updateRequest);
-
-        $this->data['model'] = $this->crudService->getModel(
-            id: $request->model,
-            withTrashed: $this->hasSoftDelete,
-            withDisabled: $this->hasDisabled
-        );
-
-        if ($this->userType !== null) {
-            $modelType = $this->data['model']->type;
-            $modelTypeValue = $modelType instanceof UserType ? $modelType->value : $modelType;
-
-            if ($modelTypeValue !== $this->userType->value) {
-                abort(404);
-            }
+        if (! $request->filled('userType')) {
+            return null;
         }
 
-        try {
-            $this->crudService->updateModel(
-                $this->data['model'],
-                app($this->updateRequest)->validated()
-            );
-        } catch (Exception $e) {
-            return sendExceptionResponse($e);
-        }
-
-        return sendSuccessResponse(route($this->routePrefix . '.index', $this->routeParameters));
+        return UserType::tryFrom((string) $request->input('userType')) ?? abort(404);
     }
 }

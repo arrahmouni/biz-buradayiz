@@ -20,11 +20,6 @@ class AdminSeeder extends Seeder
         $this->seedsystemAdmins();
     }
 
-     /**
-     * @var array
-     */
-    public static $systemAdmins = [];
-
     public static function getSystemAdmins(): array
     {
         return [

@@ -6,7 +6,6 @@ use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Base\Models\BaseModel;
 use Modules\Base\Trait\Disableable;
@@ -59,11 +58,6 @@ class Package extends BaseModel
             ->withTimestamps();
     }
 
-    public function packageSubscriptions(): HasMany
-    {
-        return $this->hasMany(PackageSubscription::class);
-    }
-
     public function scopeSimpleSearch($query, $search)
     {
         return $query->where(function ($query) use ($search) {
@@ -87,7 +81,7 @@ class Package extends BaseModel
         ];
     }
 
-    public function createdAtFormat() : Attribute
+    public function createdAtFormat(): Attribute
     {
         return Attribute::make(
             get: fn ($value, $attributes) => getFormattedDate($attributes['created_at'], 'd M Y'),

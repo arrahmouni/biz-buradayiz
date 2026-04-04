@@ -15,11 +15,8 @@ use Modules\Auth\Http\Controllers\admin\UserCrudController;
 |
 */
 
-Route::prefix('users')->name('users.')->controller(UserCrudController::class)->group(function () {
-    Route::get('ajax-list', 'ajaxList')->name('ajaxList');
-});
-
 Route::prefix('users/{userType}')->name('users.')->whereIn('userType', UserType::values())->controller(UserCrudController::class)->group(function () {
+    Route::get('ajax-list', 'ajaxList')->name('ajaxList');
     Route::get('list', 'index')->name('index');
     Route::get('datatable', 'datatable')->name('datatable');
     Route::get('create', 'create')->name('create');

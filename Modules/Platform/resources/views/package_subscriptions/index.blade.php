@@ -1,0 +1,221 @@
+@php
+    use Modules\Platform\Enums\PackageSubscriptionPaymentMethod;
+    use Modules\Platform\Enums\PackageSubscriptionPaymentStatus;
+    use Modules\Platform\Enums\PackageSubscriptionStatus;
+@endphp
+
+@extends('admin::layouts.master', [
+    'title' => trans('admin::dashboard.aside_menu.platform_management.package_subscriptions'),
+])
+
+@section('toolbar')
+    @component('admin::includes.toolbar', [
+            'options'               => [
+                'title'             => trans('admin::dashboard.aside_menu.platform_management.package_subscriptions'),
+                'actions'           => [
+                    'filter'        => true,
+                    'search'        => true,
+                ],
+            ]
+        ])
+
+        @slot('filterContent')
+            <div class="mb-5">
+                @include('admin::components.inputs.select', [
+                    'options'           => [
+                        'name'          => 'status',
+                        'label'         => trans('admin::datatable.package_subscriptions.columns.status'),
+                        'placeholder'   => trans('admin::base.all_results'),
+                        'clearable'     => true,
+                        'data'          => PackageSubscriptionStatus::adminFilterSelectOptions(),
+                        'text'          => function ($key, $value) { return $value; },
+                        'values'        => function ($key, $value) { return $key; },
+                    ]
+                ])
+            </div>
+
+            <div class="mb-5">
+                @include('admin::components.inputs.select', [
+                    'options'           => [
+                        'name'          => 'payment_status',
+                        'label'         => trans('admin::datatable.package_subscriptions.columns.payment_status'),
+                        'placeholder'   => trans('admin::base.all_results'),
+                        'clearable'     => true,
+                        'data'          => PackageSubscriptionPaymentStatus::adminFilterSelectOptions(),
+                        'text'          => function ($key, $value) { return $value; },
+                        'values'        => function ($key, $value) { return $key; },
+                    ]
+                ])
+            </div>
+
+            <div class="mb-5">
+                @include('admin::components.inputs.select', [
+                    'options'           => [
+                        'name'          => 'payment_method',
+                        'label'         => trans('admin::datatable.package_subscriptions.columns.payment_method'),
+                        'placeholder'   => trans('admin::base.all_results'),
+                        'clearable'     => true,
+                        'data'          => PackageSubscriptionPaymentMethod::adminFilterSelectOptions(),
+                        'text'          => function ($key, $value) { return $value; },
+                        'values'        => function ($key, $value) { return $key; },
+                    ]
+                ])
+            </div>
+        @endslot
+    @endcomponent
+@endsection
+
+@section('content')
+    <div id="kt_content_container" class="container-fluid">
+        <div class="card shadow-sm ">
+
+            <div class="card-header">
+                <div class="card-title">
+                    @include('admin::components.datatables.header.title', [
+                        'options'   => [
+                            'role'  => $viewTrashPermission ?? null,
+                            'title' => trans('admin::datatable.package_subscriptions.list_title'),
+                            'withSwitchArchive' => false,
+                        ]
+                    ])
+                </div>
+
+                <div class="card-toolbar flex-row-reverse">
+                    @include('admin::components.datatables.header.toolbar', [
+                        'options'               => [
+                            'role'              => $createPermission,
+                            'multiActions'      => $bulkActionDropdown,
+                            'route'             => route('platform.package_subscriptions.create'),
+                        ]
+                    ])
+                </div>
+            </div>
+
+            <div class="card-body  py-4">
+                @component('admin::components.datatables.table', [
+                        'options'           => [
+                            'url'           => route('platform.package_subscriptions.datatable'),
+                            'withCreatedAt' => true,
+                            'withTrash'     => false,
+                            'filter'        => true,
+                        ]
+                    ])
+                    @slot('columns')
+                        <th class="min-w-275px"> @lang('admin::datatable.package_subscriptions.columns.user') </th>
+                        <th class=""> @lang('admin::datatable.package_subscriptions.columns.package') </th>
+                        <th class="min-w-125px"> @lang('admin::datatable.package_subscriptions.columns.ordered_price') </th>
+                        <th class="min-w-125px"> @lang('admin::datatable.package_subscriptions.columns.status') </th>
+                        <th class="min-w-140px"> @lang('admin::datatable.package_subscriptions.columns.payment_status') </th>
+                        <th class="min-w-175px"> @lang('admin::datatable.package_subscriptions.columns.payment_method') </th>
+                    @endslot
+
+                    <script>
+                        @slot('jsColumns')
+                            {
+                                data: 'user_full_name',
+                                name: 'user_full_name',
+                                orderable: false,
+                                render: function (data, type, row, meta) {
+                                    if (! row.user_email && ! data) {
+                                        return '<span class="text-muted">—</span>';
+                                    }
+                                    const name = data || '—';
+                                    const email = row.user_email || '';
+                                    return `
+                                        <div class="d-flex align-items-center">
+                                            <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
+                                                <a href="javascript:;">
+                                                    <div class="symbol-label">
+                                                        <img src="${row.user_avatar_url}" alt="${name}" class="w-100" onerror="this.onerror=null; this.src='{{ asset('images/default/avatars/user.png') }}';"/>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="d-flex justify-content-start flex-column">
+                                                <span class="text-dark fw-bolder mb-1">${name}</span>
+                                                <span class="text-muted">${email}</span>
+                                            </div>
+                                        </div>
+                                    `;
+                                }
+                            },
+                            {
+                                data: 'package_name',
+                                name: 'package_name',
+                                orderable: false,
+                                render: function (data, type, row, meta) {
+                                    if (data === '—' || ! data) {
+                                        return '<span class="text-muted">—</span>';
+                                    }
+                                    return '<span class="text-dark fw-bolder">' + data + '</span>';
+                                }
+                            },
+                            {
+                                data: 'price_display',
+                                name: 'price_display',
+                                orderable: false,
+                                searchable: false,
+                                render: function (data, type, row, meta) {
+                                    if (data === '—' || ! data) {
+                                        return '<span class="text-muted">—</span>';
+                                    }
+                                    return '<span class="badge badge-light fs-7 fw-semibold">' + data + '</span>';
+                                }
+                            },
+                            {
+                                data: 'status_badge',
+                                name: 'status_badge',
+                                orderable: false,
+                                searchable: false,
+                                render: function (data, type, row, meta) {
+                                    if (! data || ! data.label) {
+                                        return '<span class="text-muted">—</span>';
+                                    }
+                                    return '<span class="btn btn-sm btn-font-sm btn-label-' + data.color + ' text-center w-100">' + data.label + '</span>';
+                                }
+                            },
+                            {
+                                data: 'payment_status_badge',
+                                name: 'payment_status_badge',
+                                orderable: false,
+                                searchable: false,
+                                render: function (data, type, row, meta) {
+                                    if (! data || ! data.label) {
+                                        return '<span class="text-muted">—</span>';
+                                    }
+                                    return '<span class="btn btn-sm btn-font-sm btn-label-' + data.color + ' text-center w-100">' + data.label + '</span>';
+                                }
+                            },
+                            {
+                                data: 'payment_method_format',
+                                name: 'payment_method_format',
+                                orderable: false,
+                                searchable: false,
+                                render: function (data, type, row, meta) {
+                                    if (type !== 'display') {
+                                        return (data && data.label) ? data.label : '';
+                                    }
+                                    if (! data || ! data.label) {
+                                        return '<span class="text-muted">—</span>';
+                                    }
+                                    const label = data.label;
+                                    const img = data.img || '';
+                                    return `
+                                        <div class="d-flex align-items-center">
+                                            <div class="symbol symbol-circle symbol-40px me-3 flex-shrink-0">
+                                                <span class="symbol-label bg-light-primary d-flex align-items-center justify-content-center p-2">
+                                                    <img src="${img}" class="w-20px h-20px" alt="" />
+                                                </span>
+                                            </div>
+                                            <span class="text-gray-800 fw-semibold fs-7 lh-sm">${label}</span>
+                                        </div>
+                                    `;
+                                }
+                            },
+                        @endslot
+                    </script>
+
+                @endcomponent
+            </div>
+        </div>
+    </div>
+@endsection

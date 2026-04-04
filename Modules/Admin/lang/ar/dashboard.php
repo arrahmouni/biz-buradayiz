@@ -1,115 +1,129 @@
 <?php
 
 return [
-    'page'                                  => [
-        'welcome_line'                      => 'مرحبًا بعودتك، :name',
-        'fallback_name'                     => 'المسؤول',
-        'overview'                          => 'تابع نشاط المستخدمين والمحتوى وطلبات التواصل. استخدم فلتر التاريخ في الشريط العلوي لضبط الأرقام.',
-        'statistics_heading'                => 'نظرة عامة',
-        'apply_period'                      => 'تطبيق',
-        'date_range_placeholder'            => 'اختر الفترة الزمنية',
+    'page' => [
+        'welcome_line' => 'مرحبًا بعودتك، :name',
+        'fallback_name' => 'المسؤول',
+        'overview' => 'تابع نشاط المستخدمين والمحتوى وطلبات التواصل. استخدم فلتر التاريخ في الشريط العلوي لضبط الأرقام.',
+        'statistics_heading' => 'نظرة عامة',
+        'apply_period' => 'تطبيق',
+        'date_range_placeholder' => 'اختر الفترة الزمنية',
     ],
 
-    'header'                                => [
-        'language'                          => 'اللغات',
-        'my_profile'                        => 'الملف الشخصي',
-        'account_settings'                  => 'إعدادت الحساب',
-        'back_to_preivos_account'           => 'العودة للحساب السابق',
-        'logout'                            => 'تسجيل الخروج',
-        'sign_out'                          => 'الخروج',
+    'header' => [
+        'language' => 'اللغات',
+        'my_profile' => 'الملف الشخصي',
+        'account_settings' => 'إعدادت الحساب',
+        'back_to_preivos_account' => 'العودة للحساب السابق',
+        'logout' => 'تسجيل الخروج',
+        'sign_out' => 'الخروج',
     ],
 
-    'aside_menu'                            => [
-        'home'                              => 'الرئيسية',
-        'dashboard'                         => 'الاحصائيات',
-        'user_management'                   => [
-            'title'                         => 'إدارة المستخدمين',
-            'roles'                         => 'الأدوار',
-            'permissions'                   => 'الصلاحيات',
-            'admins'                        => 'المشرفين',
-            'users'                         => 'المستخدمين',
-            'customers'                     => 'العملاء',
-            'service_providers'             => 'مقدمو الخدمة',
-            'create_customer'               => 'عميل جديد',
-            'create_service_provider'       => 'مقدم خدمة جديد',
+    'aside_menu' => [
+        'home' => 'الرئيسية',
+        'dashboard' => 'الاحصائيات',
+        'user_management' => [
+            'title' => 'إدارة المستخدمين',
+            'roles' => 'الأدوار',
+            'permissions' => 'الصلاحيات',
+            'admins' => 'المشرفين',
+            'users' => 'المستخدمين',
+            'customers' => 'العملاء',
+            'service_providers' => 'مقدمو الخدمة',
+            'create_customer' => 'عميل جديد',
+            'create_service_provider' => 'مقدم خدمة جديد',
         ],
-        'zone_management'                   => [
-            'title'                         => 'إدارة المناطق',
+        'zone_management' => [
+            'title' => 'إدارة المناطق',
         ],
-        'country_management'                => [
-            'title'                         => 'إدارة الدول',
-            'countries'                     => 'الدول',
+        'country_management' => [
+            'title' => 'إدارة الدول',
+            'countries' => 'الدول',
         ],
-        'state_management'                  => [
-            'title'                         => 'إدارة المحافظات',
-            'states'                        => 'المحافظات',
+        'state_management' => [
+            'title' => 'إدارة المحافظات',
+            'states' => 'المحافظات',
         ],
-        'city_management'                   => [
-            'title'                         => 'إدارة المدن',
-            'cities'                        => 'المدن',
+        'city_management' => [
+            'title' => 'إدارة المدن',
+            'cities' => 'المدن',
         ],
-        'setting_management'                => [
-            'title'                         => 'إدارة الإعدادات',
-            'settings'                      => 'الإعدادات',
+        'setting_management' => [
+            'title' => 'إدارة الإعدادات',
+            'settings' => 'الإعدادات',
         ],
-        'content_category_management'       => [
-            'title'                         => 'إدارة تصنيفات المحتوى',
-            'content_categories'            => 'التصنيفات',
+        'content_category_management' => [
+            'title' => 'إدارة تصنيفات المحتوى',
+            'content_categories' => 'التصنيفات',
         ],
-        'content_management'                => [
-            'title'                         => 'إدارة المحتوى',
-            'contents'                      => 'المحتوى',
+        'content_management' => [
+            'title' => 'إدارة المحتوى',
+            'contents' => 'المحتوى',
         ],
-        'category_management'               => [
-            'title'                         => 'إدارة التصنيفات',
-            'categories'                    => 'التصنيفات',
+        'category_management' => [
+            'title' => 'إدارة التصنيفات',
+            'categories' => 'التصنيفات',
         ],
-        'notification_management'           => [
-            'title'                         => 'إدارة الإشعارات',
-            'notification_templates'        => 'قوالب الإشعارات',
-            'notifications'                 => 'الإشعارات',
+        'notification_management' => [
+            'title' => 'إدارة الإشعارات',
+            'notification_templates' => 'قوالب الإشعارات',
+            'notifications' => 'الإشعارات',
         ],
-        'notification_template_management'  => [
-            'title'                         => 'إدارة قوالب الإشعارات',
-            'notification_templates'        => 'قوالب الإشعارات',
+        'notification_template_management' => [
+            'title' => 'إدارة قوالب الإشعارات',
+            'notification_templates' => 'قوالب الإشعارات',
         ],
-        'crm_management'                    => [
-            'title'                         => 'إدارة علاقات العملاء',
-            'contactuses'                   => 'طلبات التواصل',
-            'subscribes'                    => 'الإشتراكات',
+        'crm_management' => [
+            'title' => 'إدارة علاقات العملاء',
+            'contactuses' => 'طلبات التواصل',
+            'subscribes' => 'الإشتراكات',
         ],
-        'contactus_management'              => [
-            'title'                         => 'إدارة رسائل التواصل',
-            'contactus'                     => 'طلبات التواصل',
+        'contactus_management' => [
+            'title' => 'إدارة رسائل التواصل',
+            'contactus' => 'طلبات التواصل',
         ],
-        'subscribe_management'              => [
-            'title'                         => 'إدارة الإشتراكات',
-            'subscribes'                    => 'الإشتراكات',
+        'subscribe_management' => [
+            'title' => 'إدارة الإشتراكات',
+            'subscribes' => 'الإشتراكات',
         ],
-        'content_tag_management'            => [
-            'title'                         => 'إدارة وسوم المحتوى',
-            'content_tags'                  => 'وسوم المحتوى',
+        'content_tag_management' => [
+            'title' => 'إدارة وسوم المحتوى',
+            'content_tags' => 'وسوم المحتوى',
         ],
-        'log_management'                    => [
-            'title'                         => 'إدارة السجلات',
-            'api_logs'                      => 'سجلات ال API',
-            'activity_logs'                 => 'سجلات النشاط',
+        'log_management' => [
+            'title' => 'إدارة السجلات',
+            'api_logs' => 'سجلات ال API',
+            'activity_logs' => 'سجلات النشاط',
         ],
-        'api_log_management'                => [
-            'title'                         => 'إدارة سجلات ال API',
-            'api_logs'                      => 'سجلات ال API',
+        'api_log_management' => [
+            'title' => 'إدارة سجلات ال API',
+            'api_logs' => 'سجلات ال API',
         ],
-        'activity_log_management'           => [
-            'title'                         => 'إدارة سجلات النشاط',
-            'activity_logs'                 => 'سجلات النشاط',
-            'activity_log_type'             => ':type | سجل النشاط | # :id',
+        'activity_log_management' => [
+            'title' => 'إدارة سجلات النشاط',
+            'activity_logs' => 'سجلات النشاط',
+            'activity_log_type' => ':type | سجل النشاط | # :id',
+        ],
+        'service_management' => [
+            'title' => 'إدارة الخدمات',
+            'services' => 'الخدمات',
+        ],
+        'package_management' => [
+            'title' => 'إدارة الباقات',
+            'packages' => 'الباقات',
+        ],
+        'platform_management' => [
+            'title' => 'إدارة المنصة',
+            'services' => 'الخدمات',
+            'packages' => 'الباقات',
+            'package_subscriptions' => 'اشتراكات الباقات',
         ],
     ],
 
-    'breadcrumbs'                           => [
-        'list'                              => 'قائمة',
-        'add_new'                           => 'إضافة جديد',
-        'edit'                              => 'تعديل',
-        'view'                              => 'عرض',
+    'breadcrumbs' => [
+        'list' => 'قائمة',
+        'add_new' => 'إضافة جديد',
+        'edit' => 'تعديل',
+        'view' => 'عرض',
     ],
 ];

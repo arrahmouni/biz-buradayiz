@@ -125,7 +125,7 @@ html[lang="ar"] .permission-accordion .accordion-button i {
 /* Button For Datatable Status And Type */
 .btn-label-warning{
     background-color: #fff8dd;
-    color: #FFC700;
+    color: #a06d00;
     cursor: text !important;
     font-weight: 600;
 }
@@ -135,17 +135,17 @@ html[lang="ar"] .permission-accordion .accordion-button i {
 }
 .btn-label-info{
     background-color: #e8f0fe;
-    color: #3D7DFF;
+    color: #002a81;
     cursor: text !important;
     font-weight: 600;
 }
 .btn-label-info:hover{
     background-color: #e8f0fe;
-    color: #3D7DFF;
+    color: #002a81;
 }
 .btn-label-danger{
     background-color: #fde2e2;
-    color: #FF3D00;
+    color: #a92901;
     cursor: text !important;
     font-weight: 600;
 }
@@ -155,13 +155,13 @@ html[lang="ar"] .permission-accordion .accordion-button i {
 }
 .btn-label-success{
     background-color: #e6f4ea;
-    color: #3DD179;
+    color: #02a544;
     cursor: text !important;
     font-weight: 600;
 }
 .btn-label-success:hover{
     background-color: #e6f4ea;
-    color: #3DD179;
+    color: #02a544;
 }
 .btn-label-primary{
     background-color: #e8f0fe;
@@ -183,8 +183,16 @@ html[lang="ar"] .permission-accordion .accordion-button i {
     background-color: #f8f9fa;
     color: #6C757D;
 }
-
-
+.btn-label-light{
+    background-color: #f8f9fa;
+    color: #4f5d73;
+    cursor: text !important;
+    font-weight: 600;
+}
+.btn-label-light:hover{
+    background-color: #f8f9fa;
+    color: #6C757D;
+}
 /* Spinner */
 .loader {
     width: 48px;
@@ -289,6 +297,10 @@ html[lang="ar"] .permission-accordion .accordion-button i {
 
 .select2-selection__rendered{
     direction: ltr !important;
+}
+
+.select2-container .select2-selection.is-invalid {
+    border-color: var(--bs-form-invalid-border-color, #dc3545);
 }
 
 .notification-item > div{

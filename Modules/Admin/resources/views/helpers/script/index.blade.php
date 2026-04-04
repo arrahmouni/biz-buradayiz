@@ -327,7 +327,7 @@
             }).done(function(response) {
                 return handleSuccessResponse(response, isCreateNew);
             }).fail(function (response) {
-                return handleFailResponse(response);
+                return handleFailResponse(response, form);
             }).always(function () {
                 if(activeButton.length > 0) {
                     activeButton.attr('data-kt-indicator', 'of');
@@ -343,7 +343,7 @@
             });
         }
 
-        function handleFailResponse(response) {
+        function handleFailResponse(response, form) {
             let responseJson            = response.responseJSON;
 
             if(isEmpty(response) || isEmpty(responseJson)) {
@@ -353,7 +353,7 @@
             hanldeNotify(responseJson);
 
             if(response.status == {{ $validationCode }}) {
-                handleFormValidationInput(responseJson.errors);
+                handleFormValidationInput(responseJson.errors, form);
             }
         }
 
@@ -377,12 +377,26 @@
         function resetFormValidation(form) {
             form.find('.fv-plugins-message-container').remove();
             form.find('.is-invalid').removeClass('is-invalid');
+            form.find('.select2-container .select2-selection').removeClass('is-invalid');
             // form.find('.tab-pane').removeClass('active show');
             form.find('.invalid-label').removeClass('invalid-label');
             form.find('.btn-icon').removeClass('end-5');
         }
 
-        function handleFormValidationInput(errors) {
+        function resolveValidationFieldParent(input) {
+            let inputParent = input.closest('.form-group');
+            if (inputParent.length === 0) {
+                inputParent = input.closest('.fv-row');
+            }
+            if (inputParent.length === 0) {
+                inputParent = input.parent();
+            }
+            return inputParent;
+        }
+
+        function handleFormValidationInput(errors, form) {
+            const $root = (form && form.length) ? form : $(document);
+
             for (const key in errors) {
                 if (errors.hasOwnProperty(key)) {
                     const element = errors[key];
@@ -392,13 +406,13 @@
                         newKey += ']';
                     }
 
-                    let input         = $('[name="' + newKey + '"]');
+                    let input         = $root.find('[name="' + newKey + '"]');
                     if(input.length == 0) {
                         // if input not found then check for select2 input
-                        input = $('[name="' + newKey + '[]"]');
+                        input = $root.find('[name="' + newKey + '[]"]');
                     }
                     const inputTab      = input.closest('.tab-pane');
-                    const inputParent   = input.closest('.form-group');
+                    const inputParent   = resolveValidationFieldParent(input);
                     const label         = inputParent.find('label').first();
 
                     // If Input Tab Exists Then Show It
@@ -426,11 +440,15 @@
                     label.addClass('invalid-label');
 
                     // Focus On Input
-                    input.focus();
+                    input.trigger('focus');
                     input.addClass('is-invalid');
+                    const select2Container = input.next('.select2-container');
+                    if (select2Container.length) {
+                        select2Container.find('.select2-selection').addClass('is-invalid');
+                    }
 
                     // Append Error Message
-                    inputParent.append('<div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback" style="font-weight:500">' + element[0] + '</div>');
+                    inputParent.append('<div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback fw-semibold d-block">' + element[0] + '</div>');
                 }
             }
         }
@@ -441,19 +459,36 @@
 <script>
     let selectedIds = new Set(); // Use Set to store unique IDs
 
+    function normalizeDatatableActionItems(data) {
+        if (isEmpty(data) || data.items == null) {
+            return [];
+        }
+        const raw = Array.isArray(data.items) ? data.items.slice() : Object.values(data.items);
+        return raw.sort(function (a, b) {
+            return (a.order ?? 0) - (b.order ?? 0);
+        });
+    }
+
     function handleDatatableAction(data) {
-        if(isEmpty(data) || isEmpty(handleDatatableActionItems(data))) {
+        if (isEmpty(data)) {
             return '';
         }
 
-        if(data.items.length == 1) {
-            let item    = data.items[0];
+        const sortedItems = normalizeDatatableActionItems(data);
+        const clickableItems = sortedItems.filter(function (item) {
+            return item.type !== 'divider';
+        });
 
+        if (clickableItems.length === 0) {
+            return '';
+        }
+
+        if (clickableItems.length === 1) {
             return `
                 <div class="btn btn-light btn-active-light-primary btn-sm datatable-action-menu">
-                    ` + renderDatatableActions(item, false) + `
+                    ` + renderDatatableActions(clickableItems[0], false) + `
                 </div>
-            ` ;
+            `;
         }
 
         return `
@@ -468,17 +503,9 @@
 
     function handleDatatableActionItems(data) {
         let items = '';
-
-        // Convert data.items to an array if it isn't one already
-        const itemsArray = Array.isArray(data.items) ? data.items : Object.values(data.items);
-
-        // Sort the array by 'order' key
-        const sortedItems = itemsArray.sort((a, b) => a.order - b.order);
-
-        for (const value of sortedItems) {
+        for (const value of normalizeDatatableActionItems(data)) {
             items += renderDatatableActions(value);
         }
-
         return items;
     }
 

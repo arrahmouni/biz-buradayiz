@@ -23,6 +23,7 @@ return [
         'api_log_management' => 'API Günlüğü Yonetimi',
         'service_management' => 'Hizmet Yönetimi',
         'package_management' => 'Paket Yönetimi',
+        'package_subscription_management' => 'Paket abonelikleri yönetimi',
     ],
 
     'roles' => [

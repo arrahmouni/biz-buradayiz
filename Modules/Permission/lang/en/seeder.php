@@ -23,6 +23,7 @@ return [
         'api_log_management' => 'API Log Management',
         'service_management' => 'Service Management',
         'package_management' => 'Package Management',
+        'package_subscription_management' => 'Package subscription management',
     ],
 
     'roles' => [

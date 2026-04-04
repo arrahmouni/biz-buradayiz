@@ -5,10 +5,10 @@ namespace Modules\Auth\Http\Services;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Modules\Admin\Enums\AdminStatus;
+use Modules\Auth\Enums\permissions\UserPermissions;
 use Modules\Auth\Enums\UserType;
 use Modules\Auth\Models\User as CrudModel;
 use Modules\Base\Http\Services\BaseCrudService;
-use Modules\Auth\Enums\permissions\UserPermissions;
 use Yajra\DataTables\Facades\DataTables;
 
 class UserCrudService extends BaseCrudService
@@ -95,7 +95,7 @@ class UserCrudService extends BaseCrudService
 
     public function getDataTable(array $data): JsonResponse
     {
-        $userType = $data['userType'] ?? null;
+        $userType = $data['userType'] ?? request()->route('userType');
         $isServiceProvider = $userType === UserType::ServiceProvider->value;
 
         $model = CrudModel::query()->with('media');
@@ -135,9 +135,6 @@ class UserCrudService extends BaseCrudService
                 ->addColumn('service_name', function ($row) {
                     return $row->service?->name ?? '—';
                 })
-                ->addColumn('package_name', function ($row) {
-                    return $row->currentPackageSubscription?->package?->name ?? '—';
-                })
                 ->addColumn('country_name', function ($row) {
                     return $row->city?->state?->country?->name ?? '—';
                 })
@@ -155,11 +152,11 @@ class UserCrudService extends BaseCrudService
 
                 return
                     app('customDataTable')
-                    ->routePrefix('auth.users')
-                    ->setRouteParameters($routeParamsForActions)
-                    ->of($row, UserPermissions::PERMISSION_NAMESPACE)
-                    ->excludeActions($excludeActions)
-                    ->getDatatableActions();
+                        ->routePrefix('auth.users')
+                        ->setRouteParameters($routeParamsForActions)
+                        ->of($row, UserPermissions::PERMISSION_NAMESPACE)
+                        ->excludeActions($excludeActions)
+                        ->getDatatableActions();
             })
             ->toJson();
     }

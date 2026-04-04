@@ -11,6 +11,10 @@ return [
             'name' => 'package',
             'icon' => 'bi bi-gift',
         ],
+        'package_subscription' => [
+            'name' => 'package_subscription',
+            'icon' => 'bi bi-receipt',
+        ],
         'service' => [
             'name' => 'service',
             'icon' => 'bi bi-building',

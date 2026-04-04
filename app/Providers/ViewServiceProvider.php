@@ -18,6 +18,7 @@ use Modules\Notification\Enums\permissions\NotificationTemplatePermissions;
 use Modules\Permission\Enums\permissions\AbilityPermissions;
 use Modules\Permission\Enums\permissions\RolePermissions;
 use Modules\Platform\Enums\permissions\PackagePermissions;
+use Modules\Platform\Enums\permissions\PackageSubscriptionPermissions;
 use Modules\Platform\Enums\permissions\ServicePermissions;
 use Modules\Zms\Enums\permissions\CountryPermissions;
 
@@ -647,5 +648,38 @@ class ViewServiceProvider extends ServiceProvider
             ]);
         }
         // End Package Section
+
+        // Start Package subscription (orders) Section
+        app('adminHelper')->asideMenu([
+            'id' => 'package_subscription_section',
+            'parent_id' => 'platform_management',
+            'type' => 'item',
+            'icon' => 'bi bi-receipt',
+            'title' => trans('admin::dashboard.aside_menu.platform_management.package_subscriptions'),
+            'order' => 3,
+        ]);
+
+        if (app('owner') || app('admin')->can(PackageSubscriptionPermissions::READ)) {
+            app('adminHelper')->asideMenu([
+                'id' => 'view_package_subscriptions',
+                'parent_id' => 'package_subscription_section',
+                'type' => 'item',
+                'link' => route('platform.package_subscriptions.index'),
+                'title' => trans('admin::base.view_all'),
+                'order' => 1,
+            ]);
+        }
+
+        if (app('owner') || app('admin')->can(PackageSubscriptionPermissions::CREATE)) {
+            app('adminHelper')->asideMenu([
+                'id' => 'create_package_subscription',
+                'parent_id' => 'package_subscription_section',
+                'type' => 'item',
+                'link' => route('platform.package_subscriptions.create'),
+                'title' => trans('admin::base.create_new'),
+                'order' => 2,
+            ]);
+        }
+        // End Package subscription Section
     }
 }

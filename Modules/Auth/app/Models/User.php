@@ -3,16 +3,16 @@
 namespace Modules\Auth\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Admin\Traits\UserTrait;
+use Modules\Auth\database\factories\UserFactory;
 use Modules\Auth\Enums\UserType;
-use Modules\Auth\Models\Address;
 use Modules\Base\Trait\ModelHelper;
-use Modules\Platform\Enums\PackageSubscriptionStatus;
 use Modules\Platform\Models\PackageSubscription;
 use Modules\Platform\Models\Service;
 use Modules\Zms\Models\City;
@@ -22,9 +22,9 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class User extends Authenticatable implements HasMedia, Auditable
+class User extends Authenticatable implements Auditable, HasMedia
 {
-    use UserTrait, HasApiTokens, HasFactory, Notifiable, SoftDeletes, ModelHelper, AuditableTrait, InteractsWithMedia;
+    use AuditableTrait, HasApiTokens, HasFactory, InteractsWithMedia, ModelHelper, Notifiable, SoftDeletes, UserTrait;
 
     const VIEW_PATH = 'users';
 
@@ -84,19 +84,19 @@ class User extends Authenticatable implements HasMedia, Auditable
     {
         return [
             'email_verified_at' => 'datetime',
-            'password'          => 'hashed',
-            'type'              => UserType::class,
+            'password' => 'hashed',
+            'type' => UserType::class,
         ];
     }
 
     /**
      * Create a new factory instance for the model.
      *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     * @return Factory
      */
     protected static function newFactory()
     {
-        return \Modules\Auth\database\factories\UserFactory::new();
+        return UserFactory::new();
     }
 
     public function registerMediaConversions(?Media $media = null): void
@@ -131,11 +131,14 @@ class User extends Authenticatable implements HasMedia, Auditable
         return $this->hasMany(PackageSubscription::class);
     }
 
+    public function activePackageSubscription()
+    {
+        return $this->hasOne(PackageSubscription::class)->activeSubscription();
+    }
+
     public function currentPackageSubscription()
     {
-        return $this->hasOne(PackageSubscription::class)
-            ->where('status', PackageSubscriptionStatus::Active->value)
-            ->latestOfMany('id');
+        return $this->hasOne(PackageSubscription::class)->activeSubscription()->latestOfMany('id');
     }
 
     // End Relationships
@@ -146,14 +149,14 @@ class User extends Authenticatable implements HasMedia, Auditable
         return $query->whereAny(
             ['id', 'first_name', 'last_name', 'phone_number', 'central_phone', 'email'],
             'LIKE',
-            '%' . $search . '%'
+            '%'.$search.'%'
         );
     }
 
     public function scopeAdvancedSearch($query, $search)
     {
         return $query
-            ->when(!empty($search['status']), fn($q) => $q->where('status', $search['status']));
+            ->when(! empty($search['status']), fn ($q) => $q->where('status', $search['status']));
     }
 
     // End Scopes
@@ -163,12 +166,11 @@ class User extends Authenticatable implements HasMedia, Auditable
     public function formAjaxArray($selected = true)
     {
         return [
-            'id'            => $this->id,
-            'text'          => $this->email,
-            'selected'      => $selected
+            'id' => $this->id,
+            'text' => $this->email.' ('.$this->full_name.')',
+            'selected' => $selected,
         ];
     }
-
 
     // End Get Data From Model
 
@@ -176,7 +178,7 @@ class User extends Authenticatable implements HasMedia, Auditable
     protected function fullName(): Attribute
     {
         return Attribute::make(
-            get: fn ($value, $attributes) => $attributes['first_name'] . ' ' . $attributes['last_name'],
+            get: fn ($value, $attributes) => $attributes['first_name'].' '.$attributes['last_name'],
         );
     }
 

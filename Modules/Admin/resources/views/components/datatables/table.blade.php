@@ -223,6 +223,15 @@
                         ],
                     });
 
+                    // Responsive child rows inject action markup after draw; Metronic menus must be re-bound.
+                    datatable.on('responsive-display.dt', function () {
+                        window.requestAnimationFrame(function () {
+                            if (typeof KTMenu !== 'undefined' && typeof KTMenu.createInstances === 'function') {
+                                KTMenu.createInstances();
+                            }
+                        });
+                    });
+
                     let lastSearchValue = '';
 
                     const debounceSearch = debounce(function() {
