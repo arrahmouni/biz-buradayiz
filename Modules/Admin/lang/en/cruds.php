@@ -273,6 +273,9 @@ return [
     'crm' => [
         'title' => 'Customer Relationship',
     ],
+    'platform' => [
+        'title' => 'Platform',
+    ],
     'services' => [
         'title' => 'Services',
         'add' => 'Add New Service',

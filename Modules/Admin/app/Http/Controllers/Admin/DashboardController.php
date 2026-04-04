@@ -14,6 +14,9 @@ use Modules\Cms\Models\ContentCategory;
 use Modules\Crm\Models\Contactus;
 use Modules\Crm\Models\Subscribe;
 use Modules\Permission\Models\Role;
+use Modules\Platform\Models\Package;
+use Modules\Platform\Models\PackageSubscription;
+use Modules\Platform\Models\Service;
 
 class DashboardController extends BaseController
 {
@@ -34,7 +37,10 @@ class DashboardController extends BaseController
             $this->data['toDate']       = Carbon::parse($dateRange[1])->format('Y-m-d');
         }
 
-        $this->getUsersData(); $this->getContentData(); // $this->getCrmData();
+        $this->getUsersData();
+        $this->getContentData();
+        $this->getPlatformData();
+        // $this->getCrmData();
 
         if($request->ajax()) return sendSuccessInternalResponse(data: $this->data);
 
@@ -91,6 +97,39 @@ class DashboardController extends BaseController
                 customQuery : fn($query) => $query->byType($type),
             );
         }
+    }
+
+    private function getPlatformData(): void
+    {
+        $this->data['statistics']['platform'][] = dashboardSetItem(
+            key: 'service',
+            label: trans('admin::cruds.services.title'),
+            modelClass: Service::class,
+            fromDate: $this->data['fromDate'],
+            toDate: $this->data['toDate'],
+            icon: 'fas fa-concierge-bell',
+            route: route('platform.services.index'),
+        );
+
+        $this->data['statistics']['platform'][] = dashboardSetItem(
+            key: 'package',
+            label: trans('admin::cruds.packages.title'),
+            modelClass: Package::class,
+            fromDate: $this->data['fromDate'],
+            toDate: $this->data['toDate'],
+            icon: 'fas fa-box-open',
+            route: route('platform.packages.index'),
+        );
+
+        $this->data['statistics']['platform'][] = dashboardSetItem(
+            key: 'package_subscription',
+            label: trans('admin::cruds.package_subscriptions.title'),
+            modelClass: PackageSubscription::class,
+            fromDate: $this->data['fromDate'],
+            toDate: $this->data['toDate'],
+            icon: 'fas fa-file-invoice-dollar',
+            route: route('platform.package_subscriptions.index'),
+        );
     }
 
     private function getCrmData()

@@ -281,6 +281,9 @@ return [
     'crm' => [
         'title' => 'علاقة العملاء',
     ],
+    'platform' => [
+        'title' => 'المنصة',
+    ],
     'package_subscriptions' => [
         'title' => 'اشتراكات الباقات',
         'add' => 'إضافة اشتراك باقة',

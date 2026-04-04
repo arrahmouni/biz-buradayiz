@@ -273,6 +273,9 @@ return [
     'crm' => [
         'title' => 'Müşteri İlişkileri',
     ],
+    'platform' => [
+        'title' => 'Platform',
+    ],
     'services' => [
         'title' => 'Hizmetler',
         'add' => 'Yeni Hizmet Ekle',
