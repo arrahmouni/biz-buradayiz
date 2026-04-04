@@ -24,6 +24,7 @@ class Package extends BaseModel
         'billing_period',
         'sort_order',
         'connections_count',
+        'is_free_tier',
     ];
 
     public $timestamps = true;
@@ -44,6 +45,7 @@ class Package extends BaseModel
             'price' => 'decimal:2',
             'billing_period' => BillingPeriod::class,
             'connections_count' => 'integer',
+            'is_free_tier' => 'boolean',
         ];
     }
 

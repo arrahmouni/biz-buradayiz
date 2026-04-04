@@ -300,6 +300,9 @@ return [
         'services' => 'Linked services',
         'services_placeholder' => 'Select one or more services',
         'connections_count' => 'Number of calls',
+        'is_free_tier' => 'Free tier (one subscription per provider, lifetime)',
+        'free_tier_badge' => 'Free tier',
+        'standard_tier_badge' => 'Standard',
         'billing_periods' => [
             'monthly' => 'Monthly',
             'yearly' => 'Yearly',

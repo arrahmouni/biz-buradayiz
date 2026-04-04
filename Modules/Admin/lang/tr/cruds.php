@@ -300,6 +300,9 @@ return [
         'services' => 'Bağlı Hizmetler',
         'services_placeholder' => 'Bir veya daha fazla hizmet seçin',
         'connections_count' => 'Çağrı sayısı',
+        'is_free_tier' => 'Ücretsiz paket (sağlayıcı başına tek abonelik, ömür boyu)',
+        'free_tier_badge' => 'Ücretsiz',
+        'standard_tier_badge' => 'Standart',
         'billing_periods' => [
             'monthly' => 'Aylık',
             'yearly' => 'Yıllık',

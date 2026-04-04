@@ -32,10 +32,10 @@ class PackageSubscriptionRequest extends BaseRequest
                 'integer',
                 Rule::exists(Package::class, 'id'),
             ],
-            'status'         => ['required', Rule::enum(PackageSubscriptionStatus::class)],
+            'status' => ['required', Rule::enum(PackageSubscriptionStatus::class)],
             'payment_status' => ['required', Rule::enum(PackageSubscriptionPaymentStatus::class)],
             'payment_method' => ['required', Rule::enum(PackageSubscriptionPaymentMethod::class)],
-            'admin_notes'    => ['nullable', 'string', 'max:65535'],
+            'admin_notes' => ['nullable', 'string', 'max:65535'],
         ];
     }
 
@@ -125,6 +125,34 @@ class PackageSubscriptionRequest extends BaseRequest
                     $validator->errors()->add(
                         'user_id',
                         trans('admin::validation.package_subscription.provider_already_has_active_package')
+                    );
+                }
+            },
+            function (Validator $validator) {
+                if (! $this->routeIs('platform.package_subscriptions.postCreate')) {
+                    return;
+                }
+
+                $packageId = $this->input('package_id');
+                $userId = $this->input('user_id');
+                if (! filled($packageId) || ! filled($userId) || $validator->errors()->has('package_id') || $validator->errors()->has('user_id')) {
+                    return;
+                }
+
+                $package = Package::query()->find((int) $packageId);
+                if (! $package || ! $package->is_free_tier) {
+                    return;
+                }
+
+                $alreadySubscribed = PackageSubscription::query()
+                    ->where('user_id', (int) $userId)
+                    ->whereHas('snapshot', fn ($q) => $q->where('source_package_id', (int) $packageId))
+                    ->exists();
+
+                if ($alreadySubscribed) {
+                    $validator->errors()->add(
+                        'package_id',
+                        trans('admin::validation.package_subscription.free_tier_already_subscribed')
                     );
                 }
             },

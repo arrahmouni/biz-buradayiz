@@ -9,6 +9,7 @@ class PackageSubscriptionSnapshot extends BaseModel
 {
     protected $fillable = [
         'package_subscription_id',
+        'source_package_id',
         'name_translations',
         'price',
         'currency',
@@ -28,6 +29,11 @@ class PackageSubscriptionSnapshot extends BaseModel
     public function packageSubscription(): BelongsTo
     {
         return $this->belongsTo(PackageSubscription::class);
+    }
+
+    public function sourcePackage(): BelongsTo
+    {
+        return $this->belongsTo(Package::class, 'source_package_id');
     }
 
     /**
@@ -56,6 +62,7 @@ class PackageSubscriptionSnapshot extends BaseModel
             : (string) $billingPeriod;
 
         return [
+            'source_package_id' => $package->id,
             'name_translations' => $names,
             'price' => $package->price,
             'currency' => $package->currency,

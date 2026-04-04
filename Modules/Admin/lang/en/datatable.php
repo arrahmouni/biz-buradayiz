@@ -208,6 +208,7 @@ return [
         'list_title' => 'Packages List',
         'columns' => [
             'name' => 'Name',
+            'free_tier' => 'Tier',
             'price' => 'Price',
             'billing_period' => 'Billing',
             'services' => 'Services',

@@ -81,6 +81,19 @@ class PackageService extends BaseCrudService
             ->addColumn('name', function ($model) {
                 return $model->smartTrans('name');
             })
+            ->addColumn('free_tier_badge', function ($model) {
+                if ($model->is_free_tier) {
+                    return [
+                        'label' => trans('admin::cruds.packages.free_tier_badge'),
+                        'color' => 'success',
+                    ];
+                }
+
+                return [
+                    'label' => trans('admin::cruds.packages.standard_tier_badge'),
+                    'color' => 'light',
+                ];
+            })
             ->addColumn('price_display', function ($model) {
                 return number_format((float) $model->price, 2).' '.$model->currency;
             })

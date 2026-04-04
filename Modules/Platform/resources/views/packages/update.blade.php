@@ -76,6 +76,19 @@
 
                                 <div class="row">
                                     <div class="col-12 mb-10 form-group">
+                                        @include('admin::components.inputs.checkbox', [
+                                            'options' => [
+                                                'name'      => 'is_free_tier',
+                                                'label'     => trans('admin::cruds.packages.is_free_tier'),
+                                                'checked'   => old('is_free_tier', (bool) $model->is_free_tier),
+                                                'value'     => '1',
+                                            ],
+                                        ])
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12 mb-10 form-group">
                                         @include('admin::components.inputs.select', [
                                             'options' => [
                                                 'id'            => 'package_service_ids',

@@ -19,69 +19,50 @@ class PackageSeeder extends Seeder
         }
 
         $locales = LaravelLocalization::getSupportedLanguagesKeys();
+        $serviceIds = $services->pluck('id')->all();
 
-        $definitions = [
+        $package = Package::query()->updateOrCreate(
+            ['is_free_tier' => true],
             [
-                'price' => 99.00,
+                'price' => 0,
                 'currency' => 'TRY',
                 'billing_period' => BillingPeriod::Monthly,
-                'sort_order' => 10,
-                'connections_count' => 5,
-                'service_ids' => [$services->first()->id],
-                'translations' => [
-                    'en' => [
-                        'name' => 'Starter',
-                        'description' => 'Entry plan for a single service line.',
-                        'features' => "Profile listing\nBasic support",
-                    ],
-                    'tr' => [
-                        'name' => 'Başlangıç',
-                        'description' => 'Tek hizmet hattı için giriş paketi.',
-                        'features' => "Profil listesi\nTemel destek",
-                    ],
-                ],
+                'sort_order' => 0,
+                'connections_count' => 1,
+            ]
+        );
+
+        $translations = [
+            'en' => [
+                'name' => 'Free',
+                'slug' => 'free',
+                'description' => 'Free monthly plan for service providers. One subscription per provider.',
+                'features' => "Monthly renewal\nLimited connections\nAll service categories",
             ],
-            [
-                'price' => 249.00,
-                'currency' => 'TRY',
-                'billing_period' => BillingPeriod::Yearly,
-                'sort_order' => 20,
-                'connections_count' => 25,
-                'service_ids' => $services->take(min(2, $services->count()))->pluck('id')->all(),
-                'translations' => [
-                    'en' => [
-                        'name' => 'Pro',
-                        'description' => null,
-                        'features' => "All Starter features\nPriority placement",
-                    ],
-                    'tr' => [
-                        'name' => 'Pro',
-                        'description' => null,
-                        'features' => "Başlangıç özellikleri\nÖncelikli yerleşim",
-                    ],
-                ],
+            'tr' => [
+                'name' => 'Ücretsiz',
+                'slug' => 'ucretsiz',
+                'description' => 'Hizmet sağlayıcıları için ücretsiz aylık plan. Sağlayıcı başına tek abonelik.',
+                'features' => "Aylık yenileme\nSınırlı bağlantı\nTüm hizmet kategorileri",
             ],
         ];
 
-        foreach ($definitions as $def) {
-            $translations = $def['translations'];
-            $serviceIds = $def['service_ids'];
-            unset($def['translations'], $def['service_ids']);
-
-            $package = Package::query()->create($def);
-
-            foreach ($locales as $locale) {
-                $t = $translations[$locale] ?? $translations['en'];
-                PackageTranslation::query()->create([
+        foreach ($locales as $locale) {
+            $t = $translations[$locale] ?? $translations['en'];
+            PackageTranslation::query()->updateOrCreate(
+                [
                     'package_id' => $package->id,
                     'locale' => $locale,
+                ],
+                [
                     'name' => $t['name'],
+                    'slug' => $t['slug'] ?? null,
                     'description' => $t['description'] ?? null,
                     'features' => $t['features'] ?? null,
-                ]);
-            }
-
-            $package->services()->sync($serviceIds);
+                ]
+            );
         }
+
+        $package->services()->sync($serviceIds);
     }
 }

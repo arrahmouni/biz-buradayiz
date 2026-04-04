@@ -99,6 +99,7 @@ class PackageSubscriptionFactory extends Factory
             }
 
             $subscription->snapshot()->create([
+                'source_package_id' => null,
                 'name_translations' => [
                     'en' => fake()->words(3, true),
                     'tr' => fake()->words(3, true),

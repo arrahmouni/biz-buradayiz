@@ -208,6 +208,7 @@ return [
         'list_title' => 'Paketler Listesi',
         'columns' => [
             'name' => 'Ad',
+            'free_tier' => 'Seviye',
             'price' => 'Fiyat',
             'billing_period' => 'Faturalama',
             'services' => 'Hizmetler',

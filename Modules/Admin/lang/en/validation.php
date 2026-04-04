@@ -9,6 +9,7 @@ return [
     'cant_add_fields_without_title' => 'You cannot add content without a title. Please add a title first.',
     'central_phone_regex' => 'Central phone may contain digits only, with an optional single + at the start.',
     'package_must_cover_provider_service' => 'The selected package must include the provider’s service type.',
+    'package_free_tier_already_exists' => 'A free-tier package already exists. Only one free-tier package is allowed.',
     'package_subscription' => [
         'active_requires_paid' => 'An active subscription must have payment status set to Paid.',
         'paid_cannot_be_cancelled' => 'A paid subscription cannot have status Cancelled. Change payment status first.',
@@ -17,5 +18,6 @@ return [
         'paid_cannot_be_pending_payment' => 'While payment is Paid, the subscription cannot be set to Pending payment.',
         'paid_cannot_apply_to_cancelled' => 'Payment cannot be marked as Paid while the subscription is cancelled.',
         'paid_requires_active_status' => 'When payment is Paid, subscription status must be Active.',
+        'free_tier_already_subscribed' => 'This service provider already has a subscription to the free-tier package.',
     ],
 ];

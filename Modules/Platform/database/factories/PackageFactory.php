@@ -14,11 +14,12 @@ class PackageFactory extends Factory
     public function definition(): array
     {
         return [
-            'price'    => fake()->randomFloat(2, 10, 500),
+            'price' => fake()->randomFloat(2, 10, 500),
             'currency' => 'TRY',
             'billing_period' => fake()->randomElement(BillingPeriod::cases()),
             'sort_order' => 0,
             'connections_count' => fake()->numberBetween(1, 50),
+            'is_free_tier' => false,
         ];
     }
 
@@ -31,16 +32,16 @@ class PackageFactory extends Factory
                 // 'ar' => 'ar_SA',
                 'tr' => 'tr_TR',
             ];
-            foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties) {
+            foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties) {
                 $fakerLocale = $localeMapping[$localeCode] ?? 'en_US';
                 $faker = \Faker\Factory::create($fakerLocale);
 
                 $package->translations()->create([
-                    'locale'        => $localeCode,
-                    'name'          => $faker->name,
-                    'slug'          => $faker->slug,
-                    'description'   => $faker->text,
-                    'features'      => $faker->text,
+                    'locale' => $localeCode,
+                    'name' => $faker->name,
+                    'slug' => $faker->slug,
+                    'description' => $faker->text,
+                    'features' => $faker->text,
                 ]);
             }
         });

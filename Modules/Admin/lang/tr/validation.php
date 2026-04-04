@@ -9,6 +9,7 @@ return [
     'cant_add_fields_without_title' => 'Baslik olmadan icerik ekleyemezsiniz. Lutfen once bir baslik ekleyin.',
     'central_phone_regex' => 'Merkez telefon yalnızca rakamlardan oluşmalıdır; isteğe bağlı olarak başa tek + eklenebilir.',
     'package_must_cover_provider_service' => 'Seçilen paket, sağlayıcının hizmet türünü içermelidir.',
+    'package_free_tier_already_exists' => 'Zaten bir ücretsiz paket mevcut. Yalnızca bir ücretsiz pakete izin verilir.',
     'package_subscription' => [
         'active_requires_paid' => 'Aktif abonelik için ödeme durumu Ödendi olmalıdır.',
         'paid_cannot_be_cancelled' => 'Ödenmiş bir abonelik İptal durumunda olamaz. Önce ödeme durumunu değiştirin.',
@@ -17,5 +18,6 @@ return [
         'paid_cannot_be_pending_payment' => 'Ödeme Ödendi iken abonelik durumu Ödeme bekleniyor olamaz.',
         'paid_cannot_apply_to_cancelled' => 'Abonelik iptal edilmişken ödeme Ödendi olarak işaretlenemez.',
         'paid_requires_active_status' => 'Ödeme Ödendi iken abonelik durumu Aktif olmalıdır.',
+        'free_tier_already_subscribed' => 'Bu hizmet sağlayıcının ücretsiz pakete zaten bir aboneliği var.',
     ],
 ];
