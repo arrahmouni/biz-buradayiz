@@ -4,8 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Modules\Admin\Enums\permissions\AdminPermissions;
-use Modules\Auth\Enums\UserType;
 use Modules\Auth\Enums\permissions\UserPermissions;
+use Modules\Auth\Enums\UserType;
 use Modules\Cms\Enums\permissions\ContentCategoryPermissions;
 use Modules\Cms\Enums\permissions\ContentTagPermissions;
 use Modules\Cms\Models\Content;
@@ -17,6 +17,7 @@ use Modules\Notification\Enums\permissions\NotificationPermissions;
 use Modules\Notification\Enums\permissions\NotificationTemplatePermissions;
 use Modules\Permission\Enums\permissions\AbilityPermissions;
 use Modules\Permission\Enums\permissions\RolePermissions;
+use Modules\Platform\Enums\permissions\PackagePermissions;
 use Modules\Platform\Enums\permissions\ServicePermissions;
 use Modules\Zms\Enums\permissions\CountryPermissions;
 
@@ -52,65 +53,65 @@ class ViewServiceProvider extends ServiceProvider
     private function registerDashboardAsideMenu()
     {
         app('adminHelper')->asideMenu([
-            'id'        => 'dashboard',
-            'type'      => 'item',
-            'link'      => route('admin.dashboard.index'),
-            'title'     => trans('admin::dashboard.aside_menu.dashboard'),
-            'icon'      => 'fa-solid fa-chart-pie',
-            'order'     => -99999,
+            'id' => 'dashboard',
+            'type' => 'item',
+            'link' => route('admin.dashboard.index'),
+            'title' => trans('admin::dashboard.aside_menu.dashboard'),
+            'icon' => 'fa-solid fa-chart-pie',
+            'order' => -99999,
         ]);
     }
 
     private function registerAdminAsideMenu()
     {
         app('adminHelper')->asideMenu([
-            'id'    => 'user_management',
-            'type'  => 'header',
+            'id' => 'user_management',
+            'type' => 'header',
             'title' => trans('admin::dashboard.aside_menu.user_management.title'),
             'order' => 1,
         ]);
 
         // Start Admin Section
         app('adminHelper')->asideMenu([
-            'id'        => 'admins_section',
+            'id' => 'admins_section',
             'parent_id' => 'user_management',
-            'type'      => 'item',
-            'icon'      => 'fa-solid fa-user-lock',
-            'title'     => trans('admin::dashboard.aside_menu.user_management.admins'),
-            'order'     => 7,
+            'type' => 'item',
+            'icon' => 'fa-solid fa-user-lock',
+            'title' => trans('admin::dashboard.aside_menu.user_management.admins'),
+            'order' => 7,
         ]);
 
         if (app('owner') || app('admin')->can(AdminPermissions::READ)) {
             app('adminHelper')->asideMenu([
-                'id'        => 'view_admins',
+                'id' => 'view_admins',
                 'parent_id' => 'admins_section',
-                'type'      => 'item',
-                'link'      => route('admin.admins.index'),
-                'title'     => trans('admin::base.view_all'),
-                'order'     => 4,
+                'type' => 'item',
+                'link' => route('admin.admins.index'),
+                'title' => trans('admin::base.view_all'),
+                'order' => 4,
             ]);
         }
 
         if (app('owner') || app('admin')->can(AdminPermissions::CREATE)) {
             app('adminHelper')->asideMenu([
-                'id'        => 'create_admins',
+                'id' => 'create_admins',
                 'parent_id' => 'admins_section',
-                'type'      => 'item',
-                'link'      => route('admin.admins.create'),
-                'title'     => trans('admin::base.create_new'),
-                'order'     => 4,
+                'type' => 'item',
+                'link' => route('admin.admins.create'),
+                'title' => trans('admin::base.create_new'),
+                'order' => 4,
             ]);
         }
         // End Admin Section
 
         // Start User Section
         app('adminHelper')->asideMenu([
-            'id'        => 'users_section',
+            'id' => 'users_section',
             'parent_id' => 'user_management',
-            'type'      => 'item',
-            'icon'      => 'fas fa-users',
-            'title'     => trans('admin::dashboard.aside_menu.user_management.users'),
-            'order'     => 8,
+            'type' => 'item',
+            'icon' => 'fas fa-users',
+            'title' => trans('admin::dashboard.aside_menu.user_management.users'),
+            'order' => 8,
         ]);
 
         if (app('owner') || app('admin')->can(UserPermissions::READ)) {
@@ -123,12 +124,12 @@ class ViewServiceProvider extends ServiceProvider
             //     'order'     => 4,
             // ]);
             app('adminHelper')->asideMenu([
-                'id'        => 'view_users_service_providers',
+                'id' => 'view_users_service_providers',
                 'parent_id' => 'users_section',
-                'type'      => 'item',
-                'link'      => route('auth.users.index', ['userType' => UserType::ServiceProvider->value]),
-                'title'     => trans('admin::dashboard.aside_menu.user_management.service_providers'),
-                'order'     => 5,
+                'type' => 'item',
+                'link' => route('auth.users.index', ['userType' => UserType::ServiceProvider->value]),
+                'title' => trans('admin::dashboard.aside_menu.user_management.service_providers'),
+                'order' => 5,
             ]);
         }
 
@@ -142,12 +143,12 @@ class ViewServiceProvider extends ServiceProvider
             //     'order'     => 6,
             // ]);
             app('adminHelper')->asideMenu([
-                'id'        => 'create_users_service_provider',
+                'id' => 'create_users_service_provider',
                 'parent_id' => 'users_section',
-                'type'      => 'item',
-                'link'      => route('auth.users.create', ['userType' => UserType::ServiceProvider->value]),
-                'title'     => trans('admin::dashboard.aside_menu.user_management.create_service_provider'),
-                'order'     => 7,
+                'type' => 'item',
+                'link' => route('auth.users.create', ['userType' => UserType::ServiceProvider->value]),
+                'title' => trans('admin::dashboard.aside_menu.user_management.create_service_provider'),
+                'order' => 7,
             ]);
         }
         // End User Section
@@ -156,30 +157,30 @@ class ViewServiceProvider extends ServiceProvider
     private function registerZmsAsideMenu()
     {
         app('adminHelper')->asideMenu([
-            'id'    => 'zone_management',
-            'type'  => 'header',
+            'id' => 'zone_management',
+            'type' => 'header',
             'title' => trans('admin::dashboard.aside_menu.zone_management.title'),
             'order' => 10,
         ]);
 
         // Start Role Section
         app('adminHelper')->asideMenu([
-            'id'        => 'countries_section',
+            'id' => 'countries_section',
             'parent_id' => 'zone_management',
-            'type'      => 'item',
-            'icon'      => 'bi bi-globe-americas',
-            'title'     => trans('admin::dashboard.aside_menu.country_management.countries'),
-            'order'     => 3,
+            'type' => 'item',
+            'icon' => 'bi bi-globe-americas',
+            'title' => trans('admin::dashboard.aside_menu.country_management.countries'),
+            'order' => 3,
         ]);
 
         if (app('owner') || app('admin')->can(CountryPermissions::READ)) {
             app('adminHelper')->asideMenu([
-                'id'        => 'view_countries',
+                'id' => 'view_countries',
                 'parent_id' => 'countries_section',
-                'type'      => 'item',
-                'link'      => route('zms.countries.index'),
-                'title'     => trans('admin::base.view_all'),
-                'order'     => 4,
+                'type' => 'item',
+                'link' => route('zms.countries.index'),
+                'title' => trans('admin::base.view_all'),
+                'order' => 4,
             ]);
         }
     }
@@ -188,66 +189,66 @@ class ViewServiceProvider extends ServiceProvider
     {
         // Start Role Section
         app('adminHelper')->asideMenu([
-            'id'        => 'roles_section',
+            'id' => 'roles_section',
             'parent_id' => 'user_management',
-            'type'      => 'item',
-            'icon'      => 'fas fa-users-cog',
-            'title'     => trans('admin::dashboard.aside_menu.user_management.roles'),
-            'order'     => 3,
+            'type' => 'item',
+            'icon' => 'fas fa-users-cog',
+            'title' => trans('admin::dashboard.aside_menu.user_management.roles'),
+            'order' => 3,
         ]);
 
         if (app('owner') || app('admin')->can(RolePermissions::READ)) {
             app('adminHelper')->asideMenu([
-                'id'        => 'view_roles',
+                'id' => 'view_roles',
                 'parent_id' => 'roles_section',
-                'type'      => 'item',
-                'link'      => route('permission.roles.index'),
-                'title'     => trans('admin::base.view_all'),
-                'order'     => 4,
+                'type' => 'item',
+                'link' => route('permission.roles.index'),
+                'title' => trans('admin::base.view_all'),
+                'order' => 4,
             ]);
         }
 
         if (app('owner') || app('admin')->can(RolePermissions::CREATE)) {
             app('adminHelper')->asideMenu([
-                'id'        => 'create_roles',
+                'id' => 'create_roles',
                 'parent_id' => 'roles_section',
-                'type'      => 'item',
-                'link'      => route('permission.roles.create'),
-                'title'     => trans('admin::base.create_new'),
-                'order'     => 4,
+                'type' => 'item',
+                'link' => route('permission.roles.create'),
+                'title' => trans('admin::base.create_new'),
+                'order' => 4,
             ]);
         }
         // End Role Section
 
         // Start Permission Section
         app('adminHelper')->asideMenu([
-            'id'        => 'permissions_section',
+            'id' => 'permissions_section',
             'parent_id' => 'user_management',
-            'type'      => 'item',
-            'icon'      => 'fa-solid fa-shield',
-            'title'     => trans('admin::dashboard.aside_menu.user_management.permissions'),
-            'order'     => 4,
+            'type' => 'item',
+            'icon' => 'fa-solid fa-shield',
+            'title' => trans('admin::dashboard.aside_menu.user_management.permissions'),
+            'order' => 4,
         ]);
 
         if (app('owner') || app('admin')->can(AbilityPermissions::READ)) {
             app('adminHelper')->asideMenu([
-                'id'        => 'view_permissions',
+                'id' => 'view_permissions',
                 'parent_id' => 'permissions_section',
-                'type'      => 'item',
-                'link'      => route('permission.permissions.index'),
-                'title'     => trans('admin::base.view_all'),
-                'order'     => 4,
+                'type' => 'item',
+                'link' => route('permission.permissions.index'),
+                'title' => trans('admin::base.view_all'),
+                'order' => 4,
             ]);
         }
 
         if (app('owner') || app('admin')->can(AbilityPermissions::CREATE)) {
             app('adminHelper')->asideMenu([
-                'id'        => 'CREATE_ACTIONs',
+                'id' => 'CREATE_ACTIONs',
                 'parent_id' => 'permissions_section',
-                'type'      => 'item',
-                'link'      => route('permission.permissions.create'),
-                'title'     => trans('admin::base.create_new'),
-                'order'     => 4,
+                'type' => 'item',
+                'link' => route('permission.permissions.create'),
+                'title' => trans('admin::base.create_new'),
+                'order' => 4,
             ]);
         }
     }
@@ -255,8 +256,8 @@ class ViewServiceProvider extends ServiceProvider
     private function regiserCmsAsideMenu()
     {
         app('adminHelper')->asideMenu([
-            'id'    => 'content_management',
-            'type'  => 'header',
+            'id' => 'content_management',
+            'type' => 'header',
             'title' => trans('admin::dashboard.aside_menu.content_management.title'),
             'order' => 10,
         ]);
@@ -329,36 +330,38 @@ class ViewServiceProvider extends ServiceProvider
 
         // Start Content Section [Dynamic]
         foreach (Content::types() as $type => $typeData) {
-            if(! Content::isVisibleInMenu($type)) continue;
+            if (! Content::isVisibleInMenu($type)) {
+                continue;
+            }
 
             app('adminHelper')->asideMenu([
-                'id'        => 'content_' . $type,
+                'id' => 'content_'.$type,
                 'parent_id' => 'content_management',
-                'type'      => 'item',
-                'icon'      => $typeData['icon'],
-                'title'     => Content::getTypeTitle($type),
-                'order'     => 10,
+                'type' => 'item',
+                'icon' => $typeData['icon'],
+                'title' => Content::getTypeTitle($type),
+                'order' => 10,
             ]);
 
-            if (app('owner') || app('admin')->can(strtoupper(CRUD_TYPES['read']) . '_' . $type)) {
+            if (app('owner') || app('admin')->can(strtoupper(CRUD_TYPES['read']).'_'.$type)) {
                 app('adminHelper')->asideMenu([
-                    'id'        => 'view_content_' . $type,
-                    'parent_id' => 'content_' . $type,
-                    'type'      => 'item',
-                    'link'      => route('cms.contents.index', ['type' => $type]),
-                    'title'     => trans('admin::base.view_all'),
-                    'order'     => 4,
+                    'id' => 'view_content_'.$type,
+                    'parent_id' => 'content_'.$type,
+                    'type' => 'item',
+                    'link' => route('cms.contents.index', ['type' => $type]),
+                    'title' => trans('admin::base.view_all'),
+                    'order' => 4,
                 ]);
             }
 
-            if (app('owner') || app('admin')->can(strtoupper(CRUD_TYPES['create']) . '_' . $type)) {
+            if (app('owner') || app('admin')->can(strtoupper(CRUD_TYPES['create']).'_'.$type)) {
                 app('adminHelper')->asideMenu([
-                    'id'        => 'create_content_' . $type,
-                    'parent_id' => 'content_' . $type,
-                    'type'      => 'item',
-                    'link'      => route('cms.contents.create', ['type' => $type]),
-                    'title'     => trans('admin::base.create_new'),
-                    'order'     => 4,
+                    'id' => 'create_content_'.$type,
+                    'parent_id' => 'content_'.$type,
+                    'type' => 'item',
+                    'link' => route('cms.contents.create', ['type' => $type]),
+                    'title' => trans('admin::base.create_new'),
+                    'order' => 4,
                 ]);
             }
         }
@@ -368,74 +371,74 @@ class ViewServiceProvider extends ServiceProvider
     private function registerNotificationAsideMenu()
     {
         app('adminHelper')->asideMenu([
-            'id'    => 'notification_management',
-            'type'  => 'header',
+            'id' => 'notification_management',
+            'type' => 'header',
             'title' => trans('admin::dashboard.aside_menu.notification_management.title'),
             'order' => 10,
         ]);
 
         // Start Notification Template Section
         app('adminHelper')->asideMenu([
-            'id'        => 'notification_template_section',
+            'id' => 'notification_template_section',
             'parent_id' => 'notification_management',
-            'type'      => 'item',
-            'icon'      => 'fas fa-envelope',
-            'title'     => trans('admin::dashboard.aside_menu.notification_management.notification_templates'),
-            'order'     => 3,
+            'type' => 'item',
+            'icon' => 'fas fa-envelope',
+            'title' => trans('admin::dashboard.aside_menu.notification_management.notification_templates'),
+            'order' => 3,
         ]);
 
         if (app('owner') || (app('admin')->can(NotificationTemplatePermissions::READ))) {
             app('adminHelper')->asideMenu([
-                'id'        => 'view_notification_template',
+                'id' => 'view_notification_template',
                 'parent_id' => 'notification_template_section',
-                'type'      => 'item',
-                'link'      => route('notification.notification_templates.index'),
-                'title'     => trans('admin::base.view_all'),
-                'order'     => 4,
+                'type' => 'item',
+                'link' => route('notification.notification_templates.index'),
+                'title' => trans('admin::base.view_all'),
+                'order' => 4,
             ]);
         }
 
         if (app('owner') || app('admin')->can(NotificationTemplatePermissions::CREATE)) {
             app('adminHelper')->asideMenu([
-                'id'        => 'create_notification_template',
+                'id' => 'create_notification_template',
                 'parent_id' => 'notification_template_section',
-                'type'      => 'item',
-                'link'      => route('notification.notification_templates.create'),
-                'title'     => trans('admin::base.create_new'),
-                'order'     => 5,
+                'type' => 'item',
+                'link' => route('notification.notification_templates.create'),
+                'title' => trans('admin::base.create_new'),
+                'order' => 5,
             ]);
         }
         // End Notification Template Section
 
         // Start Notification Section
         app('adminHelper')->asideMenu([
-            'id'        => 'notification_section',
+            'id' => 'notification_section',
             'parent_id' => 'notification_management',
-            'type'      => 'item',
-            'icon'      => 'fas fa-bell',
-            'title'     => trans('admin::dashboard.aside_menu.notification_management.notifications'),
-            'order'     => 4,
+            'type' => 'item',
+            'icon' => 'fas fa-bell',
+            'title' => trans('admin::dashboard.aside_menu.notification_management.notifications'),
+            'order' => 4,
         ]);
 
         if (app('owner') || (app('admin')->can(NotificationPermissions::READ))) {
             app('adminHelper')->asideMenu([
-                'id'        => 'view_notifications',
+                'id' => 'view_notifications',
                 'parent_id' => 'notification_section',
-                'type'      => 'item',
-                'link'      => route('notification.notifications.index'),
-                'title'     => trans('admin::base.view_all'),
-                'order'     => 4,
+                'type' => 'item',
+                'link' => route('notification.notifications.index'),
+                'title' => trans('admin::base.view_all'),
+                'order' => 4,
             ]);
         }
 
         if (app('owner') || app('admin')->can(NotificationPermissions::CREATE)) {
             app('adminHelper')->asideMenu([
-                'id'        => 'create_notification',
+                'id' => 'create_notification',
                 'parent_id' => 'notification_section',
-                'type'      => 'item',
-                'link'      => route('notification.notifications.create'),
-                'title'     => trans('admin::base.create_new'),
-                'order'     => 5,
+                'type' => 'item',
+                'link' => route('notification.notifications.create'),
+                'title' => trans('admin::base.create_new'),
+                'order' => 5,
             ]);
         }
         // End Notification Section
@@ -444,52 +447,52 @@ class ViewServiceProvider extends ServiceProvider
     private function registerCrmAsideMenu()
     {
         app('adminHelper')->asideMenu([
-            'id'    => 'crm_management',
-            'type'  => 'header',
+            'id' => 'crm_management',
+            'type' => 'header',
             'title' => trans('admin::dashboard.aside_menu.crm_management.title'),
             'order' => 15,
         ]);
 
         // Start Contact us Section
         app('adminHelper')->asideMenu([
-            'id'        => 'contactus_section',
+            'id' => 'contactus_section',
             'parent_id' => 'crm_management',
-            'type'      => 'item',
-            'icon'      => 'fa-solid fa-paper-plane',
-            'title'     => trans('admin::dashboard.aside_menu.crm_management.contactuses'),
-            'order'     => 3,
+            'type' => 'item',
+            'icon' => 'fa-solid fa-paper-plane',
+            'title' => trans('admin::dashboard.aside_menu.crm_management.contactuses'),
+            'order' => 3,
         ]);
 
         if (app('owner') || (app('admin')->can(ContactusPermissions::READ))) {
             app('adminHelper')->asideMenu([
-                'id'        => 'view_contactus',
+                'id' => 'view_contactus',
                 'parent_id' => 'contactus_section',
-                'type'      => 'item',
-                'link'      => route('crm.contactuses.index'),
-                'title'     => trans('admin::base.view_all'),
-                'order'     => 1,
+                'type' => 'item',
+                'link' => route('crm.contactuses.index'),
+                'title' => trans('admin::base.view_all'),
+                'order' => 1,
             ]);
         }
         // End Contact us Section
 
         // Start Subscribe Section
         app('adminHelper')->asideMenu([
-            'id'        => 'subscribe_section',
+            'id' => 'subscribe_section',
             'parent_id' => 'crm_management',
-            'type'      => 'item',
-            'icon'      => 'fa-regular fa-newspaper',
-            'title'     => trans('admin::dashboard.aside_menu.crm_management.subscribes'),
-            'order'     => 4,
+            'type' => 'item',
+            'icon' => 'fa-regular fa-newspaper',
+            'title' => trans('admin::dashboard.aside_menu.crm_management.subscribes'),
+            'order' => 4,
         ]);
 
         if (app('owner') || (app('admin')->can(SubscribePermissions::READ))) {
             app('adminHelper')->asideMenu([
-                'id'        => 'view_subscribe',
+                'id' => 'view_subscribe',
                 'parent_id' => 'subscribe_section',
-                'type'      => 'item',
-                'link'      => route('crm.subscribes.index'),
-                'title'     => trans('admin::base.view_all'),
-                'order'     => 1,
+                'type' => 'item',
+                'link' => route('crm.subscribes.index'),
+                'title' => trans('admin::base.view_all'),
+                'order' => 1,
             ]);
         }
         // End Subscribe Section
@@ -498,41 +501,41 @@ class ViewServiceProvider extends ServiceProvider
     private function registerConfigAsideMenu()
     {
         app('adminHelper')->asideMenu([
-            'id'    => 'setting_management',
-            'type'  => 'header',
+            'id' => 'setting_management',
+            'type' => 'header',
             'title' => trans('admin::dashboard.aside_menu.setting_management.title'),
             'order' => 2000,
         ]);
 
         // Start Setting Section
         app('adminHelper')->asideMenu([
-            'id'        => 'settingss_section',
+            'id' => 'settingss_section',
             'parent_id' => 'setting_management',
-            'type'      => 'item',
-            'icon'      => 'fas fa-cog',
-            'title'     => trans('admin::dashboard.aside_menu.setting_management.settings'),
-            'order'     => 3,
+            'type' => 'item',
+            'icon' => 'fas fa-cog',
+            'title' => trans('admin::dashboard.aside_menu.setting_management.settings'),
+            'order' => 3,
         ]);
 
         if (app('owner') || (app('admin')->can(SettingPermissions::READ) && app('admin')->can(SettingPermissions::UPDATE))) {
             app('adminHelper')->asideMenu([
-                'id'        => 'view_settings',
+                'id' => 'view_settings',
                 'parent_id' => 'settingss_section',
-                'type'      => 'item',
-                'link'      => route('config.settings.index'),
-                'title'     => trans('admin::base.view_all'),
-                'order'     => 4,
+                'type' => 'item',
+                'link' => route('config.settings.index'),
+                'title' => trans('admin::base.view_all'),
+                'order' => 4,
             ]);
         }
 
         if (app('owner') || app('admin')->can(SettingPermissions::CREATE)) {
             app('adminHelper')->asideMenu([
-                'id'        => 'create_settings',
+                'id' => 'create_settings',
                 'parent_id' => 'settingss_section',
-                'type'      => 'item',
-                'link'      => route('config.settings.create'),
-                'title'     => trans('admin::base.create_new'),
-                'order'     => 5,
+                'type' => 'item',
+                'link' => route('config.settings.create'),
+                'title' => trans('admin::base.create_new'),
+                'order' => 5,
             ]);
         }
 
@@ -541,30 +544,30 @@ class ViewServiceProvider extends ServiceProvider
     private function registerLogAsideMenu()
     {
         app('adminHelper')->asideMenu([
-            'id'    => 'log_management',
-            'type'  => 'header',
+            'id' => 'log_management',
+            'type' => 'header',
             'title' => trans('admin::dashboard.aside_menu.log_management.title'),
             'order' => 1500,
         ]);
 
         // Start Api Log Section
         app('adminHelper')->asideMenu([
-            'id'        => 'api_logs_section',
+            'id' => 'api_logs_section',
             'parent_id' => 'log_management',
-            'type'      => 'item',
-            'icon'      => 'fa-solid fa-clock-rotate-left',
-            'title'     => trans('admin::dashboard.aside_menu.log_management.api_logs'),
-            'order'     => 4,
+            'type' => 'item',
+            'icon' => 'fa-solid fa-clock-rotate-left',
+            'title' => trans('admin::dashboard.aside_menu.log_management.api_logs'),
+            'order' => 4,
         ]);
 
         if (app('owner') || (app('admin')->can(ApiLogPermissions::READ))) {
             app('adminHelper')->asideMenu([
-                'id'        => 'view_api_logs',
+                'id' => 'view_api_logs',
                 'parent_id' => 'api_logs_section',
-                'type'      => 'item',
-                'link'      => route('log.api_logs.index'),
-                'title'     => trans('admin::base.view_all'),
-                'order'     => 1,
+                'type' => 'item',
+                'link' => route('log.api_logs.index'),
+                'title' => trans('admin::base.view_all'),
+                'order' => 1,
             ]);
         }
         // End Api Log Section
@@ -573,45 +576,76 @@ class ViewServiceProvider extends ServiceProvider
     private function registerPlatformAsideMenu()
     {
         app('adminHelper')->asideMenu([
-            'id'    => 'platform_management',
-            'type'  => 'header',
+            'id' => 'platform_management',
+            'type' => 'header',
             'title' => trans('admin::dashboard.aside_menu.platform_management.title'),
             'order' => 1500,
         ]);
 
         // Start Service Section
         app('adminHelper')->asideMenu([
-            'id'        => 'service_section',
+            'id' => 'service_section',
             'parent_id' => 'platform_management',
-            'type'      => 'item',
-            'icon'      => 'fa-solid fa-cog',
-            'title'     => trans('admin::dashboard.aside_menu.platform_management.services'),
-            'order'     => 1,
+            'type' => 'item',
+            'icon' => 'fa-solid fa-cog',
+            'title' => trans('admin::dashboard.aside_menu.platform_management.services'),
+            'order' => 1,
         ]);
 
         if (app('owner') || (app('admin')->can(ServicePermissions::READ))) {
             app('adminHelper')->asideMenu([
-                'id'        => 'view_services',
+                'id' => 'view_services',
                 'parent_id' => 'service_section',
-                'type'      => 'item',
-                'link'      => route('platform.services.index'),
-                'title'     => trans('admin::base.view_all'),
-                'order'     => 1,
+                'type' => 'item',
+                'link' => route('platform.services.index'),
+                'title' => trans('admin::base.view_all'),
+                'order' => 1,
             ]);
         }
 
         if (app('owner') || app('admin')->can(ServicePermissions::CREATE)) {
             app('adminHelper')->asideMenu([
-                'id'        => 'create_service',
+                'id' => 'create_service',
                 'parent_id' => 'service_section',
-                'type'      => 'item',
-                'link'      => route('platform.services.create'),
-                'title'     => trans('admin::base.create_new'),
-                'order'     => 2,
+                'type' => 'item',
+                'link' => route('platform.services.create'),
+                'title' => trans('admin::base.create_new'),
+                'order' => 2,
             ]);
         }
         // End Service Section
+
+        // Start Package Section
+        app('adminHelper')->asideMenu([
+            'id' => 'package_section',
+            'parent_id' => 'platform_management',
+            'type' => 'item',
+            'icon' => 'bi bi-gift',
+            'title' => trans('admin::dashboard.aside_menu.platform_management.packages'),
+            'order' => 2,
+        ]);
+
+        if (app('owner') || app('admin')->can(PackagePermissions::READ)) {
+            app('adminHelper')->asideMenu([
+                'id' => 'view_packages',
+                'parent_id' => 'package_section',
+                'type' => 'item',
+                'link' => route('platform.packages.index'),
+                'title' => trans('admin::base.view_all'),
+                'order' => 1,
+            ]);
+        }
+
+        if (app('owner') || app('admin')->can(PackagePermissions::CREATE)) {
+            app('adminHelper')->asideMenu([
+                'id' => 'create_package',
+                'parent_id' => 'package_section',
+                'type' => 'item',
+                'link' => route('platform.packages.create'),
+                'title' => trans('admin::base.create_new'),
+                'order' => 2,
+            ]);
+        }
+        // End Package Section
     }
-
-
 }

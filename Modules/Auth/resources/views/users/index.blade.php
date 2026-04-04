@@ -78,6 +78,7 @@
                         <th> @lang('admin::datatable.admins.columns.joined_date') </th>
                         @if($isServiceProvider)
                             <th> @lang('admin::datatable.users.columns.service_type') </th>
+                            <th> @lang('admin::datatable.users.columns.package') </th>
                             <th> @lang('admin::datatable.users.columns.state') </th>
                             <th> @lang('admin::datatable.users.columns.city') </th>
                         @endif
@@ -158,6 +159,15 @@
                             {
                                 data: 'service_name',
                                 name: 'service_name',
+                                orderable: false,
+                                searchable: false,
+                                render: function (data, type, row, meta) {
+                                    return `<span class="text-gray-700 fw-semibold">${data ?? '—'}</span>`;
+                                }
+                            },
+                            {
+                                data: 'package_name',
+                                name: 'package_name',
                                 orderable: false,
                                 searchable: false,
                                 render: function (data, type, row, meta) {

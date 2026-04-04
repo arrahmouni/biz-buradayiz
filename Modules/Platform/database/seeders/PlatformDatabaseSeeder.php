@@ -13,6 +13,7 @@ class PlatformDatabaseSeeder extends Seeder
     {
         $this->call([
             ServiceSeeder::class,
+            PackageSeeder::class,
         ]);
 
     }

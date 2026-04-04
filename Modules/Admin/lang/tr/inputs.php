@@ -7,6 +7,11 @@ return [
             'placeholder'           => 'Lütfen bir başlık girin',
             'help'                  => 'Bir başlık girin (gerekli)',
         ],
+        'features'                  => [
+            'label'                 => 'Özellikler [:locale]',
+            'placeholder'           => 'Lütfen özellikleri girin',
+            'help'                  => 'Özellikleri girin (gerekli)',
+        ],
         'name'                      => [
             'label'                 => 'Ad [:locale]',
             'placeholder'           => 'Lütfen bir ad girin',
@@ -303,6 +308,7 @@ return [
             'subText'               => 'Gorsel boyutunun: :dimentions ve gorsel turunun: :types olmasi tercih edilir.',
             'placeholder'           => '',
         ],
+
     ],
 
     'user_crud'                     => [
@@ -350,6 +356,12 @@ return [
             'label'                 => 'İlçe',
             'placeholder'           => 'Bir ilçe seçin',
             'help'                  => 'İlçe seçin (hizmet sağlayıcılar için gerekli)',
+        ],
+
+        'package_id'                => [
+            'label'                 => 'Paket',
+            'placeholder'           => 'Bir paket seçin',
+            'help'                  => 'Paket seçin (hizmet sağlayıcılar için gerekli)',
         ],
     ],
 

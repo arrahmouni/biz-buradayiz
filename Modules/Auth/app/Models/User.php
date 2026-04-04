@@ -2,20 +2,22 @@
 
 namespace Modules\Auth\Models;
 
-use Laravel\Sanctum\HasApiTokens;
-use Modules\Auth\Enums\UserType;
-use Modules\Auth\Models\Address;
-use Modules\Admin\Traits\UserTrait;
-use Modules\Platform\Models\Service;
-use Modules\Zms\Models\City;
-use Modules\Base\Trait\ModelHelper;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+use Modules\Admin\Traits\UserTrait;
+use Modules\Auth\Enums\UserType;
+use Modules\Auth\Models\Address;
+use Modules\Base\Trait\ModelHelper;
+use Modules\Platform\Enums\PackageSubscriptionStatus;
+use Modules\Platform\Models\PackageSubscription;
+use Modules\Platform\Models\Service;
+use Modules\Zms\Models\City;
 use OwenIt\Auditing\Auditable as AuditableTrait;
+use OwenIt\Auditing\Contracts\Auditable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -122,6 +124,18 @@ class User extends Authenticatable implements HasMedia, Auditable
     public function city()
     {
         return $this->belongsTo(City::class);
+    }
+
+    public function packageSubscriptions()
+    {
+        return $this->hasMany(PackageSubscription::class);
+    }
+
+    public function currentPackageSubscription()
+    {
+        return $this->hasOne(PackageSubscription::class)
+            ->where('status', PackageSubscriptionStatus::Active->value)
+            ->latestOfMany('id');
     }
 
     // End Relationships

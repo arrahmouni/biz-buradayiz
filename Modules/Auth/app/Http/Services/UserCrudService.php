@@ -135,6 +135,9 @@ class UserCrudService extends BaseCrudService
                 ->addColumn('service_name', function ($row) {
                     return $row->service?->name ?? '—';
                 })
+                ->addColumn('package_name', function ($row) {
+                    return $row->currentPackageSubscription?->package?->name ?? '—';
+                })
                 ->addColumn('country_name', function ($row) {
                     return $row->city?->state?->country?->name ?? '—';
                 })

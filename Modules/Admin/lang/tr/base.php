@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'continue'                              => 'Devam etmek',
+    'continue'                              => 'Devam et',
     'canceled'                              => 'İptal edildi',
     'please_wait'                           => 'Lütfen bekleyin',
     'please_wait_dot'                       => 'Lütfen bekleyin ...',
@@ -12,14 +12,14 @@ return [
     'filter_options'                        => 'Filtre Seçenekleri',
     'select_option'                         => 'Seçeneği Seçin',
     'search'                                => 'Ara...',
-    'reply'                                 => 'Cevap vermek',
-    'send'                                  => 'Göndermek',
+    'reply'                                 => 'Cevap ver',
+    'send'                                  => 'Gönder',
     'close'                                 => 'Kapat',
     'operation_aborted'                     => 'İşlem iptal edildi :)',
     'view_archive'                          => 'Arşivi Görüntüle',
     'hide_archive'                          => 'Arşivi Gizle',
     'all'                                   => 'Tüm',
-    'save'                                  => 'Kaydetmek',
+    'save'                                  => 'Kaydet',
     'save_and_create_new'                   => 'Kaydet ve Yeni Oluştur',
     'back'                                  => 'Geri',
     'select_all'                            => 'Tümünü Seç',

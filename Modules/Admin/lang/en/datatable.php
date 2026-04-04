@@ -134,6 +134,7 @@ return [
             'country'                   => 'Country',
             'state'                     => 'State',
             'city'                      => 'City',
+            'package'                   => 'Package',
         ],
     ],
     'notification_templates'            => [
@@ -201,6 +202,15 @@ return [
         'columns'                       => [
             'name'                      => 'Name',
             'show_in_search_filters'    => 'In search filters',
+        ],
+    ],
+    'packages' => [
+        'list_title' => 'Packages List',
+        'columns' => [
+            'name' => 'Name',
+            'price' => 'Price',
+            'billing_period' => 'Billing',
+            'services' => 'Services',
         ],
     ],
 ];

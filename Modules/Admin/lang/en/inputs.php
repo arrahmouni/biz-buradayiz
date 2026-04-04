@@ -7,6 +7,11 @@ return [
             'placeholder'           => 'Please enter a title',
             'help'                  => 'Enter a title (required)',
         ],
+        'features'                  => [
+            'label'                 => 'Features [:locale]',
+            'placeholder'           => 'Please enter features',
+            'help'                  => 'Enter features (required)',
+        ],
         'name'                      => [
             'label'                 => 'Name [:locale]',
             'placeholder'           => 'Please enter a name',
@@ -303,6 +308,7 @@ return [
             'subText'               => 'It is preferable that the image dimensions be: :dimentions and the image type be: :types',
             'placeholder'           => '',
         ],
+
     ],
 
     'user_crud'                     => [
@@ -350,6 +356,12 @@ return [
             'label'                 => 'City',
             'placeholder'           => 'Select a city',
             'help'                  => 'Select city (required for service providers)',
+        ],
+
+        'package_id'                => [
+            'label'                 => 'Package',
+            'placeholder'           => 'Select a package',
+            'help'                  => 'Select a package (required for service providers)',
         ],
     ],
 

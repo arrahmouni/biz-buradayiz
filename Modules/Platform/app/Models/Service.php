@@ -3,14 +3,15 @@
 namespace Modules\Platform\Models;
 
 use Astrotomic\Translatable\Translatable;
-use Modules\Base\Models\BaseModel;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Modules\Base\Trait\Disableable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Base\Models\BaseModel;
+use Modules\Base\Trait\Disableable;
 
 class Service extends BaseModel
 {
-    use Translatable, SoftDeletes, Disableable, HasFactory;
+    use Disableable, HasFactory, SoftDeletes, Translatable;
 
     // Start Properties
 
@@ -29,12 +30,18 @@ class Service extends BaseModel
     public $translatedAttributes = ['name', 'description'];
 
     protected $with = [
-        'translations'
+        'translations',
     ];
 
     // End Properties
 
     // Start Relationships
+
+    public function packages(): BelongsToMany
+    {
+        return $this->belongsToMany(Package::class, 'package_service')
+            ->withTimestamps();
+    }
 
     // End Relationships
 
@@ -42,9 +49,9 @@ class Service extends BaseModel
     public function scopeSimpleSearch($query, $search)
     {
         return
-        $query->where(function($query) use($search) {
+        $query->where(function ($query) use ($search) {
             $query->where('id', $search)
-            ->orWhereTranslationLike('name', '%' . $search . '%');
+                ->orWhereTranslationLike('name', '%'.$search.'%');
         });
     }
 

@@ -134,6 +134,7 @@ return [
             'country'                   => 'Ülke',
             'state'                     => 'Şehir',
             'city'                      => 'İlçe',
+            'package'                   => 'Paket',
         ],
     ],
     'notification_templates'            => [
@@ -201,6 +202,15 @@ return [
         'columns'                       => [
             'name'                      => 'Ad',
             'show_in_search_filters'    => 'Arama filtrelerinde',
+        ],
+    ],
+    'packages' => [
+        'list_title' => 'Paketler Listesi',
+        'columns' => [
+            'name' => 'Ad',
+            'price' => 'Fiyat',
+            'billing_period' => 'Faturalama',
+            'services' => 'Hizmetler',
         ],
     ],
 ];

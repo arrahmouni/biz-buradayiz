@@ -1,9 +1,9 @@
 <?php
 
 return [
-    'cancel'                => 'İptal etmek',
-    'confirm_btn'           => 'Onaylamak',
-    'submit'                => 'Göndermek',
+    'cancel'                => 'İptal et',
+    'confirm_btn'           => 'Onayla',
+    'submit'                => 'Gönder',
     'ok'                    => 'Tamam',
     'yes'                   => 'Evet',
     'no'                    => 'HAYIR',
