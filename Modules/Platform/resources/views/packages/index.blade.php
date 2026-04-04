@@ -53,7 +53,6 @@
                         'options'           => [
                             'url'           => route('platform.packages.datatable'),
                             'withCreatedAt' => true,
-                            'withCheckbox'  => true,
                         ]
                     ])
                     @slot('columns')
