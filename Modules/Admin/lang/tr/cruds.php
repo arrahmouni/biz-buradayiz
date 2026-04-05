@@ -279,6 +279,9 @@ return [
     'platform' => [
         'title' => 'Platform',
     ],
+    'subscriptions_and_telephony' => [
+        'title' => 'Abonelikler ve telefon',
+    ],
     'services' => [
         'title' => 'Hizmetler',
         'add' => 'Yeni Hizmet Ekle',

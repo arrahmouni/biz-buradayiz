@@ -8,6 +8,12 @@ return [
         'statistics_heading' => 'Genel Bakış',
         'apply_period' => 'Uygula',
         'date_range_placeholder' => 'Tarih aralığını seçin',
+        'stats' => [
+            'active_package_subscriptions' => 'Aktif paket abonelikleri (yalnızca durumu «Aktif» olan abonelikler)',
+            'package_subscriptions_paid_revenue' => 'Ödenen abonelik geliri (anlık görüntü toplamları)',
+            'verimor_inbound_calls_to_providers' => 'Hizmet sağlayıcılara gelen çağrılar',
+            'revenue_empty' => '—',
+        ],
     ],
 
     'header' => [

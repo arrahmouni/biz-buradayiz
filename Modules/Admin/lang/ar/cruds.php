@@ -287,6 +287,9 @@ return [
     'platform' => [
         'title' => 'المنصة',
     ],
+    'subscriptions_and_telephony' => [
+        'title' => 'الاشتراكات والاتصالات',
+    ],
     'package_subscriptions' => [
         'title' => 'اشتراكات الباقات',
         'add' => 'إضافة اشتراك باقة',

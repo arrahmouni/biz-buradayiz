@@ -17,7 +17,7 @@
             ]
         ])
 
-        @slot('otherActions')
+        {{-- @slot('otherActions')
             <div class="admin-dashboard-toolbar-shell">
                 @component('admin::components.forms.form', [
                         'options'               => [
@@ -55,7 +55,7 @@
                     @endslot
                 @endcomponent
             </div>
-        @endslot
+        @endslot --}}
     @endcomponent
 @endsection
 
@@ -98,37 +98,36 @@
                             @lang('admin::cruds.'.$key.'.title')
                         </h2>
                     </div>
-                    <div class="row g-4 g-xl-5">
+                    <div class="admin-dashboard-stat-grid">
                         @foreach($statistic ?? [] as $stat)
                             @empty($stat) @continue @endempty
                             @php
                                 $toneIndex = $loop->index % 4;
                             @endphp
-                            <div class="col-12 col-sm-6 col-xl-4 col-xxl-3">
-                                <a
-                                    href="{{ $stat['route'] }}"
-                                    class="admin-stat-card admin-stat-card--tone-{{ $toneIndex }} text-gray-800"
-                                    aria-labelledby="stat-label-{{ $stat['key'] }}"
-                                >
-                                    <span class="admin-stat-card__glow" aria-hidden="true"></span>
-                                    <span class="admin-stat-card__inner">
-                                        <span class="admin-stat-card__icon-wrap d-flex align-items-center justify-content-center">
-                                            <i class="{{ $stat['icon'] }} admin-stat-card__icon" aria-hidden="true"></i>
+                            <a
+                                href="{{ $stat['route'] }}"
+                                class="admin-stat-card admin-stat-card--tone-{{ $toneIndex }} text-gray-800"
+                                aria-labelledby="stat-label-{{ $stat['key'] }}"
+                                title="{{ e($stat['label']) }}"
+                            >
+                                <span class="admin-stat-card__glow" aria-hidden="true"></span>
+                                <span class="admin-stat-card__inner">
+                                    <span class="admin-stat-card__icon-wrap d-flex align-items-center justify-content-center">
+                                        <i class="{{ $stat['icon'] }} admin-stat-card__icon" aria-hidden="true"></i>
+                                    </span>
+                                    <span class="admin-stat-card__text d-flex flex-column align-items-start">
+                                        <span id="stat-{{ $stat['key'] }}" class="admin-stat-card__value fw-bold lh-1">
+                                            {{ $stat['count'] }}
                                         </span>
-                                        <span class="admin-stat-card__text d-flex flex-column align-items-start">
-                                            <span id="stat-{{ $stat['key'] }}" class="admin-stat-card__value fw-bold lh-1">
-                                                {{ $stat['count'] }}
-                                            </span>
-                                            <span id="stat-label-{{ $stat['key'] }}" class="admin-stat-card__label fw-semibold">
-                                                {{ $stat['label'] }}
-                                            </span>
-                                        </span>
-                                        <span class="admin-stat-card__arrow d-flex align-items-center justify-content-center" aria-hidden="true">
-                                            <i class="fas fa-arrow-right"></i>
+                                        <span id="stat-label-{{ $stat['key'] }}" class="admin-stat-card__label fw-semibold">
+                                            {{ $stat['label'] }}
                                         </span>
                                     </span>
-                                </a>
-                            </div>
+                                    <span class="admin-stat-card__arrow d-flex align-items-center justify-content-center" aria-hidden="true">
+                                        <i class="fas fa-arrow-right"></i>
+                                    </span>
+                                </span>
+                            </a>
                         @endforeach
                     </div>
                 </section>

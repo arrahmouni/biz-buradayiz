@@ -279,6 +279,9 @@ return [
     'platform' => [
         'title' => 'Platform',
     ],
+    'subscriptions_and_telephony' => [
+        'title' => 'Subscriptions & telephony',
+    ],
     'services' => [
         'title' => 'Services',
         'add' => 'Add New Service',

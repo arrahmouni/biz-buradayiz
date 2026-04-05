@@ -8,6 +8,12 @@ return [
         'statistics_heading' => 'نظرة عامة',
         'apply_period' => 'تطبيق',
         'date_range_placeholder' => 'اختر الفترة الزمنية',
+        'stats' => [
+            'active_package_subscriptions' => 'اشتراكات الباقات النشطة (فقط الاشتراكات التي حالتها «نشط»)',
+            'package_subscriptions_paid_revenue' => 'إيراد الاشتراكات المدفوعة (مجاميع لقطة الطلب)',
+            'verimor_inbound_calls_to_providers' => 'المكالمات الواردة لمزوّدي الخدمة',
+            'revenue_empty' => '—',
+        ],
     ],
 
     'header' => [

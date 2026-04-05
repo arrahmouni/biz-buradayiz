@@ -8,6 +8,12 @@ return [
         'statistics_heading' => 'Overview',
         'apply_period' => 'Apply',
         'date_range_placeholder' => 'Select date range',
+        'stats' => [
+            'active_package_subscriptions' => 'Active package subscriptions (only subscriptions whose status is Active)',
+            'package_subscriptions_paid_revenue' => 'Paid subscription revenue (snapshot totals)',
+            'verimor_inbound_calls_to_providers' => 'Incoming calls to service providers',
+            'revenue_empty' => '—',
+        ],
     ],
 
     'header' => [
