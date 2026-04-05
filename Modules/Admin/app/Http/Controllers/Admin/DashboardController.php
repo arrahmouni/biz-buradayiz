@@ -19,6 +19,7 @@ use Modules\Platform\Enums\PackageSubscriptionPaymentStatus;
 use Modules\Platform\Enums\PackageSubscriptionStatus;
 use Modules\Platform\Models\Package;
 use Modules\Platform\Models\PackageSubscription;
+use Modules\Platform\Models\Review;
 use Modules\Platform\Models\Service;
 use Modules\Verimor\Enums\VerimorCallDirection;
 use Modules\Verimor\Models\VerimorCallEvent;
@@ -45,6 +46,7 @@ class DashboardController extends BaseController
         $this->getUsersData();
         $this->getPlatformData();
         $this->getSubscriptionsAndTelephonyData();
+        $this->getReviewsData();
         $this->getContentData();
         // $this->getCrmData();
 
@@ -197,6 +199,42 @@ class DashboardController extends BaseController
             'icon' => 'fas fa-phone-volume',
             'route' => route('verimor.verimor_call_events.index'),
             'count' => $inboundCallsQuery->count(),
+        ];
+    }
+
+    private function getReviewsData(): void
+    {
+        $fromDate = $this->data['fromDate'];
+        $toDate = $this->data['toDate'];
+
+        $this->data['statistics']['reviews'] = [];
+
+        $this->data['statistics']['reviews'][] = dashboardSetItem(
+            key: 'review',
+            label: trans('admin::dashboard.page.stats.reviews_total'),
+            modelClass: Review::class,
+            fromDate: $fromDate,
+            toDate: $toDate,
+            icon: 'fas fa-star',
+            route: route('platform.reviews.index'),
+        );
+
+        $avgQuery = Review::query();
+        if ($fromDate && $toDate) {
+            $avgQuery->whereBetween('created_at', [$fromDate, $toDate]);
+        }
+
+        $avg = $avgQuery->avg('rating');
+        $avgDisplay = $avg === null
+            ? trans('admin::dashboard.page.stats.reviews_avg_empty')
+            : number_format((float) $avg, 2, '.', ',').'/5';
+
+        $this->data['statistics']['reviews'][] = [
+            'key' => 'reviews_average_rating',
+            'label' => trans('admin::dashboard.page.stats.reviews_average_rating'),
+            'icon' => 'fas fa-star-half-alt',
+            'route' => route('platform.reviews.index'),
+            'count' => $avgDisplay,
         ];
     }
 

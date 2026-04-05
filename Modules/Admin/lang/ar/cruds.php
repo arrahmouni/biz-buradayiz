@@ -349,4 +349,7 @@ return [
             'combined_body' => 'باقتك «:package» — الاشتراك: :status. الدفع: :payment_status.',
         ],
     ],
+    'reviews' => [
+        'title' => 'التقييمات',
+    ],
 ];

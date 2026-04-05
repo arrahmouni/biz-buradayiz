@@ -10,9 +10,12 @@ return [
         'date_range_placeholder' => 'Select date range',
         'stats' => [
             'active_package_subscriptions' => 'Active package subscriptions (only subscriptions whose status is Active)',
-            'package_subscriptions_paid_revenue' => 'Paid subscription revenue (snapshot totals)',
+            'package_subscriptions_paid_revenue' => 'Paid subscription revenue',
             'verimor_inbound_calls_to_providers' => 'Incoming calls to service providers',
             'revenue_empty' => '—',
+            'reviews_total' => 'Reviews submitted',
+            'reviews_average_rating' => 'Average review rating (1–5)',
+            'reviews_avg_empty' => '—',
         ],
     ],
 

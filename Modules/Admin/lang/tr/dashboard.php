@@ -10,9 +10,12 @@ return [
         'date_range_placeholder' => 'Tarih aralığını seçin',
         'stats' => [
             'active_package_subscriptions' => 'Aktif paket abonelikleri (yalnızca durumu «Aktif» olan abonelikler)',
-            'package_subscriptions_paid_revenue' => 'Ödenen abonelik geliri (anlık görüntü toplamları)',
+            'package_subscriptions_paid_revenue' => 'Ödenen abonelik geliri',
             'verimor_inbound_calls_to_providers' => 'Hizmet sağlayıcılara gelen çağrılar',
             'revenue_empty' => '—',
+            'reviews_total' => 'Gönderilen yorumlar',
+            'reviews_average_rating' => 'Ortalama puan (1–5)',
+            'reviews_avg_empty' => '—',
         ],
     ],
 
