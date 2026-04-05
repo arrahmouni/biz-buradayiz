@@ -531,6 +531,16 @@
                 </div>
             `;
         }
+        else if(value.type == 'link') {
+            items +=  `
+                <div class="menu-item px-3">
+                    <a href="${value.route}" class="menu-link px-3">
+                        <i class="${value.icon} me-2 text-${value.color}"></i>
+                        ${label}
+                    </a>
+                </div>
+            `;
+        }
         else if(value.type == 'modal') {
             items +=  `
                 <div class="menu-item px-3">

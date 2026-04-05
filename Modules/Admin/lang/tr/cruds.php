@@ -49,6 +49,9 @@ return [
     'login_to_another_account' => [
         'title' => 'Bu hesaba giriş yapın',
     ],
+    'verimor_call_events' => [
+        'title' => 'Çağrı kaydı',
+    ],
     'execute_action' => [
         'title' => 'Eylem Ayarını Yürüt',
     ],

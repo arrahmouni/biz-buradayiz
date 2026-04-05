@@ -49,6 +49,9 @@ return [
     'login_to_another_account' => [
         'title' => 'Login to this account',
     ],
+    'verimor_call_events' => [
+        'title' => 'Call log',
+    ],
     'execute_action' => [
         'title' => 'Execute Action Setting',
     ],

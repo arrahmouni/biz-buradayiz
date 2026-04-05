@@ -50,7 +50,7 @@
                         'clearable'     => true,
                         'isAjax'        => true,
                         'url'           => route('auth.users.ajaxList', ['userType' => \Modules\Auth\Enums\UserType::ServiceProvider->value]),
-                        'selected'      => [],
+                        'selected'      => $verimorCallEventsFilterUserSelected ?? [],
                     ],
                 ])
             </div>

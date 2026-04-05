@@ -9,6 +9,7 @@ use Modules\Auth\Enums\permissions\UserPermissions;
 use Modules\Auth\Enums\UserType;
 use Modules\Auth\Models\User as CrudModel;
 use Modules\Base\Http\Services\BaseCrudService;
+use Modules\Verimor\Enums\permissions\VerimorCallEventPermissions;
 use Yajra\DataTables\Facades\DataTables;
 
 class UserCrudService extends BaseCrudService
@@ -122,6 +123,7 @@ class UserCrudService extends BaseCrudService
         }
 
         $routeParamsForActions = $userType !== null ? ['userType' => $userType] : [];
+        $canViewVerimorCallEvents = app('owner') || app('admin')->can(VerimorCallEventPermissions::READ);
 
         $dataTable = DataTables::of($model)
             ->filter(function ($query) use ($data) {
@@ -147,8 +149,23 @@ class UserCrudService extends BaseCrudService
         }
 
         return $dataTable
-            ->addColumn('actions', function ($row) use ($routeParamsForActions) {
+            ->addColumn('actions', function ($row) use ($routeParamsForActions, $isServiceProvider, $canViewVerimorCallEvents) {
                 $excludeActions = [VIEW_ACTION];
+                $additionalActions = [];
+
+                if ($isServiceProvider && $canViewVerimorCallEvents) {
+                    $additionalActions[] = app('customDataTable')->addAction(
+                        'verimor_call_events',
+                        'bi-telephone',
+                        15,
+                        $row->id,
+                        trans('admin::cruds.verimor_call_events.title'),
+                        'link',
+                        'primary',
+                        false,
+                        route('verimor.verimor_call_events.index', ['user_id' => $row->id])
+                    );
+                }
 
                 return
                     app('customDataTable')
@@ -156,7 +173,7 @@ class UserCrudService extends BaseCrudService
                         ->setRouteParameters($routeParamsForActions)
                         ->of($row, UserPermissions::PERMISSION_NAMESPACE)
                         ->excludeActions($excludeActions)
-                        ->getDatatableActions();
+                        ->getDatatableActions($additionalActions);
             })
             ->toJson();
     }

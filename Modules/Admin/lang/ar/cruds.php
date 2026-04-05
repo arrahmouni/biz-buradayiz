@@ -49,6 +49,9 @@ return [
     'login_to_another_account' => [
         'title' => 'تسجيل الدخول لهذا الحساب',
     ],
+    'verimor_call_events' => [
+        'title' => 'سجل المكالمات',
+    ],
     'execute_action' => [
         'title' => 'تنفيذ اجراءت في الاعدادات',
     ],

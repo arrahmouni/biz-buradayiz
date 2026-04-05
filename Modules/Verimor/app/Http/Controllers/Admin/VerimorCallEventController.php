@@ -3,6 +3,8 @@
 namespace Modules\Verimor\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use Modules\Auth\Enums\UserType;
+use Modules\Auth\Models\User;
 use Modules\Base\Http\Controllers\BaseCrudController;
 use Modules\Verimor\Enums\permissions\VerimorCallEventPermissions;
 use Modules\Verimor\Http\Services\VerimorCallEventService;
@@ -42,5 +44,20 @@ class VerimorCallEventController extends BaseCrudController
         $this->crudService = $crudService;
 
         parent::__construct();
+    }
+
+    public function index()
+    {
+        $this->data['verimorCallEventsFilterUserSelected'] = [];
+
+        $userId = request()->query('user_id');
+        if (is_numeric($userId) && (int) $userId > 0) {
+            $user = User::query()->find((int) $userId);
+            if ($user !== null && $user->type === UserType::ServiceProvider) {
+                $this->data['verimorCallEventsFilterUserSelected'] = [$user->formAjaxArray(true)];
+            }
+        }
+
+        return parent::index();
     }
 }
