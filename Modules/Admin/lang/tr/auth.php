@@ -4,7 +4,7 @@ return [
     'login_page'                    => [
         'meta_title'                => 'Giriş yapmak',
         'welcome_to_admin_panel'    => 'Yonetim Paneline Hos Geldiniz',
-        'sign_in_to_account'        => 'Hesaba Giris Yap',
+        'sign_in_to_account'        => 'Kontrol Paneline Giris Yap',
         'forget_password'           => 'Sifremi Unuttum?',
         'sign_in'                   => 'Giris Yap',
     ],

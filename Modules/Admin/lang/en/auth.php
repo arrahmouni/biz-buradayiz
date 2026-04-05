@@ -4,7 +4,7 @@ return [
     'login_page'                    => [
         'meta_title'                => 'Login',
         'welcome_to_admin_panel'    => 'Welcome To Admin Panel',
-        'sign_in_to_account'        => 'Sign In To Account',
+        'sign_in_to_account'        => 'Login to Control Panel',
         'forget_password'           => 'Forget Password?',
         'sign_in'                   => 'Sign in',
     ],
