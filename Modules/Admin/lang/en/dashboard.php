@@ -125,6 +125,10 @@ return [
             'package_subscriptions' => 'Package subscriptions',
             'verimor_call_events' => 'Verimor call events',
         ],
+        'review_management' => [
+            'title' => 'Review Management',
+            'reviews' => 'Reviews',
+        ],
     ],
 
     'breadcrumbs' => [

@@ -246,4 +246,16 @@ return [
             'raw_payload' => 'Raw webhook payload (JSON)',
         ],
     ],
+    'reviews' => [
+        'list_title' => 'Reviews List',
+        'columns' => [
+            'user' => 'User',
+            'rating' => 'Rating',
+            'comment' => 'Comment',
+            'call_event' => 'Event UUID',
+            'reviewer_display_name' => 'Reviewer name',
+            'reviewer_phone' => 'Reviewer phone',
+            'verimor_call_events_list' => 'Verimor call events',
+        ],
+    ],
 ];

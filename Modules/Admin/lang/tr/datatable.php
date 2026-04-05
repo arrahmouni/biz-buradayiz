@@ -246,4 +246,16 @@ return [
             'raw_payload' => 'Ham webhook (JSON)',
         ],
     ],
+    'reviews' => [
+        'list_title' => 'Yorumlar Listesi',
+        'columns' => [
+            'user' => 'Kullanıcı',
+            'rating' => 'Puan',
+            'comment' => 'Yorum',
+            'call_event' => 'Olay UUID',
+            'reviewer_display_name' => 'Yorum yapan adı',
+            'reviewer_phone' => 'Yorum yapan telefon',
+            'verimor_call_events_list' => 'Verimor çağrı kayıtları',
+        ],
+    ],
 ];

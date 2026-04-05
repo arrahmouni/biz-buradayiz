@@ -53,8 +53,10 @@ class ProcessVerimorCrmWebhookJob implements ShouldQueue
         $answered = $this->parseBool($this->payload['answered'] ?? false);
         $destinationRaw = (string) ($this->payload['destination_number'] ?? '');
         $normalizedDestination = VerimorPhoneNormalizer::canonicalize($destinationRaw);
+        $callerRaw = (string) ($this->payload['caller_id_number'] ?? '');
+        $normalizedCaller = VerimorPhoneNormalizer::canonicalize($callerRaw);
 
-        DB::transaction(function () use ($callUuid, $eventType, $direction, $answered, $normalizedDestination) {
+        DB::transaction(function () use ($callUuid, $eventType, $direction, $answered, $normalizedDestination, $normalizedCaller) {
             $existing = VerimorCallEvent::query()->where('call_uuid', $callUuid)->lockForUpdate()->first();
             if ($existing !== null) {
                 return;
@@ -68,6 +70,7 @@ class ProcessVerimorCrmWebhookJob implements ShouldQueue
                     'event_type' => $eventType,
                     'direction' => $direction,
                     'destination_number_normalized' => $normalizedDestination !== '' ? $normalizedDestination : null,
+                    'caller_number_normalized' => $normalizedCaller !== '' ? $normalizedCaller : null,
                     'user_id' => $user?->id,
                     'package_subscription_id' => null,
                     'answered' => $answered,

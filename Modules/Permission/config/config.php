@@ -7,6 +7,10 @@ use Modules\Permission\Enums\permissions\RolePermissions;
 
 return [
     'models' => [
+        'review' => [
+            'name' => 'review',
+            'icon' => 'bi bi-star',
+        ],
         'package' => [
             'name' => 'package',
             'icon' => 'bi bi-gift',

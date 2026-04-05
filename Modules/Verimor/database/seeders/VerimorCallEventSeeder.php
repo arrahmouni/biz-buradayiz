@@ -97,6 +97,7 @@ class VerimorCallEventSeeder extends Seeder
             'event_type' => VerimorCallEventType::Hangup,
             'direction' => VerimorCallDirection::Inbound,
             'destination_number_normalized' => VerimorPhoneNormalizer::canonicalize($payload1['destination_number']),
+            'caller_number_normalized' => $this->normalizedCallerFromPayload($payload1),
             'user_id' => $provider->id,
             'package_subscription_id' => $subscription->id,
             'answered' => true,
@@ -119,6 +120,7 @@ class VerimorCallEventSeeder extends Seeder
             'event_type' => VerimorCallEventType::UserHangup,
             'direction' => VerimorCallDirection::Inbound,
             'destination_number_normalized' => $noSubNorm !== '' ? $noSubNorm : null,
+            'caller_number_normalized' => $this->normalizedCallerFromPayload($payload2),
             'user_id' => $providerNoSub->id,
             'package_subscription_id' => null,
             'answered' => true,
@@ -142,6 +144,7 @@ class VerimorCallEventSeeder extends Seeder
             'event_type' => VerimorCallEventType::Hangup,
             'direction' => VerimorCallDirection::Inbound,
             'destination_number_normalized' => VerimorPhoneNormalizer::canonicalize($payload3['destination_number']),
+            'caller_number_normalized' => $this->normalizedCallerFromPayload($payload3),
             'user_id' => $provider->id,
             'package_subscription_id' => null,
             'answered' => false,
@@ -162,6 +165,7 @@ class VerimorCallEventSeeder extends Seeder
             'event_type' => VerimorCallEventType::Hangup,
             'direction' => VerimorCallDirection::Inbound,
             'destination_number_normalized' => VerimorPhoneNormalizer::canonicalize($payload4['destination_number']),
+            'caller_number_normalized' => $this->normalizedCallerFromPayload($payload4),
             'user_id' => null,
             'package_subscription_id' => null,
             'answered' => true,
@@ -197,6 +201,7 @@ class VerimorCallEventSeeder extends Seeder
             'event_type' => VerimorCallEventType::Hangup,
             'direction' => VerimorCallDirection::Inbound,
             'destination_number_normalized' => VerimorPhoneNormalizer::canonicalize($payload5['destination_number']),
+            'caller_number_normalized' => $this->normalizedCallerFromPayload($payload5),
             'user_id' => $provider->id,
             'package_subscription_id' => $subscription->id,
             'answered' => true,
@@ -218,12 +223,23 @@ class VerimorCallEventSeeder extends Seeder
             'event_type' => VerimorCallEventType::UserHangup,
             'direction' => VerimorCallDirection::Inbound,
             'destination_number_normalized' => VerimorPhoneNormalizer::canonicalize($payload6['destination_number']),
+            'caller_number_normalized' => $this->normalizedCallerFromPayload($payload6),
             'user_id' => $provider->id,
             'package_subscription_id' => $subscription->id,
             'answered' => true,
             'consumed_quota' => true,
             'raw_payload' => $payload6,
         ]);
+    }
+
+    /**
+     * @param  array<string, string>  $payload
+     */
+    private function normalizedCallerFromPayload(array $payload): ?string
+    {
+        $c = VerimorPhoneNormalizer::canonicalize($payload['caller_id_number'] ?? '');
+
+        return $c !== '' ? $c : null;
     }
 
     /**

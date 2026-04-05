@@ -25,6 +25,7 @@ return [
         'package_management' => 'Package Management',
         'package_subscription_management' => 'Package subscription management',
         'verimor_call_event_management' => 'Verimor call events',
+        'review_management' => 'Review Management',
     ],
 
     'roles' => [

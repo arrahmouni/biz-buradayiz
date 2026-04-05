@@ -374,4 +374,13 @@ return [
             'combined_body' => '“:package” paketiniz — abonelik: :status. Ödeme: :payment_status.',
         ],
     ],
+    'reviews' => [
+        'title' => 'Yorumlar',
+        'view' => 'Yorumu Görüntüle',
+        'add' => 'Yeni Yorum Ekle',
+        'edit' => 'Yorumu Düzenle',
+        'delete' => 'Yorumu Sil',
+        'restore' => 'Yorumu Geri Yükle',
+        'permanent_delete' => 'Kalıcı Silme Yorumu',
+    ],
 ];

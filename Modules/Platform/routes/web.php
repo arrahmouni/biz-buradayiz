@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Modules\Platform\Http\Controllers\Admin\PackageController;
 use Modules\Platform\Http\Controllers\Admin\PackageSubscriptionController;
+use Modules\Platform\Http\Controllers\Admin\ReviewController;
 use Modules\Platform\Http\Controllers\Admin\ServiceController;
 
 /*
@@ -83,4 +84,19 @@ Route::prefix('package-subscriptions')->name('package_subscriptions.')->controll
     Route::post('bulk-restore', 'bulkRestore')->name('bulkRestore');
     Route::post('bulk-disable', 'bulkDisable')->name('bulkDisable');
     Route::post('bulk-enable', 'bulkEnable')->name('bulkEnable');
+});
+
+// Review Crud Section
+Route::prefix('reviews')->name('reviews.')->controller(ReviewController::class)->group(function () {
+    Route::get('list', 'index')->name('index');
+    Route::get('datatable', 'datatable')->name('datatable');
+    Route::get('ajax-list', 'ajaxList')->name('ajaxList');
+    Route::get('view/{model}', 'viewAsModal')->name('viewAsModal');
+    Route::delete('soft-delete/{model}', 'softDelete')->name('softDelete');
+    Route::delete('hard-delete/{model}', 'hardDelete')->name('hardDelete');
+    Route::post('restore/{model}', 'restore')->name('restore');
+    Route::delete('bulk-soft-delete', 'bulkSoftDelete')->name('bulkSoftDelete');
+    Route::delete('bulk-hard-delete', 'bulkHardDelete')->name('bulkHardDelete');
+    Route::post('bulk-restore', 'bulkRestore')->name('bulkRestore');
+
 });

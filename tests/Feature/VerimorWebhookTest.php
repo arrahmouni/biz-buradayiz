@@ -14,6 +14,7 @@ use Modules\Platform\Models\PackageSubscriptionSnapshot;
 use Modules\Verimor\Enums\VerimorCallDirection;
 use Modules\Verimor\Enums\VerimorCallEventType;
 use Modules\Verimor\Models\VerimorCallEvent;
+use Modules\Verimor\Support\VerimorPhoneNormalizer;
 use Tests\TestCase;
 
 class VerimorWebhookTest extends TestCase
@@ -51,6 +52,7 @@ class VerimorWebhookTest extends TestCase
             'direction' => 'inbound',
             'call_uuid' => '11111111-1111-1111-1111-111111111111',
             'destination_number' => '905551112233',
+            'caller_id_number' => '05321234567',
             'answered' => 'true',
         ]);
 
@@ -64,6 +66,10 @@ class VerimorWebhookTest extends TestCase
         $this->assertSame(VerimorCallDirection::Inbound, $event->direction);
         $this->assertTrue($event->consumed_quota);
         $this->assertSame($subscription->id, $event->package_subscription_id);
+        $this->assertSame(
+            VerimorPhoneNormalizer::canonicalize('05321234567'),
+            $event->caller_number_normalized
+        );
     }
 
     public function test_does_not_decrement_when_unanswered(): void
@@ -91,6 +97,7 @@ class VerimorWebhookTest extends TestCase
             'direction' => 'inbound',
             'call_uuid' => '22222222-2222-2222-2222-222222222222',
             'destination_number' => '905551112233',
+            'caller_id_number' => '02161234567',
             'answered' => 'false',
         ])->assertOk();
 
@@ -102,6 +109,10 @@ class VerimorWebhookTest extends TestCase
         $this->assertSame(VerimorCallEventType::Hangup, $event->event_type);
         $this->assertSame(VerimorCallDirection::Inbound, $event->direction);
         $this->assertFalse($event->consumed_quota);
+        $this->assertSame(
+            VerimorPhoneNormalizer::canonicalize('02161234567'),
+            $event->caller_number_normalized
+        );
     }
 
     public function test_idempotent_duplicate_call_uuid(): void
@@ -129,6 +140,7 @@ class VerimorWebhookTest extends TestCase
             'direction' => 'inbound',
             'call_uuid' => '33333333-3333-3333-3333-333333333333',
             'destination_number' => '905551112233',
+            'caller_id_number' => '905309998877',
             'answered' => 'true',
         ];
 

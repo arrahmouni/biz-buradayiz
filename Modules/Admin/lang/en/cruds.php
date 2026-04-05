@@ -374,4 +374,13 @@ return [
             'combined_body' => 'Your package “:package” — subscription: :status. Payment: :payment_status.',
         ],
     ],
+    'reviews' => [
+        'title' => 'Reviews',
+        'view' => 'View Review',
+        'add' => 'Add New Review',
+        'edit' => 'Edit Review',
+        'delete' => 'Delete Review',
+        'restore' => 'Restore Review',
+        'permanent_delete' => 'Permanent Deletion Review',
+    ],
 ];

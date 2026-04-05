@@ -20,6 +20,7 @@ use Modules\Permission\Enums\permissions\RolePermissions;
 use Modules\Platform\Enums\PackageSubscriptionPaymentStatus;
 use Modules\Platform\Enums\permissions\PackagePermissions;
 use Modules\Platform\Enums\permissions\PackageSubscriptionPermissions;
+use Modules\Platform\Enums\permissions\ReviewPermissions;
 use Modules\Platform\Enums\permissions\ServicePermissions;
 use Modules\Platform\Models\PackageSubscription;
 use Modules\Verimor\Enums\permissions\VerimorCallEventPermissions;
@@ -709,5 +710,27 @@ class ViewServiceProvider extends ServiceProvider
                 'order' => 1,
             ]);
         }
+
+        // Start Review Section
+        app('adminHelper')->asideMenu([
+            'id' => 'review_section',
+            'parent_id' => 'platform_management',
+            'type' => 'item',
+            'icon' => 'bi bi-star',
+            'title' => trans('admin::dashboard.aside_menu.review_management.reviews'),
+            'order' => 5,
+        ]);
+
+        if (app('owner') || app('admin')->can(ReviewPermissions::READ)) {
+            app('adminHelper')->asideMenu([
+                'id' => 'view_reviews',
+                'parent_id' => 'review_section',
+                'type' => 'item',
+                'link' => route('platform.reviews.index'),
+                'title' => trans('admin::base.view_all'),
+                'order' => 1,
+            ]);
+        }
+        // End Review Section
     }
 }

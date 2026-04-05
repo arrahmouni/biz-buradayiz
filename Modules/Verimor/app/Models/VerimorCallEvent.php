@@ -4,9 +4,11 @@ namespace Modules\Verimor\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Modules\Auth\Models\User;
 use Modules\Base\Models\BaseModel;
 use Modules\Platform\Models\PackageSubscription;
+use Modules\Platform\Models\Review;
 use Modules\Verimor\Enums\VerimorCallDirection;
 use Modules\Verimor\Enums\VerimorCallEventType;
 
@@ -14,6 +16,10 @@ class VerimorCallEvent extends BaseModel
 {
     const VIEW_PATH = 'verimor_call_events';
 
+    /**
+     * For inbound CRM events, destination_number_normalized is the dialed line (provider central_phone),
+     * not the caller. Caller is caller_number_normalized (from payload caller_id_number).
+     */
     protected $appends = [
         'provider',
         'created_at_format',
@@ -24,6 +30,7 @@ class VerimorCallEvent extends BaseModel
         'event_type',
         'direction',
         'destination_number_normalized',
+        'caller_number_normalized',
         'user_id',
         'package_subscription_id',
         'answered',
@@ -50,6 +57,11 @@ class VerimorCallEvent extends BaseModel
     public function packageSubscription(): BelongsTo
     {
         return $this->belongsTo(PackageSubscription::class);
+    }
+
+    public function review(): HasOne
+    {
+        return $this->hasOne(Review::class, 'verimor_call_event_id');
     }
 
     protected function provider(): Attribute
@@ -80,6 +92,7 @@ class VerimorCallEvent extends BaseModel
                 ->orWhere('call_uuid', 'like', '%'.$search.'%')
                 ->orWhere('direction', 'like', '%'.$search.'%')
                 ->orWhere('destination_number_normalized', 'like', '%'.$search.'%')
+                ->orWhere('caller_number_normalized', 'like', '%'.$search.'%')
                 ->orWhere('event_type', 'like', '%'.$search.'%')
                 ->orWhereHas('user', function ($uq) use ($search) {
                     $uq->where('email', 'like', '%'.$search.'%')

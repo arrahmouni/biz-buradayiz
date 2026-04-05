@@ -15,6 +15,7 @@ class PlatformDatabaseSeeder extends Seeder
             ServiceSeeder::class,
             PackageSeeder::class,
             PackageSubscriptionSeeder::class,
+            ReviewSeeder::class,
         ]);
 
     }

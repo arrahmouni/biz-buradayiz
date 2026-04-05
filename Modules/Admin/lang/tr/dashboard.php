@@ -125,6 +125,10 @@ return [
             'package_subscriptions' => 'Paket abonelikleri',
             'verimor_call_events' => 'Verimor çağrı kayıtları',
         ],
+        'review_management' => [
+            'title' => 'Yorum Yönetimi',
+            'reviews' => 'Yorumlar',
+        ],
     ],
 
     'breadcrumbs' => [
