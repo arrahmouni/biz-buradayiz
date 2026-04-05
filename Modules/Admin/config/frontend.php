@@ -4,7 +4,7 @@ use Nwidart\Modules\Facades\Module;
 
 return [
 
-    $currentLocalKey = app()->getLocale() == 'ar' ? 'sa' : 'us',
+    $currentLocalKey = app()->getLocale() == 'tr' ? 'tr' : 'us',
 
     'error_pages'                       => [
         '404'                           => Module::asset('admin:metronic/demo/media/illustrations/sigma-1/18.png'),

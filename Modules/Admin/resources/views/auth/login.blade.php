@@ -29,7 +29,7 @@
                 @include('admin::components.other.image', [
                     'options' => [
                         'id'    => 'img-logo',
-                        'class' => 'w-200px',
+                        'class' => 'w-100px',
                         'src'   => getSetting('app_mobile_logo', asset('images/default/logos/app_mobile_logo.svg')),
                         'alt'   => 'Logo',
                     ]

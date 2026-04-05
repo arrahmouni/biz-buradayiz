@@ -27,7 +27,7 @@
 		<!--begin::Root-->
 		<div class="d-flex flex-column flex-root">
             <div class="d-flex flex-column flex-lg-row flex-column-fluid">
-                <div class="d-flex flex-column flex-lg-row-fluid positon-xl-relative bgi-size-cover bgi-no-repeat" style="background-image:url('{{ asset('modules/admin/metronic/demo/media/patterns/background.jpg') }}')">
+                <div class="d-flex flex-column flex-lg-row-fluid positon-xl-relative bgi-size-cover bgi-no-repeat" style="background-image:url('{{ asset('modules/admin/metronic/demo/media/patterns/A7.png') }}')">
                 </div>
 
                 <div class="d-flex flex-column flex-lg-row-auto py-10">
