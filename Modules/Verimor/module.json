@@ -1,0 +1,11 @@
+{
+    "name": "Verimor",
+    "alias": "verimor",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Verimor\\Providers\\VerimorServiceProvider"
+    ],
+    "files": []
+}

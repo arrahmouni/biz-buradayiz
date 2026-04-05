@@ -63,16 +63,16 @@ trait ContentTrait
                         '400x200',
                     ],
                 ],
-                'select'            => [
-                    'tags'          => [
-                        'required'  => false,
-                        'multiple'  => true,
-                        'isAjax'    => true,
-                        'clearable' => true,
-                        'withImg'   => false,
-                        'data'      => 'cms.content_tags.ajaxList',
-                    ],
-                ],
+                // 'select'            => [
+                //     'tags'          => [
+                //         'required'  => false,
+                //         'multiple'  => true,
+                //         'isAjax'    => true,
+                //         'clearable' => true,
+                //         'withImg'   => false,
+                //         'data'      => 'cms.content_tags.ajaxList',
+                //     ],
+                // ],
                 'published_at'      => [
                     'required'      => true,
                 ],

@@ -181,7 +181,7 @@ return [
             'placeholder' => 'Telefon Numarası',
             'help' => 'Telefon Numarası Girin',
         ],
-        'Avatar' => [
+        'avatar' => [
             'label' => 'Avatar',
             'placeholder' => 'Lütfen bir Avatar seçin',
             'help' => 'Bir Avatar seçin',

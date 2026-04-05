@@ -59,7 +59,6 @@
                 @component('admin::components.datatables.table', [
                         'options'           => [
                             'url'           => route('platform.services.datatable'),
-                            'withCheckbox'  => true,
                             'filter'        => true,
                         ]
                     ])
