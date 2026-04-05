@@ -317,8 +317,11 @@ return [
         'delete' => 'Paket aboneliğini sil',
         'restore' => 'Paket aboneliğini geri yükle',
         'permanent_delete' => 'Paket aboneliğini kalıcı sil',
+        'create' => [
+            'free_tier_fields_locked' => 'Bu paket ücretsiz olduğundan abonelik Aktif, ödeme Ödendi olarak oluşturulur. Ödeme yöntemi Diğer olarak ayarlanır. Bu alanlar sabittir ve burada değiştirilemez.',
+        ],
         'statuses' => [
-            'pending_payment' => 'Ödeme bekleniyor / Beklemede',
+            'pending_payment' => 'Beklemede',
             'active' => 'Aktif',
             'cancelled' => 'İptal edildi',
             'expired' => 'Süresi doldu',
@@ -358,6 +361,7 @@ return [
             'admin_notes' => 'Yönetici notları',
             'change_statuses' => 'Abonelik ve ödeme durumu',
             'notify_user' => 'Kullanıcıya bildir (push)',
+            'free_tier_not_editable' => 'Ücretsiz paket abonelikleri düzenlenemez. Durum ve ödeme aktif ve ödendi olarak kalır.',
         ],
         'notifications' => [
             'combined_title' => 'Abonelik güncellemesi',

@@ -10,6 +10,7 @@ return [
     'central_phone_regex' => 'الهاتف المركزي يجب أن يحتوي على أرقام فقط، مع إمكانية وضع + واحدة في البداية.',
     'package_must_cover_provider_service' => 'يجب أن تتضمن الباقة المحددة نوع الخدمة التي يقدمها المزود.',
     'package_free_tier_already_exists' => 'توجد بالفعل باقة مجانية. يُسمح بباقة مجانية واحدة فقط.',
+    'package_free_tier_price_must_be_zero' => 'يجب أن يكون سعر الباقة المجانية صفراً.',
     'package_subscription' => [
         'active_requires_paid' => 'يجب أن تكون حالة الدفع «مدفوع» عندما يكون الاشتراك نشطاً.',
         'paid_cannot_be_cancelled' => 'لا يمكن أن يكون اشتراك مدفوع بحالة «ملغى». غيّر حالة الدفع أولاً.',
@@ -19,5 +20,6 @@ return [
         'paid_cannot_apply_to_cancelled' => 'لا يمكن تعيين الدفع إلى «مدفوع» بينما الاشتراك «ملغى».',
         'paid_requires_active_status' => 'عندما تكون حالة الدفع «مدفوع» يجب أن تكون حالة الاشتراك «نشط».',
         'free_tier_already_subscribed' => 'لمقدّم الخدمة هذا اشتراك بالفعل في الباقة المجانية.',
+        'free_tier_cannot_be_modified' => 'لا يمكن تعديل اشتراكات الباقة المجانية.',
     ],
 ];

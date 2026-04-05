@@ -15,6 +15,29 @@ use Modules\Platform\Models\PackageSubscription;
 
 class PackageSubscriptionRequest extends BaseRequest
 {
+    protected function prepareForValidation(): void
+    {
+        if (! $this->routeIs('platform.package_subscriptions.postCreate')) {
+            return;
+        }
+
+        $packageId = $this->input('package_id');
+        if (! filled($packageId)) {
+            return;
+        }
+
+        $package = Package::query()->find((int) $packageId);
+        if (! $package || ! $package->is_free_tier) {
+            return;
+        }
+
+        $this->merge([
+            'status' => PackageSubscriptionStatus::Active->value,
+            'payment_status' => PackageSubscriptionPaymentStatus::Paid->value,
+            'payment_method' => PackageSubscriptionPaymentMethod::Other->value,
+        ]);
+    }
+
     public function rules(): array
     {
         if ($this->routeIs('platform.package_subscriptions.postUpdate')) {
@@ -42,6 +65,23 @@ class PackageSubscriptionRequest extends BaseRequest
     public function after(): array
     {
         return [
+            function (Validator $validator) {
+                if (! $this->routeIs('platform.package_subscriptions.postUpdate')) {
+                    return;
+                }
+
+                $modelParam = $this->route('model');
+                $subscription = $modelParam instanceof PackageSubscription
+                    ? $modelParam
+                    : PackageSubscription::query()->find((int) $modelParam);
+
+                if ($subscription && $subscription->isFreeTierCatalogSubscription()) {
+                    $validator->errors()->add(
+                        'status',
+                        trans('admin::validation.package_subscription.free_tier_cannot_be_modified')
+                    );
+                }
+            },
             function (Validator $validator) {
                 $status = $this->input('status');
                 $paymentStatus = $this->input('payment_status');

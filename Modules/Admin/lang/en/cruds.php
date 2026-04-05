@@ -317,8 +317,11 @@ return [
         'delete' => 'Delete package subscription',
         'restore' => 'Restore package subscription',
         'permanent_delete' => 'Permanent deletion package subscription',
+        'create' => [
+            'free_tier_fields_locked' => 'This package is free, so the subscription is created as Active with payment Paid. Payment method is set to Other. These fields are fixed and cannot be changed here.',
+        ],
         'statuses' => [
-            'pending_payment' => 'Pending payment / Pending',
+            'pending_payment' => 'Pending',
             'active' => 'Active',
             'cancelled' => 'Cancelled',
             'expired' => 'Expired',
@@ -358,6 +361,7 @@ return [
             'admin_notes' => 'Admin notes',
             'change_statuses' => 'Subscription & payment status',
             'notify_user' => 'Notify user (push)',
+            'free_tier_not_editable' => 'Free-tier subscriptions cannot be edited. Status and payment stay active and paid.',
         ],
         'notifications' => [
             'combined_title' => 'Subscription update',

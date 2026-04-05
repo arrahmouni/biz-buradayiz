@@ -73,6 +73,20 @@ class PackageSubscription extends BaseModel
     }
 
     /**
+     * True when this subscription was created from the catalog free-tier package (including if that package was later soft-deleted).
+     */
+    public function isFreeTierCatalogSubscription(): bool
+    {
+        $this->loadMissing('snapshot');
+        $sourcePackageId = $this->snapshot?->source_package_id;
+        if ($sourcePackageId === null) {
+            return false;
+        }
+
+        return (bool) Package::withTrashed()->whereKey($sourcePackageId)->value('is_free_tier');
+    }
+
+    /**
      * Subscription end instant from catalog billing period (snapshot source), relative to start.
      */
     public static function calculateEndsAtFromPackageBilling(Package $package, Carbon $startsAt): ?Carbon

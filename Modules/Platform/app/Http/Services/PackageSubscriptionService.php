@@ -3,6 +3,7 @@
 namespace Modules\Platform\Http\Services;
 
 use Carbon\Carbon;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -13,6 +14,7 @@ use Modules\Notification\Enums\NotificationChannels;
 use Modules\Notification\Enums\NotificationPriority;
 use Modules\Notification\Http\Services\NotificationService;
 use Modules\Platform\Enums\BillingPeriod;
+use Modules\Platform\Enums\PackageSubscriptionPaymentMethod;
 use Modules\Platform\Enums\PackageSubscriptionPaymentStatus;
 use Modules\Platform\Enums\PackageSubscriptionStatus;
 use Modules\Platform\Enums\permissions\PackageSubscriptionPermissions;
@@ -39,6 +41,12 @@ class PackageSubscriptionService extends BaseCrudService
             $modelData = $this->prepareModelData($data);
             $modelData['remaining_connections'] = $package->connections_count;
 
+            if ($package->is_free_tier) {
+                $modelData['status'] = PackageSubscriptionStatus::Active->value;
+                $modelData['payment_status'] = PackageSubscriptionPaymentStatus::Paid->value;
+                $modelData['payment_method'] = PackageSubscriptionPaymentMethod::Other->value;
+            }
+
             $this->applyPaidBusinessRules($modelData, null, $package);
             $this->applyCreateSubscriptionTimeline($modelData, $package);
 
@@ -56,6 +64,12 @@ class PackageSubscriptionService extends BaseCrudService
 
             $model->refresh();
             $model->loadMissing(['user', 'snapshot']);
+
+            if ($model->isFreeTierCatalogSubscription()) {
+                throw new AuthorizationException(
+                    trans('admin::validation.package_subscription.free_tier_cannot_be_modified')
+                );
+            }
 
             $modelData = [
                 'status' => $data['status'],

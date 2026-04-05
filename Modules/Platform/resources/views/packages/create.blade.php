@@ -71,6 +71,7 @@
                                     <div class="col-12 mb-10 form-group">
                                         @include('admin::components.inputs.checkbox', [
                                             'options' => [
+                                                'id'        => 'package_is_free_tier',
                                                 'name'      => 'is_free_tier',
                                                 'label'     => trans('admin::cruds.packages.is_free_tier'),
                                                 'checked'   => old('is_free_tier', false),
@@ -102,11 +103,13 @@
                                     <div class="col-lg-6 col-12 mb-10 form-group">
                                         @include('admin::components.inputs.text', [
                                             'options' => [
+                                                'id'        => 'package_price',
                                                 'name'      => 'price',
                                                 'type'      => 'number',
                                                 'label'     => trans('admin::cruds.packages.price'),
                                                 'required'  => true,
                                                 'value'     => old('price'),
+                                                'disabled'  => old('is_free_tier', false),
                                             ],
                                         ])
                                     </div>
@@ -173,5 +176,19 @@
 @endsection
 
 @push('script')
-
+    <script>
+        $(function () {
+            var $free = $('#package_is_free_tier');
+            var $price = $('#package_price');
+            function syncPackageFreeTierPrice() {
+                if ($free.is(':checked')) {
+                    $price.val('0').prop('disabled', true);
+                } else {
+                    $price.prop('disabled', false);
+                }
+            }
+            $free.on('change', syncPackageFreeTierPrice);
+            syncPackageFreeTierPrice();
+        });
+    </script>
 @endpush

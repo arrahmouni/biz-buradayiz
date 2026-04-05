@@ -4,6 +4,9 @@
     use Modules\Platform\Enums\permissions\PackageSubscriptionPermissions;
 
     $canUpdate = app('owner') || app('admin')->can(PackageSubscriptionPermissions::UPDATE);
+    $model->loadMissing('snapshot');
+    $isFreeTierSubscription = $model->isFreeTierCatalogSubscription();
+    $canUpdateSubscriptionStatuses = $canUpdate && ! $isFreeTierSubscription;
 @endphp
 
 @extends('admin::layouts.master', ['title' => trans('admin::cruds.package_subscriptions.view')])
@@ -167,6 +170,11 @@
                                 </div>
                             </div>
                             <div class="card-body pt-0">
+                                @if ($isFreeTierSubscription)
+                                    <p class="text-muted fs-7 mb-5">
+                                        @lang('admin::cruds.package_subscriptions.view_page.free_tier_not_editable')
+                                    </p>
+                                @endif
                                 <div class="table-responsive">
                                     <table class="table align-middle table-row-dashed fs-6 gy-5 mb-0">
                                         <thead>
@@ -176,7 +184,7 @@
                                                 <th class="min-w-125px text-end">@lang('admin::cruds.package_subscriptions.view_page.remaining_connections')</th>
                                                 <th class="min-w-125px text-end">@lang('admin::cruds.package_subscriptions.view_page.subscription_status')</th>
                                                 <th class="min-w-125px text-end">@lang('admin::cruds.package_subscriptions.view_page.payment_status')</th>
-                                                @if ($canUpdate)
+                                                @if ($canUpdateSubscriptionStatuses)
                                                     <th class="min-w-100px text-end">@lang('admin::datatable.base_columns.actions')</th>
                                                 @endif
                                             </tr>
@@ -207,7 +215,7 @@
                                                         {{ $model->payment_status_label }}
                                                     </span>
                                                 </td>
-                                                @if ($canUpdate)
+                                                @if ($canUpdateSubscriptionStatuses)
                                                     <td class="text-end">
                                                         <div class="btn btn-light btn-active-light-primary btn-sm datatable-action-menu">
                                                             <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#change-subscription-statuses-{{ $model->id }}" class="p-2">
@@ -263,7 +271,7 @@
             </div>
         </div>
 
-        @if ($canUpdate)
+        @if ($canUpdateSubscriptionStatuses)
             @component('admin::components.modals.modal', [
                 'options' => [
                     'id' => 'change-subscription-statuses-'.$model->id,

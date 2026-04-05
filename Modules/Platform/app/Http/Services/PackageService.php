@@ -23,6 +23,9 @@ class PackageService extends BaseCrudService
     public function createModel(array $data): CrudModel
     {
         $modelData = $this->prepareModelData($data);
+        if (! empty($modelData['is_free_tier'])) {
+            $modelData['price'] = 0;
+        }
 
         $translations = $this->createTranslations($data, 'name', ['description', 'features']);
 
@@ -44,6 +47,10 @@ class PackageService extends BaseCrudService
     public function updateModel(CrudModel $model, array $data): CrudModel
     {
         $modelData = $this->prepareModelData($data);
+        unset($modelData['is_free_tier']);
+        if ($model->is_free_tier) {
+            unset($modelData['price']);
+        }
 
         $serviceIds = $data['service_ids'] ?? [];
 

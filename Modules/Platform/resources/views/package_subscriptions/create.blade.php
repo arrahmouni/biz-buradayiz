@@ -3,8 +3,15 @@
     use Modules\Platform\Enums\PackageSubscriptionPaymentMethod;
     use Modules\Platform\Enums\PackageSubscriptionPaymentStatus;
     use Modules\Platform\Enums\PackageSubscriptionStatus;
+    use Modules\Platform\Models\Package;
 
     $serviceProviderPreviewUrlTemplate = route('platform.package_subscriptions.service_provider_preview', ['user' => 0]);
+    $freeTierPackageIds = Package::query()
+        ->where('is_free_tier', true)
+        ->pluck('id')
+        ->map(fn ($id) => (int) $id)
+        ->values()
+        ->all();
 @endphp
 
 @extends('admin::layouts.master', ['title' => trans('admin::cruds.package_subscriptions.add')])
@@ -127,10 +134,15 @@
                                     </div>
                                 </div>
 
+                                <div id="package_subscription_free_tier_notice" class="alert alert-primary d-none mb-10" role="alert">
+                                    @lang('admin::cruds.package_subscriptions.create.free_tier_fields_locked')
+                                </div>
+
                                 <div class="row">
                                     <div class="col-lg-4 col-12 mb-10 form-group">
                                         @include('admin::components.inputs.select', [
                                             'options' => [
+                                                'id'        => 'package_subscription_status',
                                                 'name'      => 'status',
                                                 'label'     => trans('admin::inputs.package_subscriptions_crud.status.label'),
                                                 'required'  => true,
@@ -146,6 +158,7 @@
                                     <div class="col-lg-4 col-12 mb-10 form-group">
                                         @include('admin::components.inputs.select', [
                                             'options' => [
+                                                'id'        => 'package_subscription_payment_status',
                                                 'name'      => 'payment_status',
                                                 'label'     => trans('admin::inputs.package_subscriptions_crud.payment_status.label'),
                                                 'required'  => true,
@@ -161,6 +174,7 @@
                                     <div class="col-lg-4 col-12 mb-10 form-group">
                                         @include('admin::components.inputs.select', [
                                             'options' => [
+                                                'id'        => 'package_subscription_payment_method',
                                                 'name'      => 'payment_method',
                                                 'label'     => trans('admin::inputs.package_subscriptions_crud.payment_method.label'),
                                                 'required'  => true,
@@ -201,9 +215,47 @@
 @push('script')
     <script>
         $(function () {
+            const freeTierPackageIds = @json($freeTierPackageIds);
+            const subscriptionStatusActive = @json(PackageSubscriptionStatus::Active->value);
+            const subscriptionPaymentPaid = @json(PackageSubscriptionPaymentStatus::Paid->value);
+            const subscriptionPaymentMethodOther = @json(PackageSubscriptionPaymentMethod::Other->value);
+            const subscriptionStatusPendingPayment = @json(PackageSubscriptionStatus::PendingPayment->value);
+            const subscriptionPaymentPending = @json(PackageSubscriptionPaymentStatus::Pending->value);
+            const subscriptionPaymentMethodBankTransfer = @json(PackageSubscriptionPaymentMethod::BankTransfer->value);
+
             const previewUrlTemplate = @json($serviceProviderPreviewUrlTemplate);
             const $preview = $('#package_subscription_service_provider_preview');
             const $select = $('#package_subscription_user_id');
+            const $packageSelect = $('#package_subscription_package_id');
+            const $freeTierNotice = $('#package_subscription_free_tier_notice');
+            const $subscriptionStatus = $('#package_subscription_status');
+            const $subscriptionPaymentStatus = $('#package_subscription_payment_status');
+            const $subscriptionPaymentMethod = $('#package_subscription_payment_method');
+
+            function syncFreeTierSubscriptionFields() {
+                const raw = $packageSelect.val();
+                const packageId = raw ? parseInt(raw, 10) : NaN;
+                const isFreeTier = !Number.isNaN(packageId) && freeTierPackageIds.indexOf(packageId) !== -1;
+
+                if (isFreeTier) {
+                    $freeTierNotice.removeClass('d-none');
+                    $subscriptionStatus.val(subscriptionStatusActive).prop('disabled', true);
+                    $subscriptionPaymentStatus.val(subscriptionPaymentPaid).prop('disabled', true);
+                    $subscriptionPaymentMethod.val(subscriptionPaymentMethodOther).prop('disabled', true);
+                } else {
+                    $freeTierNotice.addClass('d-none');
+                    $subscriptionStatus.prop('disabled', false);
+                    $subscriptionPaymentStatus.prop('disabled', false);
+                    $subscriptionPaymentMethod.prop('disabled', false);
+                    if (!raw) {
+                        $subscriptionStatus.val(subscriptionStatusPendingPayment);
+                        $subscriptionPaymentStatus.val(subscriptionPaymentPending);
+                        $subscriptionPaymentMethod.val(subscriptionPaymentMethodBankTransfer);
+                    }
+                }
+
+                $subscriptionStatus.add($subscriptionPaymentStatus).add($subscriptionPaymentMethod).trigger('change');
+            }
 
             function dashIfEmpty(v) {
                 return (v !== null && v !== undefined && String(v).trim() !== '') ? String(v).trim() : '—';
@@ -244,6 +296,10 @@
             if ($select.val()) {
                 loadServiceProviderPreview($select.val());
             }
+
+            $packageSelect.on('change select2:select', syncFreeTierSubscriptionFields);
+            syncFreeTierSubscriptionFields();
+            setTimeout(syncFreeTierSubscriptionFields, 300);
         });
     </script>
 @endpush

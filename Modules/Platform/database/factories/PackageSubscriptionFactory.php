@@ -3,6 +3,7 @@
 namespace Modules\Platform\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Modules\Auth\Enums\UserType;
 use Modules\Auth\Models\User;
 use Modules\Platform\Enums\BillingPeriod;
 use Modules\Platform\Enums\PackageSubscriptionPaymentMethod;
@@ -114,7 +115,10 @@ class PackageSubscriptionFactory extends Factory
 
     private function resolveUserId(): int
     {
-        $id = User::query()->inRandomOrder()->value('id');
+        $id = User::query()
+            ->where('type', UserType::ServiceProvider)
+            ->inRandomOrder()
+            ->value('id');
 
         return $id ?? User::factory()->create()->id;
     }
