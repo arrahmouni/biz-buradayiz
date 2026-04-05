@@ -231,4 +231,19 @@ return [
             'paid_at' => 'Paid at',
         ],
     ],
+    'verimor_call_events' => [
+        'list_title' => 'Verimor call events',
+        'columns' => [
+            'created_at' => 'Event date',
+            'call_uuid' => 'Call UUID',
+            'event_type' => 'Event type',
+            'direction' => 'Direction',
+            'destination' => 'Destination (normalized)',
+            'provider' => 'Service provider',
+            'answered' => 'Answered',
+            'consumed_quota' => 'Quota consumed',
+            'subscription_id' => 'Subscription ID',
+            'raw_payload' => 'Raw webhook payload (JSON)',
+        ],
+    ],
 ];

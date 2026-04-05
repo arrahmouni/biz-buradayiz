@@ -22,6 +22,7 @@ return [
         'subscribe_management' => 'إدارة الإشتراكات',
         'api_log_management' => 'إدارة سجلات الAPI',
         'package_subscription_management' => 'إدارة اشتراكات الباقات',
+        'verimor_call_event_management' => 'أحداث مكالمات فيريمور',
     ],
 
     'roles' => [

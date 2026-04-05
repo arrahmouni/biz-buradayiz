@@ -24,6 +24,7 @@ return [
         'service_management' => 'Hizmet Yönetimi',
         'package_management' => 'Paket Yönetimi',
         'package_subscription_management' => 'Paket abonelikleri yönetimi',
+        'verimor_call_event_management' => 'Verimor çağrı kayıtları',
     ],
 
     'roles' => [

@@ -117,6 +117,7 @@ return [
             'services' => 'Hizmetler',
             'packages' => 'Paketler',
             'package_subscriptions' => 'Paket abonelikleri',
+            'verimor_call_events' => 'Verimor çağrı kayıtları',
         ],
     ],
 

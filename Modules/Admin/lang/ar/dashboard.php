@@ -117,6 +117,7 @@ return [
             'services' => 'الخدمات',
             'packages' => 'الباقات',
             'package_subscriptions' => 'اشتراكات الباقات',
+            'verimor_call_events' => 'أحداث مكالمات فيريمور',
         ],
     ],
 

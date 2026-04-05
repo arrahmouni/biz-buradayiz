@@ -117,6 +117,7 @@ return [
             'services' => 'Services',
             'packages' => 'Packages',
             'package_subscriptions' => 'Package subscriptions',
+            'verimor_call_events' => 'Verimor call events',
         ],
     ],
 

@@ -231,4 +231,19 @@ return [
             'paid_at' => 'Ödeme tarihi',
         ],
     ],
+    'verimor_call_events' => [
+        'list_title' => 'Verimor çağrı kayıtları',
+        'columns' => [
+            'created_at' => 'Olay tarihi',
+            'call_uuid' => 'Çağrı UUID',
+            'event_type' => 'Olay tipi',
+            'direction' => 'Yön',
+            'destination' => 'Hedef (normalize)',
+            'provider' => 'Hizmet sağlayıcı',
+            'answered' => 'Cevaplandı',
+            'consumed_quota' => 'Kota düşüldü',
+            'subscription_id' => 'Abonelik no',
+            'raw_payload' => 'Ham webhook (JSON)',
+        ],
+    ],
 ];

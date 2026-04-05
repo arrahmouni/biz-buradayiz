@@ -11,6 +11,8 @@ use Modules\Platform\Enums\PackageSubscriptionStatus;
 use Modules\Platform\Models\Package;
 use Modules\Platform\Models\PackageSubscription;
 use Modules\Platform\Models\PackageSubscriptionSnapshot;
+use Modules\Verimor\Enums\VerimorCallDirection;
+use Modules\Verimor\Enums\VerimorCallEventType;
 use Modules\Verimor\Models\VerimorCallEvent;
 use Tests\TestCase;
 
@@ -58,6 +60,8 @@ class VerimorWebhookTest extends TestCase
 
         $event = VerimorCallEvent::query()->where('call_uuid', '11111111-1111-1111-1111-111111111111')->first();
         $this->assertNotNull($event);
+        $this->assertSame(VerimorCallEventType::Hangup, $event->event_type);
+        $this->assertSame(VerimorCallDirection::Inbound, $event->direction);
         $this->assertTrue($event->consumed_quota);
         $this->assertSame($subscription->id, $event->package_subscription_id);
     }
@@ -95,6 +99,8 @@ class VerimorWebhookTest extends TestCase
 
         $event = VerimorCallEvent::query()->where('call_uuid', '22222222-2222-2222-2222-222222222222')->first();
         $this->assertNotNull($event);
+        $this->assertSame(VerimorCallEventType::Hangup, $event->event_type);
+        $this->assertSame(VerimorCallDirection::Inbound, $event->direction);
         $this->assertFalse($event->consumed_quota);
     }
 

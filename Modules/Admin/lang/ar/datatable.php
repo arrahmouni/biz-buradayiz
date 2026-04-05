@@ -212,4 +212,18 @@ return [
             'paid_at' => 'تاريخ الدفع',
         ],
     ],
+    'verimor_call_events' => [
+        'list_title' => 'أحداث مكالمات فيريمور',
+        'columns' => [
+            'call_uuid' => 'معرّف المكالمة',
+            'event_type' => 'نوع الحدث',
+            'direction' => 'الاتجاه',
+            'destination' => 'الوجهة (مطبّعة)',
+            'provider' => 'مقدّم الخدمة',
+            'answered' => 'تم الرد',
+            'consumed_quota' => 'استهلاك الحصة',
+            'subscription_id' => 'معرّف الاشتراك',
+            'raw_payload' => 'حمولة الويب هوك (JSON)',
+        ],
+    ],
 ];

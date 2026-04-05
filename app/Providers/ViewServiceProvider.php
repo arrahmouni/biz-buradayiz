@@ -22,6 +22,7 @@ use Modules\Platform\Enums\permissions\PackagePermissions;
 use Modules\Platform\Enums\permissions\PackageSubscriptionPermissions;
 use Modules\Platform\Enums\permissions\ServicePermissions;
 use Modules\Platform\Models\PackageSubscription;
+use Modules\Verimor\Enums\permissions\VerimorCallEventPermissions;
 use Modules\Zms\Enums\permissions\CountryPermissions;
 
 class ViewServiceProvider extends ServiceProvider
@@ -688,5 +689,25 @@ class ViewServiceProvider extends ServiceProvider
             ]);
         }
         // End Package subscription Section
+
+        app('adminHelper')->asideMenu([
+            'id' => 'verimor_call_events_section',
+            'parent_id' => 'platform_management',
+            'type' => 'item',
+            'icon' => 'bi bi-telephone-inbound',
+            'title' => trans('admin::dashboard.aside_menu.platform_management.verimor_call_events'),
+            'order' => 4,
+        ]);
+
+        if (app('owner') || app('admin')->can(VerimorCallEventPermissions::READ)) {
+            app('adminHelper')->asideMenu([
+                'id' => 'view_verimor_call_events',
+                'parent_id' => 'verimor_call_events_section',
+                'type' => 'item',
+                'link' => route('verimor.verimor_call_events.index'),
+                'title' => trans('admin::base.view_all'),
+                'order' => 1,
+            ]);
+        }
     }
 }

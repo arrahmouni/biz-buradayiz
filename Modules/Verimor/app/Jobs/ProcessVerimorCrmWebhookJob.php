@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Log;
 use Modules\Auth\Enums\UserType;
 use Modules\Auth\Models\User;
 use Modules\Platform\Models\PackageSubscription;
+use Modules\Verimor\Enums\VerimorCallDirection;
+use Modules\Verimor\Enums\VerimorCallEventType;
 use Modules\Verimor\Models\VerimorCallEvent;
 use Modules\Verimor\Support\VerimorPhoneNormalizer;
 
@@ -29,13 +31,15 @@ class ProcessVerimorCrmWebhookJob implements ShouldQueue
 
     public function handle(): void
     {
-        $eventType = strtolower(trim((string) ($this->payload['event_type'] ?? '')));
-        if (! in_array($eventType, ['hangup', 'user_hangup'], true)) {
+        $eventTypeRaw = strtolower(trim((string) ($this->payload['event_type'] ?? '')));
+        $eventType = VerimorCallEventType::tryFrom($eventTypeRaw);
+        if ($eventType === null) {
             return;
         }
 
-        $direction = strtolower(trim((string) ($this->payload['direction'] ?? '')));
-        if ($direction !== 'inbound') {
+        $directionRaw = strtolower(trim((string) ($this->payload['direction'] ?? '')));
+        $direction = VerimorCallDirection::tryFrom($directionRaw);
+        if ($direction !== VerimorCallDirection::Inbound) {
             return;
         }
 
@@ -105,6 +109,7 @@ class ProcessVerimorCrmWebhookJob implements ShouldQueue
                 return;
             }
 
+            // this scenario is not possible, but we'll leave it here for future reference
             if ($subscription->remaining_connections <= 0) {
                 return;
             }

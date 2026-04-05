@@ -79,5 +79,9 @@ return [
             'name' => 'api_log',
             'icon' => 'fa-solid fa-clock-rotate-left',
         ],
+        'verimor_call_event' => [
+            'name' => 'verimor_call_event',
+            'icon' => 'bi bi-telephone-inbound',
+        ],
     ],
 ];
