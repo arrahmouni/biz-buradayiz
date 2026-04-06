@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html  lang="{{$_LOCALE_}}" dir="{{$_DIR_}}" >
+<html lang="{{ $_LOCALE_ }}" dir="{{ $_DIR_ }}" class="admin-modern-login-root">
 
 	<head>
 		<!--begin::Meta-->
@@ -21,47 +21,47 @@
 	<!--end::Head-->
 
 	<!--begin::Body-->
-	<body id="kt_body" class="bg-body">
+	<body id="kt_body" class="admin-modern-login-page">
 
-		<!--begin::Main-->
-		<!--begin::Root-->
-		<div class="d-flex flex-column flex-root">
-            <div class="d-flex flex-column flex-lg-row flex-column-fluid">
-                <div class="d-flex flex-column flex-lg-row-fluid positon-xl-relative bgi-size-cover bgi-no-repeat" style="background-image:url('{{ asset('modules/admin/metronic/demo/media/patterns/A7.png') }}')">
-                </div>
+		<div class="d-flex flex-column flex-root flex-root-modern">
+			<div class="modern-login-wrapper">
+				<div class="admin-login-background-section">
+					<div class="admin-login-background-overlay"></div>
+				</div>
 
-                <div class="d-flex flex-column flex-lg-row-auto py-10">
-                    <div class="menu menu-rounded menu-column menu-primary menu-state-bg fw-semibold w-100px" data-kt-menu="true">
-                        <div class="menu-item" data-kt-menu-trigger="hover" data-kt-menu-placement="right-start">
+				<div class="admin-login-form-section">
+					<div class="admin-login-lang-switcher">
+						<div class="menu menu-rounded menu-column menu-primary menu-state-bg fw-semibold w-100px" data-kt-menu="true">
+							<div class="menu-item" data-kt-menu-trigger="hover" data-kt-menu-placement="right-start">
 
-                            @component('admin::components.other.hyperlink', [
-                                    'options'       => [
-                                        'menuLink'  => true,
-                                    ]
-                                ])
-                                <span class="menu-title position-relative">
-                                    {{$_CUR_LOCALE_NAME_}}
-                                    @include('admin::components.other.image', [
-                                        'options' => [
-                                            'class' => 'w-25px h-25px rounded-1 ms-2',
-                                            'src'   => config('admin.frontend.country_flag.current_local'),
-                                            'alt'   => 'current local flag',
-                                        ]
-                                    ])
-                                </span>
-                            @endcomponent
+								@component('admin::components.other.hyperlink', [
+										'options'       => [
+											'menuLink'  => true,
+										]
+									])
+									<span class="menu-title position-relative">
+										{{ $_CUR_LOCALE_NAME_ }}
+										@include('admin::components.other.image', [
+											'options' => [
+												'class' => 'w-25px h-25px rounded-1 ms-2',
+												'src'   => config('admin.frontend.country_flag.current_local'),
+												'alt'   => 'current local flag',
+											]
+										])
+									</span>
+								@endcomponent
 
-                            <div class="menu-sub menu-sub-dropdown p-3 w-200px">
-                                @include('admin::particles.languages.switcher')
-                            </div>
-                        </div>
-                    </div>
-                    @yield('mainContent')
-                </div>
+								<div class="menu-sub menu-sub-dropdown p-3 w-200px">
+									@include('admin::particles.languages.switcher')
+								</div>
+							</div>
+						</div>
+					</div>
+
+					@yield('mainContent')
+				</div>
 			</div>
 		</div>
-		<!--end::Root-->
-		<!--end::Main-->
 
 		<!--begin::Javascript-->
         @include('admin::includes.script')

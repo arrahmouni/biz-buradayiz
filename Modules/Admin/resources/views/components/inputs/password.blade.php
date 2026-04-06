@@ -15,7 +15,7 @@
             'inputmode'             => 'text',
             'visibleToggle'         => true,
             'highlight'             => true,
-            'view'                  => 'DEFAULT', // DEFAULT | INLINE
+            'view'                  => 'DEFAULT', // DEFAULT | INLINE | MODERN_LOGIN
             'input_size'            => 'col-lg-8',
             'label_size'            => 'col-lg-12',
         ], $options);
@@ -24,7 +24,9 @@
 
     @endphp
 
-    @if($VALUE['view'] == 'DEFAULT')
+    @if($VALUE['view'] === 'MODERN_LOGIN')
+        @include('admin::components.input_particles.password_modern_login', ['VALUE' => $VALUE])
+    @elseif($VALUE['view'] == 'DEFAULT')
         <div class="mb-1 fv-row" data-kt-password-meter="true">
             @include('admin::components.input_particles.label'   , ['VALUE' => $VALUE])
             @include('admin::components.input_particles.password', ['VALUE' => $VALUE])

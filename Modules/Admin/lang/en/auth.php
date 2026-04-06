@@ -5,8 +5,10 @@ return [
         'meta_title'                => 'Login',
         'welcome_to_admin_panel'    => 'Welcome To Admin Panel',
         'sign_in_to_account'        => 'Login to Control Panel',
+        'subtitle'                  => 'Sign in to your account',
         'forget_password'           => 'Forget Password?',
         'sign_in'                   => 'Sign in',
+        'toggle_password_visibility'=> 'Show or hide password',
     ],
 
     'profile_page'                  => [

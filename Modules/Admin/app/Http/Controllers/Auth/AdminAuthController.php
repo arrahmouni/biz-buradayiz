@@ -26,7 +26,7 @@ class AdminAuthController extends BaseController
     {
         // credentials return array of email and hashed password
         $credentials = $request->validate([
-            'email'     => ['required', 'email', 'exists:admins,email'],
+            'email'     => ['required', 'email'],
             'password'  => ['required', 'string'],
         ]);
 

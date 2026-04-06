@@ -3,91 +3,86 @@
 @section('title', trans('admin::auth.login_page.meta_title'))
 
 @push('style')
+    <link rel="stylesheet" href="{{ Module::asset('admin:global/css/admin-login.css') }}?v={{ $_STYLE_VER_ }}">
     <style>
-        @media (max-width: 991px) {
-            #login {
-                width: 500px !important;
-            }
-        }
-        @media (max-width: 600px) {
-            #login {
-                width: 350px !important;
-            }
-
-            #img-logo {
-                width: 150px !important;
-            }
+        .admin-modern-login-page .admin-login-background-section {
+            background-image: url('{{ asset('modules/admin/metronic/demo/media/patterns/A7.png') }}');
         }
     </style>
 @endpush
 
 @section('mainContent')
-    <!--begin::Content-->
-    <div class="d-flex flex-center flex-column flex-column-fluid">
-        <div class="">
-            <a href="javascript:;" class="py-9 mb-5">
-                @include('admin::components.other.image', [
-                    'options' => [
-                        'id'    => 'img-logo',
-                        'class' => 'w-100px',
-                        'src'   => getSetting('app_mobile_logo', asset('images/default/logos/app_mobile_logo.svg')),
-                        'alt'   => 'Logo',
-                    ]
-                ])
-            </a>
-        </div>
+    <div class="modern-login-container">
+        <div class="modern-login-card">
+            <div class="login-card-header">
+                <a href="javascript:;" class="modern-login-logo-link">
+                    @include('admin::components.other.image', [
+                        'options' => [
+                            'class' => 'modern-login-logo',
+                            'src'   => getSetting('app_mobile_logo', asset('images/default/logos/app_mobile_logo.svg')),
+                            'alt'   => 'Logo',
+                        ]
+                    ])
+                </a>
+                <h1 class="modern-title">
+                    @lang('admin::auth.login_page.sign_in_to_account')
+                </h1>
+                <p class="modern-subtitle">
+                    @lang('admin::auth.login_page.subtitle')
+                </p>
+            </div>
 
-        <!--begin::Wrapper-->
-        <div class="w-lg-500px p-10 p-lg-15 mx-auto">
-            <!--begin::Form-->
-            <form class="form w-100" id="login" action="{{route('admin.auth.authenticate')}}" method="POST">
+            <form class="modern-login-form" id="login" action="{{ route('admin.auth.authenticate') }}" method="POST">
                 @csrf
-                <!--begin::Heading-->
-                <div class="text-center mb-10">
-                    <!--begin::Title-->
-                    <h1 class="text-dark mb-3">
-                        @lang('admin::auth.login_page.sign_in_to_account')
-                    </h1>
-                    <!--end::Title-->
-                </div>
-                <!--end::Heading-->
 
-                <div class="fv-row mb-10">
-                    @include('admin::components.inputs.text', [
-                        'options'           => [
-                            'name'          => 'email',
-                            'label'         => trans('admin::inputs.base_crud.email.label'),
-                            'placeholder'   => trans('admin::inputs.base_crud.email.placeholder'),
-                        ]
-                    ])
-                </div>
+                @include('admin::components.inputs.text', [
+                    'options' => [
+                        'name'      => 'email',
+                        'type'      => 'email',
+                        'view'      => 'MODERN_LOGIN',
+                        'label'     => trans('admin::inputs.base_crud.email.label'),
+                        'required'  => true,
+                    ],
+                ])
 
-                <div class="row mb-10">
-                    @include('admin::components.inputs.password', [
-                        'options'           => [
-                            'name'          => 'password',
-                            'label'         => trans('admin::inputs.base_crud.password.label'),
-                            'placeholder'   => trans('admin::inputs.base_crud.password.placeholder'),
-                            'highlight'     => false,
-                        ]
-                    ])
-                </div>
+                @include('admin::components.inputs.password', [
+                    'options' => [
+                        'name'          => 'password',
+                        'view'          => 'MODERN_LOGIN',
+                        'label'         => trans('admin::inputs.base_crud.password.label'),
+                        'highlight'     => false,
+                        'required'      => true,
+                    ],
+                ])
 
-                <!--begin::Actions-->
                 <div class="text-center">
                     @include('admin::components.buttons.submit', [
-                        'options'               => [
-                            'id'                => 'login_submit',
-                            'label'             => trans('admin::auth.login_page.sign_in'),
-                            'progress_label'    => trans('admin::base.verifying'),
-                        ]
+                        'options' => [
+                            'id'        => 'login_submit',
+                            'label'     => trans('admin::auth.login_page.sign_in'),
+                            'progress_label' => trans('admin::base.verifying'),
+                            'variant'   => 'modern_login',
+                        ],
                     ])
                 </div>
-                <!--end::Actions-->
             </form>
-            <!--end::Form-->
         </div>
-        <!--end::Wrapper-->
     </div>
-    <!--end::Content-->
 @endsection
+
+@push('script')
+    <script>
+        document.getElementById('login').addEventListener('submit', function () {
+            var form = this;
+            if (typeof form.checkValidity === 'function' && !form.checkValidity()) {
+                return;
+            }
+            var btn = document.getElementById('login_submit');
+            if (!btn) {
+                return;
+            }
+            btn.disabled = true;
+            btn.setAttribute('data-kt-indicator', 'on');
+        });
+    </script>
+@endpush

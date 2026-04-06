@@ -442,7 +442,7 @@ html[lang="ar"] .permission-accordion .accordion-button i {
 .admin-dashboard-hero-eyebrow {
     font-size: 0.7rem;
     letter-spacing: 0.14em;
-    color: var(--primary-admin-color);
+    color: var(--secondary-admin-color);
 }
 
 .admin-dashboard-hero-title {
