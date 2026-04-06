@@ -126,9 +126,16 @@ class UserCrudService extends BaseCrudService
         $canViewVerimorCallEvents = app('owner') || app('admin')->can(VerimorCallEventPermissions::READ);
 
         $dataTable = DataTables::of($model)
-            ->filter(function ($query) use ($data) {
+            ->filter(function ($query) use ($data, $isServiceProvider) {
                 if (isset($data['search']['value']) && ! empty($data['search']['value'])) {
                     $query->simpleSearch($data['search']['value']);
+                }
+                if (isset($data['advanced_search']) && is_array($data['advanced_search']) && $data['advanced_search'] !== []) {
+                    $advanced = $data['advanced_search'];
+                    if (! $isServiceProvider) {
+                        unset($advanced['city_id']);
+                    }
+                    $query->advancedSearch($advanced);
                 }
             });
 

@@ -32,6 +32,61 @@
                     ]
                 ])
             </div>
+
+            @if($isServiceProvider)
+                <div class="mb-5">
+                    @include('admin::components.inputs.select', [
+                        'options'           => [
+                            'id'                      => 'users_filter_country_id',
+                            'name'                    => 'filter_country_id',
+                            'label'                   => trans('admin::inputs.user_crud.country_id.label'),
+                            'placeholder'             => trans('admin::inputs.user_crud.country_id.placeholder'),
+                            'clearable'               => false,
+                            'isAjax'                  => true,
+                            'url'                     => route('zms.countries.ajaxList'),
+                            'selected'                => [],
+                            'clearDependentsSelector' => '#users_filter_state_id,#users_filter_city_id',
+                            'autoSelectFirst'         => true,
+                        ],
+                    ])
+                </div>
+                <div class="mb-5">
+                    @include('admin::components.inputs.select', [
+                        'options'           => [
+                            'id'                      => 'users_filter_state_id',
+                            'name'                    => 'filter_state_id',
+                            'label'                   => trans('admin::inputs.user_crud.state_id.label'),
+                            'placeholder'             => trans('admin::inputs.user_crud.state_id.placeholder'),
+                            'clearable'               => false,
+                            'isAjax'                  => true,
+                            'url'                     => route('zms.states.ajaxList'),
+                            'selected'                => [],
+                            'parentSelect'            => '#users_filter_country_id',
+                            'ajaxParentParam'         => 'country_id',
+                            'clearDependentsSelector' => '#users_filter_city_id',
+                            'autoSelectFirst'         => true,
+                            'disabled'                => true,
+                        ],
+                    ])
+                </div>
+                <div class="mb-5">
+                    @include('admin::components.inputs.select', [
+                        'options'           => [
+                            'id'              => 'users_filter_city_id',
+                            'name'            => 'city_id',
+                            'label'           => trans('admin::inputs.user_crud.city_id.label'),
+                            'placeholder'     => trans('admin::base.all_results'),
+                            'clearable'       => true,
+                            'isAjax'          => true,
+                            'url'             => route('zms.cities.ajaxList'),
+                            'selected'        => [],
+                            'parentSelect'    => '#users_filter_state_id',
+                            'ajaxParentParam' => 'state_id',
+                            'disabled'        => true,
+                        ],
+                    ])
+                </div>
+            @endif
         @endslot
     @endcomponent
 @endsection

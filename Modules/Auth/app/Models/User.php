@@ -166,7 +166,11 @@ class User extends Authenticatable implements Auditable, HasMedia
     public function scopeAdvancedSearch($query, $search)
     {
         return $query
-            ->when(! empty($search['status']), fn ($q) => $q->where('status', $search['status']));
+            ->when(! empty($search['status']), fn ($q) => $q->where('status', $search['status']))
+            ->when(
+                ! empty($search['city_id']) && (int) $search['city_id'] > 0,
+                fn ($q) => $q->where('city_id', (int) $search['city_id'])
+            );
     }
 
     // End Scopes
