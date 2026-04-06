@@ -4,7 +4,7 @@ return [
     'page' => [
         'welcome_line' => 'Welcome back, :name',
         'fallback_name' => 'Admin',
-        'overview' => 'Monitor users, content, and CRM activity. Use the date filter in the toolbar to narrow counts.',
+        'overview' => 'This dashboard provides an overview of the system\'s key metrics and activity. It includes statistics on active package subscriptions, paid subscription revenue, incoming calls to service providers, and reviews submitted.',
         'statistics_heading' => 'Overview',
         'apply_period' => 'Apply',
         'date_range_placeholder' => 'Select date range',

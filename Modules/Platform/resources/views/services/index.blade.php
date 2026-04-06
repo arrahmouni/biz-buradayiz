@@ -7,7 +7,7 @@
             'options'               => [
                 'title'             => trans('admin::dashboard.aside_menu.service_management.services'),
                 'actions'           => [
-                    'filter'        => true,
+                    'filter'        => false,
                     'search'        => true,
                 ],
             ]

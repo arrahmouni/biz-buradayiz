@@ -4,7 +4,7 @@ return [
     'page' => [
         'welcome_line' => 'Tekrar hoş geldiniz, :name',
         'fallback_name' => 'Yonetici',
-        'overview' => 'Kullanıcıları, içeriği ve CRM etkinliğini izleyin. Sayıları daraltmak için araç çubuğundaki tarih filtresini kullanın.',
+        'overview' => 'Bu kontrol paneli, sistemin ana metriklerini ve etkinliklerini genel bir bakış sunar. Aktif paket abonelikleri, ödenen abonelik gelirleri, hizmet sağlayıcılara gelen çağrılar ve gönderilen yorumlar gibi istatistikleri içerir.',
         'statistics_heading' => 'Genel Bakış',
         'apply_period' => 'Uygula',
         'date_range_placeholder' => 'Tarih aralığını seçin',
