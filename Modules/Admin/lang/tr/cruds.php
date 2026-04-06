@@ -382,5 +382,17 @@ return [
         'delete' => 'Yorumu Sil',
         'restore' => 'Yorumu Geri Yükle',
         'permanent_delete' => 'Kalıcı Silme Yorumu',
+        'statuses' => [
+            'pending' => 'Onay bekliyor',
+            'approved' => 'Onaylandı',
+            'rejected' => 'Reddedildi',
+        ],
+        'moderation_not_pending' => 'Bu yorum onay beklemiyor.',
+    ],
+    'approve' => [
+        'title' => 'Onayla',
+    ],
+    'reject' => [
+        'title' => 'Reddet',
     ],
 ];

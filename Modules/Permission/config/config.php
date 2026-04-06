@@ -4,12 +4,17 @@ use Modules\Admin\Enums\permissions\AdminPermissions;
 use Modules\Config\Enums\permissions\SettingPermissions;
 use Modules\Permission\Enums\permissions\AbilityPermissions;
 use Modules\Permission\Enums\permissions\RolePermissions;
+use Modules\Platform\Enums\permissions\ReviewPermissions;
 
 return [
     'models' => [
         'review' => [
             'name' => 'review',
             'icon' => 'bi bi-star',
+            'additionalPermissions' => [
+                ReviewPermissions::APPROVE,
+                ReviewPermissions::REJECT,
+            ],
         ],
         'package' => [
             'name' => 'package',

@@ -1,6 +1,9 @@
 @php
+    use Modules\Platform\Enums\ReviewStatus;
+
     $model->loadMissing(['user', 'verimorCallEvent']);
     $rating = max(0, min(5, (int) $model->rating));
+    $reviewStatus = $model->status;
 @endphp
 
 <div>
@@ -36,6 +39,19 @@
             ])
         </div>
     </div>
+
+    @if ($reviewStatus instanceof ReviewStatus)
+        <div class="row">
+            <div class="col-12 mb-10 form-group">
+                <label class="form-label">{{ trans('admin::datatable.reviews.columns.status') }}</label>
+                <div>
+                    <span class="btn btn-sm btn-font-sm btn-label-{{ $reviewStatus->datatableBadgeColor() }} fs-7 fw-semibold text-center">
+                        {{ trans('admin::cruds.reviews.statuses.'.$reviewStatus->value) }}
+                    </span>
+                </div>
+            </div>
+        </div>
+    @endif
 
     <div class="row">
         <div class="col-12 mb-10 form-group">
@@ -83,7 +99,7 @@
             ])
         </div>
     </div>
-{{-- 
+{{--
     <div class="row">
         <div class="col-lg-6 col-12 mb-10 form-group">
             @include('admin::components.inputs.text', [

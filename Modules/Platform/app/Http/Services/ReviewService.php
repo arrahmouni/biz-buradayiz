@@ -5,8 +5,10 @@ namespace Modules\Platform\Http\Services;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Modules\Base\Classes\CustomDataTable;
 use Modules\Base\Http\Services\BaseCrudService;
 use Modules\Platform\Enums\permissions\ReviewPermissions;
+use Modules\Platform\Enums\ReviewStatus;
 use Modules\Platform\Models\Review as CrudModel;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -57,6 +59,9 @@ class ReviewService extends BaseCrudService
             $model = $model->onlyTrashed();
         }
 
+        $canApproveReview = app('owner') || app('admin')->can(ReviewPermissions::APPROVE);
+        $canRejectReview  = app('owner') || app('admin')->can(ReviewPermissions::REJECT);
+
         return DataTables::of($model)
             ->filter(function ($query) use ($data) {
                 if (isset($data['search']['value']) && $data['search']['value'] !== '') {
@@ -96,15 +101,53 @@ class ReviewService extends BaseCrudService
                     'call_uuid' => $event->call_uuid,
                 ];
             })
-            ->addColumn('actions', function (CrudModel $model) {
-                $modalAction = app('customDataTable')->viewAsModal(
-                    route('platform.reviews.viewAsModal', ['model' => $model->id]),
-                    $model->id,
-                    'reviewViewModal',
-                    trans('admin::cruds.reviews.view'),
-                );
+            ->addColumn('actions', function (CrudModel $model) use ($canApproveReview, $canRejectReview) {
+                $modalAction = app('customDataTable')
+                    ->excludeActions([])
+                    ->routePrefix('platform.reviews')
+                    ->of($model, ReviewPermissions::PERMISSION_NAMESPACE)
+                    ->viewAsModal(
+                        route('platform.reviews.viewAsModal', ['model' => $model->id]),
+                        $model->id,
+                        'reviewViewModal',
+                        trans('admin::cruds.reviews.view'),
+                    );
 
                 $additionalActions = empty($modalAction) ? [] : [$modalAction];
+
+                if ($model->status === ReviewStatus::Pending) {
+                    $moderationTable = app('customDataTable')
+                        ->routePrefix('platform.reviews')
+                        ->of($model, ReviewPermissions::PERMISSION_NAMESPACE);
+
+                    if ($canApproveReview) {
+                        $additionalActions[] = $moderationTable->addAction(
+                            'approve',
+                            'bi-check-lg',
+                            5,
+                            null,
+                            trans('admin::cruds.approve.title'),
+                            'button',
+                            '#198754',
+                            true,
+                            route('platform.reviews.approve', ['model' => $model->id]),
+                        );
+                    }
+
+                    if ($canRejectReview) {
+                        $additionalActions[] = $moderationTable->addAction(
+                            'reject',
+                            'bi-x-lg',
+                            6,
+                            null,
+                            trans('admin::cruds.reject.title'),
+                            'button',
+                            '#dc3545',
+                            true,
+                            route('platform.reviews.reject', ['model' => $model->id]),
+                        );
+                    }
+                }
 
                 return app('customDataTable')
                     ->routePrefix('platform.reviews')

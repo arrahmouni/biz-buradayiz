@@ -17,6 +17,7 @@ use Modules\Crm\Models\Subscribe;
 use Modules\Permission\Models\Role;
 use Modules\Platform\Enums\PackageSubscriptionPaymentStatus;
 use Modules\Platform\Enums\PackageSubscriptionStatus;
+use Modules\Platform\Enums\ReviewStatus;
 use Modules\Platform\Models\Package;
 use Modules\Platform\Models\PackageSubscription;
 use Modules\Platform\Models\Review;
@@ -219,7 +220,20 @@ class DashboardController extends BaseController
             route: route('platform.reviews.index'),
         );
 
-        $avgQuery = Review::query();
+        $pendingQuery = Review::query()->where('status', ReviewStatus::Pending);
+        if ($fromDate && $toDate) {
+            $pendingQuery->whereBetween('created_at', [$fromDate, $toDate]);
+        }
+
+        $this->data['statistics']['reviews'][] = [
+            'key' => 'reviews_pending_moderation',
+            'label' => trans('admin::dashboard.page.stats.reviews_pending_moderation'),
+            'icon' => 'fas fa-hourglass-half',
+            'route' => route('platform.reviews.index'),
+            'count' => $pendingQuery->count(),
+        ];
+
+        $avgQuery = Review::query()->approved();
         if ($fromDate && $toDate) {
             $avgQuery->whereBetween('created_at', [$fromDate, $toDate]);
         }

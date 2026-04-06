@@ -14,8 +14,9 @@ return [
             'verimor_inbound_calls_to_providers' => 'Incoming calls to service providers',
             'revenue_empty' => '—',
             'reviews_total' => 'Reviews submitted',
-            'reviews_average_rating' => 'Average review rating (1–5)',
+            'reviews_average_rating' => 'Average rating — approved reviews only (1–5)',
             'reviews_avg_empty' => '—',
+            'reviews_pending_moderation' => 'Reviews awaiting admin approval',
         ],
     ],
 

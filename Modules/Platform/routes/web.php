@@ -98,5 +98,7 @@ Route::prefix('reviews')->name('reviews.')->controller(ReviewController::class)-
     Route::delete('bulk-soft-delete', 'bulkSoftDelete')->name('bulkSoftDelete');
     Route::delete('bulk-hard-delete', 'bulkHardDelete')->name('bulkHardDelete');
     Route::post('bulk-restore', 'bulkRestore')->name('bulkRestore');
+    Route::post('approve/{model}', 'approve')->name('approve');
+    Route::post('reject/{model}', 'reject')->name('reject');
 
 });

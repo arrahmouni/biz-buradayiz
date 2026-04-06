@@ -25,4 +25,8 @@ final class ReviewPermissions
     const DISABLE = 'DISABLE_'.self::PERMISSION_NAMESPACE;
 
     const ENABLE = 'ENABLE_'.self::PERMISSION_NAMESPACE;
+
+    const APPROVE = 'APPROVE_'.self::PERMISSION_NAMESPACE;
+
+    const REJECT = 'REJECT_'.self::PERMISSION_NAMESPACE;
 }

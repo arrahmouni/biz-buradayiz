@@ -255,6 +255,7 @@ return [
             'call_event' => 'Event UUID',
             'reviewer_display_name' => 'Reviewer name',
             'reviewer_phone' => 'Reviewer phone',
+            'status' => 'Status',
             'verimor_call_events_list' => 'Verimor call events',
         ],
     ],

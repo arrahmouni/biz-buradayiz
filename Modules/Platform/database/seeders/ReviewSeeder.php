@@ -9,6 +9,8 @@ class ReviewSeeder extends Seeder
 {
     /**
      * Run the database seeds.
+     *
+     * Each review gets a random {@see \Modules\Platform\Enums\ReviewStatus} from the factory.
      */
     public function run(): void
     {

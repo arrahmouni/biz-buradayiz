@@ -255,6 +255,7 @@ return [
             'call_event' => 'Olay UUID',
             'reviewer_display_name' => 'Yorum yapan adı',
             'reviewer_phone' => 'Yorum yapan telefon',
+            'status' => 'Durum',
             'verimor_call_events_list' => 'Verimor çağrı kayıtları',
         ],
     ],

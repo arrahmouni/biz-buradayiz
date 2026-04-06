@@ -226,4 +226,17 @@ return [
             'raw_payload' => 'حمولة الويب هوك (JSON)',
         ],
     ],
+    'reviews' => [
+        'list_title' => 'قائمة التقييمات',
+        'columns' => [
+            'user' => 'المستخدم',
+            'rating' => 'التقييم',
+            'comment' => 'التعليق',
+            'call_event' => 'معرّف الحدث',
+            'reviewer_display_name' => 'اسم المقيّم',
+            'reviewer_phone' => 'هاتف المقيّم',
+            'status' => 'الحالة',
+            'verimor_call_events_list' => 'أحداث مكالمات فيريمور',
+        ],
+    ],
 ];

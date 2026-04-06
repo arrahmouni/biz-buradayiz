@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use Modules\Auth\Enums\UserType;
 use Modules\Auth\Models\User;
+use Modules\Platform\Enums\ReviewStatus;
 use Modules\Platform\Models\Review;
 use Modules\Verimor\Enums\VerimorCallDirection;
 use Modules\Verimor\Models\VerimorCallEvent;
@@ -61,6 +62,7 @@ class ReviewSubmissionService
                 'user_id' => $provider->id,
                 'verimor_call_event_id' => $event->id,
                 'rating' => $validated['rating'],
+                'status' => ReviewStatus::Pending,
                 'body' => $validated['body'] ?? null,
                 'reviewer_display_name' => $validated['reviewer_display_name'] ?? null,
                 'reviewer_phone_normalized' => $normalized,

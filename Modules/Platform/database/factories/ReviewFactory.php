@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use Modules\Auth\Enums\UserType;
 use Modules\Auth\Models\User;
+use Modules\Platform\Enums\ReviewStatus;
 use Modules\Platform\Models\Review;
 use Modules\Verimor\Enums\VerimorCallDirection;
 use Modules\Verimor\Enums\VerimorCallEventType;
@@ -51,6 +52,7 @@ class ReviewFactory extends Factory
         return [
             'user_id' => $user->id,
             'verimor_call_event_id' => $event->id,
+            'status' => fake()->randomElement(ReviewStatus::cases()),
             'rating' => fake()->numberBetween(1, 5),
             'body' => fake()->optional(0.8)->paragraph(),
             'reviewer_display_name' => fake()->optional(0.5)->firstName(),

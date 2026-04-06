@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Validation\ValidationException;
 use Modules\Auth\Enums\UserType;
 use Modules\Auth\Models\User;
+use Modules\Platform\Enums\ReviewStatus;
 use Modules\Platform\Http\Services\ReviewSubmissionService;
 use Modules\Platform\Models\Review;
 use Modules\Verimor\Enums\VerimorCallDirection;
@@ -54,6 +55,7 @@ class ReviewSubmissionTest extends TestCase
         $this->assertSame(5, (int) $review->rating);
         $this->assertSame('Great service.', $review->body);
         $this->assertSame($callerNorm, $review->reviewer_phone_normalized);
+        $this->assertSame(ReviewStatus::Pending, $review->status);
         $this->assertSame(1, Review::query()->count());
     }
 

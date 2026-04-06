@@ -14,8 +14,9 @@ return [
             'verimor_inbound_calls_to_providers' => 'Hizmet sağlayıcılara gelen çağrılar',
             'revenue_empty' => '—',
             'reviews_total' => 'Gönderilen yorumlar',
-            'reviews_average_rating' => 'Ortalama puan (1–5)',
+            'reviews_average_rating' => 'Ortalama puan — yalnızca onaylananlar (1–5)',
             'reviews_avg_empty' => '—',
+            'reviews_pending_moderation' => 'Yönetici onayı bekleyen yorumlar',
         ],
     ],
 

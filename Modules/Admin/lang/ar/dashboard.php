@@ -14,8 +14,9 @@ return [
             'verimor_inbound_calls_to_providers' => 'المكالمات الواردة لمزوّدي الخدمة',
             'revenue_empty' => '—',
             'reviews_total' => 'التقييمات المُرسلة',
-            'reviews_average_rating' => 'متوسط التقييم (من 1 إلى 5)',
+            'reviews_average_rating' => 'متوسط التقييم — المعتمدة فقط (من 1 إلى 5)',
             'reviews_avg_empty' => '—',
+            'reviews_pending_moderation' => 'تقييمات بانتظار موافقة المشرف',
         ],
     ],
 

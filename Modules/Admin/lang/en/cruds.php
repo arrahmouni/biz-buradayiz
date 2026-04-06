@@ -382,5 +382,17 @@ return [
         'delete' => 'Delete Review',
         'restore' => 'Restore Review',
         'permanent_delete' => 'Permanent Deletion Review',
+        'statuses' => [
+            'pending' => 'Pending approval',
+            'approved' => 'Approved',
+            'rejected' => 'Rejected',
+        ],
+        'moderation_not_pending' => 'This review is not awaiting approval.',
+    ],
+    'approve' => [
+        'title' => 'Approve',
+    ],
+    'reject' => [
+        'title' => 'Reject',
     ],
 ];

@@ -2,17 +2,19 @@
 
 namespace Modules\Platform\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Auth\Models\User;
 use Modules\Base\Models\BaseModel;
 use Modules\Platform\Database\Factories\ReviewFactory;
+use Modules\Platform\Enums\ReviewStatus;
 use Modules\Verimor\Models\VerimorCallEvent;
 
 class Review extends BaseModel
 {
-    use  HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     // Start Properties
 
@@ -22,12 +24,20 @@ class Review extends BaseModel
         'user_id',
         'verimor_call_event_id',
         'rating',
+        'status',
         'body',
         'reviewer_display_name',
         'reviewer_phone_normalized',
     ];
 
     public $timestamps = true;
+
+    protected function casts(): array
+    {
+        return [
+            'status' => ReviewStatus::class,
+        ];
+    }
 
     /**
      * Create a new factory instance for the model.
@@ -54,6 +64,12 @@ class Review extends BaseModel
     // End Relationships
 
     // Start Scopes
+
+    public function scopeApproved(Builder $query): Builder
+    {
+        return $query->where('status', ReviewStatus::Approved);
+    }
+
     public function scopeSimpleSearch($query, $search)
     {
         return $query->where(function ($query) use ($search) {
@@ -61,6 +77,7 @@ class Review extends BaseModel
                 ->orWhere('body', 'like', '%'.$search.'%')
                 ->orWhere('reviewer_display_name', 'like', '%'.$search.'%')
                 ->orWhere('reviewer_phone_normalized', 'like', '%'.$search.'%')
+                ->orWhere('status', 'like', '%'.$search.'%')
                 ->orWhereHas('user', function ($uq) use ($search) {
                     $uq->where('email', 'like', '%'.$search.'%')
                         ->orWhere('first_name', 'like', '%'.$search.'%')

@@ -54,6 +54,16 @@
 
             <!--begin::Card body-->
             <div class="card-body  py-4">
+                @php
+                    use Modules\Platform\Enums\ReviewStatus;
+
+                    $reviewStatusDtLabels = [];
+                    $reviewStatusDtBadgeColors = [];
+                    foreach (ReviewStatus::cases() as $case) {
+                        $reviewStatusDtLabels[$case->value] = trans('admin::cruds.reviews.statuses.'.$case->value);
+                        $reviewStatusDtBadgeColors[$case->value] = $case->datatableBadgeColor();
+                    }
+                @endphp
                 @component('admin::components.datatables.table', [
                         'options'           => [
                             'url'           => route('platform.reviews.datatable'),
@@ -64,6 +74,7 @@
                         {{-- Datatable Columns --}}
                         <th> @lang('admin::inputs.package_subscriptions_crud.service_provider.label') </th>
                         <th> @lang('admin::datatable.reviews.columns.rating') </th>
+                        <th> @lang('admin::datatable.reviews.columns.status') </th>
                         <th> @lang('admin::datatable.reviews.columns.reviewer_display_name') </th>
                         <th> @lang('admin::datatable.reviews.columns.reviewer_phone') </th>
                         <th> @lang('admin::datatable.reviews.columns.comment') </th>
@@ -124,6 +135,27 @@
                                     }
                                     html += '<span class="text-muted fs-8 ms-1">' + r + '/5</span></span>';
                                     return html;
+                                }
+                            },
+                            {
+                                data: 'status',
+                                name: 'status',
+                                orderable: false,
+                                searchable: false,
+                                render: function (data, type, row, meta) {
+                                    var value = data != null && data !== '' ? String(data) : (row.status != null ? String(row.status) : '');
+                                    if (type !== 'display' && type !== 'filter') {
+                                        return value;
+                                    }
+                                    if (! value) {
+                                        return '<span class="text-muted">—</span>';
+                                    }
+                                    var labels = @json($reviewStatusDtLabels);
+                                    var colors = @json($reviewStatusDtBadgeColors);
+                                    var label = labels[value] != null ? labels[value] : value;
+                                    var color = colors[value] != null ? colors[value] : 'secondary';
+                                    var safeLabel = String(label).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+                                    return '<span class="btn btn-sm btn-font-sm btn-label-' + color + ' fs-7 fw-semibold text-center w-100">' + safeLabel + '</span>';
                                 }
                             },
                             {

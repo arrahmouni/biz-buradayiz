@@ -351,5 +351,17 @@ return [
     ],
     'reviews' => [
         'title' => 'التقييمات',
+        'statuses' => [
+            'pending' => 'بانتظار الموافقة',
+            'approved' => 'معتمد',
+            'rejected' => 'مرفوض',
+        ],
+        'moderation_not_pending' => 'هذا التقييم لا ينتظر الموافقة.',
+    ],
+    'approve' => [
+        'title' => 'اعتماد',
+    ],
+    'reject' => [
+        'title' => 'رفض',
     ],
 ];
