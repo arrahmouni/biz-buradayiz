@@ -1,7 +1,13 @@
 @php
+    use Modules\Auth\Enums\UserType;
     use Modules\Platform\Enums\PackageSubscriptionPaymentMethod;
     use Modules\Platform\Enums\PackageSubscriptionPaymentStatus;
     use Modules\Platform\Enums\PackageSubscriptionStatus;
+
+    $serviceProviderViewUrlTemplate = route('auth.users.view', [
+        'userType' => UserType::ServiceProvider->value,
+        'model' => 900000001,
+    ]);
 @endphp
 
 @extends('admin::layouts.master', [
@@ -135,17 +141,21 @@
                                     }
                                     const name = data || '—';
                                     const email = row.user_email || '';
+                                    const providerViewUrl = @json($serviceProviderViewUrlTemplate).replace('900000001', String(row.user_id));
+                                    const providerViewLinkAttrs = row.user_id
+                                        ? ' href="' + providerViewUrl + '" target="_blank" rel="noopener noreferrer"'
+                                        : ' href="javascript:;"';
                                     return `
                                         <div class="d-flex align-items-center">
                                             <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                                                <a href="javascript:;">
+                                                <a` + providerViewLinkAttrs + `>
                                                     <div class="symbol-label">
                                                         <img src="${row.user_avatar_url}" alt="${name}" class="w-100" onerror="this.onerror=null; this.src='{{ asset('images/default/avatars/user.png') }}';"/>
                                                     </div>
                                                 </a>
                                             </div>
                                             <div class="d-flex justify-content-start flex-column">
-                                                <span class="text-dark fw-bolder mb-1">${name}</span>
+                                                <a` + providerViewLinkAttrs + ` class="text-dark fw-bolder text-hover-primary mb-1">${name}</a>
                                                 <span class="text-muted">${email}</span>
                                             </div>
                                         </div>

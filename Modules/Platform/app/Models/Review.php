@@ -89,7 +89,24 @@ class Review extends BaseModel
 
     public function scopeAdvancedSearch($query, $search)
     {
-        return $query;
+        return $query
+            ->when(
+                ! empty($search['status']) && in_array($search['status'], ReviewStatus::values(), true),
+                fn ($q) => $q->where('status', $search['status'])
+            )
+            ->when(
+                ! empty($search['user_id']) && (int) $search['user_id'] > 0,
+                fn ($q) => $q->where('user_id', (int) $search['user_id'])
+            )
+            ->when(
+                isset($search['rating']) && $search['rating'] !== '' && $search['rating'] !== null,
+                function ($q) use ($search) {
+                    $rating = (int) $search['rating'];
+                    if ($rating >= 1 && $rating <= 5) {
+                        $q->where('rating', $rating);
+                    }
+                }
+            );
     }
     // End Scopes
 

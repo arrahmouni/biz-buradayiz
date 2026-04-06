@@ -228,6 +228,7 @@ return [
     ],
     'reviews' => [
         'list_title' => 'قائمة التقييمات',
+        'rating_filter_option' => ':n / 5',
         'columns' => [
             'user' => 'المستخدم',
             'rating' => 'التقييم',

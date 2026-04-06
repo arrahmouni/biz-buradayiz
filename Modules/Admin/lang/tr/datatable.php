@@ -248,6 +248,7 @@ return [
     ],
     'reviews' => [
         'list_title' => 'Yorumlar Listesi',
+        'rating_filter_option' => ':n / 5',
         'columns' => [
             'user' => 'Kullanıcı',
             'rating' => 'Puan',

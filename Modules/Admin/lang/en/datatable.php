@@ -248,6 +248,7 @@ return [
     ],
     'reviews' => [
         'list_title' => 'Reviews List',
+        'rating_filter_option' => ':n / 5',
         'columns' => [
             'user' => 'User',
             'rating' => 'Rating',

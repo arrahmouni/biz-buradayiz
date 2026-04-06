@@ -64,6 +64,11 @@
             </div>
 
             <div class="card-body  py-4">
+                @php
+                    $serviceProviderViewUrlTemplate = $isServiceProvider
+                        ? route('auth.users.view', ['userType' => $userType->value, 'model' => 900000001])
+                        : '';
+                @endphp
                 @component('admin::components.datatables.table', [
                         'options'           => [
                             'url'           => route('auth.users.datatable', ['userType' => $userType->value]),
@@ -71,7 +76,9 @@
                         ]
                     ])
                     @slot('columns')
-                        <th style="width: 30%"> @lang('admin::datatable.admins.columns.user') </th>
+                        <th style="width: 30%">
+                            @lang('admin::inputs.package_subscriptions_crud.'.strtolower(str_replace('-', '_', $userType->value)).'.label')
+                        </th>
                         <th> @lang('admin::datatable.base_columns.phone_number') </th>
                         <th> @lang('admin::datatable.base_columns.central_phone') </th>
                         <th style="width: 8%"> @lang('admin::datatable.base_columns.status') </th>
@@ -91,17 +98,23 @@
                                 orderable: false,
                                 searchable: false,
                                 render: function (data, type, row, meta) {
+                                    @if ($isServiceProvider)
+                                        const providerViewUrl = @json($serviceProviderViewUrlTemplate).replace('900000001', String(row.id));
+                                        const providerViewLinkAttrs = ' href="' + providerViewUrl + '" target="_blank" rel="noopener noreferrer"';
+                                    @else
+                                        const providerViewLinkAttrs = ' href="javascript:;"';
+                                    @endif
                                     return `
                                         <div class="d-flex align-items-center">
                                             <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                                                <a href="javascript:;">
+                                                <a` + providerViewLinkAttrs + `>
                                                     <div class="symbol-label">
                                                         <img src="${row.image_url}" alt="${row.full_name}" class="w-100" onerror="this.onerror=null; this.src='{{ asset('images/default/avatars/user.png') }}';" />
                                                     </div>
                                                 </a>
                                             </div>
                                             <div class="d-flex justify-content-start flex-column">
-                                                <a href="javascript:;" class="text-dark fw-bolder text-hover-primary mb-1">${row.full_name}</a>
+                                                <a` + providerViewLinkAttrs + ` class="text-dark fw-bolder text-hover-primary mb-1">${row.full_name}</a>
                                                 <span class="text-muted">${row.email}</span>
                                             </div>
                                         </div>

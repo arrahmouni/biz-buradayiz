@@ -1,3 +1,24 @@
+@php
+    use Modules\Auth\Enums\UserType;
+    use Modules\Platform\Enums\ReviewStatus;
+
+    $serviceProviderViewUrlTemplate = route('auth.users.view', [
+        'userType' => UserType::ServiceProvider->value,
+        'model' => 900000001,
+    ]);
+
+    $reviewStatusDtLabels = [];
+    $reviewStatusDtBadgeColors = [];
+    foreach (ReviewStatus::cases() as $case) {
+        $reviewStatusDtLabels[$case->value] = trans('admin::cruds.reviews.statuses.'.$case->value);
+        $reviewStatusDtBadgeColors[$case->value] = $case->datatableBadgeColor();
+    }
+
+    $reviewRatingFilterOptions = collect(range(1, 5))
+        ->mapWithKeys(fn (int $n) => [$n => trans('admin::datatable.reviews.rating_filter_option', ['n' => $n])])
+        ->all();
+@endphp
+
 @extends('admin::layouts.master', [
     'title' => trans('admin::dashboard.aside_menu.review_management.reviews'),
 ])
@@ -14,7 +35,45 @@
         ])
 
         @slot('filterContent')
-            {{-- Filter Contetn --}}
+            <div class="mb-5">
+                @include('admin::components.inputs.select', [
+                    'options'           => [
+                        'name'          => 'status',
+                        'label'         => trans('admin::datatable.reviews.columns.status'),
+                        'placeholder'   => trans('admin::base.all_results'),
+                        'clearable'     => true,
+                        'data'          => ReviewStatus::adminFilterSelectOptions(),
+                        'text'          => function ($key, $value) { return $value; },
+                        'values'        => function ($key, $value) { return $key; },
+                    ],
+                ])
+            </div>
+            <div class="mb-5">
+                @include('admin::components.inputs.select', [
+                    'options'           => [
+                        'id'            => 'reviews_filter_user_id',
+                        'name'          => 'user_id',
+                        'label'         => trans('admin::inputs.package_subscriptions_crud.service_provider.label'),
+                        'placeholder'   => trans('admin::base.all_results'),
+                        'clearable'     => true,
+                        'isAjax'        => true,
+                        'url'           => route('auth.users.ajaxList', ['userType' => UserType::ServiceProvider->value]),
+                    ],
+                ])
+            </div>
+            <div class="mb-5">
+                @include('admin::components.inputs.select', [
+                    'options'           => [
+                        'name'          => 'rating',
+                        'label'         => trans('admin::datatable.reviews.columns.rating'),
+                        'placeholder'   => trans('admin::base.all_results'),
+                        'clearable'     => true,
+                        'data'          => $reviewRatingFilterOptions,
+                        'text'          => function ($key, $value) { return $value; },
+                        'values'        => function ($key, $value) { return $key; },
+                    ],
+                ])
+            </div>
         @endslot
     @endcomponent
 @endsection
@@ -54,20 +113,11 @@
 
             <!--begin::Card body-->
             <div class="card-body  py-4">
-                @php
-                    use Modules\Platform\Enums\ReviewStatus;
-
-                    $reviewStatusDtLabels = [];
-                    $reviewStatusDtBadgeColors = [];
-                    foreach (ReviewStatus::cases() as $case) {
-                        $reviewStatusDtLabels[$case->value] = trans('admin::cruds.reviews.statuses.'.$case->value);
-                        $reviewStatusDtBadgeColors[$case->value] = $case->datatableBadgeColor();
-                    }
-                @endphp
                 @component('admin::components.datatables.table', [
                         'options'           => [
                             'url'           => route('platform.reviews.datatable'),
                             'createdAtColumn' => trans('admin::datatable.base_columns.created_at'),
+                            'filter'        => true,
                         ]
                     ])
                     @slot('columns')
@@ -98,17 +148,21 @@
                                     if (type !== 'display' && type !== 'filter') {
                                         return (data.full_name || '') + (data.email ? ' ' + data.email : '');
                                     }
+                                    const providerViewUrl = @json($serviceProviderViewUrlTemplate).replace('900000001', String(row.user_id));
+                                    const providerViewLinkAttrs = row.user_id
+                                        ? ' href="' + providerViewUrl + '" target="_blank" rel="noopener noreferrer"'
+                                        : ' href="javascript:;"';
                                     return `
                                         <div class="d-flex align-items-center">
                                             <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                                                <a href="javascript:;">
+                                                <a` + providerViewLinkAttrs + `>
                                                     <div class="symbol-label">
                                                         <img src="${data.image_url}" alt="${data.full_name}" class="w-100" onerror="this.onerror=null; this.src='{{ asset('images/default/avatars/user.png') }}';" />
                                                     </div>
                                                 </a>
                                             </div>
                                             <div class="d-flex justify-content-start flex-column">
-                                                <a href="javascript:;" class="text-dark fw-bolder text-hover-primary mb-1">${data.full_name}</a>
+                                                <a` + providerViewLinkAttrs + ` class="text-dark fw-bolder text-hover-primary mb-1">${data.full_name}</a>
                                                 <span class="text-muted">${data.email}</span>
                                             </div>
                                         </div>

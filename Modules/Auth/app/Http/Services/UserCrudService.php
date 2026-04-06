@@ -167,13 +167,23 @@ class UserCrudService extends BaseCrudService
                     );
                 }
 
-                return
-                    app('customDataTable')
-                        ->routePrefix('auth.users')
-                        ->setRouteParameters($routeParamsForActions)
-                        ->of($row, UserPermissions::PERMISSION_NAMESPACE)
-                        ->excludeActions($excludeActions)
-                        ->getDatatableActions($additionalActions);
+                $datatableActions = app('customDataTable')
+                    ->routePrefix('auth.users')
+                    ->setRouteParameters($routeParamsForActions)
+                    ->of($row, UserPermissions::PERMISSION_NAMESPACE)
+                    ->excludeActions($excludeActions)
+                    ->getDatatableActions($additionalActions);
+
+                if ($isServiceProvider && isset($datatableActions['items']) && is_array($datatableActions['items'])) {
+                    foreach ($datatableActions['items'] as $key => $item) {
+                        if (! is_array($item) || ($item['action'] ?? '') !== VIEW_ACTION) {
+                            continue;
+                        }
+                        $datatableActions['items'][$key]['linkTarget'] = '_blank';
+                    }
+                }
+
+                return $datatableActions;
             })
             ->toJson();
     }

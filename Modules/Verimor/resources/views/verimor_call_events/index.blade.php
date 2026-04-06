@@ -50,7 +50,6 @@
                         'clearable'     => true,
                         'isAjax'        => true,
                         'url'           => route('auth.users.ajaxList', ['userType' => \Modules\Auth\Enums\UserType::ServiceProvider->value]),
-                        'selected'      => $verimorCallEventsFilterUserSelected ?? [],
                     ],
                 ])
             </div>
@@ -85,6 +84,13 @@
             </div>
 
             @php
+                use Modules\Auth\Enums\UserType;
+
+                $serviceProviderViewUrlTemplate = route('auth.users.view', [
+                    'userType' => UserType::ServiceProvider->value,
+                    'model' => 900000001,
+                ]);
+
                 $verimorCallEventsDtLabels = [
                     'yes' => trans('verimor::strings.yes'),
                     'no' => trans('verimor::strings.no'),
@@ -128,17 +134,21 @@
                                     if (type !== 'display' && type !== 'filter') {
                                         return (data.full_name || '') + (data.email ? ' ' + data.email : '');
                                     }
+                                    const providerViewUrl = @json($serviceProviderViewUrlTemplate).replace('900000001', String(row.user_id));
+                                    const providerViewLinkAttrs = row.user_id
+                                        ? ' href="' + providerViewUrl + '" target="_blank" rel="noopener noreferrer"'
+                                        : ' href="javascript:;"';
                                     return `
                                         <div class="d-flex align-items-center">
                                             <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                                                <a href="javascript:;">
+                                                <a` + providerViewLinkAttrs + `>
                                                     <div class="symbol-label">
                                                         <img src="${data.image_url}" alt="${data.full_name}" class="w-100" onerror="this.onerror=null; this.src='{{ asset('images/default/avatars/user.png') }}';" />
                                                     </div>
                                                 </a>
                                             </div>
                                             <div class="d-flex justify-content-start flex-column">
-                                                <a href="javascript:;" class="text-dark fw-bolder text-hover-primary mb-1">${data.full_name}</a>
+                                                <a` + providerViewLinkAttrs + ` class="text-dark fw-bolder text-hover-primary mb-1">${data.full_name}</a>
                                                 <span class="text-muted">${data.email}</span>
                                             </div>
                                         </div>

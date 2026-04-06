@@ -509,6 +509,15 @@
         return items;
     }
 
+    function datatableActionLinkTargetAttr(value)
+    {
+        if (value.linkTarget === '_blank') {
+            return ' target="_blank" rel="noopener noreferrer"';
+        }
+
+        return '';
+    }
+
     function renderDatatableActions(value, withLabel = true)
     {
         let items = '';
@@ -518,13 +527,15 @@
             label = `<span class="menu-text">${value.label}</span>`;
         }
 
+        const linkTargetAttr = datatableActionLinkTargetAttr(value);
+
         if(value.type == 'divider') {
             items += `<div class="separator my-2"></div>`;
         }
         else if(value.type == 'button' && (value.action == 'update' || value.action == 'view' || value.action == 'show_log')) {
             items +=  `
                 <div class="menu-item px-3">
-                    <a href="${value.route}" class="menu-link px-3">
+                    <a href="${value.route}" class="menu-link px-3"${linkTargetAttr}>
                         <i class="${value.icon} me-2" style="color:${value.color}"></i>
                         ${label}
                     </a>
@@ -534,7 +545,7 @@
         else if(value.type == 'link') {
             items +=  `
                 <div class="menu-item px-3">
-                    <a href="${value.route}" class="menu-link px-3">
+                    <a href="${value.route}" class="menu-link px-3"${linkTargetAttr}>
                         <i class="${value.icon} me-2 text-${value.color}"></i>
                         ${label}
                     </a>
