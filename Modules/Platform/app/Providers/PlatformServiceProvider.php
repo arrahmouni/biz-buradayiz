@@ -2,8 +2,10 @@
 
 namespace Modules\Platform\Providers;
 
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Modules\Platform\Jobs\ExpireDuePackageSubscriptionsJob;
 use Modules\Platform\Console\SyncServiceProviderRatingsCommand;
 use Modules\Platform\Models\Review;
 use Modules\Platform\Observers\ReviewObserver;
@@ -60,10 +62,10 @@ class PlatformServiceProvider extends ServiceProvider
      */
     protected function registerCommandSchedules(): void
     {
-        // $this->app->booted(function () {
-        //     $schedule = $this->app->make(Schedule::class);
-        //     $schedule->command('inspire')->hourly();
-        // });
+        $this->app->booted(function () {
+            $schedule = $this->app->make(Schedule::class);
+            $schedule->job(new ExpireDuePackageSubscriptionsJob)->dailyAt('00:00');
+        });
     }
 
     /**
