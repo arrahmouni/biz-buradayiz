@@ -14,6 +14,7 @@ use Modules\Auth\database\factories\UserFactory;
 use Modules\Auth\Enums\UserType;
 use Modules\Base\Trait\ModelHelper;
 use Modules\Platform\Models\PackageSubscription;
+use Modules\Platform\Models\Review;
 use Modules\Platform\Models\Service;
 use Modules\Zms\Models\City;
 use OwenIt\Auditing\Auditable as AuditableTrait;
@@ -51,6 +52,8 @@ class User extends Authenticatable implements Auditable, HasMedia
         'provider_id',
         'service_id',
         'city_id',
+        'review_rating_average',
+        'approved_reviews_count',
     ];
 
     protected $hidden = [
@@ -86,6 +89,8 @@ class User extends Authenticatable implements Auditable, HasMedia
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'type' => UserType::class,
+            'review_rating_average' => 'decimal:2',
+            'approved_reviews_count' => 'integer',
         ];
     }
 
@@ -139,6 +144,11 @@ class User extends Authenticatable implements Auditable, HasMedia
     public function currentPackageSubscription()
     {
         return $this->hasOne(PackageSubscription::class)->activeSubscription()->latestOfMany('id');
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
     }
 
     // End Relationships
