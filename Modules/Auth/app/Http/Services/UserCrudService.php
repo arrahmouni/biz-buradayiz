@@ -150,7 +150,7 @@ class UserCrudService extends BaseCrudService
 
         return $dataTable
             ->addColumn('actions', function ($row) use ($routeParamsForActions, $isServiceProvider, $canViewVerimorCallEvents) {
-                $excludeActions = [VIEW_ACTION];
+                $excludeActions = $isServiceProvider ? [] : [VIEW_ACTION];
                 $additionalActions = [];
 
                 if ($isServiceProvider && $canViewVerimorCallEvents) {

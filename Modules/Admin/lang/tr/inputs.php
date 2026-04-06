@@ -325,7 +325,7 @@ return [
         ],
 
         'central_phone' => [
-            'label' => 'Merkez telefon',
+            'label' => 'Merkez telefon (Verimor)',
             'placeholder' => 'örn. +905551234567',
             'help' => 'İsteğe bağlı. Sadece rakamlar; başta tek + kullanılabilir.',
         ],
@@ -544,7 +544,7 @@ return [
             'title' => 'Sağlayıcı özeti',
             'email' => 'E-posta',
             'phone' => 'Cep telefonu',
-            'central_phone' => 'Merkez telefon',
+            'central_phone' => 'Merkez telefon (Verimor)',
             'service' => 'Hizmet',
             'city' => 'İlçe',
         ],

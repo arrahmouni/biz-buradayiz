@@ -15,7 +15,7 @@ return [
         'description' => 'Aciklama',
         'email' => 'E-posta',
         'phone_number' => 'Telefon Numarası',
-        'central_phone' => 'Merkez telefon',
+        'central_phone' => 'Merkez telefon (Verimor)',
         'created_at' => 'Oluşturulma Tarihi',
         'updated_at' => 'Guncellenme Tarihi',
         'deleted_at' => 'Silinme Tarihi',

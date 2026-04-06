@@ -240,6 +240,14 @@ class PackageSubscriptionService extends BaseCrudService
         $model = CrudModel::query()
             ->with(['user', 'snapshot']);
 
+        if (! empty($data['scoped_user_id'])) {
+            $model->where('user_id', (int) $data['scoped_user_id']);
+        }
+
+        if (! empty($data['exclude_subscription_id'])) {
+            $model->where('id', '!=', (int) $data['exclude_subscription_id']);
+        }
+
         if ($this->hasWithDisabled()) {
             $model = $model->withDisabled();
         }

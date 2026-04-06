@@ -52,10 +52,10 @@
         </thead>
     </table>
 
-    @once
-        @push('script')
+    @push('script')
             <script>
-                // Init datatable buttons
+                (function () {
+                // Init datatable buttons (IIFE: multiple DataTables on one page must not redeclare top-level `let`)
                 let datatableButtons = '';
                 @if ($VALUE['withExportButton'] && $VALUE['search'])
                     datatableButtons = `<'row'<'col-sm-12 col-md-6 mb-5'B><'col-sm-12 col-md-6 mb-5'f>>`;
@@ -290,7 +290,7 @@
                     });
 
                 });
+                })();
             </script>
         @endpush
-    @endonce
 @endisset

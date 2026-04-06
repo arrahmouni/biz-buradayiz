@@ -22,6 +22,9 @@ class VerimorCallEventService extends BaseCrudService
 
         return DataTables::of($model)
             ->filter(function ($query) use ($data) {
+                if (! empty($data['scoped_user_id'])) {
+                    $query->where('verimor_call_events.user_id', (int) $data['scoped_user_id']);
+                }
                 if (isset($data['search']['value']) && $data['search']['value'] !== '') {
                     $query->simpleSearch($data['search']['value']);
                 }

@@ -4,6 +4,7 @@ namespace Modules\Platform\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Modules\Platform\Console\SyncServiceProviderRatingsCommand;
 use Modules\Platform\Models\Review;
 use Modules\Platform\Observers\ReviewObserver;
 use Nwidart\Modules\Traits\PathNamespace;
@@ -49,7 +50,9 @@ class PlatformServiceProvider extends ServiceProvider
      */
     protected function registerCommands(): void
     {
-        // $this->commands([]);
+        $this->commands([
+            SyncServiceProviderRatingsCommand::class,
+        ]);
     }
 
     /**

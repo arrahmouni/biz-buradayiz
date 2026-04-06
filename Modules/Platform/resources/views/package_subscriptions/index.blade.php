@@ -115,7 +115,7 @@
                         ]
                     ])
                     @slot('columns')
-                        <th class="min-w-275px"> @lang('admin::datatable.package_subscriptions.columns.user') </th>
+                        <th class="min-w-275px"> @lang('admin::inputs.package_subscriptions_crud.service_provider.label') </th>
                         <th class=""> @lang('admin::datatable.package_subscriptions.columns.package') </th>
                         <th class="min-w-125px"> @lang('admin::datatable.package_subscriptions.columns.ordered_price') </th>
                         <th class="min-w-175px"> @lang('admin::datatable.package_subscriptions.columns.payment_method') </th>
