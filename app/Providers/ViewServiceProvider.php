@@ -23,6 +23,7 @@ use Modules\Platform\Enums\permissions\PackageSubscriptionPermissions;
 use Modules\Platform\Enums\permissions\ReviewPermissions;
 use Modules\Platform\Enums\permissions\ServicePermissions;
 use Modules\Platform\Models\PackageSubscription;
+use Modules\Seo\Enums\permissions\SeoPermissions;
 use Modules\Verimor\Enums\permissions\VerimorCallEventPermissions;
 use Modules\Zms\Enums\permissions\CountryPermissions;
 
@@ -46,6 +47,7 @@ class ViewServiceProvider extends ServiceProvider
             $this->registerAdminAsideMenu();
             $this->registerPermissionAsideMenu();
             $this->regiserCmsAsideMenu();
+            $this->registerSeoAsideMenu();
             $this->registerZmsAsideMenu();
             $this->registerConfigAsideMenu();
             $this->registerPlatformAsideMenu();
@@ -371,6 +373,47 @@ class ViewServiceProvider extends ServiceProvider
             }
         }
         // End Content Section [Dynamic]
+    }
+
+    private function registerSeoAsideMenu()
+    {
+        app('adminHelper')->asideMenu([
+            'id' => 'seo_management',
+            'type' => 'header',
+            'title' => trans('admin::dashboard.aside_menu.seo_management.title'),
+            'order' => 11,
+        ]);
+
+        app('adminHelper')->asideMenu([
+            'id' => 'seo_entries_section',
+            'parent_id' => 'seo_management',
+            'type' => 'item',
+            'icon' => 'bi bi-search',
+            'title' => trans('admin::dashboard.aside_menu.seo_management.entries'),
+            'order' => 1,
+        ]);
+
+        if (app('owner') || app('admin')->can(SeoPermissions::READ)) {
+            app('adminHelper')->asideMenu([
+                'id' => 'view_seo_entries',
+                'parent_id' => 'seo_entries_section',
+                'type' => 'item',
+                'link' => route('seo.entries.index'),
+                'title' => trans('admin::base.view_all'),
+                'order' => 4,
+            ]);
+        }
+
+        if (app('owner') || app('admin')->can(SeoPermissions::CREATE)) {
+            app('adminHelper')->asideMenu([
+                'id' => 'create_seo_entry',
+                'parent_id' => 'seo_entries_section',
+                'type' => 'item',
+                'link' => route('seo.entries.create'),
+                'title' => trans('admin::base.create_new'),
+                'order' => 5,
+            ]);
+        }
     }
 
     private function registerNotificationAsideMenu()

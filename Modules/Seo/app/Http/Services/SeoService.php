@@ -1,0 +1,287 @@
+<?php
+
+namespace Modules\Seo\Http\Services;
+
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
+use Modules\Base\Http\Services\BaseCrudService;
+use Modules\Cms\Enums\contents\BaseContentTypes;
+use Modules\Cms\Models\Content;
+use Modules\Seo\Enums\permissions\SeoPermissions;
+use Modules\Seo\Models\Seo;
+use Modules\Seo\Models\SeoStaticPage;
+use Yajra\DataTables\Facades\DataTables;
+
+class SeoService extends BaseCrudService
+{
+    protected $modelClass = Seo::class;
+
+    protected $modelScopes = [
+        'model',
+    ];
+
+    protected $unnecessaryFieldsForCrud = [
+        'meta_title',
+        'meta_description',
+        'meta_keywords',
+        'og_title',
+        'og_description',
+        'og_image',
+        'robots',
+        'canonical_url',
+        'page_target',
+    ];
+
+    public function createModel(array $data): Seo
+    {
+        $subject = $this->resolvePageTarget($data['page_target']);
+
+        $this->assertNoDuplicateSeo($subject);
+
+        $translations = $this->createTranslations($data, 'meta_title', [
+            'meta_description',
+            'meta_keywords',
+            'og_title',
+            'og_description',
+            'og_image',
+            'robots',
+            'canonical_url',
+        ]);
+
+        return DB::transaction(function () use ($subject, $translations) {
+            $seo = new Seo;
+            $seo->model()->associate($subject);
+            $seo->save();
+            if (! empty($translations)) {
+                $seo->update($translations);
+            }
+
+            return $seo->fresh(['translations', 'model']);
+        });
+    }
+
+    public function updateModel(Seo $model, array $data): Seo
+    {
+        DB::transaction(function () use ($model, $data) {
+            $this->updateTranslations($model, $data, 'meta_title', [
+                'meta_description',
+                'meta_keywords',
+                'og_title',
+                'og_description',
+                'og_image',
+                'robots',
+                'canonical_url',
+            ]);
+        });
+
+        return $model->fresh(['translations', 'model']);
+    }
+
+    public function getDataTable(array $data): JsonResponse
+    {
+        $model = Seo::query()->with('model');
+
+        if ($this->shouldShowTrash($data, SeoPermissions::VIEW_TRASH)) {
+            $model = $model->onlyTrashed();
+        }
+
+        return DataTables::of($model)
+            ->filter(function ($query) use ($data) {
+                if (isset($data['search']['value']) && ! empty($data['search']['value'])) {
+                    $query->simpleSearch($data['search']['value']);
+                }
+            })
+            ->addColumn('target', fn (Seo $seo) => $seo->adminTargetLabel())
+            ->addColumn('meta_title', fn (Seo $seo) => $seo->smartTrans('meta_title') ?? '—')
+            ->addColumn('actions', function (Seo $seo) {
+                return app('customDataTable')
+                    ->routePrefix('seo.entries')
+                    ->of($seo, SeoPermissions::PERMISSION_NAMESPACE)
+                    ->excludeActions([VIEW_ACTION])
+                    ->getDatatableActions();
+            })
+            ->toJson();
+    }
+
+    /**
+     * @return array<int, array{id: string, text: string}>
+     */
+    public function getPageTargetOptionsForForm(): array
+    {
+        $out = [];
+
+        foreach (SeoStaticPage::query()->orderBy('sort_order')->get() as $page) {
+            $out[] = [
+                'id' => SeoStaticPage::class.'|'.$page->getKey(),
+                'text' => $page->adminLabel(),
+            ];
+        }
+
+        $query = Content::query()
+            ->whereIn('type', [BaseContentTypes::PAGES, BaseContentTypes::BLOGS])
+            ->orderBy('id');
+
+        foreach ($query->get() as $content) {
+            $out[] = [
+                'id' => Content::class.'|'.$content->getKey(),
+                'text' => $content->smartTrans('title').' ('.$content->type.')',
+            ];
+        }
+
+        return $out;
+    }
+
+    /**
+     * @throws ValidationException
+     */
+    public function resolvePageTarget(string $pageTarget): SeoStaticPage|Content
+    {
+        $parts = explode('|', $pageTarget, 2);
+        if (count($parts) !== 2) {
+            throw ValidationException::withMessages([
+                'page_target' => [trans('seo::validation.invalid_page_target')],
+            ]);
+        }
+
+        [$class, $id] = $parts;
+
+        if (! in_array($class, [SeoStaticPage::class, Content::class], true)) {
+            throw ValidationException::withMessages([
+                'page_target' => [trans('seo::validation.invalid_page_target')],
+            ]);
+        }
+
+        $model = $class::query()->find($id);
+
+        if (! $model) {
+            throw ValidationException::withMessages([
+                'page_target' => [trans('seo::validation.page_not_found')],
+            ]);
+        }
+
+        if ($model instanceof Content) {
+            if (! in_array($model->type, [BaseContentTypes::PAGES, BaseContentTypes::BLOGS], true)) {
+                throw ValidationException::withMessages([
+                    'page_target' => [trans('seo::validation.invalid_content_type')],
+                ]);
+            }
+        }
+
+        return $model;
+    }
+
+    protected function assertNoDuplicateSeo(SeoStaticPage|Content $subject): void
+    {
+        $exists = Seo::query()
+            ->where('model_type', $subject->getMorphClass())
+            ->where('model_id', $subject->getKey())
+            ->exists();
+
+        if ($exists) {
+            throw ValidationException::withMessages([
+                'page_target' => [trans('seo::validation.duplicate_seo')],
+            ]);
+        }
+    }
+
+    /**
+     * Build merged SEO payload for public API (stored meta + fallbacks).
+     *
+     * @return array<string, mixed>
+     */
+    public function buildPublicPayload(?Seo $seo, SeoStaticPage|Content $subject, ?string $locale = null): array
+    {
+        $locale ??= app()->getLocale();
+        app()->setLocale($locale);
+
+        $meta = $this->resolveMetaRow($seo, $subject, $locale);
+
+        return [
+            'subject' => $this->subjectSummary($subject),
+            'locale' => $locale,
+            'meta' => $meta,
+        ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    protected function subjectSummary(SeoStaticPage|Content $subject): array
+    {
+        if ($subject instanceof SeoStaticPage) {
+            return [
+                'kind' => 'static',
+                'key' => $subject->key,
+                'path_hint' => $subject->path_hint,
+            ];
+        }
+
+        return [
+            'kind' => 'content',
+            'content_type' => $subject->type,
+            'content_id' => (string) $subject->getKey(),
+            'slug' => $subject->slug,
+        ];
+    }
+
+    /**
+     * @return array<string, string|null>
+     */
+    protected function resolveMetaRow(?Seo $seo, SeoStaticPage|Content $subject, string $locale): array
+    {
+        $defaults = $this->defaultMetaForSubject($subject, $locale);
+
+        if (! $seo) {
+            return $defaults;
+        }
+
+        $t = $seo->translate($locale);
+        if (! $t) {
+            return $defaults;
+        }
+
+        return [
+            'meta_title' => $t->meta_title ?: $defaults['meta_title'],
+            'meta_description' => $t->meta_description ?: $defaults['meta_description'],
+            'meta_keywords' => $t->meta_keywords ?: $defaults['meta_keywords'],
+            'og_title' => $t->og_title ?: $defaults['og_title'],
+            'og_description' => $t->og_description ?: $defaults['og_description'],
+            'og_image' => $t->og_image ?: $defaults['og_image'],
+            'robots' => $t->robots ?: $defaults['robots'],
+            'canonical_url' => $t->canonical_url ?: $defaults['canonical_url'],
+        ];
+    }
+
+    /**
+     * @return array<string, string|null>
+     */
+    protected function defaultMetaForSubject(SeoStaticPage|Content $subject, string $locale): array
+    {
+        if ($subject instanceof Content) {
+            return [
+                'meta_title' => $subject->translate($locale)?->title ?? $subject->smartTrans('title'),
+                'meta_description' => $subject->translate($locale)?->short_description ?? $subject->smartTrans('short_description'),
+                'meta_keywords' => null,
+                'og_title' => $subject->translate($locale)?->title ?? $subject->smartTrans('title'),
+                'og_description' => $subject->translate($locale)?->short_description ?? $subject->smartTrans('short_description'),
+                'og_image' => null,
+                'robots' => null,
+                'canonical_url' => null,
+            ];
+        }
+
+        $label = $subject->adminLabel();
+
+        return [
+            'meta_title' => $label.' | '.config('app.name'),
+            'meta_description' => null,
+            'meta_keywords' => null,
+            'og_title' => $label,
+            'og_description' => null,
+            'og_image' => null,
+            'robots' => null,
+            'canonical_url' => null,
+        ];
+    }
+}

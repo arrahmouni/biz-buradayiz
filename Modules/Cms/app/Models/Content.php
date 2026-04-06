@@ -2,23 +2,24 @@
 
 namespace Modules\Cms\Models;
 
+use Astrotomic\Translatable\Translatable;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
-use Modules\Admin\Models\Admin;
 use Modules\Base\Models\BaseModel;
 use Modules\Base\Trait\Disableable;
+use Modules\Cms\Database\Factories\ContentFactory;
 use Modules\Cms\Traits\ContentTrait;
-use OwenIt\Auditing\Contracts\Auditable;
-use Astrotomic\Translatable\Translatable;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Seo\Models\Seo;
 use OwenIt\Auditing\Auditable as AuditableTrait;
-use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Modules\Cms\Enums\permissions\ContentPermissions;
+use OwenIt\Auditing\Contracts\Auditable;
 
 class Content extends BaseModel implements Auditable
 {
-    use Translatable, SoftDeletes, Disableable, HasFactory, ContentTrait, AuditableTrait;
+    use AuditableTrait, ContentTrait, Disableable, HasFactory, SoftDeletes, Translatable;
 
     // Start Properties
 
@@ -45,7 +46,7 @@ class Content extends BaseModel implements Auditable
     ];
 
     protected $with = [
-        'translations'
+        'translations',
     ];
 
     protected $appends = [
@@ -79,24 +80,21 @@ class Content extends BaseModel implements Auditable
     /**
      * Create a new factory instance for the model.
      *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     * @return Factory
      */
     protected static function newFactory()
     {
-        return \Modules\Cms\Database\Factories\ContentFactory::new();
+        return ContentFactory::new();
     }
 
     /**
      * Transform the model for auditing.
-     *
-     * @param array $data
-     * @return array
      */
     public function transformAudit(array $data): array
     {
         if (Arr::has($data, 'new_values.can_be_deleted')) {
-            $data['old_values']['can_be_deleted'] = (bool) $data['old_values']['can_be_deleted'] ;
-            $data['new_values']['can_be_deleted'] = (bool) $data['new_values']['can_be_deleted'] ;
+            $data['old_values']['can_be_deleted'] = (bool) $data['old_values']['can_be_deleted'];
+            $data['new_values']['can_be_deleted'] = (bool) $data['new_values']['can_be_deleted'];
         }
 
         return $data;
@@ -120,15 +118,20 @@ class Content extends BaseModel implements Auditable
         return $this->belongsToMany(ContentTag::class, 'tag_content');
     }
 
+    public function seo()
+    {
+        return $this->morphOne(Seo::class, 'model');
+    }
+
     // End Relationships
 
     // Start Scopes
     public function scopeSimpleSearch($query, $search)
     {
         return $query->byType(e(request()->type) ?? null)
-            ->where(function($query) use($search) {
+            ->where(function ($query) use ($search) {
                 $query->where('id', $search)
-                ->orWhereTranslationLike('title', '%' . $search . '%');
+                    ->orWhereTranslationLike('title', '%'.$search.'%');
             });
     }
 
@@ -148,9 +151,9 @@ class Content extends BaseModel implements Auditable
     public function formAjaxArray($selected = true)
     {
         return [
-            'id'            => $this->id,
-            'text'          => $this->smartTrans('title'),
-            'selected'      => $selected
+            'id' => $this->id,
+            'text' => $this->smartTrans('title'),
+            'selected' => $selected,
         ];
     }
 
@@ -158,49 +161,48 @@ class Content extends BaseModel implements Auditable
     {
         $locale ??= config('cms.slug_default_locale');
 
-        return static::whereTranslationLike('slug', '%' . $slug . '%')->first();
+        return static::whereTranslationLike('slug', '%'.$slug.'%')->first();
     }
-
 
     // End Get Data From Model
 
     // Start Mutators & Accessors
 
-    protected function canBeDeletedFormat() : Attribute
+    protected function canBeDeletedFormat(): Attribute
     {
         return Attribute::make(
-            get: fn($value, $attribute) => trans('base::base.yes_no_boolean.' . $attribute['can_be_deleted']),
+            get: fn ($value, $attribute) => trans('base::base.yes_no_boolean.'.$attribute['can_be_deleted']),
         );
     }
 
-    protected function placementPosition() : Attribute
+    protected function placementPosition(): Attribute
     {
         return Attribute::make(
-            get: function($value, $attribute) {
+            get: function ($value, $attribute) {
                 $key = null;
 
-                if($this->typeHasField($this->type, 'placement')) {
+                if ($this->typeHasField($this->type, 'placement')) {
                     $key = $this->custom_properties['placement'] ?? null;
                 }
 
-                return $key ? trans('cms::contents.sliders.placement.' . $key) : '--';
+                return $key ? trans('cms::contents.sliders.placement.'.$key) : '--';
             }
         );
     }
 
-    protected function createdAtFormat() : Attribute
+    protected function createdAtFormat(): Attribute
     {
         return Attribute::make(
-            get: function($value, $attribute) {
+            get: function ($value, $attribute) {
                 return Carbon::parse($this->created_at)->locale(app()->getLocale())->diffForHumans();
             }
         );
     }
 
-    protected function publishedAtFormat() : Attribute
+    protected function publishedAtFormat(): Attribute
     {
         return Attribute::make(
-            get: function($value, $attribute) {
+            get: function ($value, $attribute) {
                 return Carbon::parse($this->published_at)->format('Y-m-d H:i:s');
             }
         );

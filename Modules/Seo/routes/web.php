@@ -3,17 +3,18 @@
 use Illuminate\Support\Facades\Route;
 use Modules\Seo\Http\Controllers\Admin\SeoController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-Route::group([], function () {
-    Route::resource('seo', SeoController::class)->names('seo');
+Route::prefix('seo-entries')->name('entries.')->controller(SeoController::class)->group(function () {
+    Route::get('list', 'index')->name('index');
+    Route::get('datatable', 'datatable')->name('datatable');
+    Route::get('ajax-list', 'ajaxList')->name('ajaxList');
+    Route::get('create', 'create')->name('create');
+    Route::post('create', 'postCreate')->name('postCreate');
+    Route::get('update/{model}', 'update')->name('update');
+    Route::put('update/{model}', 'postUpdate')->name('postUpdate');
+    Route::delete('soft-delete/{model}', 'softDelete')->name('softDelete');
+    Route::delete('hard-delete/{model}', 'hardDelete')->name('hardDelete');
+    Route::post('restore/{model}', 'restore')->name('restore');
+    Route::delete('bulk-soft-delete', 'bulkSoftDelete')->name('bulkSoftDelete');
+    Route::delete('bulk-hard-delete', 'bulkHardDelete')->name('bulkHardDelete');
+    Route::post('bulk-restore', 'bulkRestore')->name('bulkRestore');
 });

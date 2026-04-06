@@ -133,6 +133,10 @@ return [
             'title' => 'Yorum Yönetimi',
             'reviews' => 'Yorumlar',
         ],
+        'seo_management' => [
+            'title' => 'SEO Yönetimi',
+            'entries' => 'SEO kayıtları',
+        ],
     ],
 
     'breadcrumbs' => [

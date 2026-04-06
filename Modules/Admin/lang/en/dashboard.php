@@ -133,6 +133,10 @@ return [
             'title' => 'Review Management',
             'reviews' => 'Reviews',
         ],
+        'seo_management' => [
+            'title' => 'SEO Management',
+            'entries' => 'SEO entries',
+        ],
     ],
 
     'breadcrumbs' => [

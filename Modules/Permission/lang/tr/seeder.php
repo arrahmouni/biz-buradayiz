@@ -26,6 +26,7 @@ return [
         'package_subscription_management' => 'Paket abonelikleri yönetimi',
         'verimor_call_event_management' => 'Verimor çağrı kayıtları',
         'review_management' => 'Yorum Yönetimi',
+        'seo_management' => 'SEO Yönetimi',
     ],
 
     'roles' => [

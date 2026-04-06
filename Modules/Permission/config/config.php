@@ -92,5 +92,9 @@ return [
             'name' => 'verimor_call_event',
             'icon' => 'bi bi-telephone-inbound',
         ],
+        'seo' => [
+            'name' => 'seo',
+            'icon' => 'bi bi-search',
+        ],
     ],
 ];
