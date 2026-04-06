@@ -46,11 +46,11 @@ class ViewServiceProvider extends ServiceProvider
             $this->registerDashboardAsideMenu();
             $this->registerAdminAsideMenu();
             $this->registerPermissionAsideMenu();
+            $this->registerPlatformAsideMenu();
             $this->regiserCmsAsideMenu();
             $this->registerSeoAsideMenu();
             $this->registerZmsAsideMenu();
             $this->registerConfigAsideMenu();
-            $this->registerPlatformAsideMenu();
             // $this->registerNotificationAsideMenu();
             // $this->registerCrmAsideMenu();
             // $this->registerLogAsideMenu();
@@ -167,7 +167,7 @@ class ViewServiceProvider extends ServiceProvider
             'id' => 'zone_management',
             'type' => 'header',
             'title' => trans('admin::dashboard.aside_menu.zone_management.title'),
-            'order' => 10,
+            'order' => 1000,
         ]);
 
         // Start Role Section
@@ -627,7 +627,7 @@ class ViewServiceProvider extends ServiceProvider
             'id' => 'platform_management',
             'type' => 'header',
             'title' => trans('admin::dashboard.aside_menu.platform_management.title'),
-            'order' => 1500,
+            'order' => 10,
         ]);
 
         // Start Service Section
