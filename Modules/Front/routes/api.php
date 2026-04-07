@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use Modules\Front\Http\Controllers\Admin\FrontController;
 
 /*
  *--------------------------------------------------------------------------
@@ -13,7 +11,3 @@ use Modules\Front\Http\Controllers\Admin\FrontController;
  * is assigned the "api" middleware group. Enjoy building your API!
  *
 */
-
-Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
-    Route::apiResource('front', FrontController::class)->names('front');
-});
