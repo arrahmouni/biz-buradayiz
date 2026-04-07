@@ -62,6 +62,7 @@ return [
         'reached_maximum_number_of_files'                           => 'لقد وصلت إلى الحد الأقصى لعدد الملفات.',
         'you_must_delete_files_first'                               => 'يجب عليك حذف الملفات أولاً قبل إضافة ملف جديد. يمكنك إضافة :count ملفات فقط',
         'content_cannot_be_deleted'                                 => 'لا يمكن حذف هذا المحتوى.',
+        'service_cannot_be_deleted_with_active_subscriptions'       => 'لا يمكن حذف هذه الخدمة لأن مزود خدمة واحدًا أو أكثر لديه اشتراك نشط.',
         'content_cannot_be_deleted_because_it_related_to_product'   => 'لا يمكن حذف هذا المحتوى لأنه مرتبط بمنتج.',
         'category_cannot_be_deleted'                                => 'لا يمكن حذف هذا التصنيف.',
         'language_updated_successfully'                             => 'تم تحديث اللغة بنجاح.',

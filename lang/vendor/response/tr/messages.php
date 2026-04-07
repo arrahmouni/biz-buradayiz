@@ -61,6 +61,8 @@ return [
         'reached_maximum_number_of_files'                           => 'Maksimum dosya sayisina ulastiniz.',
         'you_must_delete_files_first'                               => 'Yeni bir dosya eklemeden once dosyalari silmelisiniz. En fazla :count dosya ekleyebilirsiniz',
         'content_cannot_be_deleted'                                 => 'Bu icerik silinemez.',
+        'service_cannot_be_deleted_with_active_subscriptions'       => 'Bir veya daha fazla hizmet saglayicisinin aktif aboneligi oldugu icin bu hizmet silinemez.',
+        'service_cannot_be_disabled_with_active_subscriptions'      => 'Bir veya daha fazla hizmet saglayicisinin aktif aboneligi oldugu icin bu hizmet devre disi alinamaz.',
         'content_cannot_be_deleted_because_it_related_to_product'   => 'Bu icerik bir urunle iliskili oldugu icin silinemez.',
         'category_cannot_be_deleted'                                => 'Bu kategori silinemez.',
         'language_updated_successfully'                             => 'Dil basariyla guncellendi.',

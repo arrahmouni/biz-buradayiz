@@ -3,6 +3,8 @@
 namespace Modules\Platform\Http\Controllers\Admin;
 
 use Modules\Base\Http\Controllers\BaseCrudController;
+use Modules\Auth\Enums\UserType;
+use Modules\Auth\Models\User;
 use Modules\Platform\Models\Service;
 use Modules\Platform\Http\Services\ServiceService;
 use Modules\Platform\Enums\permissions\ServicePermissions;
@@ -42,6 +44,34 @@ class ServiceController extends BaseCrudController
         $this->crudService  = $crudService;
 
         parent::__construct();
+    }
+
+    public function canDelete($model)
+    {
+        if ($this->checkIfServiceProviderHasActiveSubscription($model->id)) {
+            return sendFailInternalResponse('service_cannot_be_deleted_with_active_subscriptions');
+        }
+
+        return sendSuccessInternalResponse();
+    }
+
+    public function canDisable($model)
+    {
+        if ($this->checkIfServiceProviderHasActiveSubscription($model->id)) {
+            return sendFailInternalResponse('service_cannot_be_disabled_with_active_subscriptions');
+        }
+
+        return sendSuccessInternalResponse();
+    }
+
+
+    public function checkIfServiceProviderHasActiveSubscription($serviceId)
+    {
+        return User::query()
+            ->where('type', UserType::ServiceProvider->value)
+            ->where('service_id', $serviceId)
+            ->whereHas('activePackageSubscription')
+            ->exists();
     }
 
 }

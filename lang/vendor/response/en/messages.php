@@ -61,6 +61,8 @@ return [
         'reached_maximum_number_of_files'                           => 'You have reached the maximum number of fiels.',
         'you_must_delete_files_first'                               => 'You must delete files first before adding a new one. You can only add :count files',
         'content_cannot_be_deleted'                                 => 'This content cannot be deleted.',
+        'service_cannot_be_deleted_with_active_subscriptions'       => 'This service cannot be deleted because one or more service providers have an active subscription.',
+        'service_cannot_be_disabled_with_active_subscriptions'      => 'This service cannot be disabled because one or more service providers have an active subscription.',
         'content_cannot_be_deleted_because_it_related_to_product'   => 'This content cannot be deleted because it is related to a product.',
         'category_cannot_be_deleted'                                => 'This category cannot be deleted.',
         'language_updated_successfully'                             => 'Language updated successfully.',

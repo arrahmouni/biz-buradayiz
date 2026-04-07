@@ -237,6 +237,17 @@ class BaseCrudController extends BaseController implements HasMiddleware
     }
 
     /**
+     * Check if the model can be disabled or not.
+     *
+     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @return array
+     */
+    public function canDisable($model)
+    {
+        return sendSuccessInternalResponse();
+    }
+
+    /**
      * Remove the specified resource from storage as a soft delete.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -349,6 +360,12 @@ class BaseCrudController extends BaseController implements HasMiddleware
 
         try
         {
+            $result = $this->canDisable($this->data['model']);
+
+            if(! $result['success']) {
+                return sendFailResponse(customMessage: $result['message']);
+            }
+
             $this->data['model']->disable();
         }
         catch(Exception $e)
@@ -507,9 +524,22 @@ class BaseCrudController extends BaseController implements HasMiddleware
 
         try
         {
-           $this->data['models']->whereKey($request->ids)->each(function($model){
-                $model->disable();
+            // Perform the disabling
+            $models = $this->data['models']->whereKey($request->ids)->get();
+
+            // Check if all models can be disabled
+            $undisableableModel = $models->first(function ($model) {
+                $result = $this->canDisable($model);
+
+                return ! $result['success'];
             });
+
+            if ($undisableableModel) {
+                return sendFailResponse(customMessage: $this->canDisable($undisableableModel)['message']);
+            }
+
+            // Perform the disabling
+            $models->each->disable();
         }
         catch(Exception $e)
         {
