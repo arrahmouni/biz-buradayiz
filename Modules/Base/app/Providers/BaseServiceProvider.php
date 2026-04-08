@@ -14,6 +14,7 @@ use Modules\Base\Console\LogCleanCommand;
 use Modules\Base\Classes\BulkActionDropdown;
 use Modules\Base\Events\UpdateTranslationEvent;
 use Modules\Base\Listeners\UpdateTranslationListener;
+use Modules\Base\Console\ReleaseInitCommand;
 
 class BaseServiceProvider extends ServiceProvider
 {
@@ -61,6 +62,7 @@ class BaseServiceProvider extends ServiceProvider
             LogCleanCommand::class,
             TestCommand::class,
             ResetDatabase::class,
+            ReleaseInitCommand::class,
         ]);
     }
 

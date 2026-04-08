@@ -33,11 +33,12 @@ return [
         'media'                             => [
             'title'                         => 'Media',
             'fields'                        => [
-                'app_logo'                  => 'App Logo',
-                'app_mobile_logo'           => 'App Mobile Logo',
+                'app_logo'                  => 'Dashboard Logo',
+                'app_mobile_logo'           => 'Dashboard Login Page Logo',
                 'email_logo'                => 'Email Logo',
-                'app_favicon'               => 'App Favicon',
+                'app_favicon'               => 'Favicon Logo',
                 'app_placeholder'           => 'App Placeholder',
+                'web_logo'                  => 'Web Logo',
             ],
         ],
         'developers'                        => [

@@ -37,7 +37,7 @@ class ConfigDatabaseSeeder extends Seeder
      */
     private function seedGeneralSettings(): void
     {
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group'         => SettingGroups::GENERAL,
                 'key'           => 'app_name',
@@ -50,7 +50,7 @@ class ConfigDatabaseSeeder extends Seeder
             ] + createTranslateArray('title', 'settings.groups.general.fields.app_name', 'config')
         );
 
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group'         => SettingGroups::GENERAL,
                 'key'           => 'app_default_language',
@@ -63,7 +63,7 @@ class ConfigDatabaseSeeder extends Seeder
             ] + createTranslateArray('title', 'settings.groups.general.fields.app_default_language', 'config')
         );
 
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group'         => SettingGroups::GENERAL,
                 'key'           => 'maintenance_mode',
@@ -81,7 +81,7 @@ class ConfigDatabaseSeeder extends Seeder
      */
     private function seedSocailMediaSettings(): void
     {
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::SOCIAL_MEDIA,
                 'key'   => 'facebook',
@@ -92,7 +92,7 @@ class ConfigDatabaseSeeder extends Seeder
             ] + createTranslateArray('title', 'settings.groups.social_media.fields.facebook', 'config')
         );
 
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::SOCIAL_MEDIA,
                 'key'   => 'twitter',
@@ -103,7 +103,7 @@ class ConfigDatabaseSeeder extends Seeder
             ] + createTranslateArray('title', 'settings.groups.social_media.fields.twitter', 'config')
         );
 
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::SOCIAL_MEDIA,
                 'key'   => 'instagram',
@@ -114,7 +114,7 @@ class ConfigDatabaseSeeder extends Seeder
             ] + createTranslateArray('title', 'settings.groups.social_media.fields.instagram', 'config')
         );
 
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::SOCIAL_MEDIA,
                 'key'   => 'linkedin',
@@ -125,7 +125,7 @@ class ConfigDatabaseSeeder extends Seeder
             ] + createTranslateArray('title', 'settings.groups.social_media.fields.linkedin', 'config')
         );
 
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::SOCIAL_MEDIA,
                 'key'   => 'youtube',
@@ -136,7 +136,7 @@ class ConfigDatabaseSeeder extends Seeder
             ] + createTranslateArray('title', 'settings.groups.social_media.fields.youtube', 'config')
         );
 
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::SOCIAL_MEDIA,
                 'key'   => 'tiktok',
@@ -153,7 +153,7 @@ class ConfigDatabaseSeeder extends Seeder
      */
     private function seedContactInfoSettings(): void
     {
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::CONTACT_INFO,
                 'key'   => 'phone',
@@ -164,7 +164,7 @@ class ConfigDatabaseSeeder extends Seeder
             ] + createTranslateArray('title', 'settings.groups.contact_info.fields.phone', 'config')
         );
 
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::CONTACT_INFO,
                 'key'   => 'email',
@@ -175,7 +175,7 @@ class ConfigDatabaseSeeder extends Seeder
             ] + createTranslateArray('title', 'settings.groups.contact_info.fields.email', 'config')
         );
 
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::CONTACT_INFO,
                 'key'   => 'address',
@@ -192,7 +192,7 @@ class ConfigDatabaseSeeder extends Seeder
      */
     private function seedMediaSettings(): void
     {
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::MEDIA,
                 'key'   => 'app_logo',
@@ -203,7 +203,18 @@ class ConfigDatabaseSeeder extends Seeder
             ] + createTranslateArray('title', 'settings.groups.media.fields.app_logo', 'config')
         );
 
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
+            [
+                'group' => SettingGroups::MEDIA,
+                'key'   => 'web_logo',
+            ],
+            [
+                'type'  => SettingTypes::IMAGE,
+                'order' => 2,
+            ] + createTranslateArray('title', 'settings.groups.media.fields.web_logo', 'config')
+        );
+
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::MEDIA,
                 'key'   => 'app_mobile_logo',
@@ -214,7 +225,7 @@ class ConfigDatabaseSeeder extends Seeder
             ] + createTranslateArray('title', 'settings.groups.media.fields.app_mobile_logo', 'config')
         );
 
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::MEDIA,
                 'key'   => 'email_logo',
@@ -225,7 +236,7 @@ class ConfigDatabaseSeeder extends Seeder
             ] + createTranslateArray('title', 'settings.groups.media.fields.email_logo', 'config')
         );
 
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::MEDIA,
                 'key'   => 'app_favicon',
@@ -236,7 +247,7 @@ class ConfigDatabaseSeeder extends Seeder
             ] + createTranslateArray('title', 'settings.groups.media.fields.app_favicon', 'config')
         );
 
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::MEDIA,
                 'key'   => 'app_placeholder',
@@ -256,7 +267,7 @@ class ConfigDatabaseSeeder extends Seeder
         $translatableSessionLifeTimeTitle          = createTranslateArray('title', 'settings.groups.developers.fields.session_lifetime.title', 'config');
         $translatableSessionLifeTimeDescription    = createTranslateArray('description', 'settings.groups.developers.fields.session_lifetime.description', 'config');
 
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::DEVELOPERS,
                 'key'   => 'session_lifetime',
@@ -267,7 +278,7 @@ class ConfigDatabaseSeeder extends Seeder
             ] + array_merge_recursive($translatableSessionLifeTimeTitle, $translatableSessionLifeTimeDescription)
         );
 
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::DEVELOPERS,
                 'key'   => 'allow_debug_for_custom_ip',
@@ -282,7 +293,7 @@ class ConfigDatabaseSeeder extends Seeder
         $translatableCustomIpTitle          = createTranslateArray('title', 'settings.groups.developers.fields.custom_ips.title', 'config');
         $translatableCustomIpDescription    = createTranslateArray('description', 'settings.groups.developers.fields.custom_ips.description', 'config');
 
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::DEVELOPERS,
                 'key'   => 'custom_ips',
@@ -293,7 +304,7 @@ class ConfigDatabaseSeeder extends Seeder
             ] + array_merge_recursive($translatableCustomIpTitle, $translatableCustomIpDescription)
         );
 
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::DEVELOPERS,
                 'key'   => 'clear_cache',
@@ -305,7 +316,7 @@ class ConfigDatabaseSeeder extends Seeder
             ] + createTranslateArray('title', 'settings.groups.developers.fields.clear_cache', 'config')
         );
 
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::DEVELOPERS,
                 'key'   => 'clear_logs',
@@ -317,7 +328,7 @@ class ConfigDatabaseSeeder extends Seeder
             ] + createTranslateArray('title', 'settings.groups.developers.fields.clear_logs', 'config')
         );
 
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::DEVELOPERS,
                 'key'   => 'reset_permissions',

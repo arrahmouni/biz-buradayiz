@@ -33,11 +33,12 @@ return [
         'media'                             => [
             'title'                         => 'Medya',
             'fields'                        => [
-                'app_logo'                  => 'Uygulama Logosu',
-                'app_mobile_logo'           => 'Uygulama Mobil Logosu',
+                'app_logo'                  => 'Kontrol Paneli Logosu',
+                'app_mobile_logo'           => 'Kontrol Paneli Giriş Logosu',
                 'email_logo'                => 'E-posta Logosu',
-                'app_favicon'               => 'Uygulama Sık Kullanılan Simgesi',
+                'app_favicon'               => 'Favicon Simgesi',
                 'app_placeholder'           => 'Uygulama Yer Tutucusu',
+                'web_logo'                  => 'Web Logosu',
             ],
         ],
         'developers'                        => [
