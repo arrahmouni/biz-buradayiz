@@ -6,6 +6,7 @@ return [
         'sliders'               => 'Sliders|Slider',
         'pages'                 => 'Pages|Page',
         'blogs'                 => 'Blogs|Blog',
+        'faqs'                  => 'Frequently Asked Questions|Frequently Asked Question',
         'categories'            => 'Categories|Category',
         'brands'                => 'Brands|Brand',
         'shapes'                => 'Shapes|Shape',

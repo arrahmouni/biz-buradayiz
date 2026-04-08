@@ -90,6 +90,9 @@ return [
         'pages' => [
             'list_title' => 'Sayfa Listesi',
         ],
+        'faqs' => [
+            'list_title' => 'SSS Listesi',
+        ],
         'categories' => [
             'list_title' => 'Kategori Listesi',
         ],

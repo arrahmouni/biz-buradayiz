@@ -151,6 +151,14 @@ return [
         'restore' => 'Sayfayı Geri Yükle',
         'permanent_delete' => 'Kalıcı Silme Sayfası',
     ],
+    'faqs' => [
+        'title' => 'SSS',
+        'add' => 'Yeni SSS Ekle',
+        'edit' => 'SSS Düzenle',
+        'delete' => 'SSS Sil',
+        'restore' => 'SSS Geri Yükle',
+        'permanent_delete' => 'Kalıcı Silme SSS',
+    ],
     'categories' => [
         'title' => 'Kategoriler',
         'add' => 'Yeni Kategori Ekle',

@@ -151,6 +151,14 @@ return [
         'restore' => 'Restore Page',
         'permanent_delete' => 'Permanent Deletion Page',
     ],
+    'faqs' => [
+        'title' => 'FAQs',
+        'add' => 'Add New FAQ',
+        'edit' => 'Edit FAQ',
+        'delete' => 'Delete FAQ',
+        'restore' => 'Restore FAQ',
+        'permanent_delete' => 'Permanent Deletion FAQ',
+    ],
     'categories' => [
         'title' => 'Categories',
         'add' => 'Add New Category',

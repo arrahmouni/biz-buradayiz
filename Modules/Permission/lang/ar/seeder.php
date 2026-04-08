@@ -13,6 +13,7 @@ return [
         'sliders_management' => 'إدارة المحتوى [السلايدر]',
         'pages_management' => 'إدارة المحتوى [الصفحات]',
         'blogs_management' => 'إدارة المحتوى [المدونات]',
+        'faqs_management' => 'إدارة المحتوى [الأسئلة الشائعة]',
         'category_management' => 'إدارة التصنيفات',
         'categories_management' => 'إدارة التصنيفات',
         'content_tag_management' => 'إدارة وسوم المحتوى',

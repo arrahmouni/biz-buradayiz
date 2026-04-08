@@ -17,6 +17,7 @@ use Modules\Base\Http\Controllers\BaseController;
 use Modules\Auth\Enums\UserType;
 use Modules\Auth\Enums\permissions\UserPermissions;
 use Modules\Cms\Enums\permissions\BlogsPermissions;
+use Modules\Cms\Enums\permissions\FaqsPermissions;
 use Modules\Cms\Enums\permissions\PagesPermissions;
 use Modules\Admin\Enums\permissions\AdminPermissions;
 use Modules\Cms\Enums\permissions\SlidersPermissions;
@@ -135,6 +136,10 @@ class AuditController extends BaseController implements HasMiddleware
                 $this->modelName = trans_choice('cms::contents.content_categories.pages', 1);
                 app('adminHelper')->addBreadcrumbs($this->modelName, route('cms.contents.index', ['type' => 'pages']));
                 break;
+            case FaqsPermissions::PERMISSION_NAMESPACE :
+                $this->modelName = trans_choice('cms::contents.content_categories.faqs', 1);
+                app('adminHelper')->addBreadcrumbs($this->modelName, route('cms.contents.index', ['type' => 'faqs']));
+                break;
             case CountryPermissions::PERMISSION_NAMESPACE :
                 $this->modelName = trans('admin::cruds.countries.title');
                 app('adminHelper')->addBreadcrumbs($this->modelName, route('zms.countries.index'));
@@ -171,6 +176,7 @@ class AuditController extends BaseController implements HasMiddleware
             case SlidersPermissions::PERMISSION_NAMESPACE :
             case BlogsPermissions::PERMISSION_NAMESPACE :
             case PagesPermissions::PERMISSION_NAMESPACE :
+            case FaqsPermissions::PERMISSION_NAMESPACE :
                 return Content::class;
             case CountryPermissions::PERMISSION_NAMESPACE :
                 return Country::class;

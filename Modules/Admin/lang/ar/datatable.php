@@ -92,6 +92,10 @@ return [
             'list_title' => 'قائمة الصفحات',
             'columns' => [],
         ],
+        'faqs' => [
+            'list_title' => 'قائمة الأسئلة الشائعة',
+            'columns' => [],
+        ],
         'categories' => [
             'list_title' => 'قائمة التصنيفات',
         ],

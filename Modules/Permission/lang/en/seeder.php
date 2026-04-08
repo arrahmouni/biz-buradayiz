@@ -13,6 +13,7 @@ return [
         'sliders_management' => 'Content Management [Sliders]',
         'pages_management' => 'Content Management [Pages]',
         'blogs_management' => 'Content Management [Blogs]',
+        'faqs_management' => 'Content Management [FAQs]',
         'category_management' => 'Category Management',
         'categories_management' => 'Category Management',
         'content_tag_management' => 'Content Tag Management',

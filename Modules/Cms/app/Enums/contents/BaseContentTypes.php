@@ -8,6 +8,7 @@ final class BaseContentTypes
     // const SLIDERS        = 'sliders';
     const PAGES          = 'pages';
     const BLOGS          = 'blogs';
+    const FAQS           = 'faqs';
 
     public static function all(): array
     {
@@ -15,6 +16,7 @@ final class BaseContentTypes
             // self::SLIDERS,
             self::PAGES,
             self::BLOGS,
+            self::FAQS,
         ];
     }
 }

@@ -13,6 +13,7 @@ return [
         'sliders_management' => 'Icerik Yönetimi [Sliderlar]',
         'pages_management' => 'Icerik Yönetimi [Sayfalar]',
         'blogs_management' => 'Icerik Yönetimi [Bloglar]',
+        'faqs_management' => 'Icerik Yönetimi [SSS]',
         'category_management' => 'Kategori Yönetimi',
         'categories_management' => 'Kategori Yönetimi',
         'content_tag_management' => 'Icerik Etiketi Yönetimi',

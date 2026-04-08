@@ -119,7 +119,7 @@ class SeoService extends BaseCrudService
         }
 
         $query = Content::query()
-            ->whereIn('type', [BaseContentTypes::PAGES, BaseContentTypes::BLOGS])
+            ->whereIn('type', [BaseContentTypes::PAGES, BaseContentTypes::BLOGS, BaseContentTypes::FAQS])
             ->orderBy('id');
 
         foreach ($query->get() as $content) {
@@ -161,7 +161,7 @@ class SeoService extends BaseCrudService
         }
 
         if ($model instanceof Content) {
-            if (! in_array($model->type, [BaseContentTypes::PAGES, BaseContentTypes::BLOGS], true)) {
+            if (! in_array($model->type, [BaseContentTypes::PAGES, BaseContentTypes::BLOGS, BaseContentTypes::FAQS], true)) {
                 throw ValidationException::withMessages([
                     'page_target' => [trans('seo::validation.invalid_content_type')],
                 ]);

@@ -90,6 +90,9 @@ return [
         'pages' => [
             'list_title' => 'Pages List',
         ],
+        'faqs' => [
+            'list_title' => 'FAQs List',
+        ],
         'categories' => [
             'list_title' => 'Categories List',
         ],

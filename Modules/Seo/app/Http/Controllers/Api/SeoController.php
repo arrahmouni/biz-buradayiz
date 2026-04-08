@@ -32,7 +32,7 @@ class SeoController extends Controller
 
     public function contentBySlug(Request $request, string $type, string $slug)
     {
-        if (! in_array($type, [BaseContentTypes::PAGES, BaseContentTypes::BLOGS], true)) {
+        if (! in_array($type, [BaseContentTypes::PAGES, BaseContentTypes::BLOGS, BaseContentTypes::FAQS], true)) {
             abort(404);
         }
 

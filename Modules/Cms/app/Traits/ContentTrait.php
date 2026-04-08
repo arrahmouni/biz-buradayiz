@@ -95,6 +95,20 @@ trait ContentTrait
                 ],
             ],
         ],
+
+        BaseContentTypes::FAQS      => [
+            'icon'                  => 'fas fa-circle-question',
+            'show_in_menu'          => true,
+            'name'                  => 'cms::contents.content_categories.faqs',
+            'fields'                => [
+                'title'             => [
+                    'required'      => true,
+                ],
+                'long_description'  => [
+                    'required'      => true,
+                ],
+            ],
+        ],
     ];
 
     /**

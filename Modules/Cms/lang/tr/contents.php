@@ -6,6 +6,7 @@ return [
         'sliders'               => 'Kaydırıcılar|Kaydırıcı',
         'pages'                 => 'Sayfalar|Sayfa',
         'blogs'                 => 'Bloglar|Blog',
+        'faqs'                  => 'Sık Sorulan Sorular|Sık Sorulan Soru',
         'categories'            => 'Kategoriler|Kategori',
         'brands'                => 'Markalar|Marka',
         'shapes'                => 'Sekiller|Sekil',
