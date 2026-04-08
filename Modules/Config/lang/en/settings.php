@@ -30,6 +30,12 @@ return [
                 'address'                   => 'Address',
             ],
         ],
+        'emergency'                         => [
+            'title'                         => 'Emergency',
+            'fields'                        => [
+                'emergency_contact_number'  => 'Emergency contact number (public site)',
+            ],
+        ],
         'media'                             => [
             'title'                         => 'Media',
             'fields'                        => [

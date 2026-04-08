@@ -28,6 +28,7 @@ class ConfigDatabaseSeeder extends Seeder
         $this->seedGeneralSettings();
         $this->seedSocailMediaSettings();
         $this->seedContactInfoSettings();
+        $this->seedEmergencySettings();
         $this->seedMediaSettings();
         $this->seedDevelopersSettings();
     }
@@ -184,6 +185,23 @@ class ConfigDatabaseSeeder extends Seeder
                 'type'  => SettingTypes::TEXTAREA,
                 'order' => 3,
             ] + createTranslateArray('title', 'settings.groups.contact_info.fields.address', 'config')
+        );
+    }
+
+    /**
+     * Seed the emergency contact settings (public site).
+     */
+    private function seedEmergencySettings(): void
+    {
+        Setting::firstOrCreate(
+            [
+                'group' => SettingGroups::EMERGENCY,
+                'key'   => 'emergency_contact_number',
+            ],
+            [
+                'type'  => SettingTypes::PHONE,
+                'order' => 1,
+            ] + createTranslateArray('title', 'settings.groups.emergency.fields.emergency_contact_number', 'config')
         );
     }
 

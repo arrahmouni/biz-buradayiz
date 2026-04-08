@@ -47,8 +47,13 @@ class SettingController extends BaseCrudController
 
     public function index()
     {
-        $this->data['settings'] = $this->model->getAllSettings();
-        $this->data['settings'] = $this->data['settings']->sortBy('order')->groupBy('group');
+        $groupOrder = array_flip(SettingGroups::all());
+        $this->data['settings'] = $this->model->getAllSettings()
+            ->sortBy('order')
+            ->groupBy('group')
+            ->sortKeysUsing(
+                fn (string $a, string $b): int => ($groupOrder[$a] ?? 999) <=> ($groupOrder[$b] ?? 999)
+            );
 
         return parent::index();
     }

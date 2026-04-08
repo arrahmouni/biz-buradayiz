@@ -43,3 +43,20 @@ if(! function_exists('getSetting')) {
         return $setting;
     }
 }
+
+if (! function_exists('phoneToTelHref')) {
+
+    /**
+     * Build a tel: URI from a human-entered phone string (digits and optional leading +).
+     */
+    function phoneToTelHref(string $phone): string
+    {
+        $clean = preg_replace('/[^0-9+]/', '', trim($phone));
+
+        if ($clean === '' || $clean === '+') {
+            return '#';
+        }
+
+        return 'tel:' . $clean;
+    }
+}

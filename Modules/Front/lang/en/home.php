@@ -9,7 +9,6 @@ return [
     'nav_services' => 'Services',
     'nav_how_it_works' => 'How It Works',
     'nav_contact' => 'Contact',
-    'phone_number' => '1-800-555-1234',
     'call_247' => 'Call 24/7',
     'company_login' => 'Company login',
     'language' => 'Language',
@@ -44,7 +43,8 @@ return [
     'hero_badge_arrival' => '15 min avg arrival',
     'hero_badge_licensed' => 'Licensed & insured',
     'hero_badge_no_fees' => 'No hidden fees',
-    'emergency_call_text' => 'Emergency? Call 1-800-555-1234',
+    'emergency_call_text' => 'Emergency Call?',
+    'emergency_call_with_phone' => 'Emergency? Call :phone',
 
     'how_title_badge' => 'HOW IT WORKS',
     'how_main_title' => 'Get Help in 3 Easy Steps',
@@ -66,6 +66,7 @@ return [
     'cta_title' => 'Emergency Help Line 24/7',
     'cta_subtitle' => 'Our team is ready to help you right away whenever you need us.',
     'cta_button' => 'Call Now',
+    'cta_button_with_phone' => 'Call :phone',
 
     'footer_desc' => 'Turkey\'s fastest roadside assistance network. Drive with confidence.',
     'footer_quick' => 'Quick Links',

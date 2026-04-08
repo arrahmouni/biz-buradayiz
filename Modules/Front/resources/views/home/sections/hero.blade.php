@@ -63,9 +63,13 @@
                 <span><i class="fas fa-check-circle text-green-400"></i> {{ __('front::home.hero_badge_no_fees') }}</span>
             </div>
             <div class="mt-4">
-                <a href="tel:+18005551234" class="inline-block bg-white/20 hover:bg-white/30 backdrop-blur-sm px-5 py-2 rounded-full text-sm font-semibold transition">
-                    <i class="fas fa-phone-alt mr-1"></i> {{ __('front::home.emergency_call_text') }}
-                </a>
+                @if ($frontEmergencyFromSettings)
+                    <a href="{{ $frontEmergencyTelHref }}" class="inline-block bg-white/20 hover:bg-white/30 backdrop-blur-sm px-5 py-2 rounded-full text-sm font-semibold transition">
+                        <i class="fas fa-phone-alt mr-1"></i>
+                            {{ __('front::home.emergency_call_with_phone', ['phone' => $frontEmergencyDisplay]) }}
+                    </a>
+                @endif
+
             </div>
         </div>
     </div>

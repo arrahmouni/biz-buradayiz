@@ -30,6 +30,12 @@ return [
                 'address'                   => 'Adres',
             ],
         ],
+        'emergency'                         => [
+            'title'                         => 'Acil Durum',
+            'fields'                        => [
+                'emergency_contact_number'  => 'Acil iletişim numarası (herkese açık site)',
+            ],
+        ],
         'media'                             => [
             'title'                         => 'Medya',
             'fields'                        => [

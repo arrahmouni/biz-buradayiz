@@ -7,6 +7,7 @@ final class SettingGroups
     public const GENERAL        = 'general';
     public const SOCIAL_MEDIA   = 'social_media';
     public const CONTACT_INFO   = 'contact_info';
+    public const EMERGENCY      = 'emergency';
     public const MEDIA          = 'media';
     public const DEVELOPERS     = 'developers';
 
@@ -16,6 +17,7 @@ final class SettingGroups
             self::GENERAL,
             self::SOCIAL_MEDIA,
             self::CONTACT_INFO,
+            self::EMERGENCY,
             self::MEDIA,
             self::DEVELOPERS,
         ];
@@ -27,6 +29,7 @@ final class SettingGroups
             self::GENERAL       => trans('config::settings.groups.general.title'),
             self::SOCIAL_MEDIA  => trans('config::settings.groups.social_media.title'),
             self::CONTACT_INFO  => trans('config::settings.groups.contact_info.title'),
+            self::EMERGENCY     => trans('config::settings.groups.emergency.title'),
             self::MEDIA         => trans('config::settings.groups.media.title'),
             self::DEVELOPERS    => trans('config::settings.groups.developers.title'),
         ];

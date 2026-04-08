@@ -9,7 +9,6 @@ return [
     'nav_services' => 'Hizmetler',
     'nav_how_it_works' => 'Nasıl Çalışır',
     'nav_contact' => 'İletişim',
-    'phone_number' => '1-800-555-1234',
     'call_247' => '7/24 Ara',
     'company_login' => 'Firma girişi',
     'language' => 'Dil',
@@ -44,7 +43,8 @@ return [
     'hero_badge_arrival' => 'Ort. varış 15 dk',
     'hero_badge_licensed' => 'Lisanslı ve sigortalı',
     'hero_badge_no_fees' => 'Gizli ücret yok',
-    'emergency_call_text' => 'Acil durum mu? 1-800-555-1234',
+    'emergency_call_text' => 'Acil durum mu?',
+    'emergency_call_with_phone' => 'Acil durum mu? :phone',
 
     'how_title_badge' => 'NASIL ÇALIŞIR',
     'how_main_title' => '3 Kolay Adımda Yardım Alın',
@@ -66,6 +66,7 @@ return [
     'cta_title' => 'Acil Yardım Hattı 7/24',
     'cta_subtitle' => 'Herhangi bir sorunda ekibimiz anında yanınızda.',
     'cta_button' => 'Hemen Ara',
+    'cta_button_with_phone' => 'Ara: :phone',
 
     'footer_desc' => 'Türkiye’nin en hızlı yol yardım ağı. Güvenle yola çıkın.',
     'footer_quick' => 'Hızlı Bağlantılar',

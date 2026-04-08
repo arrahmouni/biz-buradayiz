@@ -35,6 +35,10 @@ class UpdateSettingRequest extends BaseRequest
             'address'   => ['nullable', 'string', 'max:255'],
         ];
 
+        $emergencySettingRules = [
+            'emergency_contact_number' => ['nullable', 'string', 'max:255'],
+        ];
+
         $mediaSettingRules = [
             'app_logo'          => ['nullable', 'image', File::image()
                 ->types(config('config.app_logo.types'))
@@ -61,7 +65,7 @@ class UpdateSettingRequest extends BaseRequest
             'custom_ips'                => ['nullable', 'string', 'regex:/^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(,\s*\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})*$/'],
         ] : [];
 
-        return array_merge($generalSettingRules, $socialSettingRules, $contactSettingRules, $mediaSettingRules, $developerSettingRules);
+        return array_merge($generalSettingRules, $socialSettingRules, $contactSettingRules, $emergencySettingRules, $mediaSettingRules, $developerSettingRules);
     }
 
     public function after(): array

@@ -30,6 +30,12 @@ return [
                 'address'                   => 'العنوان',
             ],
         ],
+        'emergency'                         => [
+            'title'                         => 'طوارئ',
+            'fields'                        => [
+                'emergency_contact_number'  => 'رقم اتصال الطوارئ (الموقع العام)',
+            ],
+        ],
         'media'                             => [
             'title'                         => 'وسائط',
             'fields'                        => [
