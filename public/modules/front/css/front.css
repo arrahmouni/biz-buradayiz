@@ -94,3 +94,32 @@
         line-height: 0.84375rem;
     }
 }
+
+.hero-search-form .select2-container--default .select2-selection--single {
+    min-height: 2.5rem;
+    border-radius: 0.5rem;
+    border-color: #e5e7eb;
+    align-items: center;
+}
+
+.hero-search-form .select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 2.5rem;
+    padding-left: 1rem;
+    padding-right: 2rem;
+    color: #1f2937;
+}
+
+.hero-search-form .select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 2.5rem;
+}
+
+.hero-search-form .select2-container--default.select2-container--focus .select2-selection--single {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.35);
+    outline: none;
+}
+
+.hero-search-form .select2-container--default.select2-container--disabled .select2-selection--single {
+    background-color: #f3f4f6;
+    opacity: 0.85;
+}

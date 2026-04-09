@@ -1,4 +1,5 @@
 <?php
+
 // resources/lang/tr/home.php
 return [
     'page_title' => 'Biz Buradayiz | 7/24 Yol Yardım ve Çekici',
@@ -24,20 +25,10 @@ return [
     'service_battery' => 'Akü Takviyesi',
     'service_fuel' => 'Yakıt Teslimi',
     'service_lockout' => 'Kapı Açma',
-    'city_label' => 'Şehir',
-    'city_placeholder' => 'Şehir seçin',
-    'city_metropolis' => 'Merkez',
-    'city_springfield' => 'Baharşehir',
-    'city_rivertown' => 'Nehirkent',
-    'city_lakewood' => 'Gölova',
-    'city_greenville' => 'Yeşilova',
-    'municipality_label' => 'İlçe / Belediye',
-    'municipality_placeholder' => 'İlçe seçin',
-    'municipality_downtown' => 'Merkez',
-    'municipality_northside' => 'Kuzeyyaka',
-    'municipality_southwest' => 'Güneybatı',
-    'municipality_east_end' => 'Doğu Yakası',
-    'municipality_west_ridge' => 'Batı Sırtı',
+    'state_label' => 'İl',
+    'state_placeholder' => 'İl seçin',
+    'city_label' => 'İlçe',
+    'city_placeholder' => 'İlçe seçin',
     'search_button' => 'Hizmet Bul',
     'filter_hint' => 'Konumunuzu girerek yakınınızdaki ekipleri görüntüleyin.',
     'hero_badge_arrival' => 'Ort. varış 15 dk',
@@ -74,5 +65,5 @@ return [
     'footer_follow' => 'Bizi Takip Edin',
     'footer_faq' => 'Sık Sorulan Sorular',
     'footer_terms' => 'Kullanım Koşulları',
-    'copyright_text' => 'Tüm hakları saklıdır. Yolda yalnız değilsiniz.'
+    'copyright_text' => 'Tüm hakları saklıdır. Yolda yalnız değilsiniz.',
 ];

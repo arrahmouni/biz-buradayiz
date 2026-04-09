@@ -3,28 +3,17 @@
 namespace Modules\Front\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Illuminate\Validation\Rule;
+use Modules\Base\Http\Controllers\BaseWebController;
 use Modules\Platform\Models\Service;
 use Modules\Zms\Models\City;
 use Modules\Zms\Models\State;
 
-class HomeController extends Controller
+class HomeController extends BaseWebController
 {
     public function index()
     {
-        $filterServices = Service::query()
-            ->forSearchFilters()
-            ->orderBy('id')
-            ->get()
-            ->map(fn (Service $service) => [
-                'id' => $service->id,
-                'name' => $service->smartTrans('name') ?? (string) $service->id,
-            ]);
-
-        return view('front::index', [
-            'filterServices' => $filterServices,
-        ]);
+        return view('front::index');
     }
 
     public function search(Request $request)

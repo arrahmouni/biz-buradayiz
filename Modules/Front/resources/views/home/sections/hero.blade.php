@@ -10,44 +10,39 @@
             </p>
 
             <div class="mt-8 bg-white/10 backdrop-blur-md rounded-2xl p-5 md:p-6 shadow-lg">
-                <form action="#" method="GET" class="flex flex-col md:flex-row gap-4 items-end">
+                <form id="heroSearchForm"
+                      action="#"
+                      method="GET"
+                      class="hero-search-form flex flex-col md:flex-row gap-4 items-end"
+                      data-states-list-url="{{ route('zms.states.list') }}"
+                      data-cities-list-url="{{ route('zms.cities.list') }}"
+                      data-default-country-id="{{ $frontSearchDefaultCountryId }}"
+                      data-locale="{{ app()->getLocale() }}">
                     <div class="flex-1 text-left w-full">
                         <label class="block text-sm font-semibold mb-1 text-gray-200 uppercase tracking-wide">
                             <i class="fas fa-wrench text-red-400 mr-1"></i> {{ __('front::home.service_label') }}
                         </label>
-                        <select name="service" class="w-full px-4 py-2 rounded-lg text-gray-800 bg-white focus:ring-2 focus:ring-red-500">
+                        <select name="service_id" class="w-full px-4 py-2 rounded-lg text-gray-800 bg-white focus:ring-2 focus:ring-red-500">
                             <option value="">{{ __('front::home.service_placeholder') }}</option>
-                            <option value="towing">{{ __('front::home.service_towing') }}</option>
-                            <option value="battery">{{ __('front::home.service_battery') }}</option>
-                            <option value="flat">{{ __('front::home.service_tire') }}</option>
-                            <option value="fuel">{{ __('front::home.service_fuel') }}</option>
-                            <option value="lockout">{{ __('front::home.service_lockout') }}</option>
+                            @foreach ($frontPublicFilterServices as $service)
+                                <option value="{{ $service['id'] }}">{{ $service['name'] }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="flex-1 text-left w-full">
-                        <label class="block text-sm font-semibold mb-1 text-gray-200 uppercase tracking-wide">
-                            <i class="fas fa-city text-red-400 mr-1"></i> {{ __('front::home.city_label') }}
+                        <label class="block text-sm font-semibold mb-1 text-gray-200 uppercase tracking-wide" for="hero_state_id">
+                            <i class="fas fa-map text-red-400 mr-1"></i> {{ __('front::home.state_label') }}
                         </label>
-                        <select name="city" class="w-full px-4 py-2 rounded-lg text-gray-800 bg-white focus:ring-2 focus:ring-red-500">
+                        <select id="hero_state_id" name="state_id" class="hero-select2-state w-full px-4 py-2 rounded-lg text-gray-800 bg-white focus:ring-2 focus:ring-red-500">
+                            <option value="">{{ __('front::home.state_placeholder') }}</option>
+                        </select>
+                    </div>
+                    <div class="flex-1 text-left w-full">
+                        <label class="block text-sm font-semibold mb-1 text-gray-200 uppercase tracking-wide" for="hero_city_id">
+                            <i class="fas fa-map-marker-alt text-red-400 mr-1"></i> {{ __('front::home.city_label') }}
+                        </label>
+                        <select id="hero_city_id" name="city_id" class="hero-select2-city w-full px-4 py-2 rounded-lg text-gray-800 bg-white focus:ring-2 focus:ring-red-500" disabled>
                             <option value="">{{ __('front::home.city_placeholder') }}</option>
-                            <option value="metropolis">{{ __('front::home.city_metropolis') }}</option>
-                            <option value="springfield">{{ __('front::home.city_springfield') }}</option>
-                            <option value="rivertown">{{ __('front::home.city_rivertown') }}</option>
-                            <option value="lakewood">{{ __('front::home.city_lakewood') }}</option>
-                            <option value="greenville">{{ __('front::home.city_greenville') }}</option>
-                        </select>
-                    </div>
-                    <div class="flex-1 text-left w-full">
-                        <label class="block text-sm font-semibold mb-1 text-gray-200 uppercase tracking-wide">
-                            <i class="fas fa-map-marker-alt text-red-400 mr-1"></i> {{ __('front::home.municipality_label') }}
-                        </label>
-                        <select name="municipality" class="w-full px-4 py-2 rounded-lg text-gray-800 bg-white focus:ring-2 focus:ring-red-500">
-                            <option value="">{{ __('front::home.municipality_placeholder') }}</option>
-                            <option value="downtown">{{ __('front::home.municipality_downtown') }}</option>
-                            <option value="northside">{{ __('front::home.municipality_northside') }}</option>
-                            <option value="southwest">{{ __('front::home.municipality_southwest') }}</option>
-                            <option value="east_end">{{ __('front::home.municipality_east_end') }}</option>
-                            <option value="west_ridge">{{ __('front::home.municipality_west_ridge') }}</option>
                         </select>
                     </div>
                     <button type="submit" class="bg-red-600 hover:bg-red-700 px-6 py-2 rounded-lg font-bold transition flex items-center gap-2 justify-center md:justify-center w-full md:w-auto">

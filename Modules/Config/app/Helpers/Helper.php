@@ -1,35 +1,35 @@
 <?php
 
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Schema;
 use Modules\Config\Enums\SettingTypes;
 use Modules\Config\Models\Setting;
+use Modules\Zms\Models\City;
+use Modules\Zms\Models\Country;
+use Modules\Zms\Models\State;
 
-if(! function_exists('getSetting')) {
+if (! function_exists('getSetting')) {
 
     /**
      * Get setting value from cache or database
-     *
-     * @param string $key
-     * @param mixed $default
-     * @return mixed
      */
     function getSetting(string $key, mixed $default = null): mixed
     {
-        if(! Schema::hasTable('settings')) {
+        if (! Schema::hasTable('settings')) {
             return $default;
         }
 
         $setting = Cache::get($key);
 
-        if(! $setting) {
+        if (! $setting) {
             $data = Setting::where('key', $key)->first();
-            if($data && ! is_null($data->value)) {
+            if ($data && ! is_null($data->value)) {
 
-                if($data->translatable) {
+                if ($data->translatable) {
                     $setting = $data->smartTrans('trans_value');
-                } elseif($data->type == SettingTypes::IMAGE || $data->type == SettingTypes::FILE) {
-                    $setting = asset('storage/' . $data->value);
+                } elseif ($data->type == SettingTypes::IMAGE || $data->type == SettingTypes::FILE) {
+                    $setting = asset('storage/'.$data->value);
                 } else {
                     $setting = $data->value;
                 }
@@ -41,6 +41,301 @@ if(! function_exists('getSetting')) {
         }
 
         return $setting;
+    }
+}
+
+if (! function_exists('ipWhoPayloadForPublicIp')) {
+
+    /**
+     * Cached ipwho.is JSON for a public IP, or null for private/invalid IP or API failure.
+     *
+     * @return array<string, mixed>|null
+     */
+    function ipWhoPayloadForPublicIp(?string $ip = null): ?array
+    {
+        $ip = $ip ?? request()->ip();
+
+        if ($ip === null || $ip === '' || ! filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+            return null;
+        }
+
+        $cacheKey = 'ipwho_payload:'.sha1($ip);
+
+        return Cache::remember($cacheKey, 86_400, function () use ($ip) {
+            try {
+                $response = Http::timeout(3)
+                    ->connectTimeout(2)
+                    ->acceptJson()
+                    ->get('https://ipwho.is/'.$ip);
+            } catch (Throwable $e) {
+                return null;
+            }
+
+            if (! $response->successful()) {
+                return null;
+            }
+
+            $data = $response->json();
+            if (! is_array($data) || empty($data['success'])) {
+                return null;
+            }
+
+            return $data;
+        });
+    }
+}
+
+if (! function_exists('matchZmsStateForIpRegion')) {
+
+    /**
+     * Match a ZMS state using ipwho "region" (and optional "region_code") against native and translated names.
+     */
+    function matchZmsStateForIpRegion(Country $country, string $region, ?string $regionCode = null): ?State
+    {
+        $region = trim($region);
+        $regionCode = $regionCode !== null ? trim($regionCode) : null;
+
+        if ($region === '' && ($regionCode === null || $regionCode === '')) {
+            return null;
+        }
+
+        if ($region !== '') {
+            $state = State::query()
+                ->where('country_id', $country->id)
+                ->where(function ($q) use ($region) {
+                    $q->whereRaw('LOWER(native_name) = LOWER(?)', [$region])
+                        ->orWhereHas('translations', function ($tq) use ($region) {
+                            $tq->whereRaw('LOWER(name) = LOWER(?)', [$region]);
+                        });
+                })
+                ->first();
+
+            if ($state !== null) {
+                return $state;
+            }
+
+            $escaped = addcslashes($region, '%_\\');
+
+            $state = State::query()
+                ->where('country_id', $country->id)
+                ->where(function ($q) use ($escaped) {
+                    $q->where('native_name', 'LIKE', '%'.$escaped.'%')
+                        ->orWhereHas('translations', function ($tq) use ($escaped) {
+                            $tq->where('name', 'LIKE', '%'.$escaped.'%');
+                        });
+                })
+                ->first();
+
+            if ($state !== null) {
+                return $state;
+            }
+        }
+
+        if ($regionCode !== null && $regionCode !== '') {
+            $code = strtoupper($regionCode);
+
+            return State::query()
+                ->where('country_id', $country->id)
+                ->where(function ($q) use ($code) {
+                    $q->whereRaw('LOWER(native_name) = LOWER(?)', [$code])
+                        ->orWhereHas('translations', function ($tq) use ($code) {
+                            $tq->whereRaw('LOWER(name) = LOWER(?)', [$code]);
+                        });
+                })
+                ->first();
+        }
+
+        return null;
+    }
+}
+
+if (! function_exists('matchZmsCityForIpCityName')) {
+
+    /**
+     * Match a city under a given state using ipwho "city" against native and translated names.
+     */
+    function matchZmsCityForIpCityName(State $state, string $cityName): ?City
+    {
+        $cityName = trim($cityName);
+        if ($cityName === '') {
+            return null;
+        }
+
+        $city = City::query()
+            ->where('state_id', $state->id)
+            ->where(function ($q) use ($cityName) {
+                $q->whereRaw('LOWER(native_name) = LOWER(?)', [$cityName])
+                    ->orWhereHas('translations', function ($tq) use ($cityName) {
+                        $tq->whereRaw('LOWER(name) = LOWER(?)', [$cityName]);
+                    });
+            })
+            ->first();
+
+        if ($city !== null) {
+            return $city;
+        }
+
+        $escaped = addcslashes($cityName, '%_\\');
+
+        return City::query()
+            ->where('state_id', $state->id)
+            ->where(function ($q) use ($escaped) {
+                $q->where('native_name', 'LIKE', '%'.$escaped.'%')
+                    ->orWhereHas('translations', function ($tq) use ($escaped) {
+                        $tq->where('name', 'LIKE', '%'.$escaped.'%');
+                    });
+            })
+            ->first();
+    }
+}
+
+if (! function_exists('matchZmsCityForIpCityNameInCountry')) {
+
+    /**
+     * Match a city anywhere in a country when state resolution failed or city sits under another state label.
+     */
+    function matchZmsCityForIpCityNameInCountry(Country $country, string $cityName): ?City
+    {
+        $cityName = trim($cityName);
+        if ($cityName === '') {
+            return null;
+        }
+
+        $city = City::query()
+            ->whereHas('state', function ($q) use ($country) {
+                $q->where('country_id', $country->id);
+            })
+            ->where(function ($q) use ($cityName) {
+                $q->whereRaw('LOWER(native_name) = LOWER(?)', [$cityName])
+                    ->orWhereHas('translations', function ($tq) use ($cityName) {
+                        $tq->whereRaw('LOWER(name) = LOWER(?)', [$cityName]);
+                    });
+            })
+            ->first();
+
+        if ($city !== null) {
+            return $city;
+        }
+
+        $escaped = addcslashes($cityName, '%_\\');
+
+        return City::query()
+            ->whereHas('state', function ($q) use ($country) {
+                $q->where('country_id', $country->id);
+            })
+            ->where(function ($q) use ($escaped) {
+                $q->where('native_name', 'LIKE', '%'.$escaped.'%')
+                    ->orWhereHas('translations', function ($tq) use ($escaped) {
+                        $tq->where('name', 'LIKE', '%'.$escaped.'%');
+                    });
+            })
+            ->first();
+    }
+}
+
+if (! function_exists('resolveFrontSearchDefaultCountryIdFromIp')) {
+
+    /**
+     * Resolve the default front search country id from the client IP: geolocate to ISO2,
+     * match a row in countries, otherwise use the front_search_default_country_id setting.
+     */
+    function resolveFrontSearchDefaultCountryIdFromIp(?string $ip = null): int
+    {
+        $fallback = (int) getSetting('front_search_default_country_id', 225);
+        $data = ipWhoPayloadForPublicIp($ip);
+
+        if ($data === null || empty($data['country_code'])) {
+            return $fallback;
+        }
+
+        if (! Schema::hasTable('countries')) {
+            return $fallback;
+        }
+
+        $iso2 = strtoupper((string) $data['country_code']);
+
+        $country = Country::query()
+            ->where('iso2', $iso2)
+            ->first();
+
+        return $country !== null ? (int) $country->id : $fallback;
+    }
+}
+
+if (! function_exists('getStateFromIp')) {
+
+    /**
+     * Resolve a state/province record from the client IP using ipwho.is region data and the states table.
+     */
+    function getStateFromIp(?string $ip = null): ?State
+    {
+        $data = ipWhoPayloadForPublicIp($ip);
+
+        if ($data === null || empty($data['country_code'])) {
+            return null;
+        }
+
+        if (! Schema::hasTable('countries') || ! Schema::hasTable('states')) {
+            return null;
+        }
+
+        $country = Country::query()
+            ->where('iso2', strtoupper((string) $data['country_code']))
+            ->first();
+
+        if ($country === null) {
+            return null;
+        }
+
+        $region = (string) ($data['region'] ?? '');
+        $regionCode = isset($data['region_code']) ? (string) $data['region_code'] : null;
+        
+        return matchZmsStateForIpRegion($country, $region, $regionCode);
+    }
+}
+
+if (! function_exists('getCityFromIp')) {
+
+    /**
+     * Resolve a city record from the client IP using ipwho.is city data and the cities table.
+     */
+    function getCityFromIp(?string $ip = null): ?City
+    {
+        $data = ipWhoPayloadForPublicIp($ip);
+        if ($data === null || empty($data['country_code'])) {
+            return null;
+        }
+
+        if (! Schema::hasTable('countries') || ! Schema::hasTable('cities')) {
+            return null;
+        }
+
+        $country = Country::query()
+            ->where('iso2', strtoupper((string) $data['country_code']))
+            ->first();
+
+        if ($country === null) {
+            return null;
+        }
+
+        $cityName = trim((string) ($data['city'] ?? ''));
+        if ($cityName === '') {
+            return null;
+        }
+
+        $region = (string) ($data['region'] ?? '');
+        $regionCode = isset($data['region_code']) ? (string) $data['region_code'] : null;
+
+        $state = matchZmsStateForIpRegion($country, $region, $regionCode);
+
+        if ($state !== null) {
+            $city = matchZmsCityForIpCityName($state, $cityName);
+            if ($city !== null) {
+                return $city;
+            }
+        }
+
+        return matchZmsCityForIpCityNameInCountry($country, $cityName);
     }
 }
 
@@ -57,6 +352,6 @@ if (! function_exists('phoneToTelHref')) {
             return '#';
         }
 
-        return 'tel:' . $clean;
+        return 'tel:'.$clean;
     }
 }

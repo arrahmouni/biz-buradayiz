@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Zms\Http\Controllers\Api\CityController;
 use Modules\Zms\Http\Controllers\Api\CountryController;
+use Modules\Zms\Http\Controllers\Api\StateController;
 
 /*
     |--------------------------------------------------------------------------
@@ -15,6 +17,16 @@ use Modules\Zms\Http\Controllers\Api\CountryController;
 */
 
 Route::controller(CountryController::class)->prefix('countries')->group(function () {
-    Route::get('list'           , 'list');
-    Route::get('show/{id}'      , 'show');
+    Route::get('list', 'list');
+    Route::get('show/{id}', 'show');
+});
+
+Route::controller(StateController::class)->prefix('states')->group(function () {
+    Route::get('list', 'list')->name('zms.states.list');
+    Route::get('show/{id}', 'show')->name('zms.states.show');
+});
+
+Route::controller(CityController::class)->prefix('cities')->group(function () {
+    Route::get('list', 'list')->name('zms.cities.list');
+    Route::get('show/{id}', 'show')->name('zms.cities.show');
 });

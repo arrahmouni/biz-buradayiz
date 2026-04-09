@@ -5,6 +5,7 @@ namespace Modules\Front\Providers;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Modules\Front\Support\FrontPublicServices;
 use Nwidart\Modules\Traits\PathNamespace;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -29,30 +30,27 @@ class FrontServiceProvider extends ServiceProvider
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->name, 'database/migrations'));
 
-        $emergencyComposerViews = [
-            'front::layouts.master',
-            'front::index',
-            'front::home.sections.hero',
-            'front::home.sections.cta',
-            'front::includes.footer',
-        ];
-
-        View::composer($emergencyComposerViews, function ($view) {
+        View::composer('front::*', function ($view) {
             static $emergencyViewData = null;
 
             if ($emergencyViewData === null) {
                 $raw = getSetting('emergency_contact_number');
                 $fromSettings = filled(trim((string) ($raw ?? '')));
-                $display = $fromSettings ? trim((string) $raw) : __('front::home.phone_number');
-                $telSource = $fromSettings ? (string) $raw : '+18005551234';
+                $display = $fromSettings ? trim((string) $raw) : null;
+                $telSource = $fromSettings ? (string) $raw : null;
                 $emergencyViewData = [
                     'frontEmergencyFromSettings' => $fromSettings,
                     'frontEmergencyDisplay' => $display,
-                    'frontEmergencyTelHref' => phoneToTelHref($telSource),
+                    'frontEmergencyTelHref' => $telSource !== null ? phoneToTelHref($telSource) : null,
                 ];
             }
 
             $view->with($emergencyViewData);
+            $view->with([
+                'frontPublicServices' => FrontPublicServices::all(),
+                'frontPublicFilterServices' => FrontPublicServices::forSearchFilters(),
+                'frontSearchDefaultCountryId' => resolveFrontSearchDefaultCountryIdFromIp(),
+            ]);
         });
     }
 
@@ -113,8 +111,8 @@ class FrontServiceProvider extends ServiceProvider
 
             foreach ($iterator as $file) {
                 if ($file->isFile() && $file->getExtension() === 'php') {
-                    $relativePath = str_replace($configPath . DIRECTORY_SEPARATOR, '', $file->getPathname());
-                    $configKey = $this->nameLower . '.' . str_replace([DIRECTORY_SEPARATOR, '.php'], ['.', ''], $relativePath);
+                    $relativePath = str_replace($configPath.DIRECTORY_SEPARATOR, '', $file->getPathname());
+                    $configKey = $this->nameLower.'.'.str_replace([DIRECTORY_SEPARATOR, '.php'], ['.', ''], $relativePath);
                     $key = ($relativePath === 'config.php') ? $this->nameLower : $configKey;
 
                     $this->publishes([$file->getPathname() => config_path($relativePath)], 'config');
