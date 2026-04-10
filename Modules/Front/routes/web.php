@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Front\Http\Controllers\BlogController;
 use Modules\Front\Http\Controllers\ContentController;
 use Modules\Front\Http\Controllers\HomeController;
 
@@ -18,6 +19,11 @@ use Modules\Front\Http\Controllers\HomeController;
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('index');
 });
-
-Route::get('faq', [ContentController::class, 'faq'])->name('page.faq');
-Route::get('page/{slug}', [ContentController::class, 'showPage'])->name('page.show');
+Route::controller(BlogController::class)->prefix('blog')->name('blog.')->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::get('/{slug}', 'show')->name('show');
+});
+Route::controller(ContentController::class)->prefix('page')->name('page.')->group(function () {
+    Route::get('/faq', 'faq')->name('faq');
+    Route::get('/{slug}', 'showPage')->name('show');
+});

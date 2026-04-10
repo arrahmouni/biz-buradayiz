@@ -21,7 +21,7 @@ class ContentController extends BaseController
             })
             ->firstOrFail();
 
-        return view('front::pages.show', [
+        return view('front::contents.show', [
             'page' => $page,
             'title' => $page->smartTrans('title'),
         ]);
@@ -34,7 +34,7 @@ class ContentController extends BaseController
             ->orderBy('id')
             ->get();
 
-        return view('front::pages.faq', [
+        return view('front::contents.faq', [
             'faqs' => $faqs,
             'title' => __('front::home.faq_page_title'),
         ]);

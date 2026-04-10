@@ -9,9 +9,11 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Modules\Base\Models\BaseModel;
 use Modules\Base\Trait\Disableable;
 use Modules\Cms\Database\Factories\ContentFactory;
+use Modules\Cms\Enums\contents\BaseContentTypes;
 use Modules\Cms\Traits\ContentTrait;
 use Modules\Seo\Models\Seo;
 use OwenIt\Auditing\Auditable as AuditableTrait;
@@ -55,6 +57,13 @@ class Content extends BaseModel implements Auditable
         'placement_position',
         'created_at_format',
         'published_at_format',
+        'public_url_slug',
+        'front_blog_show_url',
+        'front_cover_image_url',
+        'front_cover_thumb_sidebar_url',
+        'front_blog_excerpt',
+        'published_at_iso_ll',
+        'published_at_relative',
     ];
 
     /**
@@ -93,9 +102,10 @@ class Content extends BaseModel implements Auditable
      */
     public function transformAudit(array $data): array
     {
-        if (Arr::has($data, 'new_values.can_be_deleted')) {
-            $data['old_values']['can_be_deleted'] = (bool) $data['old_values']['can_be_deleted'];
-            $data['new_values']['can_be_deleted'] = (bool) $data['new_values']['can_be_deleted'];
+        foreach (['old_values', 'new_values'] as $valuesKey) {
+            if (Arr::has($data, "{$valuesKey}.can_be_deleted")) {
+                $data[$valuesKey]['can_be_deleted'] = (bool) $data[$valuesKey]['can_be_deleted'];
+            }
         }
 
         return $data;
@@ -172,10 +182,10 @@ class Content extends BaseModel implements Auditable
     {
         $locale ??= app()->getLocale();
         $slug = $this->translate($locale)?->slug;
-        if (is_string($slug) && !empty($slug)) {
+        if (is_string($slug) && ! empty($slug)) {
             return $slug;
         }
-        if (is_string($this->sub_type) && !empty($this->sub_type)) {
+        if (is_string($this->sub_type) && ! empty($this->sub_type)) {
             return $this->sub_type;
         }
 
@@ -232,6 +242,84 @@ class Content extends BaseModel implements Auditable
         return Attribute::make(
             get: function ($value, $attribute) {
                 return Carbon::parse($this->published_at)->format('Y-m-d H:i:s');
+            }
+        );
+    }
+
+    protected function publicUrlSlug(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->publicPageSlug(),
+        );
+    }
+
+    protected function frontBlogShowUrl(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                if ($this->type !== BaseContentTypes::BLOGS) {
+                    return null;
+                }
+                $slug = $this->publicPageSlug();
+                if (! is_string($slug) || $slug === '') {
+                    return null;
+                }
+
+                return route('front.blog.show', ['slug' => $slug]);
+            }
+        );
+    }
+
+    protected function frontCoverImageUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => (string) ($this->transImageUrl(self::MEDIA_COLLECTION) ?? ''),
+        );
+    }
+
+    protected function frontCoverThumbSidebarUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => (string) ($this->transImageUrl(self::MEDIA_COLLECTION, null, 'thumb-sidebar') ?? ''),
+        );
+    }
+
+    protected function frontBlogExcerpt(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                if ($this->type !== BaseContentTypes::BLOGS) {
+                    return '';
+                }
+                $raw = $this->smartTrans('short_description');
+
+                return Str::limit(trim(strip_tags((string) $raw)), 240);
+            }
+        );
+    }
+
+    protected function publishedAtIsoLl(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                if ($this->published_at === null) {
+                    return null;
+                }
+
+                return Carbon::parse($this->published_at)->locale(app()->getLocale())->isoFormat('LL');
+            }
+        );
+    }
+
+    protected function publishedAtRelative(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                if ($this->published_at === null) {
+                    return null;
+                }
+
+                return Carbon::parse($this->published_at)->locale(app()->getLocale())->diffForHumans();
             }
         );
     }

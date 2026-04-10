@@ -24,10 +24,7 @@
         <div class="container mx-auto px-5 lg:px-8">
             <div class="max-w-3xl mx-auto">
                 @if ($faqs->isEmpty())
-                    <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 text-center text-gray-600">
-                        <i class="fas fa-circle-question text-red-500 text-3xl mb-3" aria-hidden="true"></i>
-                        <p class="text-lg">{{ __('front::home.faq_empty') }}</p>
-                    </div>
+                    @include('front::includes.empty-state', ['text' => __('front::home.faq_empty')])
                 @else
                     <div class="space-y-4">
                         @foreach ($faqs as $index => $faq)
@@ -53,10 +50,21 @@
                     </div>
                 @endif
 
-                <div class="mt-10 text-center text-sm text-gray-600">
-                    <i class="fas fa-phone-alt text-red-500 mr-1" aria-hidden="true"></i>
-                    {{ __('front::home.faq_still_questions') }}
-                    <a href="{{ route('front.index') }}#contact" class="text-red-600 hover:underline font-medium">{{ __('front::home.contact_us') }}</a>
+                <div class="mt-12 rounded-2xl bg-gradient-to-r from-red-50 to-orange-50 border border-red-100 p-6 md:p-8 text-center shadow-md">
+                    <div class="flex flex-col items-center gap-3">
+                        <div class="flex h-14 w-14 items-center justify-center rounded-full bg-red-100 text-red-600 shadow-inner">
+                            <i class="fas fa-headset text-2xl" aria-hidden="true"></i>
+                        </div>
+                        <p class="text-gray-800 text-base md:text-lg font-medium">
+                            {{ __('front::home.faq_still_questions') }}
+                        </p>
+                        <a href="{{ route('front.index') }}#contact"
+                           class="inline-flex items-center gap-2 rounded-full bg-red-600 px-6 py-2.5 text-sm font-semibold text-white shadow-md transition hover:bg-red-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+                            <i class="fas fa-envelope" aria-hidden="true"></i>
+                            {{ __('front::home.contact_us') }}
+                            <i class="fas fa-arrow-right text-xs transition-transform group-hover:translate-x-0.5" aria-hidden="true"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
