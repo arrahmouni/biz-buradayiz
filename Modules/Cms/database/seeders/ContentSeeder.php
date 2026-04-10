@@ -26,8 +26,9 @@ class ContentSeeder extends Seeder
                 'sub_type'  => BasePageSlugs::PRIVACY_POLICY,
             ],
             [
-                'can_be_deleted' => false,
-            ] + createTranslateArray('title', 'contents.pages.privacy_policy', 'cms'),
+                'can_be_deleted'    => false,
+                'custom_properties' => ['appear_in_footer' => true],
+            ] + $this->basePageTranslations('privacy_policy'),
         );
 
         Content::updateOrCreate(
@@ -36,8 +37,9 @@ class ContentSeeder extends Seeder
                 'sub_type'  => BasePageSlugs::TERMS_AND_CONDITIONS,
             ],
             [
-                'can_be_deleted' => false,
-            ] + createTranslateArray('title', 'contents.pages.terms_and_conditions', 'cms'),
+                'can_be_deleted'    => false,
+                'custom_properties' => ['appear_in_footer' => true],
+            ] + $this->basePageTranslations('terms_and_conditions'),
         );
 
         Content::updateOrCreate(
@@ -46,8 +48,20 @@ class ContentSeeder extends Seeder
                 'sub_type'  => BasePageSlugs::ABOUT_US,
             ],
             [
-                'can_be_deleted' => false,
-            ] + createTranslateArray('title', 'contents.pages.about_us', 'cms'),
+                'can_be_deleted'    => false,
+                'custom_properties' => ['appear_in_footer' => true],
+            ] + $this->basePageTranslations('about_us'),
+        );
+    }
+
+    /**
+     * @return array<string, array<string, string>>
+     */
+    private function basePageTranslations(string $pageKey): array
+    {
+        return array_merge_recursive(
+            createTranslateArray('title', 'contents.pages.'.$pageKey.'.title', 'cms'),
+            createTranslateArray('long_description', 'contents.pages.'.$pageKey.'.long_description', 'cms'),
         );
     }
 

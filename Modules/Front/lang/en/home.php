@@ -75,4 +75,7 @@ return [
     'footer_pages' => 'Pages',
     'footer_terms' => 'Terms of Use',
     'copyright_text' => 'All rights reserved. You are never alone on the road.',
+    'last_updated' => 'Last updated',
+    'questions_about_this_page' => 'Questions about this page?',
+    'contact_us' => 'Contact us',
 ];

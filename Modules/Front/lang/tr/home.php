@@ -76,4 +76,7 @@ return [
     'footer_pages' => 'Sayfalar',
     'footer_terms' => 'Kullanım Koşulları',
     'copyright_text' => 'Tüm hakları saklıdır. Yolda yalnız değilsiniz.',
+    'last_updated' => 'Son güncelleme',
+    'questions_about_this_page' => 'Bu sayfa hakkında sorularınız mı var?',
+    'contact_us' => 'İletişim',
 ];
