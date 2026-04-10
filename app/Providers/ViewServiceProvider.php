@@ -52,7 +52,7 @@ class ViewServiceProvider extends ServiceProvider
             $this->registerZmsAsideMenu();
             $this->registerConfigAsideMenu();
             // $this->registerNotificationAsideMenu();
-            // $this->registerCrmAsideMenu();
+            $this->registerCrmAsideMenu();
             // $this->registerLogAsideMenu();
         });
     }
@@ -524,25 +524,25 @@ class ViewServiceProvider extends ServiceProvider
         // End Contact us Section
 
         // Start Subscribe Section
-        app('adminHelper')->asideMenu([
-            'id' => 'subscribe_section',
-            'parent_id' => 'crm_management',
-            'type' => 'item',
-            'icon' => 'fa-regular fa-newspaper',
-            'title' => trans('admin::dashboard.aside_menu.crm_management.subscribes'),
-            'order' => 4,
-        ]);
+        // app('adminHelper')->asideMenu([
+        //     'id' => 'subscribe_section',
+        //     'parent_id' => 'crm_management',
+        //     'type' => 'item',
+        //     'icon' => 'fa-regular fa-newspaper',
+        //     'title' => trans('admin::dashboard.aside_menu.crm_management.subscribes'),
+        //     'order' => 4,
+        // ]);
 
-        if (app('owner') || (app('admin')->can(SubscribePermissions::READ))) {
-            app('adminHelper')->asideMenu([
-                'id' => 'view_subscribe',
-                'parent_id' => 'subscribe_section',
-                'type' => 'item',
-                'link' => route('crm.subscribes.index'),
-                'title' => trans('admin::base.view_all'),
-                'order' => 1,
-            ]);
-        }
+        // if (app('owner') || (app('admin')->can(SubscribePermissions::READ))) {
+        //     app('adminHelper')->asideMenu([
+        //         'id' => 'view_subscribe',
+        //         'parent_id' => 'subscribe_section',
+        //         'type' => 'item',
+        //         'link' => route('crm.subscribes.index'),
+        //         'title' => trans('admin::base.view_all'),
+        //         'order' => 1,
+        //     ]);
+        // }
         // End Subscribe Section
     }
 

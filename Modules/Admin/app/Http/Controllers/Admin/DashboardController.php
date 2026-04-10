@@ -49,7 +49,7 @@ class DashboardController extends BaseController
         $this->getSubscriptionsAndTelephonyData();
         $this->getReviewsData();
         $this->getContentData();
-        // $this->getCrmData();
+        $this->getCrmData();
 
         if ($request->ajax()) {
             return sendSuccessInternalResponse(data: $this->data);
@@ -262,12 +262,12 @@ class DashboardController extends BaseController
             toDate      : $this->data['toDate'],
         );
 
-        $this->data['statistics']['crm'][] = dashboardSetItem(
-            key         : 'subscribes',
-            label       : trans('admin::dashboard.aside_menu.crm_management.subscribes'),
-            modelClass  : Subscribe::class,
-            fromDate    : $this->data['fromDate'],
-            toDate      : $this->data['toDate'],
-        );
+        // $this->data['statistics']['crm'][] = dashboardSetItem(
+        //     key         : 'subscribes',
+        //     label       : trans('admin::dashboard.aside_menu.crm_management.subscribes'),
+        //     modelClass  : Subscribe::class,
+        //     fromDate    : $this->data['fromDate'],
+        //     toDate      : $this->data['toDate'],
+        // );
     }
 }
