@@ -33,20 +33,44 @@
         });
     }
 
-    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    document.querySelectorAll('a[href*="#"]').forEach((anchor) => {
         anchor.addEventListener('click', function (e) {
-            const href = this.getAttribute('href');
-            if (href === '#' || href === '') {
+            const hrefAttr = this.getAttribute('href');
+            if (!hrefAttr || hrefAttr === '#') {
                 return;
             }
 
-            const target = document.querySelector(href);
-            if (target) {
-                e.preventDefault();
-                target.scrollIntoView({ behavior: 'smooth' });
-                if (mobileMenuWrapper && mobileMenuWrapper.classList.contains('is-open')) {
-                    setMobileMenuOpen(false);
-                }
+            let url;
+            try {
+                url = new URL(this.href);
+            } catch {
+                return;
+            }
+
+            if (url.origin !== window.location.origin) {
+                return;
+            }
+
+            const hash = url.hash;
+            if (!hash || hash === '#') {
+                return;
+            }
+
+            if (url.pathname !== window.location.pathname || url.search !== window.location.search) {
+                return;
+            }
+
+            const target = document.querySelector(hash);
+            if (!target) {
+                return;
+            }
+
+            e.preventDefault();
+            const smoothScroll = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            target.scrollIntoView({ behavior: smoothScroll ? 'smooth' : 'auto' });
+            history.pushState(null, '', hash);
+            if (mobileMenuWrapper && mobileMenuWrapper.classList.contains('is-open')) {
+                setMobileMenuOpen(false);
             }
         });
     });

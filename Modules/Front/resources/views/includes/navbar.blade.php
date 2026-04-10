@@ -9,10 +9,10 @@
 
         <div class="hidden min-w-0 flex-1 justify-center lg:flex">
             <div class="flex flex-nowrap items-center gap-6 xl:gap-8 font-medium">
-                <a href="#home" class="whitespace-nowrap hover:text-red-600 transition">{{ __('front::home.nav_home') }}</a>
-                <a href="#how-it-works" class="whitespace-nowrap hover:text-red-600 transition">{{ __('front::home.nav_how_it_works') }}</a>
-                <a href="#services" class="whitespace-nowrap hover:text-red-600 transition">{{ __('front::home.nav_services') }}</a>
-                <a href="#contact" class="whitespace-nowrap hover:text-red-600 transition">{{ __('front::home.nav_contact') }}</a>
+                <a href="{{ route('front.index') }}#home" class="whitespace-nowrap hover:text-red-600 transition">{{ __('front::home.nav_home') }}</a>
+                <a href="{{ route('front.index') }}#how-it-works" class="whitespace-nowrap hover:text-red-600 transition">{{ __('front::home.nav_how_it_works') }}</a>
+                <a href="{{ route('front.index') }}#services" class="whitespace-nowrap hover:text-red-600 transition">{{ __('front::home.nav_services') }}</a>
+                <a href="{{ route('front.index') }}#contact" class="whitespace-nowrap hover:text-red-600 transition">{{ __('front::home.nav_contact') }}</a>
             </div>
         </div>
 
@@ -84,10 +84,10 @@
     <div id="mobileMenuWrapper" class="mobile-menu-panel lg:hidden">
         <div class="mobile-menu-panel__inner">
             <div id="mobileMenu" class="bg-white border-t py-4 px-5 flex flex-col space-y-3 font-medium">
-                <a href="#home" class="hover:text-red-600 py-1">{{ __('front::home.nav_home') }}</a>
-                <a href="#how-it-works" class="hover:text-red-600 py-1">{{ __('front::home.nav_how_it_works') }}</a>
-                <a href="#services" class="hover:text-red-600 py-1">{{ __('front::home.nav_services') }}</a>
-                <a href="#contact" class="hover:text-red-600 py-1">{{ __('front::home.nav_contact') }}</a>
+                <a href="{{ route('front.index') }}#home" class="hover:text-red-600 py-1">{{ __('front::home.nav_home') }}</a>
+                <a href="{{ route('front.index') }}#how-it-works" class="hover:text-red-600 py-1">{{ __('front::home.nav_how_it_works') }}</a>
+                <a href="{{ route('front.index') }}#services" class="hover:text-red-600 py-1">{{ __('front::home.nav_services') }}</a>
+                <a href="{{ route('front.index') }}#contact" class="hover:text-red-600 py-1">{{ __('front::home.nav_contact') }}</a>
                 <a href="{{ route('admin.auth.login') }}" class="border-2 border-red-600 text-red-600 hover:bg-red-50 text-center py-2 rounded-full mt-2 font-semibold flex items-center justify-center gap-2">
                     <i class="fas fa-building"></i> {{ __('front::home.company_login') }}
                 </a>
