@@ -47,6 +47,13 @@ return [
                 'app_placeholder' => 'الصورة الافتراضية',
             ],
         ],
+        'mobile' => [
+            'title' => 'تطبيقات الجوال',
+            'fields' => [
+                'app_store' => 'رابط App Store (iOS)',
+                'google_play' => 'رابط Google Play (Android)',
+            ],
+        ],
         'developers' => [
             'title' => 'المطورين',
             'fields' => [

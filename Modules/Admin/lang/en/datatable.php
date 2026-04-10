@@ -203,7 +203,9 @@ return [
     'services' => [
         'list_title' => 'Services List',
         'columns' => [
+            'icon' => 'Icon',
             'name' => 'Name',
+            'service_providers_count' => 'Service providers',
             'show_in_search_filters' => 'In search filters',
         ],
     ],

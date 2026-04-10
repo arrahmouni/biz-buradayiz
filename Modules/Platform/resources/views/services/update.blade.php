@@ -62,6 +62,16 @@
                                         ])
                                     </div>
                                     <div class="col-12 mt-5">
+                                        @include('admin::components.inputs.icon_picker', [
+                                            'options' => [
+                                                'name' => 'icon',
+                                                'label' => trans('admin::cruds.services.icon'),
+                                                'placeholder' => trans('admin::cruds.services.icon_placeholder'),
+                                                'value' => old('icon', $model->icon),
+                                            ],
+                                        ])
+                                    </div>
+                                    <div class="col-12 mt-5">
                                         @include('admin::components.inputs.switch', [
                                             'options' => [
                                                 'name'      => 'show_in_search_filters',

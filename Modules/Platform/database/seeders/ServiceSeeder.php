@@ -15,21 +15,31 @@ class ServiceSeeder extends Seeder
     {
         $services = [
             [
-                'translations'  => [
-                    'en'        => ['name' => 'Towing service', 'description' => 'Towing service description'],
-                    'tr'        => ['name' => 'Çekiç Hizmeti', 'description' => 'Çekiç Hizmeti açıklaması']
+                'icon' => 'fas fa-truck',
+                'translations' => [
+                    'en' => ['name' => 'Towing service', 'description' => '7/24 towing service'],
+                    'tr' => ['name' => 'Çekiç Hizmeti', 'description' => '7/24 oto çekici'],
                 ],
             ],
             [
-                'translations'  => [
-                    'en'        => ['name' => 'Transportation service', 'description' => 'Transportation service description'],
-                    'tr'        => ['name' => 'Taşıma Hizmeti', 'description' => 'Taşıma Hizmeti açıklaması']
+                'icon' => 'fas fa-car',
+                'translations' => [
+                    'en' => ['name' => 'Tyre change', 'description' => 'Flat tyre change'],
+                    'tr' => ['name' => 'Lastik Değişimi', 'description' => 'Patlak lastik değişimi'],
                 ],
             ],
             [
-                'translations'  => [
-                    'en'        => ['name' => 'Repair service', 'description' => 'Repair service description'],
-                    'tr'        => ['name' => 'Onarım Hizmeti', 'description' => 'Onarım Hizmeti açıklaması']
+                'icon' => 'fas fa-car-battery',
+                'translations' => [
+                    'en' => ['name' => 'Battery boost', 'description' => 'Fast battery boost'],
+                    'tr' => ['name' => 'Akü Takviyesi', 'description' => 'Hızlı akü takviyesi'],
+                ],
+            ],
+            [
+                'icon' => 'fas fa-gas-pump',
+                'translations' => [
+                    'en' => ['name' => 'Fuel delivery', 'description' => 'Emergency fuel delivery'],
+                    'tr' => ['name' => 'Yakıt Teslimi', 'description' => 'Acil yakıt teslimi'],
                 ],
             ],
 
@@ -38,6 +48,7 @@ class ServiceSeeder extends Seeder
         foreach ($services as $service) {
             $serviceModel = Service::create([
                 'show_in_search_filters' => true,
+                'icon' => $service['icon'] ?? null,
             ]);
             foreach ($service['translations'] as $locale => $translation) {
                 ServiceTranslation::create([

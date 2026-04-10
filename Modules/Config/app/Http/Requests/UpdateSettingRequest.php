@@ -29,6 +29,11 @@ class UpdateSettingRequest extends BaseRequest
             'tiktok' => ['nullable', 'url', 'max:255'],
         ];
 
+        $mobileSettingRules = [
+            'app_store' => ['nullable', 'url', 'max:255'],
+            'google_play' => ['nullable', 'url', 'max:255'],
+        ];
+
         $contactSettingRules = [
             'phone' => ['nullable', 'string', 'max:255'],
             'email' => ['nullable', 'email', 'max:255'],
@@ -66,7 +71,7 @@ class UpdateSettingRequest extends BaseRequest
             'custom_ips' => ['nullable', 'string', 'regex:/^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(,\s*\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})*$/'],
         ] : [];
 
-        return array_merge($generalSettingRules, $socialSettingRules, $contactSettingRules, $platformSettingRules, $mediaSettingRules, $developerSettingRules);
+        return array_merge($generalSettingRules, $socialSettingRules, $mobileSettingRules, $contactSettingRules, $platformSettingRules, $mediaSettingRules, $developerSettingRules);
     }
 
     public function after(): array

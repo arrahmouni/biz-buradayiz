@@ -64,13 +64,41 @@
                     ])
                     @slot('columns')
                         {{-- Datatable Columns --}}
+                        <th class="w-75px"> @lang('admin::datatable.services.columns.icon') </th>
                         <th> @lang('admin::datatable.base_columns.name') </th>
                         <th> @lang('admin::datatable.base_columns.description') </th>
+                        <th class="text-center w-100px"> @lang('admin::datatable.services.columns.service_providers_count') </th>
                         <th> @lang('admin::datatable.services.columns.show_in_search_filters') </th>
                     @endslot
 
                     <script>
                         @slot('jsColumns')
+                            {
+                                data: 'icon',
+                                name: 'icon',
+                                orderable: false,
+                                searchable: false,
+                                className: 'text-center',
+                                render: function (data, type) {
+                                    const raw = data == null ? '' : String(data).trim();
+                                    if (type === 'sort' || type === 'filter' || type === 'type' || type === 'export') {
+                                        return raw;
+                                    }
+                                    if (raw === '') {
+                                        return type === 'display'
+                                            ? '<span class="text-muted">—</span>'
+                                            : '';
+                                    }
+                                    const isFontAwesome = raw.startsWith('fa');
+                                    if (isFontAwesome) {
+                                        const safeClass = raw.replace(/[^a-zA-Z0-9 _-]/g, '');
+                                        return '<i class="' + safeClass + ' fs-2x"></i>';
+                                    }
+                                    const div = document.createElement('div');
+                                    div.textContent = raw;
+                                    return '<span class="fs-2x lh-1 d-inline-flex align-items-center justify-content-center">' + div.innerHTML + '</span>';
+                                },
+                            },
                             {
                                 data: 'name',
                                 name: 'name',
@@ -78,6 +106,13 @@
                             {
                                 data: 'description',
                                 name: 'description',
+                            },
+                            {
+                                data: 'service_providers_count',
+                                name: 'service_providers_count',
+                                orderable: false,
+                                searchable: false,
+                                className: 'text-center',
                             },
                             {
                                 data: 'show_in_search_filters',

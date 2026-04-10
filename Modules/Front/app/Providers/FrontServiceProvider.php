@@ -2,9 +2,12 @@
 
 namespace Modules\Front\Providers;
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Modules\Config\Models\Setting;
 use Modules\Front\Support\FrontPublicServices;
 use Nwidart\Modules\Traits\PathNamespace;
 use RecursiveDirectoryIterator;
@@ -31,21 +34,6 @@ class FrontServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(module_path($this->name, 'database/migrations'));
 
         View::composer('front::*', function ($view) {
-            static $emergencyViewData = null;
-
-            if ($emergencyViewData === null) {
-                $raw = getSetting('emergency_contact_number');
-                $fromSettings = filled(trim((string) ($raw ?? '')));
-                $display = $fromSettings ? trim((string) $raw) : null;
-                $telSource = $fromSettings ? (string) $raw : null;
-                $emergencyViewData = [
-                    'frontEmergencyFromSettings' => $fromSettings,
-                    'frontEmergencyDisplay' => $display,
-                    'frontEmergencyTelHref' => $telSource !== null ? phoneToTelHref($telSource) : null,
-                ];
-            }
-
-            $view->with($emergencyViewData);
             $view->with([
                 'frontPublicServices' => FrontPublicServices::all(),
                 'frontPublicFilterServices' => FrontPublicServices::forSearchFilters(),

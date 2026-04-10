@@ -321,6 +321,8 @@ return [
         'restore' => 'Hizmeti Geri Yükle',
         'permanent_delete' => 'Kalıcı Silme Hizmeti',
         'show_in_search_filters' => 'Web sitesi arama filtrelerinde göster',
+        'icon' => 'Simge',
+        'icon_placeholder' => 'Bir simge seçin',
     ],
     'packages' => [
         'title' => 'Paketler',

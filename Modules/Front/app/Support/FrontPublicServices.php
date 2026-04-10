@@ -78,6 +78,7 @@ class FrontPublicServices extends BaseFrontService
 
                 return [
                     'id' => (int) $service->id,
+                    'icon' => $service->icon ?? 'fas fa-building',
                     'name' => ! empty($name) ? $name : (string) $service->id,
                     'description' => ! empty($description) ? $description : null,
                 ];

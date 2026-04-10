@@ -203,7 +203,9 @@ return [
     'services' => [
         'list_title' => 'Hizmetler Listesi',
         'columns' => [
+            'icon' => 'Simge',
             'name' => 'Ad',
+            'service_providers_count' => 'Hizmet sağlayıcılar',
             'show_in_search_filters' => 'Arama filtrelerinde',
         ],
     ],

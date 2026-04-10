@@ -21,7 +21,7 @@
         <div class="row g-5">
             <div class="col-lg-2"></div>
 
-            <div class="col-xxl-8 col-12">
+            <div class=" col-12">
                 <div class="card card-bordered mb-5">
                     <div class="card-header">
                         <h3 class="card-title">

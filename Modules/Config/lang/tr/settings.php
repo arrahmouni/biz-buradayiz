@@ -48,6 +48,13 @@ return [
                 'web_logo' => 'Web Logosu',
             ],
         ],
+        'mobile' => [
+            'title' => 'Mobil uygulamalar',
+            'fields' => [
+                'app_store' => 'App Store (iOS) bağlantısı',
+                'google_play' => 'Google Play (Android) bağlantısı',
+            ],
+        ],
         'developers' => [
             'title' => 'Geliştiriciler',
             'fields' => [

@@ -5,7 +5,10 @@ namespace Modules\Platform\Models;
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Auth\Enums\UserType;
+use Modules\Auth\Models\User;
 use Modules\Base\Models\BaseModel;
 use Modules\Base\Trait\Disableable;
 use Modules\Front\Support\FrontPublicServices;
@@ -38,6 +41,7 @@ class Service extends BaseModel
 
     protected $fillable = [
         'show_in_search_filters',
+        'icon',
     ];
 
     public $timestamps = true;
@@ -60,6 +64,15 @@ class Service extends BaseModel
     {
         return $this->belongsToMany(Package::class, 'package_service')
             ->withTimestamps();
+    }
+
+    /**
+     * Users of type service provider assigned to this service (users.service_id).
+     */
+    public function serviceProviders(): HasMany
+    {
+        return $this->hasMany(User::class, 'service_id')
+            ->where('type', UserType::ServiceProvider->value);
     }
 
     // End Relationships

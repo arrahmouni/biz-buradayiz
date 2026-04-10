@@ -14,6 +14,8 @@ final class SettingGroups
 
     public const MEDIA = 'media';
 
+    public const MOBILE = 'mobile';
+
     public const DEVELOPERS = 'developers';
 
     public static function all(): array
@@ -24,6 +26,7 @@ final class SettingGroups
             self::CONTACT_INFO,
             self::PLATFORM,
             self::MEDIA,
+            self::MOBILE,
             self::DEVELOPERS,
         ];
     }
@@ -36,6 +39,7 @@ final class SettingGroups
             self::CONTACT_INFO => trans('config::settings.groups.contact_info.title'),
             self::PLATFORM => trans('config::settings.groups.platform.title'),
             self::MEDIA => trans('config::settings.groups.media.title'),
+            self::MOBILE => trans('config::settings.groups.mobile.title'),
             self::DEVELOPERS => trans('config::settings.groups.developers.title'),
         ];
     }

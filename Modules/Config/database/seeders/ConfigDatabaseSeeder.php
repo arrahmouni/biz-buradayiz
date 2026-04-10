@@ -31,6 +31,7 @@ class ConfigDatabaseSeeder extends Seeder
         $this->seedContactInfoSettings();
         $this->seedPlatformSettings();
         $this->seedMediaSettings();
+        $this->seedMobileSettings();
         $this->seedDevelopersSettings();
     }
 
@@ -91,6 +92,7 @@ class ConfigDatabaseSeeder extends Seeder
             [
                 'type' => SettingTypes::URL,
                 'order' => 1,
+                'value' => 'https://facebook.com',
             ] + createTranslateArray('title', 'settings.groups.social_media.fields.facebook', 'config')
         );
 
@@ -102,6 +104,7 @@ class ConfigDatabaseSeeder extends Seeder
             [
                 'type' => SettingTypes::URL,
                 'order' => 2,
+                'value' => 'https://twitter.com',
             ] + createTranslateArray('title', 'settings.groups.social_media.fields.twitter', 'config')
         );
 
@@ -113,6 +116,7 @@ class ConfigDatabaseSeeder extends Seeder
             [
                 'type' => SettingTypes::URL,
                 'order' => 3,
+                'value' => 'https://instagram.com',
             ] + createTranslateArray('title', 'settings.groups.social_media.fields.instagram', 'config')
         );
 
@@ -124,6 +128,7 @@ class ConfigDatabaseSeeder extends Seeder
             [
                 'type' => SettingTypes::URL,
                 'order' => 4,
+                'value' => 'https://linkedin.com',
             ] + createTranslateArray('title', 'settings.groups.social_media.fields.linkedin', 'config')
         );
 
@@ -135,6 +140,7 @@ class ConfigDatabaseSeeder extends Seeder
             [
                 'type' => SettingTypes::URL,
                 'order' => 5,
+                'value' => 'https://youtube.com',
             ] + createTranslateArray('title', 'settings.groups.social_media.fields.youtube', 'config')
         );
 
@@ -146,6 +152,7 @@ class ConfigDatabaseSeeder extends Seeder
             [
                 'type' => SettingTypes::URL,
                 'order' => 6,
+                'value' => 'https://tiktok.com',
             ] + createTranslateArray('title', 'settings.groups.social_media.fields.tiktok', 'config')
         );
     }
@@ -295,6 +302,36 @@ class ConfigDatabaseSeeder extends Seeder
     }
 
     /**
+     * Seed mobile app store links.
+     */
+    private function seedMobileSettings(): void
+    {
+        Setting::firstOrCreate(
+            [
+                'group' => SettingGroups::MOBILE,
+                'key' => 'app_store',
+            ],
+            [
+                'type' => SettingTypes::URL,
+                'order' => 1,
+                'value' => 'https://apps.apple.com',
+            ] + createTranslateArray('title', 'settings.groups.mobile.fields.app_store', 'config')
+        );
+
+        Setting::firstOrCreate(
+            [
+                'group' => SettingGroups::MOBILE,
+                'key' => 'google_play',
+            ],
+            [
+                'type' => SettingTypes::URL,
+                'order' => 2,
+                'value' => 'https://play.google.com',
+            ] + createTranslateArray('title', 'settings.groups.mobile.fields.google_play', 'config')
+        );
+    }
+
+    /**
      * Seed the developers settings.
      */
     private function seedDevelopersSettings(): void
@@ -310,6 +347,7 @@ class ConfigDatabaseSeeder extends Seeder
             [
                 'type' => SettingTypes::NUMBER,
                 'order' => 1,
+                'value' => 1200,
             ] + array_merge_recursive($translatableSessionLifeTimeTitle, $translatableSessionLifeTimeDescription)
         );
 

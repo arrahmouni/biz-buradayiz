@@ -58,10 +58,11 @@
                 <span><i class="fas fa-check-circle text-green-400"></i> {{ __('front::home.hero_badge_no_fees') }}</span>
             </div>
             <div class="mt-4">
-                @if ($frontEmergencyFromSettings)
-                    <a href="{{ $frontEmergencyTelHref }}" class="inline-block bg-white/20 hover:bg-white/30 backdrop-blur-sm px-5 py-2 rounded-full text-sm font-semibold transition">
+                @php($emergencyContactNumber = getSetting('emergency_contact_number'))
+                @if (filled(trim((string) ($emergencyContactNumber ?? ''))))
+                    <a href="{{ phoneToTelHref(trim((string) $emergencyContactNumber)) }}" class="inline-block bg-white/20 hover:bg-white/30 backdrop-blur-sm px-5 py-2 rounded-full text-sm font-semibold transition">
                         <i class="fas fa-phone-alt mr-1"></i>
-                            {{ __('front::home.emergency_call_with_phone', ['phone' => $frontEmergencyDisplay]) }}
+                        {{ __('front::home.emergency_call_with_phone', ['phone' => trim((string) $emergencyContactNumber)]) }}
                     </a>
                 @endif
 

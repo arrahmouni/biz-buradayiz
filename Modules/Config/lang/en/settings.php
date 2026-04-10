@@ -48,6 +48,13 @@ return [
                 'web_logo' => 'Web Logo',
             ],
         ],
+        'mobile' => [
+            'title' => 'Mobile apps',
+            'fields' => [
+                'app_store' => 'App Store (iOS) link',
+                'google_play' => 'Google Play (Android) link',
+            ],
+        ],
         'developers' => [
             'title' => 'Developers',
             'fields' => [

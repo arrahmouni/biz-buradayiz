@@ -19,6 +19,7 @@ class ServiceRequest extends BaseRequest
             'name' => ['required', 'array'],
             'description' => ['nullable', 'array'],
             'show_in_search_filters' => ['sometimes', 'boolean'],
+            'icon' => ['nullable', 'string', 'max:255'],
         ];
     }
 
@@ -26,12 +27,11 @@ class ServiceRequest extends BaseRequest
     {
         return [
             function ($validator) {
-                $this->validateBaseInput(validator:$validator, data:$this->name, inputName: 'name', atLeastOneLocaleWithSize:true);
-                $this->validateBaseInput(validator:$validator, data:$this->description, inputName: 'description', atLeastOneLocaleWithSize:false, textarea:true);
-            }
+                $this->validateBaseInput(validator: $validator, data: $this->name, inputName: 'name', atLeastOneLocaleWithSize: true);
+                $this->validateBaseInput(validator: $validator, data: $this->description, inputName: 'description', atLeastOneLocaleWithSize: false, textarea: true);
+            },
         ];
     }
-
 
     /**
      * Determine if the user is authorized to make this request.

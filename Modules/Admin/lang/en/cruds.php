@@ -321,6 +321,8 @@ return [
         'restore' => 'Restore Service',
         'permanent_delete' => 'Permanent Deletion Service',
         'show_in_search_filters' => 'Show in website search filters',
+        'icon' => 'Icon',
+        'icon_placeholder' => 'Select an icon',
     ],
     'packages' => [
         'title' => 'Packages',
