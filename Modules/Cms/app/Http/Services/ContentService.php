@@ -21,6 +21,7 @@ class ContentService extends BaseCrudService
         'long_description',
         'image',
         'placement',
+        'appear_in_footer',
         'tags',
     ];
 
@@ -29,6 +30,7 @@ class ContentService extends BaseCrudService
      */
     protected $customProperties = [
         'placement',
+        'appear_in_footer',
     ];
 
     /**
@@ -106,16 +108,25 @@ class ContentService extends BaseCrudService
     {
         $customProperties = [];
 
-        foreach($this->customProperties as $property) {
-            if(isset($data[$property])) {
-                $customProperties[$property] = $data[$property];
+        foreach ($this->customProperties as $property) {
+            if (! array_key_exists($property, $data)) {
+                continue;
             }
+
+            $value = $data[$property];
+            if ($property === 'appear_in_footer') {
+                $value = filter_var($value, FILTER_VALIDATE_BOOL);
+            }
+
+            $customProperties[$property] = $value;
         }
 
-        if(!empty($customProperties)) {
-            $model->custom_properties = $customProperties;
-            $model->save();
+        if ($customProperties === []) {
+            return;
         }
+
+        $model->custom_properties = array_merge($model->custom_properties ?? [], $customProperties);
+        $model->save();
     }
 
     /**

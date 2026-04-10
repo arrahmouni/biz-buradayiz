@@ -14,7 +14,7 @@ return [
 
     'yes_no'        => [
         'yes'       => 'Evet',
-        'no'        => 'Hayir',
+        'no'        => 'Hayır',
     ],
 
     'true_false'    => [
@@ -24,6 +24,6 @@ return [
 
     'yes_no_boolean'=> [
         1           => 'Evet',
-        0           => 'Hayir',
+        0           => 'Hayır',
     ],
 ];

@@ -41,6 +41,7 @@ class Content extends BaseModel implements Auditable
 
     public $translatedAttributes = [
         'title',
+        'slug',
         'short_description',
         'long_description',
     ];
@@ -164,6 +165,23 @@ class Content extends BaseModel implements Auditable
         return static::whereTranslationLike('slug', '%'.$slug.'%')->first();
     }
 
+    /**
+     * Public URL segment for this page (translation slug, or legacy sub_type).
+     */
+    public function publicPageSlug(?string $locale = null): ?string
+    {
+        $locale ??= app()->getLocale();
+        $slug = $this->translate($locale)?->slug;
+        if (is_string($slug) && !empty($slug)) {
+            return $slug;
+        }
+        if (is_string($this->sub_type) && !empty($this->sub_type)) {
+            return $this->sub_type;
+        }
+
+        return null;
+    }
+
     // End Get Data From Model
 
     // Start Mutators & Accessors
@@ -187,6 +205,16 @@ class Content extends BaseModel implements Auditable
 
                 return $key ? trans('cms::contents.sliders.placement.'.$key) : '--';
             }
+        );
+    }
+
+    protected function appearInFooter(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => filter_var(
+                Arr::get($this->custom_properties, 'appear_in_footer', false),
+                FILTER_VALIDATE_BOOL
+            ),
         );
     }
 

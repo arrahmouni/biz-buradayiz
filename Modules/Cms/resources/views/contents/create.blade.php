@@ -161,6 +161,28 @@
                                     </div>
                                 @endif
 
+                                @if(Content::typeHasField($type, 'appear_in_footer'))
+                                    <div class="row">
+                                        <div class="col-12 mb-10 form-group">
+                                            @include('admin::components.inputs.select', [
+                                                'options'           => [
+                                                    'name'          => 'appear_in_footer',
+                                                    'required'      => Content::isFieldRequired($type, 'appear_in_footer'),
+                                                    'label'         => trans('admin::inputs.contents_crud.appear_in_footer.label'),
+                                                    'help'          => trans('admin::inputs.contents_crud.appear_in_footer.help'),
+                                                    'data'          => YES_NO_DATA,
+                                                    'text'          => function($key, $value) {return trans('base::base.yes_no.' . $value['text']);},
+                                                    'values'        => function($key, $value) {return $value['value'];},
+                                                    'value'         => 0,
+                                                    'select'        => function($key, $value, $selected) {
+                                                        return (int) $selected === (int) $value['value'];
+                                                    },
+                                                ]
+                                            ])
+                                        </div>
+                                    </div>
+                                @endif
+
                                 <div class="separator separator-dashed my-5"></div>
 
                                 <div class="row">

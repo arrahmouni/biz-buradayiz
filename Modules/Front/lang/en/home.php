@@ -72,6 +72,7 @@ return [
     'footer_social_youtube' => 'YouTube',
     'footer_social_tiktok' => 'TikTok',
     'footer_faq' => 'FAQ',
+    'footer_pages' => 'Pages',
     'footer_terms' => 'Terms of Use',
     'copyright_text' => 'All rights reserved. You are never alone on the road.',
 ];

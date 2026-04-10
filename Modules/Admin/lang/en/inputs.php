@@ -299,6 +299,10 @@ return [
                 'help' => 'Select tags',
             ],
         ],
+        'appear_in_footer' => [
+            'label' => 'Appear in footer',
+            'help' => 'When enabled, this page is shown as a link in the public site footer.',
+        ],
     ],
 
     'category_crud' => [

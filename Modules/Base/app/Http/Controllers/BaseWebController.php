@@ -4,7 +4,6 @@ namespace Modules\Base\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Modules\Admin\Resources\PaginateResource;
 
@@ -19,10 +18,6 @@ class BaseWebController extends BaseController
     protected $modelService;
 
     protected $modelRequest;
-
-    public $supportedLang;
-
-    public $defaultLocale;
 
     protected $isPaginate;
 
@@ -40,20 +35,6 @@ class BaseWebController extends BaseController
 
     public function __construct()
     {
-        $this->defaultLocale = getSetting('app_default_language', 'ar');
-
-        $this->supportedLang = view()->shared('_ALL_LOCALE_KEY_');
-
-        $this->locale = in_array(request()->header('locale', $this->defaultLocale), $this->supportedLang) ? request()->header('locale', $this->defaultLocale) : getSetting('app_default_language', 'ar');
-
-        app()->setLocale($this->locale);
-
-        if ($this->model !== null) {
-            $this->data['model_plural'] = Str::plural(Str::snake(class_basename($this->model)));
-
-            $this->data['model_singular'] = Str::singular(Str::snake(class_basename($this->model)));
-        }
-
         parent::__construct();
     }
 

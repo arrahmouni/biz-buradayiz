@@ -1,8 +1,11 @@
 <nav class="sticky top-0 z-50 w-full min-w-0 max-w-full bg-white shadow-md">
     <div class="container mx-auto flex w-full min-w-0 max-w-full items-center justify-between gap-2 px-5 py-4 max-[410px]:gap-1.5 max-[410px]:px-3 max-[410px]:py-3 lg:gap-3 lg:px-8">
-        <div class="min-w-0 shrink text-2xl font-extrabold tracking-tight">
+        <a
+            href="{{ route('front.index') }}"
+            class="inline-block min-w-0 shrink text-2xl font-extrabold tracking-tight focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2 rounded"
+        >
             <img src="{{ getSetting('web_logo', asset('images/default/logos/web_logo.svg')) }}" alt="{{ __('front::home.brand') }}" class="h-10 w-auto max-w-full object-contain object-left max-[410px]:h-8 lg:h-12">
-        </div>
+        </a>
 
         <div class="hidden min-w-0 flex-1 justify-center lg:flex">
             <div class="flex flex-nowrap items-center gap-6 xl:gap-8 font-medium">

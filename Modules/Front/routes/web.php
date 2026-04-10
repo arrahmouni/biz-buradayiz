@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Front\Http\Controllers\ContentPageController;
+use Modules\Front\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('front::index');
+Route::controller(HomeController::class)->group(function () {
+    Route::get('/', 'index')->name('index');
 });
+
+Route::get('page/{slug}', [ContentPageController::class, 'show'])->name('page.show');

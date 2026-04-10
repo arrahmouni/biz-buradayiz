@@ -38,15 +38,36 @@
 
     $footerHasSocial = $footerSocial !== [];
     $footerShowConnectColumn = $footerHasDownloadLinks || $footerHasSocial;
+
+    $footerPagesCollection = $footerPages ?? collect();
+    $footerHasPages = $footerPagesCollection->isNotEmpty();
+
+    $footerColumnCount = 3;
+    if ($footerHasPages) {
+        $footerColumnCount++;
+    }
+    if ($footerShowConnectColumn) {
+        $footerColumnCount++;
+    }
+
+    $footerGridClass = match ($footerColumnCount) {
+        3 => 'md:grid-cols-3 lg:grid-cols-3',
+        4 => 'md:grid-cols-2 lg:grid-cols-4',
+        5 => 'md:grid-cols-2 lg:grid-cols-5',
+        default => 'md:grid-cols-2 lg:grid-cols-4',
+    };
 @endphp
 
 <footer class="bg-gradient-to-br from-slate-900 via-gray-900 to-slate-950 text-gray-300 pt-12 pb-6">
     <div class="container mx-auto px-4">
-        <div class="grid grid-cols-1 gap-8 {{ $footerShowConnectColumn ? 'md:grid-cols-2 lg:grid-cols-4' : 'md:grid-cols-3 lg:grid-cols-3' }}">
+        <div class="grid grid-cols-1 gap-8 {{ $footerGridClass }}">
             <div>
-                <div class="flex items-center space-x-2 mb-4">
+                <a
+                    href="{{ route('front.index') }}"
+                    class="inline-flex items-center space-x-2 mb-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 rounded"
+                >
                     <img src="{{ getSetting('web_logo', asset('images/default/logos/web_logo.svg')) }}" alt="{{ __('front::home.brand') }}" class="h-10 w-auto md:h-12 brightness-0 invert">
-                </div>
+                </a>
                 <p class="text-sm text-gray-400">{{ __('front::home.footer_desc') }}</p>
             </div>
             <div>
@@ -65,6 +86,18 @@
                     <li><a href="#" class="hover:text-red-400 transition">{{ __('front::home.footer_terms') }}</a></li>
                 </ul>
             </div>
+            @if ($footerHasPages)
+                <div>
+                    <h4 class="font-semibold text-white mb-4">{{ __('front::home.footer_pages') }}</h4>
+                    <ul class="space-y-2 text-sm">
+                        @foreach ($footerPagesCollection as $footerPage)
+                            <li>
+                                <a href="{{ $footerPage['url'] }}" class="hover:text-red-400 transition">{{ $footerPage['title'] }}</a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             @if ($footerShowConnectColumn)
                 <div class="space-y-8">
                     @if ($footerHasDownloadLinks)

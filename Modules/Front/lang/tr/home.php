@@ -73,6 +73,7 @@ return [
     'footer_social_youtube' => 'YouTube',
     'footer_social_tiktok' => 'TikTok',
     'footer_faq' => 'Sık Sorulan Sorular',
+    'footer_pages' => 'Sayfalar',
     'footer_terms' => 'Kullanım Koşulları',
     'copyright_text' => 'Tüm hakları saklıdır. Yolda yalnız değilsiniz.',
 ];

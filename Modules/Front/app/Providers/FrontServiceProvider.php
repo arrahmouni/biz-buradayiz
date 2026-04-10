@@ -2,12 +2,11 @@
 
 namespace Modules\Front\Providers;
 
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use Modules\Config\Models\Setting;
+use Modules\Cms\Enums\contents\BaseContentTypes;
+use Modules\Cms\Models\Content;
 use Modules\Front\Support\FrontPublicServices;
 use Nwidart\Modules\Traits\PathNamespace;
 use RecursiveDirectoryIterator;
@@ -39,6 +38,31 @@ class FrontServiceProvider extends ServiceProvider
                 'frontPublicFilterServices' => FrontPublicServices::forSearchFilters(),
                 'frontSearchDefaultCountryId' => resolveFrontSearchDefaultCountryIdFromIp(),
             ]);
+        });
+
+        View::composer('front::includes.footer', function ($view) {
+            cache()->remember('footer_pages_' . app()->getLocale(), 3600, function () use ($view) {
+                $footerPages = Content::query()
+                    ->byType(BaseContentTypes::PAGES)
+                    ->orderBy('id')
+                    ->get()
+                    ->filter(fn (Content $page) => $page->appear_in_footer)
+                    ->map(function (Content $page) {
+                        $slug = $page->publicPageSlug();
+                        if ($slug === null) {
+                            return null;
+                        }
+
+                        return [
+                            'title' => $page->smartTrans('title'),
+                            'url' => route('front.page.show', ['slug' => $slug]),
+                        ];
+                    })
+                    ->filter()
+                    ->values();
+
+                $view->with('footerPages', $footerPages);
+            });
         });
     }
 

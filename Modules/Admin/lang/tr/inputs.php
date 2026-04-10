@@ -299,6 +299,10 @@ return [
                 'help' => 'Etiketleri seçin',
             ],
         ],
+        'appear_in_footer' => [
+            'label' => 'Altbarda göster',
+            'help' => 'Etkinleştirildiğinde bu sayfa herkese açık sitede alt bilgi bağlantıları arasında listelenir.',
+        ],
     ],
 
     'category_crud' => [

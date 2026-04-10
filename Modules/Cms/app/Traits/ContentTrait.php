@@ -93,6 +93,9 @@ trait ContentTrait
                 'can_be_deleted'    => [
                     'required'      => true,
                 ],
+                'appear_in_footer'  => [
+                    'required'      => true,
+                ],
             ],
         ],
 
