@@ -27,6 +27,24 @@ return [
             'label' => 'seo::static_pages.home',
         ],
         [
+            'key' => 'contact',
+            'path_hint' => '/contact',
+            'sort_order' => 5,
+            'label' => 'seo::static_pages.contact',
+        ],
+        [
+            'key' => 'blog',
+            'path_hint' => '/blog',
+            'sort_order' => 6,
+            'label' => 'seo::static_pages.blog',
+        ],
+        [
+            'key' => 'faq',
+            'path_hint' => '/page/faq',
+            'sort_order' => 7,
+            'label' => 'seo::static_pages.faq',
+        ],
+        [
             'key' => 'login',
             'path_hint' => '/login',
             'sort_order' => 10,

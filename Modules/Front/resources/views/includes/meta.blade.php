@@ -1,18 +1,38 @@
 @php
-    $title = isset($title) ? config('app.name') . ' - ' .  $title : trans('front::home.page_title');
-    $description = View::getSection('meta_description') ?? trans('front::home.page_description');
-    $keywords = View::getSection('meta_keywords') ?? trans('front::home.page_keywords');
+    $pm = $pageMeta ?? [];
+    $title = $pm['meta_title'] ?? (isset($title) ? config('app.name') . ' - ' . $title : trans('front::home.page_title'));
+    $description = $pm['meta_description'] ?? View::getSection('meta_description') ?? trans('front::home.page_description');
+    $keywords = $pm['meta_keywords'] ?? View::getSection('meta_keywords') ?? trans('front::home.page_keywords');
+    $canonicalHref = ! empty($pm['canonical_url']) ? $pm['canonical_url'] : request()->url();
+    $ogTitle = $pm['og_title'] ?? $title;
+    $ogDescription = $pm['og_description'] ?? $description;
+    $ogImageRaw = $pm['og_image'] ?? null;
+    $ogImage = $ogImageRaw ? getFileUrl($ogImageRaw) : null;
+    $robots = $pm['robots'] ?? null;
 @endphp
 
-<title>
-    {{$title}}
-</title>
+<title>{{ $title }}</title>
 <meta charset="utf-8" />
 <meta name="description" content="{{ $description }}"/>
 <meta name="keywords" content="{{ $keywords }}" />
-<link rel="canonical" href="{{ request()->url() }}">
+@if ($robots)
+<meta name="robots" content="{{ $robots }}" />
+@endif
+<link rel="canonical" href="{{ $canonicalHref }}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{ $ogTitle }}">
+<meta property="og:description" content="{{ $ogDescription }}">
+<meta property="og:url" content="{{ $canonicalHref }}">
+@if ($ogImage)
+<meta property="og:image" content="{{ $ogImage }}">
+@endif
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ $ogTitle }}">
+<meta name="twitter:description" content="{{ $ogDescription }}">
+@if ($ogImage)
+<meta name="twitter:image" content="{{ $ogImage }}">
+@endif
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 <!--begin::shortcut icon-->

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Modules\Cms\Enums\contents\BaseContentTypes;
 use Modules\Cms\Models\Content;
+use Modules\Front\Http\View\Composers\FrontLayoutMetaComposer;
 use Modules\Front\Support\FrontPublicServices;
 use Nwidart\Modules\Traits\PathNamespace;
 use RecursiveDirectoryIterator;
@@ -39,6 +40,8 @@ class FrontServiceProvider extends ServiceProvider
                 'frontSearchDefaultCountryId' => resolveFrontSearchDefaultCountryIdFromIp(),
             ]);
         });
+
+        View::composer('front::layouts.master', FrontLayoutMetaComposer::class);
 
         View::composer('front::includes.footer', function ($view) {
             cache()->remember('footer_pages_' . app()->getLocale(), 3600, function () use ($view) {

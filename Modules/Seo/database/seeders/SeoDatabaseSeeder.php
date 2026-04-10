@@ -13,6 +13,7 @@ class SeoDatabaseSeeder extends Seeder
     {
         $this->call([
             SeoStaticPagesSeeder::class,
+            SeoStaticPagesMetaSeeder::class,
         ]);
     }
 }

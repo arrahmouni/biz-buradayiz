@@ -186,6 +186,42 @@ class SeoService extends BaseCrudService
     }
 
     /**
+     * Public meta row for a registered static page key (seo_static_pages), merged with optional seo_entries row.
+     *
+     * @return array<string, string|null>|null  Null if the static page key is unknown.
+     */
+    public function publicMetaByStaticPageKey(string $key): ?array
+    {
+        $page = SeoStaticPage::query()->where('key', $key)->first();
+
+        if (! $page) {
+            return null;
+        }
+
+        $seo = Seo::query()
+            ->where('model_type', $page->getMorphClass())
+            ->where('model_id', $page->getKey())
+            ->first();
+
+        return $this->buildPublicPayload($seo, $page)['meta'];
+    }
+
+    /**
+     * Public meta for CMS content (pages, blogs, faqs) with optional seo_entries row.
+     *
+     * @return array<string, string|null>
+     */
+    public function publicMetaForContent(Content $content): array
+    {
+        $seo = Seo::query()
+            ->where('model_type', $content->getMorphClass())
+            ->where('model_id', $content->getKey())
+            ->first();
+
+        return $this->buildPublicPayload($seo, $content)['meta'];
+    }
+
+    /**
      * Build merged SEO payload for public API (stored meta + fallbacks).
      *
      * @return array<string, mixed>
