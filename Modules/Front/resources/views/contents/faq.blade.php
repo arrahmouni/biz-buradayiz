@@ -1,24 +1,18 @@
 @extends('front::layouts.master')
 
 @section('content')
-    <div class="bg-gradient-to-r from-gray-900 to-gray-800 text-white py-12 md:py-16">
-        <div class="container mx-auto px-5 lg:px-8">
-            <div class="max-w-3xl">
-                <nav class="text-sm text-gray-300 mb-3">
-                    <a href="{{ route('front.index') }}" class="hover:text-red-400 transition">{{ __('front::home.nav_home') }}</a>
-                    <span class="mx-2">/</span>
-                    <span class="text-white font-medium">{{ __('front::home.faq_page_title') }}</span>
-                </nav>
-                <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">
-                    {{ __('front::home.faq_page_title') }}
-                </h1>
-                <p class="mt-4 text-gray-300 text-lg leading-relaxed">
-                    {{ __('front::home.faq_page_intro') }}
-                </p>
-                <div class="w-16 h-1 bg-red-500 mt-4 rounded-full"></div>
-            </div>
-        </div>
-    </div>
+    <x-front::page-hero :heading="__('front::home.faq_page_title')">
+        <x-slot name="breadcrumb">
+            <a href="{{ route('front.index') }}" class="hover:text-red-400 transition">{{ __('front::home.nav_home') }}</a>
+            <span class="mx-2">/</span>
+            <span class="text-white font-medium">{{ __('front::home.faq_page_title') }}</span>
+        </x-slot>
+        <x-slot name="belowDivider">
+            <p class="text-gray-300 mt-4 text-lg max-w-2xl leading-relaxed">
+                {{ __('front::home.faq_page_intro') }}
+            </p>
+        </x-slot>
+    </x-front::page-hero>
 
     <section class="bg-gray-50 py-12 md:py-16">
         <div class="container mx-auto px-5 lg:px-8">

@@ -146,6 +146,11 @@ class FrontServiceProvider extends ServiceProvider
 
         $this->loadViewsFrom(array_merge($this->getPublishableViewPaths(), [$sourcePath]), $this->nameLower);
 
+        Blade::anonymousComponentPath(
+            module_path($this->name, 'resources/views/components'),
+            $this->nameLower
+        );
+
         $componentNamespace = $this->module_namespace($this->name, $this->app_path(config('modules.paths.generator.component-class.path')));
         Blade::componentNamespace($componentNamespace, $this->nameLower);
     }
