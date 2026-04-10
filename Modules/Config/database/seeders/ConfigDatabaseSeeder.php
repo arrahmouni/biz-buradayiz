@@ -40,6 +40,13 @@ class ConfigDatabaseSeeder extends Seeder
      */
     private function seedGeneralSettings(): void
     {
+        $appNameTransValues = [];
+        foreach (config('translatable.locales', LaravelLocalization::getSupportedLanguagesKeys()) as $langCode) {
+            $appNameTransValues[$langCode] = [
+                'trans_value' => trans('front::home.brand', [], $langCode),
+            ];
+        }
+
         Setting::firstOrCreate(
             [
                 'group' => SettingGroups::GENERAL,
@@ -50,7 +57,11 @@ class ConfigDatabaseSeeder extends Seeder
                 'order' => 1,
                 'is_required' => true,
                 'translatable' => true,
-            ] + createTranslateArray('title', 'settings.groups.general.fields.app_name', 'config')
+                'value' => trans('front::home.brand', [], 'en'),
+            ] + array_merge_recursive(
+                createTranslateArray('title', 'settings.groups.general.fields.app_name', 'config'),
+                $appNameTransValues
+            )
         );
 
         Setting::firstOrCreate(
@@ -170,6 +181,7 @@ class ConfigDatabaseSeeder extends Seeder
             [
                 'type' => SettingTypes::PHONE,
                 'order' => 1,
+                'value' => '+905555555555',
             ] + createTranslateArray('title', 'settings.groups.contact_info.fields.phone', 'config')
         );
 
@@ -181,6 +193,7 @@ class ConfigDatabaseSeeder extends Seeder
             [
                 'type' => SettingTypes::TEXT,
                 'order' => 2,
+                'value' => 'info@bizburadayiz.com.tr',
             ] + createTranslateArray('title', 'settings.groups.contact_info.fields.email', 'config')
         );
 
@@ -192,7 +205,21 @@ class ConfigDatabaseSeeder extends Seeder
             [
                 'type' => SettingTypes::TEXTAREA,
                 'order' => 3,
+                'value' => 'Şehitkamil Mahallesi, Kemal Atatürk Caddesi No:15, Kat:2, 27010 Gaziantep, Türkiye',
             ] + createTranslateArray('title', 'settings.groups.contact_info.fields.address', 'config')
+        );
+
+        Setting::firstOrCreate(
+            [
+                'group' => SettingGroups::CONTACT_INFO,
+                'key' => 'contact_map_embed_url',
+            ],
+            [
+                'type' => SettingTypes::URL,
+                'order' => 4,
+                'is_required' => false,
+                'value' => 'https://www.google.com/maps?q=37.0662%2C37.3833&z=15&hl=tr&output=embed',
+            ] + createTranslateArray('title', 'settings.groups.contact_info.fields.contact_map_embed_url', 'config')
         );
     }
 

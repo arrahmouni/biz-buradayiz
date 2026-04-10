@@ -12,7 +12,7 @@
                 <a href="{{ route('front.index') }}#home" class="whitespace-nowrap hover:text-red-600 transition">{{ __('front::home.nav_home') }}</a>
                 <a href="{{ route('front.index') }}#how-it-works" class="whitespace-nowrap hover:text-red-600 transition">{{ __('front::home.nav_how_it_works') }}</a>
                 <a href="{{ route('front.index') }}#services" class="whitespace-nowrap hover:text-red-600 transition">{{ __('front::home.nav_services') }}</a>
-                <a href="{{ route('front.index') }}#contact" class="whitespace-nowrap hover:text-red-600 transition">{{ __('front::home.nav_contact') }}</a>
+                <a href="{{ route('front.contact.show') }}" class="whitespace-nowrap hover:text-red-600 transition">{{ __('front::home.nav_contact') }}</a>
             </div>
         </div>
 
@@ -87,7 +87,7 @@
                 <a href="{{ route('front.index') }}#home" class="hover:text-red-600 py-1">{{ __('front::home.nav_home') }}</a>
                 <a href="{{ route('front.index') }}#how-it-works" class="hover:text-red-600 py-1">{{ __('front::home.nav_how_it_works') }}</a>
                 <a href="{{ route('front.index') }}#services" class="hover:text-red-600 py-1">{{ __('front::home.nav_services') }}</a>
-                <a href="{{ route('front.index') }}#contact" class="hover:text-red-600 py-1">{{ __('front::home.nav_contact') }}</a>
+                <a href="{{ route('front.contact.show') }}" class="hover:text-red-600 py-1">{{ __('front::home.nav_contact') }}</a>
                 <a href="{{ route('admin.auth.login') }}" class="border-2 border-red-600 text-red-600 hover:bg-red-50 text-center py-2 rounded-full mt-2 font-semibold flex items-center justify-center gap-2">
                     <i class="fas fa-building"></i> {{ __('front::home.company_login') }}
                 </a>

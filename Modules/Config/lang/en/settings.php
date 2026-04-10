@@ -28,6 +28,7 @@ return [
                 'phone' => 'Phone',
                 'email' => 'Email',
                 'address' => 'Address',
+                'contact_map_embed_url' => 'Contact page map embed URL (Google Maps iframe src)',
             ],
         ],
         'platform' => [

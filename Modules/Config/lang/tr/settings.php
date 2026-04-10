@@ -28,6 +28,7 @@ return [
                 'phone' => 'Telefon',
                 'email' => 'E-posta',
                 'address' => 'Adres',
+                'contact_map_embed_url' => 'İletişim sayfası harita gömme URL’si (Google Haritalar iframe src)',
             ],
         ],
         'platform' => [

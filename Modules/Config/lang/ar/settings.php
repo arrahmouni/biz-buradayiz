@@ -28,6 +28,7 @@ return [
                 'phone' => 'الهاتف',
                 'email' => 'البريد الإلكتروني',
                 'address' => 'العنوان',
+                'contact_map_embed_url' => 'رابط تضمين خريطة صفحة الاتصال (مصدر iframe لخرائط Google)',
             ],
         ],
         'platform' => [

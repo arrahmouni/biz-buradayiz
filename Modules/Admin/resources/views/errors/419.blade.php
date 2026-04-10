@@ -1,5 +1,20 @@
-@extends('errors::minimal')
+@extends('admin::errors.layouts.custom')
 
-@section('title', __('Page Expired'))
-@section('code', '419')
-@section('message', __('Page Expired'))
+@section('title', trans('admin::error.419_page.title'))
+
+@section('content')
+    @include('admin::components.other.image', [
+        'options' => [
+            'class' => 'illustration',
+            'src'   => config('admin.frontend.error_pages.419'),
+            'alt'   => '419 page expired',
+        ]
+    ])
+    <h1>
+        @lang('admin::error.419_page.header')
+    </h1>
+    <p>
+        @lang('admin::error.419_page.message')
+    </p>
+    <p>{!! trans('admin::error.footer') !!}</p>
+@endsection

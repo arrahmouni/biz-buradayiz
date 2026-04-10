@@ -7,7 +7,7 @@
             'backUrl'           => route('crm.contactuses.index'),
             'saveTitle'         => trans('admin::base.reply'),
             'actions'           => [
-                'save'          => $model->canReply() ? true : false,
+                // 'save'          => $model->canReply() ? true : false,
                 'back'          => true,
             ],
         ]
@@ -157,7 +157,7 @@
 
                                 <div class="separator separator-dashed my-5"></div>
 
-                                <div class="row">
+                                {{-- <div class="row">
                                     <div class="col-12 mb-10 form-group">
                                         @include('admin::components.inputs.textarea', [
                                             'options'           => [
@@ -170,7 +170,7 @@
                                             ],
                                         ])
                                     </div>
-                                </div>
+                                </div> --}}
                             @endslot
                         @endcomponent
                     </div>

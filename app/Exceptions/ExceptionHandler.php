@@ -3,13 +3,14 @@
 namespace App\Exceptions;
 
 use Exception;
-use Throwable;
 use Illuminate\Auth\AuthenticationException;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
+use Throwable;
 
 class ExceptionHandler
 {
@@ -38,6 +39,8 @@ class ExceptionHandler
             case $e instanceof ValidationException:
                 return sendValidationResponse($e->validator);
 
+            case $e instanceof TooManyRequestsHttpException:
+                return sendTooManyRequestsResponse();
             default:
                 report($e);
 

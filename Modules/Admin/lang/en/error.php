@@ -16,6 +16,24 @@ return [
         'message'   => 'You are not allowed to access this page.',
     ],
 
+    '401_page'      => [
+        'title'     => 'Unauthorized !!',
+        'header'    => '401 - Unauthorized',
+        'message'   => 'You must be signed in to access this page.',
+    ],
+
+    '419_page'      => [
+        'title'     => 'Page Expired !!',
+        'header'    => '419 - Page Expired',
+        'message'   => 'Your session has expired. Please refresh the page and try again.',
+    ],
+
+    '429_page'      => [
+        'title'     => 'Too Many Requests !!',
+        'header'    => '429 - Too Many Requests',
+        'message'   => 'You have sent too many requests in a short time. Please wait a moment and try again.',
+    ],
+
     '405_page'      => [
         'title'     => 'Method Not Allowed !!',
         'header'    => '405 - Method Not Allowed',

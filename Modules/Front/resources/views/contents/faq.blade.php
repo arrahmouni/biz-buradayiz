@@ -52,7 +52,7 @@
                         <p class="text-gray-800 text-base md:text-lg font-medium">
                             {{ __('front::home.faq_still_questions') }}
                         </p>
-                        <a href="{{ route('front.index') }}#contact"
+                        <a href="{{ route('front.contact.show') }}"
                            class="inline-flex items-center gap-2 rounded-full bg-red-600 px-6 py-2.5 text-sm font-semibold text-white shadow-md transition hover:bg-red-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
                             <i class="fas fa-envelope" aria-hidden="true"></i>
                             {{ __('front::home.contact_us') }}

@@ -47,7 +47,7 @@
                 <div class="bg-gray-50 px-6 py-4 border-t border-gray-200 text-center text-sm text-gray-500">
                     <i class="fas fa-question-circle text-red-400 mr-1"></i>
                     {{ __('front::home.questions_about_this_page') }}
-                    <a href="{{ route('front.index') }}" class="text-red-600 hover:underline font-medium">{{ __('front::home.contact_us') }}</a>
+                    <a href="{{ route('front.contact.show') }}" class="text-red-600 hover:underline font-medium">{{ __('front::home.contact_us') }}</a>
                 </div>
             </div>
         </div>

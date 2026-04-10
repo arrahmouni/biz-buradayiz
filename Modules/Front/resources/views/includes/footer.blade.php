@@ -76,7 +76,7 @@
                     <li><a href="{{ route('front.index') }}#home" class="hover:text-red-400 transition">{{ __('front::home.nav_home') }}</a></li>
                     <li><a href="{{ route('front.index') }}#services" class="hover:text-red-400 transition">{{ __('front::home.nav_services') }}</a></li>
                     <li><a href="{{ route('front.index') }}#how-it-works" class="hover:text-red-400 transition">{{ __('front::home.nav_how_it_works') }}</a></li>
-                    <li><a href="{{ route('front.index') }}#contact" class="hover:text-red-400 transition">{{ __('front::home.nav_contact') }}</a></li>
+                    <li><a href="{{ route('front.contact.show') }}" class="hover:text-red-400 transition">{{ __('front::home.nav_contact') }}</a></li>
                 </ul>
             </div>
             <div>

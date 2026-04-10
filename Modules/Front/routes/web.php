@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Front\Http\Controllers\BlogController;
+use Modules\Front\Http\Controllers\ContactController;
 use Modules\Front\Http\Controllers\ContentController;
 use Modules\Front\Http\Controllers\HomeController;
 
@@ -22,6 +23,10 @@ Route::controller(HomeController::class)->group(function () {
 Route::controller(BlogController::class)->prefix('blog')->name('blog.')->group(function () {
     Route::get('/', 'index')->name('index');
     Route::get('/{slug}', 'show')->name('show');
+});
+Route::controller(ContactController::class)->prefix('contact')->name('contact.')->group(function () {
+    Route::get('/', 'show')->name('show');
+    Route::post('/', 'store')->name('store')->middleware('throttle:3,1');
 });
 Route::controller(ContentController::class)->prefix('page')->name('page.')->group(function () {
     Route::get('/faq', 'faq')->name('faq');

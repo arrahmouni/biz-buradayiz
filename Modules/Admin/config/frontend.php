@@ -7,8 +7,12 @@ return [
     $currentLocalKey = app()->getLocale() == 'tr' ? 'tr' : 'us',
 
     'error_pages'                       => [
+        '401'                           => Module::asset('admin:metronic/demo/media/illustrations/sigma-1/14.png'),
+        '403'                           => Module::asset('admin:metronic/demo/media/illustrations/sigma-1/8.png'),
         '404'                           => Module::asset('admin:metronic/demo/media/illustrations/sigma-1/18.png'),
         '405'                           => Module::asset('admin:metronic/demo/media/illustrations/sigma-1/20.png'),
+        '419'                           => Module::asset('admin:metronic/demo/media/illustrations/sigma-1/16.png'),
+        '429'                           => Module::asset('admin:metronic/demo/media/illustrations/sigma-1/7.png'),
         '500'                           => Module::asset('admin:metronic/demo/media/illustrations/sigma-1/9.png'),
         '503'                           => Module::asset('admin:metronic/demo/media/illustrations/sigma-1/5.png'),
     ],

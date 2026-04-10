@@ -51,6 +51,7 @@ return [
             '405'       => 'admin::errors.405',
             '500'       => 'admin::errors.500',
             '503'       => 'admin::errors.503',
+            '429'       => 'admin::errors.429',
         ],
     ],
 
