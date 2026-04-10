@@ -19,4 +19,5 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('index');
 });
 
+Route::get('faq', [ContentPageController::class, 'faq'])->name('page.faq');
 Route::get('page/{slug}', [ContentPageController::class, 'show'])->name('page.show');

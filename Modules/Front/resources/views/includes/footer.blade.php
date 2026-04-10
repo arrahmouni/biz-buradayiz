@@ -81,7 +81,7 @@
             <div>
                 <h4 class="font-semibold text-white mb-4">{{ __('front::home.footer_support') }}</h4>
                 <ul class="space-y-2 text-sm">
-                    <li><a href="#" class="hover:text-red-400 transition">{{ __('front::home.footer_faq') }}</a></li>
+                    <li><a href="{{ route('front.page.faq') }}" class="hover:text-red-400 transition">{{ __('front::home.footer_faq') }}</a></li>
                     <li><a href="#contact" class="hover:text-red-400 transition">{{ __('front::home.nav_contact') }}</a></li>
                     <li><a href="#" class="hover:text-red-400 transition">{{ __('front::home.footer_terms') }}</a></li>
                 </ul>

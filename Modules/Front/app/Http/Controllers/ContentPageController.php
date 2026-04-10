@@ -26,4 +26,17 @@ class ContentPageController extends BaseController
             'title' => $page->smartTrans('title'),
         ]);
     }
+
+    public function faq(): View
+    {
+        $faqs = Content::query()
+            ->byType(BaseContentTypes::FAQS)
+            ->orderBy('id')
+            ->get();
+
+        return view('front::pages.faq', [
+            'faqs' => $faqs,
+            'title' => __('front::home.faq_page_title'),
+        ]);
+    }
 }
