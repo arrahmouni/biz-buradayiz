@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\Front\Http\Controllers\ContentPageController;
+use Modules\Front\Http\Controllers\ContentController;
 use Modules\Front\Http\Controllers\HomeController;
 
 /*
@@ -19,5 +19,5 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('index');
 });
 
-Route::get('faq', [ContentPageController::class, 'faq'])->name('page.faq');
-Route::get('page/{slug}', [ContentPageController::class, 'show'])->name('page.show');
+Route::get('faq', [ContentController::class, 'faq'])->name('page.faq');
+Route::get('page/{slug}', [ContentController::class, 'showPage'])->name('page.show');

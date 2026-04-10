@@ -7,9 +7,9 @@ use Modules\Base\Http\Controllers\BaseController;
 use Modules\Cms\Enums\contents\BaseContentTypes;
 use Modules\Cms\Models\Content;
 
-class ContentPageController extends BaseController
+class ContentController extends BaseController
 {
-    public function show(string $slug): View
+    public function showPage(string $slug): View
     {
         $page = Content::query()
             ->byType(BaseContentTypes::PAGES)
