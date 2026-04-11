@@ -33,8 +33,7 @@ return Application::configure(basePath: dirname(__DIR__))
         // Create locale group
         $middleware->group('locale', [
             \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRedirectFilter::class,
-            \Mcamara\LaravelLocalization\Middleware\LocaleSessionRedirect::class,
-            \Mcamara\LaravelLocalization\Middleware\LocaleCookieRedirect::class,
+            \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationViewPath::class,
         ]);
 
         // Aliases Middleware
