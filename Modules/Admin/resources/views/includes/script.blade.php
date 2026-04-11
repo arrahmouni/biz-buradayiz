@@ -35,6 +35,7 @@
 
 <!--begin::Custom Javascript(used by all page)-->
 <script src="{{Module::asset('admin:global/js/app.js')}}?v={{$_STYLE_VER_}}"></script>
+<script src="{{ asset('js/page-loader.js') }}?v={{$_STYLE_VER_}}"></script>
 <!--end::Custom Javascript(used by all page)-->
 
 {{-- Bootstrap Icons --}}

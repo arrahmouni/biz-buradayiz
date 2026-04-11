@@ -23,6 +23,7 @@
 
 	<!--begin::Body-->
 	<body id="kt_body" class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed aside-enabled aside-fixed" style="--kt-toolbar-height:55px;--kt-toolbar-height-tablet-and-mobile:55px">
+        @include('partials.page-loader')
 		<!--begin::Root-->
 		<div class="d-flex flex-column flex-root" id="root-page">
 			<!--begin::Page-->

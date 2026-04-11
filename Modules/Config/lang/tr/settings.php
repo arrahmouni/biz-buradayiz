@@ -47,6 +47,7 @@ return [
                 'app_favicon' => 'Favicon Simgesi',
                 'app_placeholder' => 'Uygulama Yer Tutucusu',
                 'web_logo' => 'Web Logosu',
+                'loader_logo' => 'Sayfa yükleme logosu',
             ],
         ],
         'mobile' => [

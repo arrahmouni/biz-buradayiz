@@ -14,6 +14,7 @@ return [
     'company_login' => 'Firma girişi',
     'language' => 'Dil',
     'menu_toggle' => 'Menüyü aç/kapat',
+    'page_loading_status' => 'Sayfa yükleniyor',
 
     'hero_title_top' => 'Hızlı ve Güvenilir',
     'hero_title_bottom' => 'Yolda mı Kaldınız?',

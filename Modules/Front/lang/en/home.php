@@ -13,6 +13,7 @@ return [
     'company_login' => 'Company login',
     'language' => 'Language',
     'menu_toggle' => 'Toggle menu',
+    'page_loading_status' => 'Loading page',
 
     'hero_title_top' => 'Fast & Reliable',
     'hero_title_bottom' => 'Are you stuck on the road?',

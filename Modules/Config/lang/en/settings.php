@@ -47,6 +47,7 @@ return [
                 'app_favicon' => 'Favicon Logo',
                 'app_placeholder' => 'App Placeholder',
                 'web_logo' => 'Web Logo',
+                'loader_logo' => 'Page loader logo',
             ],
         ],
         'mobile' => [

@@ -23,6 +23,8 @@
 	<!--begin::Body-->
 	<body id="kt_body" class="admin-modern-login-page">
 
+        @include('partials.page-loader')
+
 		<div class="d-flex flex-column flex-root flex-root-modern">
 			<div class="modern-login-wrapper">
 				<div class="admin-login-background-section">

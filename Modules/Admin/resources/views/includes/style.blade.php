@@ -15,6 +15,8 @@
 <link rel="stylesheet" href="{{Module::asset('admin:global/css/custom.css')}}?v={{$_STYLE_VER_}}" rel="stylesheet" type="text/css" >
 <!--end::Layout Themes-->
 
+<link rel="stylesheet" href="{{ asset('css/page-loader.css') }}?v={{$_STYLE_VER_}}" type="text/css">
+
 <!-- Bootstrap Switch CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/css/bootstrap3/bootstrap-switch.min.css">
 

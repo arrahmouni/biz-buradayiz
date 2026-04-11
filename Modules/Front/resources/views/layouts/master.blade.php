@@ -14,10 +14,12 @@
 
 <body class="bg-gray-50 text-gray-800">
 
+    @include('partials.page-loader')
+
     @include('front::includes.navbar')
     @yield('content')
     @include('front::includes.footer')
-    
+
     @include('front::includes.scripts')
     @stack('script')
 </body>
