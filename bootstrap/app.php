@@ -49,6 +49,6 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->render(function (Throwable $exception, Request $request) {
             logger()->error('Error occurred: '.$exception->getMessage() . ' in ' . $exception->getFile() . ' on line ' . $exception->getLine());
 
-            return (new ExceptionHandler)($exception);
+            return (new ExceptionHandler)->handleException($exception, $request);
         });
     })->create();

@@ -1,6 +1,16 @@
 @php
     $pm = $pageMeta ?? [];
-    $title = $pm['meta_title'] ?? (isset($title) ? config('app.name') . ' - ' . $title : trans('front::home.page_title'));
+    $pageTitleInput = $title ?? null;
+    $errorPageTitle = View::hasSection('error_page_title') ? trim(View::yieldContent('error_page_title')) : null;
+    if (! empty($errorPageTitle)) {
+        $title = config('app.name').' - '.$errorPageTitle;
+    } elseif (! empty($pm['meta_title'])) {
+        $title = $pm['meta_title'];
+    } elseif ($pageTitleInput !== null && $pageTitleInput !== '') {
+        $title = config('app.name').' - '.$pageTitleInput;
+    } else {
+        $title = trans('front::home.page_title');
+    }
     $description = $pm['meta_description'] ?? View::getSection('meta_description') ?? trans('front::home.page_description');
     $keywords = $pm['meta_keywords'] ?? View::getSection('meta_keywords') ?? trans('front::home.page_keywords');
     $canonicalHref = ! empty($pm['canonical_url']) ? $pm['canonical_url'] : request()->url();
@@ -9,6 +19,9 @@
     $ogImageRaw = $pm['og_image'] ?? null;
     $ogImage = $ogImageRaw ? getFileUrl($ogImageRaw) : null;
     $robots = $pm['robots'] ?? null;
+    if ($robots === null && View::hasSection('error_page_title')) {
+        $robots = 'noindex, nofollow';
+    }
 @endphp
 
 <title>{{ $title }}</title>

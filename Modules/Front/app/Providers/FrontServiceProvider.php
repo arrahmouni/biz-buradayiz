@@ -34,6 +34,10 @@ class FrontServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(module_path($this->name, 'database/migrations'));
 
         View::composer('front::*', function ($view) {
+            $name = $view->name();
+            if (is_string($name) && str_starts_with($name, 'front::errors.')) {
+                return;
+            }
             $view->with([
                 'frontPublicServices' => FrontPublicServices::all(),
                 'frontPublicFilterServices' => FrontPublicServices::forSearchFilters(),
@@ -44,7 +48,7 @@ class FrontServiceProvider extends ServiceProvider
         View::composer('front::layouts.master', FrontLayoutMetaComposer::class);
 
         View::composer('front::includes.footer', function ($view) {
-            cache()->remember('footer_pages_' . app()->getLocale(), 3600, function () use ($view) {
+            cache()->remember('footer_pages_'.app()->getLocale(), 3600, function () use ($view) {
                 $footerPages = Content::query()
                     ->byType(BaseContentTypes::PAGES)
                     ->orderBy('id')
