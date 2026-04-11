@@ -188,7 +188,7 @@ class SeoService extends BaseCrudService
     /**
      * Public meta row for a registered static page key (seo_static_pages), merged with optional seo_entries row.
      *
-     * @return array<string, string|null>|null  Null if the static page key is unknown.
+     * @return array<string, string|null>|null Null if the static page key is unknown.
      */
     public function publicMetaByStaticPageKey(string $key): ?array
     {
@@ -309,12 +309,19 @@ class SeoService extends BaseCrudService
 
         $label = $subject->adminLabel();
 
+        $metaDescription = null;
+        $metaKeywords = null;
+        if ($subject->key === 'provider_search') {
+            $metaDescription = trans('front::home.search_results_meta_description');
+            $metaKeywords = trans('front::home.search_results_meta_keywords');
+        }
+
         return [
             'meta_title' => $label.' | '.config('app.name'),
-            'meta_description' => null,
-            'meta_keywords' => null,
+            'meta_description' => $metaDescription,
+            'meta_keywords' => $metaKeywords,
             'og_title' => $label,
-            'og_description' => null,
+            'og_description' => $metaDescription,
             'og_image' => null,
             'robots' => null,
             'canonical_url' => null,

@@ -206,8 +206,62 @@ class User extends Authenticatable implements Auditable, HasMedia
     protected function imageUrl(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->getFirstMedia(self::MEDIA_COLLECTION)?->getUrl() ?? asset('images/default/avatars/user.png'),
+            get: fn () => $this->getFirstMedia(self::MEDIA_COLLECTION)?->getUrl() ?? asset('images/default/avatars/blank.png'),
+        );
+    }
+
+    protected function providerCardServiceName(): Attribute
+    {
+        return Attribute::make(
+            get: function (): string {
+                if ($this->service === null) {
+                    return __('front::home.provider_card_service_fallback');
+                }
+
+                return $this->service->smartTrans('name') ?? __('front::home.provider_card_service_fallback');
+            },
+        );
+    }
+
+    protected function providerCardServiceDescription(): Attribute
+    {
+        return Attribute::make(
+            get: fn (): ?string => $this->service?->smartTrans('description'),
+        );
+    }
+
+    protected function providerCardLocationLine(): Attribute
+    {
+        return Attribute::make(
+            get: function (): ?string {
+                if ($this->city === null) {
+                    return null;
+                }
+
+                $parts = [];
+                $parts[] = $this->city->smartTrans('name') ?? $this->city->native_name;
+                if ($this->city->relationLoaded('state') && $this->city->state !== null) {
+                    $parts[] = $this->city->state->smartTrans('name') ?? $this->city->state->native_name;
+                }
+
+                return count($parts) ? implode(', ', $parts) : null;
+            },
         );
     }
     // End Accessors
+
+    protected function getArrayableAppends(): array
+    {
+        $appends = parent::getArrayableAppends();
+
+        if ($this->type === UserType::ServiceProvider) {
+            $appends = array_merge($appends, [
+                'provider_card_service_name',
+                'provider_card_service_description',
+                'provider_card_location_line',
+            ]);
+        }
+
+        return $appends;
+    }
 }

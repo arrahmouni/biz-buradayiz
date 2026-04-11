@@ -14,7 +14,7 @@ class PackageSubscriptionSeeder extends Seeder
     public function run(): void
     {
         PackageSubscription::factory()
-            ->count(20)
+            ->count(50)
             ->create();
     }
 }

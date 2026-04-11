@@ -18,6 +18,7 @@ return [
             'front.contact.show' => 'contact',
             'front.blog.index' => 'blog',
             'front.page.faq' => 'faq',
+            'front.search' => 'provider_search',
         ],
     ],
 ];

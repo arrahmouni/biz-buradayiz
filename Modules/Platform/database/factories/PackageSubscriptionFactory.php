@@ -20,6 +20,16 @@ class PackageSubscriptionFactory extends Factory
 {
     protected $model = PackageSubscription::class;
 
+    /**
+     * When fewer service providers exist than this value, the factory creates
+     * additional provider users so subscriptions are not all tied to a tiny set
+     * (e.g. only the two accounts seeded in a fresh database).
+     */
+    private const MIN_SERVICE_PROVIDER_USER_POOL_SIZE = 10;
+
+    /** @var list<int>|null */
+    private ?array $cachedServiceProviderUserIds = null;
+
     public function definition(): array
     {
         $scenario = fake()->randomElement(['pending', 'active_paid', 'cancelled', 'expired']);
@@ -115,11 +125,28 @@ class PackageSubscriptionFactory extends Factory
 
     private function resolveUserId(): int
     {
-        $id = User::query()
-            ->where('type', UserType::ServiceProvider)
-            ->inRandomOrder()
-            ->value('id');
+        if ($this->cachedServiceProviderUserIds === null) {
+            $this->ensureMinimumServiceProviderUsers();
+            $this->cachedServiceProviderUserIds = User::query()
+                ->where('type', UserType::ServiceProvider)
+                ->pluck('id')
+                ->all();
+        }
 
-        return $id ?? User::factory()->create()->id;
+        if ($this->cachedServiceProviderUserIds === []) {
+            $this->cachedServiceProviderUserIds = [User::factory()->create()->id];
+        }
+
+        return fake()->randomElement($this->cachedServiceProviderUserIds);
+    }
+
+    private function ensureMinimumServiceProviderUsers(): void
+    {
+        $count = User::query()->where('type', UserType::ServiceProvider)->count();
+        $needed = self::MIN_SERVICE_PROVIDER_USER_POOL_SIZE - $count;
+
+        if ($needed > 0) {
+            User::factory()->count($needed)->create();
+        }
     }
 }

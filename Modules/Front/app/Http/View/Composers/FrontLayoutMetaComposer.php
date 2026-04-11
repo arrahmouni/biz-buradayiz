@@ -50,6 +50,7 @@ class FrontLayoutMetaComposer
                 return $fromDb;
             }
         }
+
         return $this->fallbackMetaForRoute($routeName);
     }
 
@@ -62,13 +63,18 @@ class FrontLayoutMetaComposer
             'front.contact.show' => trans('front::home.contact_page_title'),
             'front.blog.index' => trans('front::home.blog_page_title'),
             'front.page.faq' => trans('front::home.faq_page_title'),
+            'front.search' => trans('seo::static_pages.provider_search').' | '.config('app.name'),
             default => trans('front::home.page_title'),
         };
 
         return [
             'meta_title' => $title,
-            'meta_description' => trans('front::home.page_description'),
-            'meta_keywords' => trans('front::home.page_keywords'),
+            'meta_description' => $routeName === 'front.search'
+                ? trans('front::home.search_results_meta_description')
+                : trans('front::home.page_description'),
+            'meta_keywords' => $routeName === 'front.search'
+                ? trans('front::home.search_results_meta_keywords')
+                : trans('front::home.page_keywords'),
             'og_title' => null,
             'og_description' => null,
             'og_image' => null,

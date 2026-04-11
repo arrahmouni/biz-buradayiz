@@ -34,34 +34,34 @@
     ];
 
     // SVG Images - scan for SVG files in project directories
-    $svgDirectories = [
-        public_path('images'),
-        // public_path('modules/admin/metronic/demo/media/svg'),
-    ];
+    // $svgDirectories = [
+    //     public_path('images'),
+    //     // public_path('modules/admin/metronic/demo/media/svg'),
+    // ];
 
-    $svgImages = [];
-    foreach ($svgDirectories as $directory) {
-        if (is_dir($directory)) {
-            $iterator = new \RecursiveIteratorIterator(
-                new \RecursiveDirectoryIterator($directory, \RecursiveDirectoryIterator::SKIP_DOTS),
-                \RecursiveIteratorIterator::SELF_FIRST
-            );
+    // $svgImages = [];
+    // foreach ($svgDirectories as $directory) {
+    //     if (is_dir($directory)) {
+    //         $iterator = new \RecursiveIteratorIterator(
+    //             new \RecursiveDirectoryIterator($directory, \RecursiveDirectoryIterator::SKIP_DOTS),
+    //             \RecursiveIteratorIterator::SELF_FIRST
+    //         );
 
-            foreach ($iterator as $file) {
-                if ($file->isFile() && strtolower($file->getExtension()) === 'svg') {
-                    $relativePath = str_replace(public_path(), '', $file->getPathname());
-                    $relativePath = str_replace('\\', '/', $relativePath);
-                    $relativePath = ltrim($relativePath, '/');
-                    $svgImages[] = $relativePath;
-                }
-            }
-        }
-    }
+    //         foreach ($iterator as $file) {
+    //             if ($file->isFile() && strtolower($file->getExtension()) === 'svg') {
+    //                 $relativePath = str_replace(public_path(), '', $file->getPathname());
+    //                 $relativePath = str_replace('\\', '/', $relativePath);
+    //                 $relativePath = ltrim($relativePath, '/');
+    //                 $svgImages[] = $relativePath;
+    //             }
+    //         }
+    //     }
+    // }
 
-    // Add SVG images category if we found any
-    if (!empty($svgImages)) {
-        $iconCategories['SVG Images'] = $svgImages;
-    }
+    // // Add SVG images category if we found any
+    // if (!empty($svgImages)) {
+    //     $iconCategories['SVG Images'] = $svgImages;
+    // }
 @endphp
 
 <div class="icon-picker-wrapper">

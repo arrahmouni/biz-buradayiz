@@ -236,6 +236,7 @@ class ConfigDatabaseSeeder extends Seeder
             [
                 'type' => SettingTypes::PHONE,
                 'order' => 1,
+                'value' => '+905555555555',
             ] + createTranslateArray('title', 'settings.groups.platform.fields.emergency_contact_number', 'config')
         );
 

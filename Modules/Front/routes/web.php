@@ -18,7 +18,7 @@ use Modules\Front\Http\Controllers\HomeController;
 
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('index');
-    Route::post('/search', 'search')->name('search');
+    Route::get('/search', 'search')->name('search');
 });
 
 Route::controller(ContactController::class)->prefix('contact')->name('contact.')->group(function () {
@@ -36,3 +36,5 @@ Route::controller(ContentController::class)->group(function () {
         Route::get('/{slug}', 'showPage')->name('show');
     });
 });
+
+Route::view('/test', 'front::test');

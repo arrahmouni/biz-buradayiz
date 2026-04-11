@@ -45,6 +45,12 @@ return [
             'label' => 'seo::static_pages.faq',
         ],
         [
+            'key' => 'provider_search',
+            'path_hint' => '/search',
+            'sort_order' => 8,
+            'label' => 'seo::static_pages.provider_search',
+        ],
+        [
             'key' => 'login',
             'path_hint' => '/login',
             'sort_order' => 10,

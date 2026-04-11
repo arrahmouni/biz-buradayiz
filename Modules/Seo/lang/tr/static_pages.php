@@ -6,4 +6,5 @@ return [
     'blog' => 'Blog',
     'faq' => 'SSS',
     'login' => 'Giriş',
+    'provider_search' => 'Hizmet sağlayıcılar',
 ];

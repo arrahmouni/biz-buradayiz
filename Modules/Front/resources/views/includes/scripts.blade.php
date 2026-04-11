@@ -76,3 +76,116 @@
         });
     });
 </script>
+
+<script>
+    (function ($) {
+        function mapListResponse(data, key) {
+            const payload = data && data.data ? data.data : {};
+            const rows = payload[key] || [];
+            return $.map(rows, function (row) {
+                return { id: row.id, text: row.name };
+            });
+        }
+
+        function initProviderLocationSearchForm(form) {
+            const $form = $(form);
+            const $state = $form.find('.js-pls-state');
+            const $city = $form.find('.js-pls-city');
+            if (!$state.length || !$city.length) {
+                return;
+            }
+
+            const statesUrl = form.dataset.statesListUrl;
+            const citiesUrl = form.dataset.citiesListUrl;
+            const countryId = form.dataset.defaultCountryId;
+            const locale = form.dataset.locale || document.documentElement.lang || 'en';
+            const selectedStateId = form.dataset.selectedStateId || '';
+            const selectedStateName = form.dataset.selectedStateName || '';
+            const selectedCityId = form.dataset.selectedCityId || '';
+            const selectedCityName = form.dataset.selectedCityName || '';
+
+            function apiHeaders() {
+                return { locale: locale };
+            }
+
+            const ajaxDefaults = {
+                dataType: 'json',
+                delay: 250,
+                cache: false,
+                headers: apiHeaders(),
+            };
+
+            $state.select2({
+                width: '100%',
+                placeholder: $state.find('option:first').text(),
+                allowClear: true,
+                ajax: $.extend({}, ajaxDefaults, {
+                    url: statesUrl,
+                    data: function (params) {
+                        return {
+                            q: params.term || '',
+                            page: params.page || 1,
+                            country_id: countryId,
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: mapListResponse(data, 'states'),
+                            pagination: { more: false },
+                        };
+                    },
+                }),
+                minimumInputLength: 0,
+            });
+
+            $city.select2({
+                width: '100%',
+                placeholder: $city.find('option:first').text(),
+                allowClear: true,
+                ajax: $.extend({}, ajaxDefaults, {
+                    url: citiesUrl,
+                    data: function (params) {
+                        return {
+                            q: params.term || '',
+                            page: params.page || 1,
+                            state_id: $state.val() || '',
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: mapListResponse(data, 'cities'),
+                            pagination: { more: false },
+                        };
+                    },
+                }),
+                minimumInputLength: 0,
+            });
+
+            function syncCityEnabled() {
+                const hasState = Boolean($state.val());
+                $city.prop('disabled', !hasState);
+            }
+
+            $state.on('change', function () {
+                $city.val(null).trigger('change');
+                syncCityEnabled();
+            });
+
+            if (selectedStateId && selectedStateName) {
+                const stateOption = new Option(selectedStateName, selectedStateId, true, true);
+                $state.append(stateOption).trigger('change');
+            }
+
+            syncCityEnabled();
+
+            if (selectedCityId && selectedCityName && selectedStateId) {
+                const cityOption = new Option(selectedCityName, selectedCityId, true, true);
+                $city.append(cityOption).trigger('change');
+            }
+        }
+
+        $('form.js-provider-location-search').each(function () {
+            initProviderLocationSearchForm(this);
+        });
+    })(jQuery);
+</script>
