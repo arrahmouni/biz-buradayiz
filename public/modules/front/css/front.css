@@ -64,6 +64,28 @@ html {
     display: none;
 }
 
+.nav-services-dropdown__summary {
+    list-style: none;
+}
+
+.nav-services-dropdown__summary::-webkit-details-marker {
+    display: none;
+}
+
+.nav-services-dropdown__caret {
+    transition: transform 0.2s ease-out;
+}
+
+.nav-services-dropdown[open] .nav-services-dropdown__caret {
+    transform: rotate(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .nav-services-dropdown__caret {
+        transition-duration: 0.01ms;
+    }
+}
+
 .lang-dropdown__flag {
     width: 1.25rem;
     height: 0.9375rem;
