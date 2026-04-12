@@ -83,25 +83,25 @@
                             </p>
                         </div>
 
-                        <div class="space-y-5">
+                        <div class="space-y-3 sm:space-y-5">
                             @foreach ($providers as $provider)
-                                <article class="bg-white rounded-2xl shadow-md hover:shadow-lg transition p-5 border border-gray-100">
-                                    <div class="flex flex-col sm:flex-row gap-5">
-                                        <div class="sm:w-32 h-32 bg-gray-100 rounded-xl overflow-hidden flex-shrink-0">
+                                <article class="bg-white rounded-2xl shadow-md hover:shadow-lg transition p-4 sm:p-5 border border-gray-100">
+                                    <div class="flex flex-row gap-3 sm:gap-5">
+                                        <div class="h-14 w-14 sm:h-32 sm:w-32 bg-gray-100 rounded-full sm:rounded-xl overflow-hidden flex-shrink-0">
                                             <img src="{{ $provider->image_url }}" alt="{{ $provider->full_name }}" class="w-full h-full object-cover">
                                         </div>
                                         <div class="flex-1 min-w-0">
                                             <div class="flex flex-wrap justify-between items-start gap-2">
-                                                <h2 class="text-xl font-bold text-gray-800">
+                                                <h2 class="text-base sm:text-xl font-bold text-gray-800 leading-snug">
                                                     <a href="{{ route('front.provider.show', ['provider' => $provider->frontProfileSlug()]) }}" class="text-gray-800 hover:text-red-600 transition">
                                                         {{ $provider->full_name }}
                                                     </a>
                                                 </h2>
                                                 @if ($provider->service && filled($provider->service->icon))
-                                                    <span class="text-red-600" aria-hidden="true"><i class="{{ $provider->service->icon }} text-xl"></i></span>
+                                                    <span class="text-red-600 shrink-0" aria-hidden="true"><i class="{{ $provider->service->icon }} text-lg sm:text-xl"></i></span>
                                                 @endif
                                             </div>
-                                            <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-gray-500 mt-1">
+                                            <div class="flex flex-wrap items-center gap-x-2 sm:gap-x-3 gap-y-1 text-xs sm:text-sm text-gray-500 mt-0.5 sm:mt-1">
                                                 @if ((int) $provider->approved_reviews_count > 0)
                                                     <span>
                                                         <i class="fas fa-star text-yellow-400" aria-hidden="true"></i>
@@ -116,9 +116,9 @@
                                                 @endif
                                             </div>
                                             @if (filled($provider->provider_card_service_description))
-                                                <p class="text-gray-600 text-sm mt-2">{{ \Illuminate\Support\Str::limit(strip_tags($provider->provider_card_service_description), 220) }}</p>
+                                                <p class="text-gray-600 text-xs sm:text-sm mt-1.5 sm:mt-2 line-clamp-2 sm:line-clamp-none">{{ \Illuminate\Support\Str::limit(strip_tags($provider->provider_card_service_description), 220) }}</p>
                                             @endif
-                                            <div class="mt-3 flex flex-wrap gap-2 items-center">
+                                            <div class="mt-2 sm:mt-3 flex flex-wrap gap-1.5 sm:gap-2 items-center">
                                                 <a href="{{ route('front.provider.show', ['provider' => $provider->frontProfileSlug()]) }}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-red-600 hover:text-red-700 transition">
                                                     {{ __('front::home.provider_detail_view_profile') }}
                                                     <i class="fas fa-arrow-right text-xs" aria-hidden="true"></i>
@@ -138,20 +138,20 @@
                                         @php
                                             $telHref = phoneToTelHref(trim((string) $provider->central_phone));
                                         @endphp
-                                        <div class="mt-4 pt-4 border-t border-gray-200">
-                                            <div class="rounded-xl border border-red-100 bg-gradient-to-br from-red-50 via-white to-red-50/60 shadow-sm p-4 md:p-5 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 sm:justify-between">
-                                                <div class="flex items-start gap-4 min-w-0 flex-1">
-                                                    <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-red-100 text-red-600 ring-4 ring-white shadow-sm" aria-hidden="true">
-                                                        <i class="fas fa-phone-alt text-lg"></i>
+                                        <div class="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-gray-200">
+                                            <div class="rounded-xl border border-red-100 bg-gradient-to-br from-red-50 via-white to-red-50/60 shadow-sm p-3 sm:p-4 md:p-5 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 sm:justify-between">
+                                                <div class="flex items-start gap-3 sm:gap-4 min-w-0 flex-1">
+                                                    <div class="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-full bg-red-100 text-red-600 ring-2 sm:ring-4 ring-white shadow-sm" aria-hidden="true">
+                                                        <i class="fas fa-phone-alt text-base sm:text-lg"></i>
                                                     </div>
                                                     <div class="min-w-0 pt-0.5">
-                                                        <p class="text-xs font-semibold uppercase tracking-wider text-red-700/90">{{ __('front::home.provider_card_call_now') }}</p>
-                                                        <a href="{{ $telHref }}" class="mt-1 block text-2xl md:text-3xl font-bold text-gray-900 hover:text-red-700 tracking-tight break-all leading-snug transition-colors">
+                                                        <p class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-red-700/90">{{ __('front::home.provider_card_call_now') }}</p>
+                                                        <a href="{{ $telHref }}" class="mt-0.5 sm:mt-1 block text-lg sm:text-2xl md:text-3xl font-bold text-gray-900 hover:text-red-700 tracking-tight break-all leading-snug transition-colors">
                                                             {{ trim((string) $provider->central_phone) }}
                                                         </a>
                                                     </div>
                                                 </div>
-                                                <a href="{{ $telHref }}" class="inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-full text-sm font-semibold transition shadow-md hover:shadow-lg shrink-0 sm:min-w-[10rem]">
+                                                <a href="{{ $telHref }}" class="inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2.5 sm:px-6 sm:py-3 rounded-full text-xs sm:text-sm font-semibold transition shadow-md hover:shadow-lg shrink-0 sm:min-w-[10rem]">
                                                     <i class="fas fa-phone-alt" aria-hidden="true"></i> {{ __('front::home.provider_card_call_provider') }}
                                                 </a>
                                             </div>
