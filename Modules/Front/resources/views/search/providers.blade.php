@@ -92,7 +92,11 @@
                                         </div>
                                         <div class="flex-1 min-w-0">
                                             <div class="flex flex-wrap justify-between items-start gap-2">
-                                                <h2 class="text-xl font-bold text-gray-800">{{ $provider->full_name }}</h2>
+                                                <h2 class="text-xl font-bold text-gray-800">
+                                                    <a href="{{ route('front.provider.show', ['provider' => $provider->frontProfileSlug()]) }}" class="text-gray-800 hover:text-red-600 transition">
+                                                        {{ $provider->full_name }}
+                                                    </a>
+                                                </h2>
                                                 @if ($provider->service && filled($provider->service->icon))
                                                     <span class="text-red-600" aria-hidden="true"><i class="{{ $provider->service->icon }} text-xl"></i></span>
                                                 @endif
@@ -114,7 +118,11 @@
                                             @if (filled($provider->provider_card_service_description))
                                                 <p class="text-gray-600 text-sm mt-2">{{ \Illuminate\Support\Str::limit(strip_tags($provider->provider_card_service_description), 220) }}</p>
                                             @endif
-                                            <div class="mt-3 flex flex-wrap gap-2">
+                                            <div class="mt-3 flex flex-wrap gap-2 items-center">
+                                                <a href="{{ route('front.provider.show', ['provider' => $provider->frontProfileSlug()]) }}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-red-600 hover:text-red-700 transition">
+                                                    {{ __('front::home.provider_detail_view_profile') }}
+                                                    <i class="fas fa-arrow-right text-xs" aria-hidden="true"></i>
+                                                </a>
                                                 <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">
                                                     <i class="fas fa-wrench" aria-hidden="true"></i> {{ $provider->provider_card_service_name }}
                                                 </span>

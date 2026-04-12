@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Modules\Front\Http\Controllers\ContactController;
 use Modules\Front\Http\Controllers\ContentController;
 use Modules\Front\Http\Controllers\HomeController;
+use Modules\Front\Http\Controllers\ProviderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,9 +17,13 @@ use Modules\Front\Http\Controllers\HomeController;
 |
 */
 
-Route::controller(HomeController::class)->group(function () {
-    Route::get('/', 'index')->name('index');
+Route::get('/', [HomeController::class, 'index'])->name('index');
+
+Route::controller(ProviderController::class)->group(function () {
     Route::get('/search', 'search')->name('search');
+    Route::get('/providers/{provider}', 'showProvider')
+        ->where('provider', '[0-9a-z]+(?:-[0-9a-z]+)*')
+        ->name('provider.show');
 });
 
 Route::controller(ContactController::class)->prefix('contact')->name('contact.')->group(function () {

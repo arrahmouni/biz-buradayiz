@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Admin\Traits\UserTrait;
 use Modules\Auth\database\factories\UserFactory;
@@ -22,10 +23,12 @@ use OwenIt\Auditing\Contracts\Auditable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 
 class User extends Authenticatable implements Auditable, HasMedia
 {
-    use AuditableTrait, HasApiTokens, HasFactory, InteractsWithMedia, ModelHelper, Notifiable, SoftDeletes, UserTrait;
+    use AuditableTrait, HasApiTokens, HasFactory, HasSlug, InteractsWithMedia, ModelHelper, Notifiable, SoftDeletes, UserTrait;
 
     const VIEW_PATH = 'users';
 
@@ -54,6 +57,7 @@ class User extends Authenticatable implements Auditable, HasMedia
         'city_id',
         'review_rating_average',
         'approved_reviews_count',
+        'profile_slug',
     ];
 
     protected $hidden = [
@@ -102,6 +106,56 @@ class User extends Authenticatable implements Auditable, HasMedia
     protected static function newFactory()
     {
         return UserFactory::new();
+    }
+
+    protected static function booted(): void
+    {
+        static::saving(function (User $user) {
+            if ($user->type !== UserType::ServiceProvider) {
+                $user->profile_slug = null;
+            }
+        });
+    }
+
+    public function getSlugOptions(): SlugOptions
+    {
+        $options = SlugOptions::create()
+            ->generateSlugsFrom(function (User $user): string {
+                $full = trim(($user->first_name ?? '').' '.($user->last_name ?? ''));
+                if ($full === '') {
+                    return 'provider';
+                }
+
+                $slug = Str::slug($full);
+                if ($slug === '') {
+                    return 'provider';
+                }
+                if (ctype_digit($slug)) {
+                    return 'provider '.$full;
+                }
+
+                return $full;
+            })
+            ->saveSlugsTo('profile_slug')
+            ->preventOverwrite()
+            ->startSlugSuffixFrom(2);
+
+        if ($this->type !== UserType::ServiceProvider) {
+            $options->skipGenerate = true;
+        }
+
+        return $options;
+    }
+
+    public function generateSlug(): void
+    {
+        if ($this->type !== UserType::ServiceProvider) {
+            return;
+        }
+
+        $this->slugOptions = $this->getSlugOptions();
+
+        $this->addSlug();
     }
 
     public function registerMediaConversions(?Media $media = null): void
@@ -249,6 +303,22 @@ class User extends Authenticatable implements Auditable, HasMedia
         );
     }
     // End Accessors
+
+    /**
+     * SEO path segment for public provider profile URLs (slug only, no user id).
+     */
+    public function frontProfileSlug(): string
+    {
+        if (filled($this->profile_slug)) {
+            return $this->profile_slug;
+        }
+
+        if ($this->type !== UserType::ServiceProvider) {
+            return '';
+        }
+
+        return Str::slug(trim(($this->first_name ?? '').' '.($this->last_name ?? ''))) ?: 'provider';
+    }
 
     protected function getArrayableAppends(): array
     {

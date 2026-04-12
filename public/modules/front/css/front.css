@@ -184,3 +184,43 @@ html {
     background-color: #f3f4f6;
     opacity: 0.85;
 }
+
+.provider-rating-field__stars {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+}
+
+.provider-rating-field__star {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid #e5e7eb;
+    background-color: #f9fafb;
+    color: #d1d5db;
+    cursor: pointer;
+    transition: color 0.15s ease-out, background-color 0.15s ease-out, border-color 0.15s ease-out, transform 0.15s ease-out;
+}
+
+.provider-rating-field__star:hover,
+.provider-rating-field__star:focus-visible {
+    color: #facc15;
+    border-color: #fde047;
+    background-color: #fefce8;
+    outline: none;
+}
+
+.provider-rating-field__star.is-selected {
+    color: #eab308;
+    border-color: #facc15;
+    background-color: #fef9c3;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .provider-rating-field__star {
+        transition-duration: 0.01ms;
+    }
+}
