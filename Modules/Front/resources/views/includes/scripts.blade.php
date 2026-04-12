@@ -23,6 +23,27 @@
     }
 
     const langDropdown = document.getElementById('langDropdown');
+    const servicesNavDropdown = document.getElementById('servicesNavDropdown');
+
+    function closeDetailsIfOpen(detailsEl) {
+        if (detailsEl && detailsEl.open) {
+            detailsEl.removeAttribute('open');
+        }
+    }
+
+    if (langDropdown && servicesNavDropdown) {
+        langDropdown.addEventListener('toggle', () => {
+            if (langDropdown.open) {
+                closeDetailsIfOpen(servicesNavDropdown);
+            }
+        });
+        servicesNavDropdown.addEventListener('toggle', () => {
+            if (servicesNavDropdown.open) {
+                closeDetailsIfOpen(langDropdown);
+            }
+        });
+    }
+
     if (langDropdown) {
         document.addEventListener('click', (e) => {
             if (!langDropdown.open) {
@@ -33,6 +54,29 @@
             }
         });
     }
+
+    if (servicesNavDropdown) {
+        document.addEventListener('click', (e) => {
+            if (!servicesNavDropdown.open) {
+                return;
+            }
+            if (!servicesNavDropdown.contains(e.target)) {
+                servicesNavDropdown.removeAttribute('open');
+            }
+        });
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key !== 'Escape') {
+            return;
+        }
+        if (menuBtn && mobileMenuWrapper && mobileMenuWrapper.classList.contains('is-open')) {
+            setMobileMenuOpen(false);
+            return;
+        }
+        closeDetailsIfOpen(langDropdown);
+        closeDetailsIfOpen(servicesNavDropdown);
+    });
 
     document.querySelectorAll('a[href*="#"]').forEach((anchor) => {
         anchor.addEventListener('click', function (e) {

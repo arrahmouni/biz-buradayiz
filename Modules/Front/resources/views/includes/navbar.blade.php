@@ -1,41 +1,56 @@
-<nav class="sticky top-0 z-50 w-full min-w-0 max-w-full bg-white shadow-md">
-    <div class="container mx-auto flex w-full min-w-0 max-w-full items-center justify-between gap-2 px-5 py-4 max-[410px]:gap-1.5 max-[410px]:px-3 max-[410px]:py-3 lg:gap-3 lg:px-8">
+<nav class="site-header sticky top-0 z-50 w-full min-w-0 max-w-full border-b border-gray-200/80 bg-white/90 shadow-sm backdrop-blur-md backdrop-saturate-150 supports-[backdrop-filter]:bg-white/80">
+    <div class="container mx-auto flex w-full min-w-0 max-w-full items-center justify-between gap-2 px-5 py-3.5 max-[410px]:gap-1.5 max-[410px]:px-3 max-[410px]:py-3 lg:gap-3 lg:px-8 lg:py-4">
         <a
             href="{{ route('front.index') }}"
-            class="inline-block min-w-0 shrink text-2xl font-extrabold tracking-tight focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2 rounded"
+            class="site-header__brand inline-block min-w-0 shrink text-2xl font-extrabold tracking-tight rounded transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2"
         >
             <img src="{{ getSetting('web_logo', asset('images/default/logos/web_logo.svg')) }}" alt="{{ __('front::home.brand') }}" class="h-10 w-auto max-w-full object-contain object-left max-[410px]:h-8 lg:h-12">
         </a>
 
         <div class="hidden min-w-0 flex-1 justify-center lg:flex">
-            <div class="flex flex-nowrap items-center gap-6 xl:gap-8 font-medium">
-                <a href="{{ route('front.index') }}#home" class="whitespace-nowrap hover:text-red-600 transition">{{ __('front::home.nav_home') }}</a>
+            <div class="site-nav-desktop flex flex-nowrap items-center gap-1 xl:gap-2 text-[0.9375rem] font-medium leading-snug text-gray-700">
+                <a href="{{ route('front.index') }}#home" class="site-nav-desktop__link">{{ __('front::home.nav_home') }}</a>
                 @if(! empty($frontPublicServices))
-                    <nav class="relative" aria-label="{{ __('front::home.nav_services') }}">
-                        <details id="servicesNavDropdown" class="nav-services-dropdown">
+                    <nav class="relative flex items-center" aria-label="{{ __('front::home.nav_services') }}">
+                        <details id="servicesNavDropdown" class="nav-services-dropdown site-nav-services">
                             <summary
-                                class="nav-services-dropdown__summary flex cursor-pointer list-none items-center gap-1 whitespace-nowrap transition hover:text-red-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2 rounded"
+                                class="nav-services-dropdown__summary site-nav-services__trigger flex cursor-pointer list-none items-center gap-1.5 whitespace-nowrap rounded-lg px-2.5 py-2 text-gray-700 transition-colors duration-200 hover:bg-gray-100/90 hover:text-red-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2"
+                                aria-haspopup="true"
                             >
                                 {{ __('front::home.nav_services') }}
-                                <i class="fas fa-chevron-down nav-services-dropdown__caret text-xs text-gray-500" aria-hidden="true"></i>
+                                <i class="fas fa-chevron-down nav-services-dropdown__caret text-[0.65rem] text-gray-500 transition-transform duration-200" aria-hidden="true"></i>
                             </summary>
-                            <div class="nav-services-dropdown__panel absolute left-1/2 z-[60] mt-2 min-w-[16rem] max-h-[min(24rem,calc(100vh-8rem))] -translate-x-1/2 overflow-y-auto rounded-lg border border-gray-100 bg-white py-1 shadow-lg xl:left-0 xl:translate-x-0">
-                                @foreach($frontPublicServices as $navService)
-                                    <a
-                                        href="{{ route('front.search', ['service_id' => $navService['id']]) }}"
-                                        class="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50 hover:text-red-600"
-                                    >
-                                        <i class="{{ $navService['icon'] }} w-5 shrink-0 text-center text-red-600" aria-hidden="true"></i>
-                                        <span class="flex-1">{{ $navService['name'] }}</span>
-                                    </a>
-                                @endforeach
+                            <div class="site-nav-services__shell">
+                                <div class="site-nav-services__panel nav-services-dropdown__panel">
+                                    <div class="site-nav-services__panel-inner">
+                                        <p class="site-nav-services__heading px-4 pt-3 pb-1 text-xs font-semibold uppercase tracking-wider text-gray-400">{{ __('front::home.nav_services') }}</p>
+                                        <ul class="site-nav-services__list px-2 pb-2">
+                                            @foreach($frontPublicServices as $navService)
+                                                <li class="site-nav-services__row">
+                                                    <a
+                                                        href="{{ route('front.search', ['service_id' => $navService['id']]) }}"
+                                                        class="site-nav-services__link group gap-3 rounded-lg px-3 py-2.5 text-gray-800 transition-colors duration-200 hover:bg-red-50/90 hover:shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
+                                                    >
+                                                        <span class="site-nav-services__icon flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-red-50 text-red-600 transition-colors duration-200 group-hover:bg-red-100" aria-hidden="true">
+                                                            <i class="{{ $navService['icon'] }} text-base"></i>
+                                                        </span>
+                                                        <span class="min-w-0 flex-1">
+                                                            <span class="site-nav-services__name block text-sm font-semibold text-gray-900 transition-colors duration-200 group-hover:text-red-700">{{ $navService['name'] }}</span>
+                                                        </span>
+                                                        <i class="fas fa-arrow-right site-nav-services__arrow shrink-0 text-xs text-gray-300 opacity-0 transition-all duration-200 group-hover:translate-x-0.5 group-hover:text-red-500 group-hover:opacity-100" aria-hidden="true"></i>
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </details>
                     </nav>
                 @else
-                    <a href="{{ route('front.index') }}#services" class="whitespace-nowrap hover:text-red-600 transition">{{ __('front::home.nav_services') }}</a>
+                    <a href="{{ route('front.index') }}#services" class="site-nav-desktop__link">{{ __('front::home.nav_services') }}</a>
                 @endif
-                <a href="{{ route('front.contact.show') }}" class="whitespace-nowrap hover:text-red-600 transition">{{ __('front::home.nav_contact') }}</a>
+                <a href="{{ route('front.contact.show') }}" class="site-nav-desktop__link">{{ __('front::home.nav_contact') }}</a>
             </div>
         </div>
 
@@ -54,7 +69,7 @@
                         <span class="max-w-[7rem] truncate sm:max-w-none max-[410px]:hidden">{{ data_get($_ALL_LOCALE_, $_LOCALE_.'.native', strtoupper($_LOCALE_)) }}</span>
                         <i class="fas fa-chevron-down lang-dropdown__caret text-xs text-gray-500" aria-hidden="true"></i>
                     </summary>
-                    <div class="lang-dropdown__panel absolute right-0 z-[60] mt-2 min-w-[12rem] overflow-hidden rounded-lg border border-gray-100 bg-white py-1 shadow-lg">
+                    <div class="lang-dropdown__panel absolute right-0 z-[60] mt-2 min-w-[12rem] overflow-hidden rounded-lg border border-gray-100 bg-white py-1">
                         @foreach ($_ALL_LOCALE_ as $localeCode => $properties)
                             @if ($_LOCALE_ === $localeCode)
                                 <span class="flex cursor-default items-center gap-3 px-4 py-2.5 text-sm font-medium text-red-700 bg-red-50" aria-current="true">
@@ -106,33 +121,46 @@
 
     <div id="mobileMenuWrapper" class="mobile-menu-panel lg:hidden">
         <div class="mobile-menu-panel__inner">
-            <div id="mobileMenu" class="bg-white border-t py-4 px-5 flex flex-col space-y-3 font-medium">
-                <a href="{{ route('front.index') }}#home" class="hover:text-red-600 py-1">{{ __('front::home.nav_home') }}</a>
-                @if(! empty($frontPublicServices))
-                    <details class="nav-services-dropdown border-b border-gray-100 pb-2">
+            <div id="mobileMenu" class="mobile-menu-panel__content border-t border-gray-100 bg-white/95 py-4 px-5 font-medium leading-snug text-gray-800">
+                <div class="flex flex-col gap-1">
+                    <a href="{{ route('front.index') }}#home" class="site-nav-mobile__link rounded-lg px-2 py-2.5">{{ __('front::home.nav_home') }}</a>
+                    @if(! empty($frontPublicServices))
+                    <details class="nav-services-dropdown site-nav-services-mobile border-b border-gray-100 pb-2">
                         <summary
-                            class="nav-services-dropdown__summary flex cursor-pointer list-none items-center justify-between py-1 hover:text-red-600 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2 rounded"
+                            class="nav-services-dropdown__summary site-nav-services-mobile__summary flex cursor-pointer list-none items-center justify-between rounded-lg px-2 py-2.5 text-gray-800 transition-colors duration-200 hover:bg-gray-50 hover:text-red-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2"
                         >
-                            <span>{{ __('front::home.nav_services') }}</span>
-                            <i class="fas fa-chevron-down nav-services-dropdown__caret text-xs text-gray-500" aria-hidden="true"></i>
+                            <span class="font-medium">{{ __('front::home.nav_services') }}</span>
+                            <i class="fas fa-chevron-down nav-services-dropdown__caret text-xs text-gray-500 transition-transform duration-200" aria-hidden="true"></i>
                         </summary>
-                        <div class="mt-2 flex max-h-[min(50vh,20rem)] flex-col gap-0.5 overflow-y-auto pl-1">
-                            @foreach($frontPublicServices as $navService)
-                                <a
-                                    href="{{ route('front.search', ['service_id' => $navService['id']]) }}"
-                                    class="flex items-center gap-2 rounded-md py-2 pl-2 pr-1 text-sm text-gray-700 transition hover:bg-gray-50 hover:text-red-600"
-                                >
-                                    <i class="{{ $navService['icon'] }} w-5 shrink-0 text-center text-red-600" aria-hidden="true"></i>
-                                    <span class="flex-1">{{ $navService['name'] }}</span>
-                                </a>
-                            @endforeach
+                        <div class="site-nav-services-mobile__expand">
+                            <div class="site-nav-services-mobile__expand-inner">
+                                <ul class="mt-2 flex flex-col gap-1 overflow-y-auto pl-1 pr-0.5">
+                                    @foreach($frontPublicServices as $navService)
+                                        <li>
+                                            <a
+                                                href="{{ route('front.search', ['service_id' => $navService['id']]) }}"
+                                                class="site-nav-services-mobile__item group flex gap-3 rounded-lg px-2 py-2.5 text-gray-800 transition-colors duration-200 hover:bg-red-50/90 hover:shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
+                                            >
+                                                <span class="site-nav-services-mobile__icon flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-red-50 text-red-600 transition-colors duration-200 group-hover:bg-red-100" aria-hidden="true">
+                                                    <i class="{{ $navService['icon'] }} text-sm"></i>
+                                                </span>
+                                                <span class="min-w-0 flex-1">
+                                                    <span class="block text-sm font-semibold text-gray-900 group-hover:text-red-700">{{ $navService['name'] }}</span>
+
+                                                </span>
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
                         </div>
                     </details>
-                @else
-                    <a href="{{ route('front.index') }}#services" class="hover:text-red-600 py-1">{{ __('front::home.nav_services') }}</a>
-                @endif
-                <a href="{{ route('front.contact.show') }}" class="hover:text-red-600 py-1">{{ __('front::home.nav_contact') }}</a>
-                <a href="{{ route('admin.auth.login') }}" class="border-2 border-red-600 text-red-600 hover:bg-red-50 text-center py-2 rounded-full mt-2 font-semibold flex items-center justify-center gap-2">
+                    @else
+                    <a href="{{ route('front.index') }}#services" class="site-nav-mobile__link rounded-lg px-2 py-2.5">{{ __('front::home.nav_services') }}</a>
+                    @endif
+                    <a href="{{ route('front.contact.show') }}" class="site-nav-mobile__link rounded-lg px-2 py-2.5">{{ __('front::home.nav_contact') }}</a>
+                </div>
+                <a href="{{ route('admin.auth.login') }}" class="mt-3 border-2 border-red-600 text-red-600 hover:bg-red-50 text-center py-2.5 rounded-full font-semibold flex items-center justify-center gap-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2">
                     <i class="fas fa-building"></i> {{ __('front::home.company_login') }}
                 </a>
             </div>
