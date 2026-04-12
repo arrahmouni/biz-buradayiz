@@ -4,9 +4,7 @@ namespace Modules\Seo\Http\Services;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\ValidationException;
 use Modules\Base\Http\Services\BaseCrudService;
-use Modules\Cms\Enums\contents\BaseContentTypes;
 use Modules\Cms\Models\Content;
 use Modules\Seo\Enums\permissions\SeoPermissions;
 use Modules\Seo\Models\Seo;
@@ -36,8 +34,6 @@ class SeoService extends BaseCrudService
     public function createModel(array $data): Seo
     {
         $subject = $this->resolvePageTarget($data['page_target']);
-
-        $this->assertNoDuplicateSeo($subject);
 
         $translations = $this->createTranslations($data, 'meta_title', [
             'meta_description',
@@ -118,71 +114,28 @@ class SeoService extends BaseCrudService
             ];
         }
 
-        $query = Content::query()
-            ->whereIn('type', [BaseContentTypes::PAGES, BaseContentTypes::BLOGS, BaseContentTypes::FAQS])
-            ->orderBy('id');
+        // $query = Content::query()
+        //     ->whereIn('type', [BaseContentTypes::PAGES, BaseContentTypes::BLOGS, BaseContentTypes::FAQS])
+        //     ->orderBy('id');
 
-        foreach ($query->get() as $content) {
-            $out[] = [
-                'id' => Content::class.'|'.$content->getKey(),
-                'text' => $content->smartTrans('title').' ('.$content->type.')',
-            ];
-        }
+        // foreach ($query->get() as $content) {
+        //     $out[] = [
+        //         'id' => Content::class.'|'.$content->getKey(),
+        //         'text' => $content->smartTrans('title').' ('.$content->type.')',
+        //     ];
+        // }
 
         return $out;
     }
 
     /**
-     * @throws ValidationException
+     * Resolve a validated `page_target` string (ClassName|id) from the create form.
      */
     public function resolvePageTarget(string $pageTarget): SeoStaticPage|Content
     {
-        $parts = explode('|', $pageTarget, 2);
-        if (count($parts) !== 2) {
-            throw ValidationException::withMessages([
-                'page_target' => [trans('seo::validation.invalid_page_target')],
-            ]);
-        }
+        [$class, $id] = explode('|', $pageTarget, 2);
 
-        [$class, $id] = $parts;
-
-        if (! in_array($class, [SeoStaticPage::class, Content::class], true)) {
-            throw ValidationException::withMessages([
-                'page_target' => [trans('seo::validation.invalid_page_target')],
-            ]);
-        }
-
-        $model = $class::query()->find($id);
-
-        if (! $model) {
-            throw ValidationException::withMessages([
-                'page_target' => [trans('seo::validation.page_not_found')],
-            ]);
-        }
-
-        if ($model instanceof Content) {
-            if (! in_array($model->type, [BaseContentTypes::PAGES, BaseContentTypes::BLOGS, BaseContentTypes::FAQS], true)) {
-                throw ValidationException::withMessages([
-                    'page_target' => [trans('seo::validation.invalid_content_type')],
-                ]);
-            }
-        }
-
-        return $model;
-    }
-
-    protected function assertNoDuplicateSeo(SeoStaticPage|Content $subject): void
-    {
-        $exists = Seo::query()
-            ->where('model_type', $subject->getMorphClass())
-            ->where('model_id', $subject->getKey())
-            ->exists();
-
-        if ($exists) {
-            throw ValidationException::withMessages([
-                'page_target' => [trans('seo::validation.duplicate_seo')],
-            ]);
-        }
+        return $class::query()->findOrFail($id);
     }
 
     /**

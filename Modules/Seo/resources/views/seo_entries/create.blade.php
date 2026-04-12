@@ -5,9 +5,11 @@
         'options'               => [
             'title'             => trans('seo::seo_entries.add'),
             'backUrl'           => route('seo.entries.index'),
+            'createUrl'         => route('seo.entries.create'),
             'actions'           => [
-                'save'          => true,
-                'back'          => true,
+                'save'              => true,
+                'saveAndCreateNew'  => true,
+                'back'              => true,
             ],
         ]
     ])
@@ -48,6 +50,7 @@
                                             'options' => [
                                                 'name' => 'page_target',
                                                 'label' => trans('seo::seo_entries.page_target'),
+                                                'placeholder' => trans('seo::seo_entries.page_target_placeholder'),
                                                 'help' => trans('seo::seo_entries.page_target_help'),
                                                 'required' => true,
                                                 'searchable' => true,
@@ -100,6 +103,7 @@
                                                     'name' => 'meta_keywords',
                                                     'label' => trans('seo::fields.meta_keywords'),
                                                     'placeholder' => trans('seo::fields.meta_keywords_placeholder'),
+                                                    'subText' => trans('seo::fields.meta_keywords_help'),
                                                     'value' => null,
                                                 ],
                                                 // 'long_description' => [

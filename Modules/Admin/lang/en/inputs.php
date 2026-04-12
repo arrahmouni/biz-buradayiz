@@ -80,6 +80,11 @@ return [
             'placeholder' => 'Please enter a Phone',
             'help' => 'Enter a Phone (required)',
         ],
+        'short_description' => [
+            'label' => 'Short Description [:locale]',
+            'placeholder' => 'Please enter a short description',
+            'help' => 'Enter a short description',
+        ],
     ],
 
     'role_crud' => [

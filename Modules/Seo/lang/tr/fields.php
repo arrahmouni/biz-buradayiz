@@ -5,6 +5,7 @@ return [
     'meta_title_placeholder' => 'Arama motorları için sayfa başlığı',
     'meta_description' => 'Meta açıklama',
     'meta_description_placeholder' => 'Arama sonuçları için kısa özet',
+    'meta_keywords_help' => 'Virgülle ayrılmış anahtar kelimeler',
     'meta_keywords' => 'Meta anahtar kelimeler',
     'meta_keywords_placeholder' => 'Virgülle ayrılmış anahtar kelimeler',
     'og_title' => 'Open Graph başlığı',

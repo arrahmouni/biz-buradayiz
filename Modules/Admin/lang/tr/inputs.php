@@ -80,6 +80,11 @@ return [
             'placeholder' => 'Lütfen bir Telefon girin',
             'help' => 'Telefon Giriniz (gerekli)',
         ],
+        'short_description' => [
+            'label' => 'Kısa Açıklama [:locale]',
+            'placeholder' => 'Lütfen bir kısa açıklama girin',
+            'help' => 'Bir kısa açıklama girin',
+        ],
     ],
 
     'role_crud' => [

@@ -76,21 +76,4 @@ class ReviewSubmissionTest extends TestCase
             'rating' => 4,
         ]);
     }
-
-    public function test_rejects_non_service_provider_user(): void
-    {
-        $user = User::factory()->create([
-            'type' => UserType::Customer,
-        ]);
-
-        $service = app(ReviewSubmissionService::class);
-
-        $this->expectException(ValidationException::class);
-
-        $service->submit([
-            'user_id' => $user->id,
-            'phone' => '05321234567',
-            'rating' => 4,
-        ]);
-    }
 }

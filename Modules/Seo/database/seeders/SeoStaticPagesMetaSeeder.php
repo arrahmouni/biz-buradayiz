@@ -131,6 +131,22 @@ class SeoStaticPagesMetaSeeder extends Seeder
                     'robots' => 'noindex, nofollow',
                 ],
             ],
+            'provider_search' => [
+                'en' => [
+                    'meta_title' => 'Providers | Biz Buradayiz',
+                    'meta_description' => 'Providers | Biz Buradayiz',
+                    'meta_keywords' => 'Providers | Biz Buradayiz',
+                    'og_title' => 'Providers | Biz Buradayiz',
+                    'og_description' => 'Providers | Biz Buradayiz',
+                ],
+                'tr' => [
+                    'meta_title' => 'Sağlayıcılar | Biz Buradayız',
+                    'meta_description' => 'Sağlayıcılar | Biz Buradayız',
+                    'meta_keywords' => 'Sağlayıcılar | Biz Buradayız',
+                    'og_title' => 'Sağlayıcılar | Biz Buradayız',
+                    'og_description' => 'Sağlayıcılar | Biz Buradayız',
+                ],
+            ],
         ];
     }
 }

@@ -5,6 +5,7 @@ return [
     'meta_title_placeholder' => 'Page title for search engines',
     'meta_description' => 'Meta description',
     'meta_description_placeholder' => 'Short summary for search results',
+    'meta_keywords_help' => 'Comma-separated keywords',
     'meta_keywords' => 'Meta keywords',
     'meta_keywords_placeholder' => 'Comma-separated keywords',
     'og_title' => 'Open Graph title',

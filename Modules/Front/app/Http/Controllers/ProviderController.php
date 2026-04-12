@@ -3,17 +3,26 @@
 namespace Modules\Front\Http\Controllers;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 use Modules\Admin\Enums\AdminStatus;
 use Modules\Auth\Enums\UserType;
 use Modules\Auth\Models\User;
 use Modules\Base\Http\Controllers\BaseWebController;
 use Modules\Front\Http\Requests\ProviderSearchRequest;
+use Modules\Front\Http\Requests\StoreProviderReviewRequest;
+use Modules\Platform\Http\Services\ReviewSubmissionService;
 use Modules\Zms\Models\City;
 use Modules\Zms\Models\State;
 
 class ProviderController extends BaseWebController
 {
+    public function __construct(protected ReviewSubmissionService $reviewSubmissionService)
+    {
+        parent::__construct();
+    }
+
     public function search(ProviderSearchRequest $request): View
     {
         $validated = $request->validated();
@@ -76,6 +85,31 @@ class ProviderController extends BaseWebController
     public function showProvider(string $provider): View
     {
         return $this->renderProviderShow($this->findPublicProviderByProfileSlug($provider));
+    }
+
+    public function storeProviderReview(StoreProviderReviewRequest $request, string $provider): RedirectResponse
+    {
+        $user = $this->findPublicProviderByProfileSlug($provider);
+        $validated = $request->validated();
+
+        try {
+            $this->reviewSubmissionService->submit([
+                'user_id' => $user->id,
+                'phone' => $validated['phone'],
+                'rating' => $validated['rating'],
+                'body' => $validated['comment'] ?? null,
+                'reviewer_display_name' => $validated['display_name'] ?? null,
+            ]);
+        } catch (ValidationException $e) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->withErrors($e->errors());
+        }
+
+        return redirect()
+            ->back()
+            ->with('success', __('front::home.provider_detail_review_success'));
     }
 
     private function publicProviderQuery(): Builder

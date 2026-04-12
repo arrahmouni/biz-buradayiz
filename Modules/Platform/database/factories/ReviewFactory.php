@@ -55,7 +55,7 @@ class ReviewFactory extends Factory
             'status' => fake()->randomElement(ReviewStatus::cases()),
             'rating' => fake()->numberBetween(1, 5),
             'body' => fake()->optional(0.8)->paragraph(),
-            'reviewer_display_name' => fake()->optional(0.5)->firstName(),
+            'reviewer_display_name' => fake()->name(),
             'reviewer_phone_normalized' => $callerNorm,
         ];
     }

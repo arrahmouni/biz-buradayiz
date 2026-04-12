@@ -24,6 +24,10 @@ Route::controller(ProviderController::class)->group(function () {
     Route::get('/providers/{provider}', 'showProvider')
         ->where('provider', '[0-9a-z]+(?:-[0-9a-z]+)*')
         ->name('provider.show');
+    Route::post('/providers/{provider}/reviews', 'storeProviderReview')
+        ->where('provider', '[0-9a-z]+(?:-[0-9a-z]+)*')
+        ->name('provider.reviews.store')
+        ->middleware('throttle:3,1');
 });
 
 Route::controller(ContactController::class)->prefix('contact')->name('contact.')->group(function () {

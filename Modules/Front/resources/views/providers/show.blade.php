@@ -1,4 +1,3 @@
-@extends('front::layouts.master')
 
 @php
     $serviceDescription = $provider->provider_card_service_description;
@@ -7,6 +6,8 @@
         ? \Illuminate\Support\Str::limit(strip_tags($serviceDescription), 160)
         : __('front::home.provider_detail_meta_fallback', ['name' => $provider->full_name]);
 @endphp
+
+@extends('front::layouts.master', ['title' => $metaTitle])
 
 @section('meta_description', $metaDescription)
 
@@ -85,24 +86,35 @@
                                 {{ __('front::home.provider_detail_reviews_empty') }}
                             </p>
                         @else
-                            <ul class="mt-6 space-y-4 divide-y divide-gray-100">
+                            <ul class="mt-6 divide-y divide-gray-100 border-t border-gray-100">
                                 @foreach ($reviews as $review)
-                                    <li class="pt-4 first:pt-0">
-                                        <div class="flex flex-wrap items-center gap-2">
-                                            <span class="text-yellow-400" aria-hidden="true">
-                                                @for ($s = 1; $s <= 5; $s++)
-                                                    <i class="{{ $s <= (int) $review->rating ? 'fa-solid' : 'fa-regular' }} fa-star text-sm"></i>
-                                                @endfor
-                                            </span>
-                                            @if (filled($review->reviewer_display_name))
-                                                <span class="text-sm font-semibold text-gray-800">{{ $review->reviewer_display_name }}</span>
-                                            @endif
+                                    <li class="py-6">
+                                        <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+                                            <div class="min-w-0 flex flex-col flex-wrap items-start gap-x-3 gap-y-1.5">
+                                                @if (filled($review->reviewer_display_name))
+                                                    <span class="text-sm font-semibold text-gray-900">{{ $review->reviewer_display_name }}</span>
+                                                @endif
+                                                <span
+                                                    class="inline-flex items-center gap-0.5 text-yellow-400"
+                                                    role="img"
+                                                    aria-label="{{ __('front::home.provider_detail_review_list_rating_aria', ['n' => (int) $review->rating]) }}"
+                                                >
+                                                    @for ($s = 1; $s <= 5; $s++)
+                                                        <i class="{{ $s <= (int) $review->rating ? 'fa-solid' : 'fa-regular' }} fa-star text-sm sm:text-[0.9375rem]" aria-hidden="true"></i>
+                                                    @endfor
+                                                </span>
+                                            </div>
                                             @if ($review->created_at)
-                                                <span class="text-xs text-gray-500">{{ $review->created_at->isoFormat('LL') }}</span>
+                                                <time
+                                                    datetime="{{ $review->created_at->toIso8601String() }}"
+                                                    class="shrink-0 text-xs font-medium text-gray-500 tabular-nums sm:pt-0.5 sm:text-right"
+                                                >
+                                                    {{ $review->created_at->isoFormat('LL') }}
+                                                </time>
                                             @endif
                                         </div>
                                         @if (filled($review->body))
-                                            <p class="mt-2 text-gray-600 text-sm leading-relaxed">{{ $review->body }}</p>
+                                            <p class="mt-4 border-l-2 border-red-100 pl-4 text-sm leading-relaxed text-gray-700">{{ $review->body }}</p>
                                         @endif
                                     </li>
                                 @endforeach
@@ -145,7 +157,13 @@
                         <h3 class="text-lg font-bold text-gray-800">{{ __('front::home.provider_detail_feedback_title') }}</h3>
                         <p class="text-sm text-gray-600 mt-1">{{ __('front::home.provider_detail_feedback_note') }}</p>
 
-                        <form id="providerReviewDesignForm" class="mt-6 space-y-5" action="#" method="post">
+                        @if (session('success'))
+                            <div class="mt-4 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800" role="status">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+
+                        <form id="providerReviewDesignForm" class="mt-6 space-y-5" action="{{ route('front.provider.reviews.store', $provider->profile_slug) }}" method="post">
                             @csrf
                             <div
                                 data-provider-rating
@@ -160,18 +178,36 @@
                                         </button>
                                     @endfor
                                 </div>
-                                <input type="hidden" name="rating" value="">
+                                <input type="hidden" name="rating" value="{{ old('rating') }}">
                                 <p class="provider-rating-field__summary mt-2 text-sm text-gray-500" data-rating-summary aria-live="polite">{{ __('front::home.provider_detail_rating_unselected') }}</p>
+                                @error('rating')
+                                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
                             </div>
 
                             <div>
-                                <label for="providerReviewComment" class="block text-sm font-medium text-gray-700 mb-2">{{ __('front::home.provider_detail_comment_label') }}</label>
-                                <textarea id="providerReviewComment" name="comment" rows="4" class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-800 placeholder-gray-400 focus:border-red-400 focus:ring-2 focus:ring-red-200 outline-none transition" placeholder="{{ __('front::home.provider_detail_comment_placeholder') }}"></textarea>
+                                <label for="providerReviewPhone" class="block text-sm font-medium text-gray-700 mb-2">{{ __('front::home.provider_detail_phone_label') }}</label>
+                                <input required id="providerReviewPhone" type="text" name="phone" value="{{ old('phone') }}" inputmode="tel" autocomplete="tel" class="w-full rounded-xl border px-4 py-3 text-gray-800 placeholder-gray-400 focus:border-red-400 focus:ring-2 focus:ring-red-200 outline-none transition @error('phone') border-red-500 @else border-gray-200 @enderror" placeholder="{{ __('front::home.provider_detail_phone_placeholder') }}">
+                                <p class="mt-1 text-xs text-gray-500">{{ __('front::home.provider_detail_phone_help') }}</p>
+                                @error('phone')
+                                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
                             </div>
 
                             <div>
                                 <label for="providerReviewName" class="block text-sm font-medium text-gray-700 mb-2">{{ __('front::home.provider_detail_display_name_label') }}</label>
-                                <input id="providerReviewName" type="text" name="display_name" autocomplete="name" class="w-full rounded-xl border border-gray-200 px-4 py-3 text-gray-800 placeholder-gray-400 focus:border-red-400 focus:ring-2 focus:ring-red-200 outline-none transition" placeholder="{{ __('front::home.provider_detail_display_name_placeholder') }}">
+                                <input required id="providerReviewName" type="text" name="display_name" value="{{ old('display_name') }}" autocomplete="name" class="w-full rounded-xl border px-4 py-3 text-gray-800 placeholder-gray-400 focus:border-red-400 focus:ring-2 focus:ring-red-200 outline-none transition @error('display_name') border-red-500 @else border-gray-200 @enderror" placeholder="{{ __('front::home.provider_detail_display_name_placeholder') }}">
+                                @error('display_name')
+                                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+                            <div>
+                                <label for="providerReviewComment" class="block text-sm font-medium text-gray-700 mb-2">{{ __('front::home.provider_detail_comment_label') }}</label>
+                                <textarea required id="providerReviewComment" name="comment" rows="4" class="w-full rounded-xl border px-4 py-3 text-gray-800 placeholder-gray-400 focus:border-red-400 focus:ring-2 focus:ring-red-200 outline-none transition @error('comment') border-red-500 @else border-gray-200 @enderror" placeholder="{{ __('front::home.provider_detail_comment_placeholder') }}">{{ old('comment') }}</textarea>
+                                @error('comment')
+                                    <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                @enderror
                             </div>
 
                             <button type="submit" class="w-full inline-flex items-center justify-center gap-2 bg-gray-800 hover:bg-gray-900 text-white px-6 py-3 rounded-full text-sm font-semibold transition shadow-md">
@@ -188,13 +224,6 @@
 @push('script')
     <script>
         (function () {
-            const form = document.getElementById('providerReviewDesignForm');
-            if (form) {
-                form.addEventListener('submit', function (e) {
-                    e.preventDefault();
-                });
-            }
-
             const root = document.querySelector('[data-provider-rating]');
             if (!root) {
                 return;
@@ -245,6 +274,10 @@
                     }
                 });
             });
+
+            if (hidden && hidden.value) {
+                setRating(hidden.value);
+            }
         })();
     </script>
 @endpush
