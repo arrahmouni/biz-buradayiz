@@ -19,6 +19,7 @@ return [
     'alerts'                                        => 'التنبيهات',
     'you_donot_have_any_notifications'              => 'ليس لديك أي إشعارات',
     'all_rights_reserved'                           => 'جميع الحقوق محفوظة',
+    'email_footer_registered_user_notice'           => 'تم إرسال هذا البريد الإلكتروني إليك لأنك مستخدم مسجّل في خدمتنا.',
     'no_permissions_for_this_role'                  => 'لا توجد صلاحيات لهذا الدور',
     'no_reply_yet'                                  => 'لا توجد رد بعد',
     'category_cannot_be_update_parent_after_create' => 'لا يمكن تحديث التصنيف الاب بعد الإنشاء',

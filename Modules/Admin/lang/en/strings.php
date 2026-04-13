@@ -19,6 +19,7 @@ return [
     'alerts' => 'Alerts',
     'you_donot_have_any_notifications' => 'You don\'t have any notifications',
     'all_rights_reserved' => 'All rights reserved',
+    'email_footer_registered_user_notice' => 'This email was sent to you because you are a registered user of our service.',
     'no_permissions_for_this_role' => 'No permissions for this role',
     'no_reply_yet' => 'No Reply Yet',
     'category_cannot_be_update_parent_after_create' => 'Category cannot be updated parent after create',

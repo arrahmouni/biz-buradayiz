@@ -20,6 +20,7 @@ return [
     'alerts' => 'Uyarılar',
     'you_donot_have_any_notifications' => 'Hiçbir bildiriminiz yok',
     'all_rights_reserved' => 'Tum haklari saklidir',
+    'email_footer_registered_user_notice' => 'Bu e-posta, hizmetimizde kayıtlı bir kullanıcı olduğunuz için size gönderilmiştir.',
     'no_permissions_for_this_role' => 'Bu rol için izin yok',
     'no_reply_yet' => 'Henuz Yanit Yok',
     'category_cannot_be_update_parent_after_create' => 'Kategori oluşturulduktan sonra ebeveyn güncellenemez',
