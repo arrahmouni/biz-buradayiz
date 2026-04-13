@@ -184,7 +184,7 @@ class SeoStaticPagesMetaSeeder extends Seeder
                     'og_description' => 'Erişimi tamamlamak için yeni şifrenizi girin ve onaylayın.',
                     'robots' => 'noindex, nofollow',
                 ],
-            ]
+            ],
             'provider_search' => [
                 'en' => [
                     'meta_title' => 'Providers | Biz Buradayiz',

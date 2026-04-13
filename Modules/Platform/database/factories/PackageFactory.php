@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use Modules\Platform\Enums\BillingPeriod;
 use Modules\Platform\Models\Package;
+use Modules\Platform\Models\Service;
 
 class PackageFactory extends Factory
 {
@@ -43,6 +44,13 @@ class PackageFactory extends Factory
                     'description' => $faker->text,
                     'features' => $faker->text,
                 ]);
+            }
+
+            $serviceIds = Service::query()->orderBy('id')->pluck('id')->all();
+            if ($serviceIds !== []) {
+                $count = fake()->numberBetween(1, count($serviceIds));
+                $selected = fake()->randomElements($serviceIds, $count);
+                $package->services()->sync(array_values($selected));
             }
         });
     }

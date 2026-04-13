@@ -13,6 +13,12 @@ class PackageSeeder extends Seeder
 {
     public function run(): void
     {
+        $this->seedFreePackage();
+        Package::factory()->count(10)->create();
+    }
+
+    private function seedFreePackage(): void
+    {
         $services = Service::query()->orderBy('id')->get();
         if ($services->isEmpty()) {
             return;
@@ -64,5 +70,6 @@ class PackageSeeder extends Seeder
         }
 
         $package->services()->sync($serviceIds);
+
     }
 }
