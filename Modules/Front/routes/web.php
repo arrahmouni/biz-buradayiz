@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Modules\Front\Http\Controllers\ContactController;
 use Modules\Front\Http\Controllers\ContentController;
 use Modules\Front\Http\Controllers\HomeController;
+use Modules\Front\Http\Controllers\ProviderAuthController;
 use Modules\Front\Http\Controllers\ProviderController;
 
 /*
@@ -18,6 +19,21 @@ use Modules\Front\Http\Controllers\ProviderController;
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
+
+Route::prefix('provider')->name('provider.')->controller(ProviderAuthController::class)->group(function () {
+    Route::middleware('guest')->group(function () {
+        Route::get('login', 'showLoginForm')->name('login');
+        Route::post('login', 'login')->name('login.store')->middleware('throttle:10,1');
+        Route::get('register', 'showRegisterForm')->name('register');
+        Route::post('register', 'register')->name('register.store')->middleware('throttle:5,1');
+        Route::get('forgot-password', 'showForgotPasswordForm')->name('password.request');
+        Route::post('forgot-password', 'sendResetLinkEmail')->name('password.email')->middleware('throttle:5,1');
+        Route::get('reset-password/{token}', 'showResetForm')->name('password.reset');
+        Route::post('reset-password', 'resetPassword')->name('password.store')->middleware('throttle:5,1');
+    });
+    Route::post('logout', 'logout')->name('logout')->middleware(['auth', 'active.user', 'service.provider']);
+    Route::get('dashboard', 'dashboard')->name('dashboard')->middleware(['auth', 'active.user', 'service.provider']);
+});
 
 Route::controller(ProviderController::class)->group(function () {
     Route::get('/search', 'search')->name('search');

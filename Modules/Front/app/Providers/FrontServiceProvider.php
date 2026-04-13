@@ -2,6 +2,7 @@
 
 namespace Modules\Front\Providers;
 
+use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -26,6 +27,13 @@ class FrontServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        ResetPassword::createUrlUsing(function ($notifiable, string $token) {
+            return route('front.provider.password.reset', [
+                'token' => $token,
+                'email' => $notifiable->getEmailForPasswordReset(),
+            ], absolute: true);
+        });
+
         $this->registerCommands();
         $this->registerCommandSchedules();
         $this->registerTranslations();
@@ -46,6 +54,7 @@ class FrontServiceProvider extends ServiceProvider
         });
 
         View::composer('front::layouts.master', FrontLayoutMetaComposer::class);
+        View::composer('front::layouts.auth', FrontLayoutMetaComposer::class);
 
         View::composer('front::includes.footer', function ($view) {
             cache()->remember('footer_pages_'.app()->getLocale(), 3600, function () use ($view) {

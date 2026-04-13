@@ -9,6 +9,7 @@ use Modules\Auth\Enums\permissions\UserPermissions;
 use Modules\Auth\Enums\UserType;
 use Modules\Auth\Models\User as CrudModel;
 use Modules\Base\Http\Services\BaseCrudService;
+use Modules\Platform\Http\Services\GrantWelcomeFreePackageSubscription;
 use Modules\Verimor\Enums\permissions\VerimorCallEventPermissions;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -35,6 +36,11 @@ class UserCrudService extends BaseCrudService
             return $model;
         });
 
+        if (($modelData['type'] ?? null) === UserType::ServiceProvider->value
+            && ($modelData['status'] ?? null) === AdminStatus::ACTIVE) {
+            app(GrantWelcomeFreePackageSubscription::class)->grantIfEligible($model);
+        }
+
         return $model;
     }
 
@@ -48,6 +54,8 @@ class UserCrudService extends BaseCrudService
         $modelData = $this->prepareModelData($data);
 
         DB::transaction(function () use ($data, $model, $modelData) {
+            $previousStatus = $model->status;
+
             $model->update($modelData);
 
             if (isset($data['image_remove']) && $data['image_remove'] == true) {
@@ -58,6 +66,15 @@ class UserCrudService extends BaseCrudService
 
             if ($data['status'] != AdminStatus::ACTIVE) {
                 $this->removeFcmToken($model);
+            }
+
+            $model->refresh();
+
+            $becameActive = $model->status === AdminStatus::ACTIVE
+                && $previousStatus !== AdminStatus::ACTIVE;
+
+            if ($becameActive && $model->type === UserType::ServiceProvider) {
+                app(GrantWelcomeFreePackageSubscription::class)->grantIfEligible($model);
             }
         });
 

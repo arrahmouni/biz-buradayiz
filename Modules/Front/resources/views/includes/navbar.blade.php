@@ -101,9 +101,14 @@
                 </details>
             </nav>
 
-            <a href="{{ route('admin.auth.login') }}" class="hidden lg:inline-flex border-2 border-red-600 text-red-600 hover:bg-red-50 px-4 py-2 xl:px-5 rounded-full text-sm font-semibold transition items-center gap-2 xl:text-base">
-                <i class="fas fa-building"></i> {{ __('front::home.company_login') }}
-            </a>
+            <div class="hidden lg:flex items-center gap-2 xl:gap-3">
+                <a href="{{ route('front.provider.login') }}" class="inline-flex border-2 border-red-600 text-red-600 hover:bg-red-50 px-4 py-2 xl:px-5 rounded-full text-sm font-semibold transition items-center gap-2 xl:text-base focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2">
+                    <i class="fas fa-sign-in-alt" aria-hidden="true"></i> {{ __('front::home.provider_login') }}
+                </a>
+                <a href="{{ route('front.provider.register') }}" class="inline-flex border-2 border-red-600 bg-red-600 text-white hover:border-red-700 hover:bg-red-700 px-4 py-2 xl:px-5 rounded-full text-sm font-semibold transition items-center gap-2 shadow-sm xl:text-base focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2">
+                    <i class="fas fa-user-plus" aria-hidden="true"></i> {{ __('front::home.provider_register') }}
+                </a>
+            </div>
 
             <button
                 type="button"
@@ -160,8 +165,11 @@
                     @endif
                     <a href="{{ route('front.contact.show') }}" class="site-nav-mobile__link rounded-lg px-2 py-2.5">{{ __('front::home.nav_contact') }}</a>
                 </div>
-                <a href="{{ route('admin.auth.login') }}" class="mt-3 border-2 border-red-600 text-red-600 hover:bg-red-50 text-center py-2.5 rounded-full font-semibold flex items-center justify-center gap-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2">
-                    <i class="fas fa-building"></i> {{ __('front::home.company_login') }}
+                <a href="{{ route('front.provider.login') }}" class="mt-3 border-2 border-red-600 text-red-600 hover:bg-red-50 text-center py-2.5 rounded-full font-semibold flex items-center justify-center gap-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2">
+                    <i class="fas fa-sign-in-alt" aria-hidden="true"></i> {{ __('front::home.provider_login') }}
+                </a>
+                <a href="{{ route('front.provider.register') }}" class="mt-2 border-2 border-red-600 bg-red-600 text-white hover:border-red-700 hover:bg-red-700 text-center py-2.5 rounded-full font-semibold flex items-center justify-center gap-2 shadow-sm transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2">
+                    <i class="fas fa-user-plus" aria-hidden="true"></i> {{ __('front::home.provider_register') }}
                 </a>
             </div>
         </div>

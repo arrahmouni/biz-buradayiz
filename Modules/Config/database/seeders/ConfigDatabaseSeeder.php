@@ -353,7 +353,7 @@ class ConfigDatabaseSeeder extends Seeder
             [
                 'type' => SettingTypes::URL,
                 'order' => 1,
-                'value' => 'https://apps.apple.com',
+                'value' => 'https://apps.apple.com/tr/app/bizburaday%C4%B1z/id6468649321',
             ] + createTranslateArray('title', 'settings.groups.mobile.fields.app_store', 'config')
         );
 
@@ -365,7 +365,7 @@ class ConfigDatabaseSeeder extends Seeder
             [
                 'type' => SettingTypes::URL,
                 'order' => 2,
-                'value' => 'https://play.google.com',
+                'value' => 'https://play.google.com/store/apps/details?id=com.namaait.bizburadayiz',
             ] + createTranslateArray('title', 'settings.groups.mobile.fields.google_play', 'config')
         );
     }

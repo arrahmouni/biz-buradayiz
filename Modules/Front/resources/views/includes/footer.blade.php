@@ -75,6 +75,8 @@
                 <ul class="space-y-2 text-sm">
                     <li><a href="{{ route('front.index') }}" class="hover:text-red-400 transition">{{ __('front::home.nav_home') }}</a></li>
                     <li><a href="{{ route('front.contact.show') }}" class="hover:text-red-400 transition">{{ __('front::home.nav_contact') }}</a></li>
+                    <li><a href="{{ route('front.provider.login') }}" class="hover:text-red-400 transition">{{ __('front::home.provider_login') }}</a></li>
+                    <li><a href="{{ route('front.provider.register') }}" class="hover:text-red-400 transition">{{ __('front::home.provider_register') }}</a></li>
                 </ul>
             </div>
             <div>

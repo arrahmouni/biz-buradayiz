@@ -64,17 +64,33 @@ class FrontLayoutMetaComposer
             'front.blog.index' => trans('front::home.blog_page_title'),
             'front.page.faq' => trans('front::home.faq_page_title'),
             'front.search' => trans('seo::static_pages.provider_search').' | '.config('app.name'),
+            'front.provider.login' => trans('front::auth.login_title').' | '.config('app.name'),
+            'front.provider.register' => trans('front::auth.register_title').' | '.config('app.name'),
+            'front.provider.password.request' => trans('front::auth.forgot_title').' | '.config('app.name'),
+            'front.provider.password.reset' => trans('front::auth.reset_title').' | '.config('app.name'),
+            'front.provider.dashboard' => trans('front::auth.dashboard_title').' | '.config('app.name'),
             default => trans('front::home.page_title'),
+        };
+
+        $description = match ($routeName) {
+            'front.search' => trans('front::home.search_results_meta_description'),
+            'front.provider.login' => trans('front::auth.login_subtitle'),
+            'front.provider.register' => trans('front::auth.register_subtitle'),
+            'front.provider.password.request' => trans('front::auth.forgot_subtitle'),
+            'front.provider.password.reset' => trans('front::auth.reset_subtitle'),
+            'front.provider.dashboard' => trans('front::auth.dashboard_subtitle'),
+            default => trans('front::home.page_description'),
+        };
+
+        $keywords = match ($routeName) {
+            'front.search' => trans('front::home.search_results_meta_keywords'),
+            default => trans('front::home.page_keywords'),
         };
 
         return [
             'meta_title' => $title,
-            'meta_description' => $routeName === 'front.search'
-                ? trans('front::home.search_results_meta_description')
-                : trans('front::home.page_description'),
-            'meta_keywords' => $routeName === 'front.search'
-                ? trans('front::home.search_results_meta_keywords')
-                : trans('front::home.page_keywords'),
+            'meta_description' => $description,
+            'meta_keywords' => $keywords,
             'og_title' => null,
             'og_description' => null,
             'og_image' => null,

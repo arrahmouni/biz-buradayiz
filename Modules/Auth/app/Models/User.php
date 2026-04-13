@@ -2,6 +2,8 @@
 
 namespace Modules\Auth\Models;
 
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -26,9 +28,9 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
-class User extends Authenticatable implements Auditable, HasMedia
+class User extends Authenticatable implements Auditable, CanResetPasswordContract, HasMedia
 {
-    use AuditableTrait, HasApiTokens, HasFactory, HasSlug, InteractsWithMedia, ModelHelper, Notifiable, SoftDeletes, UserTrait;
+    use AuditableTrait, CanResetPassword, HasApiTokens, HasFactory, HasSlug, InteractsWithMedia, ModelHelper, Notifiable, SoftDeletes, UserTrait;
 
     const VIEW_PATH = 'users';
 
@@ -80,6 +82,7 @@ class User extends Authenticatable implements Auditable, HasMedia
      */
     protected $auditExclude = [
         'remember_token',
+        'welcome_free_package_granted_at',
     ];
 
     /**
@@ -95,6 +98,7 @@ class User extends Authenticatable implements Auditable, HasMedia
             'type' => UserType::class,
             'review_rating_average' => 'decimal:2',
             'approved_reviews_count' => 'integer',
+            'welcome_free_package_granted_at' => 'datetime',
         ];
     }
 

@@ -131,6 +131,60 @@ class SeoStaticPagesMetaSeeder extends Seeder
                     'robots' => 'noindex, nofollow',
                 ],
             ],
+            'provider_register' => [
+                'en' => [
+                    'meta_title' => 'Become a Provider | Biz Buradayiz',
+                    'meta_description' => 'Apply to join as a roadside assistance or towing provider. Submit your details for review and access the partner workspace after approval.',
+                    'meta_keywords' => 'Biz Buradayiz provider signup, roadside partner application, towing provider registration',
+                    'og_title' => 'Become a provider — Biz Buradayiz',
+                    'og_description' => 'Start your application to offer roadside services through our network.',
+                    'robots' => 'noindex, nofollow',
+                ],
+                'tr' => [
+                    'meta_title' => 'Hizmet Sağlayıcı Olun | Biz Buradayız',
+                    'meta_description' => 'Yol yardımı veya çekici sağlayıcısı olarak başvurun. İnceleme için bilgilerinizi gönderin; onaydan sonra panele erişin.',
+                    'meta_keywords' => 'Biz Buradayız sağlayıcı kayıt, yol yardımı ortak başvurusu, çekici kayıt',
+                    'og_title' => 'Sağlayıcı olun — Biz Buradayız',
+                    'og_description' => 'Ağımız üzerinden yol yardımı hizmeti sunmak için başvurun.',
+                    'robots' => 'noindex, nofollow',
+                ],
+            ],
+            'provider_forgot_password' => [
+                'en' => [
+                    'meta_title' => 'Forgot Password | Biz Buradayiz Providers',
+                    'meta_description' => 'Reset your service provider account password. We will email you a secure link to choose a new password.',
+                    'meta_keywords' => 'Biz Buradayiz forgot password, provider account recovery',
+                    'og_title' => 'Reset provider password',
+                    'og_description' => 'Request a password reset link for your provider account.',
+                    'robots' => 'noindex, nofollow',
+                ],
+                'tr' => [
+                    'meta_title' => 'Şifremi Unuttum | Biz Buradayız Sağlayıcı',
+                    'meta_description' => 'Hizmet sağlayıcı hesabınız için şifre sıfırlayın. Güvenli bağlantıyı e-posta ile göndeririz.',
+                    'meta_keywords' => 'Biz Buradayız şifre sıfırlama, sağlayıcı hesap kurtarma',
+                    'og_title' => 'Sağlayıcı şifre sıfırlama',
+                    'og_description' => 'Sağlayıcı hesabınız için sıfırlama bağlantısı isteyin.',
+                    'robots' => 'noindex, nofollow',
+                ],
+            ],
+            'provider_reset_password' => [
+                'en' => [
+                    'meta_title' => 'Set New Password | Biz Buradayiz Providers',
+                    'meta_description' => 'Choose a new password for your Biz Buradayiz provider account.',
+                    'meta_keywords' => 'Biz Buradayiz password reset, provider new password',
+                    'og_title' => 'New provider password',
+                    'og_description' => 'Enter and confirm your new password to finish resetting access.',
+                    'robots' => 'noindex, nofollow',
+                ],
+                'tr' => [
+                    'meta_title' => 'Yeni Şifre | Biz Buradayız Sağlayıcı',
+                    'meta_description' => 'Biz Buradayız sağlayıcı hesabınız için yeni şifre belirleyin.',
+                    'meta_keywords' => 'Biz Buradayız şifre yenileme, sağlayıcı yeni şifre',
+                    'og_title' => 'Yeni sağlayıcı şifresi',
+                    'og_description' => 'Erişimi tamamlamak için yeni şifrenizi girin ve onaylayın.',
+                    'robots' => 'noindex, nofollow',
+                ],
+            ]
             'provider_search' => [
                 'en' => [
                     'meta_title' => 'Providers | Biz Buradayiz',

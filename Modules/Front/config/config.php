@@ -19,6 +19,11 @@ return [
             'front.blog.index' => 'blog',
             'front.page.faq' => 'faq',
             'front.search' => 'provider_search',
+            'front.provider.login' => 'login',
+            'front.provider.register' => 'provider_register',
+            'front.provider.password.request' => 'provider_forgot_password',
+            'front.provider.password.reset' => 'provider_reset_password',
+            'front.provider.dashboard' => 'provider_dashboard',
         ],
     ],
 ];

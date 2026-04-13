@@ -52,9 +52,27 @@ return [
         ],
         [
             'key' => 'login',
-            'path_hint' => '/login',
+            'path_hint' => '/provider/login',
             'sort_order' => 10,
             'label' => 'seo::static_pages.login',
+        ],
+        [
+            'key' => 'provider_register',
+            'path_hint' => '/provider/register',
+            'sort_order' => 11,
+            'label' => 'seo::static_pages.provider_register',
+        ],
+        [
+            'key' => 'provider_forgot_password',
+            'path_hint' => '/provider/forgot-password',
+            'sort_order' => 12,
+            'label' => 'seo::static_pages.provider_forgot_password',
+        ],
+        [
+            'key' => 'provider_reset_password',
+            'path_hint' => '/provider/reset-password',
+            'sort_order' => 13,
+            'label' => 'seo::static_pages.provider_reset_password',
         ],
     ],
 ];
