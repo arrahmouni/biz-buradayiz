@@ -9,7 +9,7 @@
 
         <div class="hidden min-w-0 flex-1 justify-center lg:flex">
             <div class="site-nav-desktop flex flex-nowrap items-center gap-1 xl:gap-2 text-[0.9375rem] font-medium leading-snug text-gray-700">
-                <a href="{{ route('front.index') }}#home" class="site-nav-desktop__link">{{ __('front::home.nav_home') }}</a>
+                <a href="{{ route('front.index') }}" class="site-nav-desktop__link">{{ __('front::home.nav_home') }}</a>
                 @if(! empty($frontPublicServices))
                     <nav class="relative flex items-center" aria-label="{{ __('front::home.nav_services') }}">
                         <details id="servicesNavDropdown" class="nav-services-dropdown site-nav-services">
@@ -47,9 +47,9 @@
                             </div>
                         </details>
                     </nav>
-                @else
-                    <a href="{{ route('front.index') }}#services" class="site-nav-desktop__link">{{ __('front::home.nav_services') }}</a>
                 @endif
+                <a href="{{ route('front.blog.index') }}" class="site-nav-desktop__link">{{ __('front::home.footer_blog') }}</a>
+                <a href="{{ route('front.page.faq') }}" class="site-nav-desktop__link">{{ __('front::home.footer_faq') }}</a>
                 <a href="{{ route('front.contact.show') }}" class="site-nav-desktop__link">{{ __('front::home.nav_contact') }}</a>
             </div>
         </div>
@@ -128,7 +128,7 @@
         <div class="mobile-menu-panel__inner">
             <div id="mobileMenu" class="mobile-menu-panel__content border-t border-gray-100 bg-white/95 py-4 px-5 font-medium leading-snug text-gray-800">
                 <div class="flex flex-col gap-1">
-                    <a href="{{ route('front.index') }}#home" class="site-nav-mobile__link rounded-lg px-2 py-2.5">{{ __('front::home.nav_home') }}</a>
+                    <a href="{{ route('front.index') }}" class="site-nav-mobile__link rounded-lg px-2 py-2.5">{{ __('front::home.nav_home') }}</a>
                     @if(! empty($frontPublicServices))
                     <details class="nav-services-dropdown site-nav-services-mobile border-b border-gray-100 pb-2">
                         <summary
@@ -163,6 +163,8 @@
                     @else
                     <a href="{{ route('front.index') }}#services" class="site-nav-mobile__link rounded-lg px-2 py-2.5">{{ __('front::home.nav_services') }}</a>
                     @endif
+                    <a href="{{ route('front.blog.index') }}" class="site-nav-mobile__link rounded-lg px-2 py-2.5">{{ __('front::home.footer_blog') }}</a>
+                    <a href="{{ route('front.page.faq') }}" class="site-nav-mobile__link rounded-lg px-2 py-2.5">{{ __('front::home.footer_faq') }}</a>
                     <a href="{{ route('front.contact.show') }}" class="site-nav-mobile__link rounded-lg px-2 py-2.5">{{ __('front::home.nav_contact') }}</a>
                 </div>
                 <a href="{{ route('front.provider.login') }}" class="mt-3 border-2 border-red-600 text-red-600 hover:bg-red-50 text-center py-2.5 rounded-full font-semibold flex items-center justify-center gap-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2">
