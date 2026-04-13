@@ -117,6 +117,7 @@ class ProviderController extends BaseWebController
         return User::query()
             ->where('type', UserType::ServiceProvider->value)
             ->where('status', AdminStatus::ACTIVE)
+            ->whereHas('activePackageSubscription')
             ->with([
                 'service.translations',
                 'city.translations',
