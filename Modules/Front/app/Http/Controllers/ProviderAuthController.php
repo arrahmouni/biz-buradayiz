@@ -15,6 +15,7 @@ use Modules\Front\Http\Requests\ProviderLoginRequest;
 use Modules\Front\Http\Requests\ProviderRegisterRequest;
 use Modules\Front\Http\Requests\ProviderResetPasswordRequest;
 use Modules\Front\Support\FrontPublicServices;
+use Modules\Notification\Http\Services\NotificationService;
 
 class ProviderAuthController extends BaseController
 {
@@ -85,7 +86,20 @@ class ProviderAuthController extends BaseController
     public function sendResetLinkEmail(ProviderForgotPasswordRequest $request)
     {
         $status = Password::broker('users')->sendResetLink(
-            $request->only('email')
+            $request->only('email'),
+            function (User $user, string $token) {
+                $resetLink = route('front.provider.password.reset', [
+                    'token' => $token,
+                    'email' => $user->getEmailForPasswordReset(),
+                ], absolute: true);
+
+                app(NotificationService::class)->send($user, 'forget_password', [
+                    'username' => $user->full_name,
+                    'reset_link' => $resetLink,
+                ]);
+
+                return Password::RESET_LINK_SENT;
+            }
         );
 
         if ($status === Password::RESET_LINK_SENT) {
