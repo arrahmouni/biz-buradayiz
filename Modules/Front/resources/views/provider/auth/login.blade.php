@@ -82,7 +82,7 @@
             <div class="text-center space-y-3 text-sm">
                 <p class="text-gray-600">
                     {{ __('front::auth.register_prompt') }}
-                    <a href="{{ route('front.provider.register') }}" class="font-medium text-red-600 hover:text-red-500 transition">{{ __('front::auth.link_register') }}</a>
+                    <a href="{{ route('front.provider.register.form') }}" class="font-medium text-red-600 hover:text-red-500 transition">{{ __('front::auth.link_register') }}</a>
                 </p>
                 <a href="{{ route('front.index') }}" class="block font-medium text-gray-500 hover:text-gray-700 transition">{{ __('front::auth.link_home') }}</a>
             </div>

@@ -28,6 +28,35 @@ if (! function_exists('getCountryInfo')) {
     }
 }
 
+if (! function_exists('getCurrencySymbol')) {
+    /**
+     * Currency symbol for display: match package/store currency when possible, else default country from getCountryInfo().
+     */
+    function getCurrencySymbol(?string $currencyCode = null, string $iso3 = 'TUR'): string
+    {
+        if (Schema::hasTable('countries')) {
+            if (filled($currencyCode)) {
+                $code = strtoupper($currencyCode);
+                $byCurrency = Country::where('currency', $code)->first();
+                if ($byCurrency) {
+                    return filled($byCurrency->currency_symbol)
+                        ? (string) $byCurrency->currency_symbol
+                        : (string) $byCurrency->currency;
+                }
+            }
+
+            $country = getCountryInfo($iso3);
+            if ($country instanceof Country) {
+                return filled($country->currency_symbol)
+                    ? (string) $country->currency_symbol
+                    : (string) $country->currency;
+            }
+        }
+
+        return filled($currencyCode) ? strtoupper($currencyCode) : 'TRY';
+    }
+}
+
 if (! function_exists('getCurreny')) {
     /**
      * Get the currency symbol.

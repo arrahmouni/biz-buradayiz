@@ -14,6 +14,7 @@ use Modules\Admin\Enums\AdminStatus;
 use Modules\Auth\Enums\UserType;
 use Modules\Auth\Http\Services\UserCrudService;
 use Modules\Auth\Models\User;
+use Modules\Platform\Enums\BillingPeriod;
 use Modules\Platform\Models\Package;
 use Modules\Platform\Models\PackageSubscription;
 use Modules\Platform\Models\Service;
@@ -119,7 +120,7 @@ class ProviderWebAuthTest extends TestCase
         $serviceId = $this->createServiceWithTranslation();
         $location = $this->createCityWithTranslation();
 
-        $response = $this->from(route('front.provider.register'))->post(route('front.provider.register.store'), [
+        $response = $this->from(route('front.provider.register.form'))->post(route('front.provider.register.store'), [
             'first_name' => 'Pat',
             'last_name' => 'Provider',
             'email' => 'pat-provider@example.test',
@@ -139,6 +140,82 @@ class ProviderWebAuthTest extends TestCase
             'status' => AdminStatus::PENDING,
             'type' => UserType::ServiceProvider->value,
         ]);
+    }
+
+    public function test_register_landing_lists_paid_packages_excludes_free_tier_and_form_reachable(): void
+    {
+        $serviceId = $this->createServiceWithTranslation();
+
+        $paid = Package::query()->create([
+            'price' => 10,
+            'currency' => 'TRY',
+            'billing_period' => BillingPeriod::Monthly,
+            'sort_order' => 0,
+            'connections_count' => 5,
+            'is_free_tier' => false,
+            'is_popular' => false,
+        ]);
+        $paid->services()->sync([$serviceId]);
+        $paid->translateOrNew('en')->name = 'PaidPlanUniqueName';
+        $paid->save();
+
+        $free = Package::query()->create([
+            'price' => 0,
+            'currency' => 'TRY',
+            'billing_period' => BillingPeriod::Monthly,
+            'sort_order' => 0,
+            'connections_count' => 1,
+            'is_free_tier' => true,
+            'is_popular' => false,
+        ]);
+        $free->services()->sync([$serviceId]);
+        $free->translateOrNew('en')->name = 'FreeTierUniqueName';
+        $free->save();
+
+        $this->get(route('front.provider.register.form'))
+            ->assertOk()
+            ->assertSee('id="front-provider-register-form"', false);
+
+        $response = $this->get(route('front.provider.register'));
+        $response->assertOk();
+        $response->assertSee('PaidPlanUniqueName');
+        $response->assertDontSee('FreeTierUniqueName');
+    }
+
+    public function test_register_landing_highlights_package_marked_popular(): void
+    {
+        $serviceId = $this->createServiceWithTranslation();
+
+        $plain = Package::query()->create([
+            'price' => 10,
+            'currency' => 'TRY',
+            'billing_period' => BillingPeriod::Monthly,
+            'sort_order' => 0,
+            'connections_count' => 5,
+            'is_free_tier' => false,
+            'is_popular' => false,
+        ]);
+        $plain->services()->sync([$serviceId]);
+        $plain->translateOrNew('en')->name = 'PlainPlanUniqueName';
+        $plain->save();
+
+        $popular = Package::query()->create([
+            'price' => 20,
+            'currency' => 'TRY',
+            'billing_period' => BillingPeriod::Monthly,
+            'sort_order' => 1,
+            'connections_count' => 10,
+            'is_free_tier' => false,
+            'is_popular' => true,
+        ]);
+        $popular->services()->sync([$serviceId]);
+        $popular->translateOrNew('en')->name = 'PopularPlanUniqueName';
+        $popular->save();
+
+        $response = $this->get(route('front.provider.register'));
+        $response->assertOk();
+        $response->assertSee('PopularPlanUniqueName');
+        $response->assertSee(__('front::provider_register.package_popular'), false);
     }
 
     public function test_pending_provider_login_shows_pending_message(): void
@@ -194,7 +271,15 @@ class ProviderWebAuthTest extends TestCase
 
     public function test_first_activation_grants_free_package_once(): void
     {
-        Package::factory()->create(['is_free_tier' => true]);
+        Package::query()->create([
+            'price' => 0,
+            'currency' => 'TRY',
+            'billing_period' => BillingPeriod::Monthly,
+            'sort_order' => 0,
+            'connections_count' => 1,
+            'is_free_tier' => true,
+            'is_popular' => false,
+        ]);
 
         $serviceId = $this->createServiceWithTranslation();
         $location = $this->createCityWithTranslation();

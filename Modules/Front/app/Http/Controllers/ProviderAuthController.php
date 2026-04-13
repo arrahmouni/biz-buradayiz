@@ -16,6 +16,7 @@ use Modules\Front\Http\Requests\ProviderRegisterRequest;
 use Modules\Front\Http\Requests\ProviderResetPasswordRequest;
 use Modules\Front\Support\FrontPublicServices;
 use Modules\Notification\Http\Services\NotificationService;
+use Modules\Platform\Models\Service;
 
 class ProviderAuthController extends BaseController
 {
@@ -47,6 +48,35 @@ class ProviderAuthController extends BaseController
         $request->session()->regenerate();
 
         return sendSuccessResponse(route('front.provider.dashboard'), 'login_success', true);
+    }
+
+    public function showRegisterLanding()
+    {
+        $this->data['servicesWithPackages'] = Service::query()
+            ->forSearchFilters()
+            ->whereHas('packages', fn ($q) => $q->where('packages.is_free_tier', false))
+            ->with([
+                'packages' => fn ($q) => $q
+                    ->where('is_free_tier', false)
+                    ->orderBy('sort_order')
+                    ->orderBy('id'),
+            ])
+            ->orderBy('id')
+            ->get()
+            ->each(function (Service $service): void {
+                $packages = $service->packages;
+                $popular = $packages->firstWhere('is_popular', true);
+                if (! $popular) {
+                    return;
+                }
+                $others = $packages->filter(fn ($p) => ! $p->is_popular)->values();
+                $ordered = $others->isEmpty()
+                    ? collect([$popular])
+                    : collect([$others->first(), $popular])->concat($others->slice(1));
+                $service->setRelation('packages', $ordered);
+            });
+
+        return view('front::provider.auth.register-landing', $this->data);
     }
 
     public function showRegisterForm()

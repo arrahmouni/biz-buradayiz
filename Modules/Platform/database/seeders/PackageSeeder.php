@@ -14,7 +14,6 @@ class PackageSeeder extends Seeder
     public function run(): void
     {
         $this->seedFreePackage();
-        Package::factory()->count(10)->create();
     }
 
     private function seedFreePackage(): void

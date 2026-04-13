@@ -63,16 +63,22 @@ return [
             'label' => 'seo::static_pages.provider_register',
         ],
         [
-            'key' => 'provider_forgot_password',
-            'path_hint' => '/provider/forgot-password',
+            'key' => 'provider_register_apply',
+            'path_hint' => '/provider/register/apply',
             'sort_order' => 12,
-            'label' => 'seo::static_pages.provider_forgot_password',
+            'label' => 'seo::static_pages.provider_register_apply',
         ],
-        [
-            'key' => 'provider_reset_password',
-            'path_hint' => '/provider/reset-password',
-            'sort_order' => 13,
-            'label' => 'seo::static_pages.provider_reset_password',
-        ],
+        // [
+        //     'key' => 'provider_forgot_password',
+        //     'path_hint' => '/provider/forgot-password',
+        //     'sort_order' => 13,
+        //     'label' => 'seo::static_pages.provider_forgot_password',
+        // ],
+        // [
+        //     'key' => 'provider_reset_password',
+        //     'path_hint' => '/provider/reset-password',
+        //     'sort_order' => 14,
+        //     'label' => 'seo::static_pages.provider_reset_password',
+        // ],
     ],
 ];

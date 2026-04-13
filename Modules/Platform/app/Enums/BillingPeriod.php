@@ -6,7 +6,7 @@ enum BillingPeriod: string
 {
     case Monthly = 'monthly';
     case Yearly  = 'yearly';
-    case OneTime = 'one_time';
+    // case OneTime = 'one_time';
 
     /**
      * @return list<string>
@@ -21,7 +21,7 @@ enum BillingPeriod: string
         return [
             self::Monthly => trans('admin::cruds.packages.billing_periods.monthly'),
             self::Yearly  => trans('admin::cruds.packages.billing_periods.yearly'),
-            self::OneTime => trans('admin::cruds.packages.billing_periods.one_time'),
+            // self::OneTime => trans('admin::cruds.packages.billing_periods.one_time'),
         ];
     }
 

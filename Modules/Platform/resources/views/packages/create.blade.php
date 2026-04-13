@@ -67,15 +67,42 @@
 
                                 <div class="separator separator-dashed my-5"></div>
 
+                                @if(! Modules\Platform\Models\Package::freeTier()->exists())
+                                    <div class="row">
+                                        <div class="col-12 mb-10 form-group">
+                                            @include('admin::components.inputs.checkbox', [
+                                                'options' => [
+                                                    'id'        => 'package_is_free_tier',
+                                                    'name'      => 'is_free_tier',
+                                                    'label'     => trans('admin::cruds.packages.is_free_tier'),
+                                                    'checked'   => old('is_free_tier', false),
+                                                    'value'     => '1',
+                                                ],
+                                            ])
+                                        </div>
+                                    </div>
+                                @endif
                                 <div class="row">
                                     <div class="col-12 mb-10 form-group">
                                         @include('admin::components.inputs.checkbox', [
                                             'options' => [
-                                                'id'        => 'package_is_free_tier',
-                                                'name'      => 'is_free_tier',
-                                                'label'     => trans('admin::cruds.packages.is_free_tier'),
-                                                'checked'   => old('is_free_tier', false),
+                                                'id'        => 'package_is_popular',
+                                                'name'      => 'is_popular',
+                                                'label'     => trans('admin::cruds.packages.is_popular'),
+                                                'checked'   => old('is_popular', false),
                                                 'value'     => '1',
+                                            ],
+                                        ])
+                                    </div>
+                                </div>
+
+                                <div id="js-package-popular-warning" class="row d-none">
+                                    <div class="col-12 mb-10">
+                                        @include('admin::components.alerts.alert', [
+                                            'options' => [
+                                                'color' => 'warning',
+                                                'title' => trans('admin::cruds.packages.is_popular_warning_title'),
+                                                'description' => trans('admin::cruds.packages.is_popular_warning_description'),
                                             ],
                                         ])
                                     </div>
@@ -180,14 +207,27 @@
         $(function () {
             var $free = $('#package_is_free_tier');
             var $price = $('#package_price');
+            var $popular = $('#package_is_popular');
+            var $popularWarning = $('#js-package-popular-warning');
+            function syncPackagePopularWarning() {
+                if ($popular.is(':checked') && ! $popular.prop('disabled')) {
+                    $popularWarning.removeClass('d-none');
+                } else {
+                    $popularWarning.addClass('d-none');
+                }
+            }
             function syncPackageFreeTierPrice() {
                 if ($free.is(':checked')) {
                     $price.val('0').prop('disabled', true);
+                    $popular.prop('checked', false).prop('disabled', true);
                 } else {
                     $price.prop('disabled', false);
+                    $popular.prop('disabled', false);
                 }
+                syncPackagePopularWarning();
             }
             $free.on('change', syncPackageFreeTierPrice);
+            $popular.on('change', syncPackagePopularWarning);
             syncPackageFreeTierPrice();
         });
     </script>

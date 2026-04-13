@@ -265,7 +265,8 @@ class SeoService extends BaseCrudService
         $metaDescription = match ($subject->key) {
             'provider_search' => trans('front::home.search_results_meta_description'),
             'login' => trans('front::auth.login_subtitle'),
-            'provider_register' => trans('front::auth.register_subtitle'),
+            'provider_register' => trans('front::provider_register.landing_meta_description'),
+            'provider_register_apply' => trans('front::auth.register_subtitle'),
             'provider_forgot_password' => trans('front::auth.forgot_subtitle'),
             'provider_reset_password' => trans('front::auth.reset_subtitle'),
             'provider_dashboard' => trans('front::auth.dashboard_subtitle'),

@@ -340,8 +340,13 @@ return [
         'services_placeholder' => 'Bir veya daha fazla hizmet seçin',
         'connections_count' => 'Çağrı sayısı',
         'is_free_tier' => 'Ücretsiz paket (sağlayıcı başına tek abonelik, ömür boyu)',
+        'is_popular' => 'Sağlayıcı kayıt sayfasında popüler olarak vurgula (bağlı hizmet başına bir tane)',
+        'is_popular_warning_title' => 'Her hizmet için yalnızca bir popüler paket',
+        'is_popular_warning_description' => 'Bu paketi popüler olarak kaydettiğinizde, aynı hizmete bağlı ve daha önce popüler işaretli başka bir paket varsa, o paketten popüler vurgusu otomatik olarak kaldırılır. Böylece sağlayıcı kayıt sayfasında hizmet başına tek bir öne çıkan plan kalır.',
         'free_tier_badge' => 'Ücretsiz',
         'standard_tier_badge' => 'Standart',
+        'popular_badge' => 'Popüler',
+        'not_popular_badge' => 'Vurgulanmıyor',
         'billing_periods' => [
             'monthly' => 'Aylık',
             'yearly' => 'Yıllık',

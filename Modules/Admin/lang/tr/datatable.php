@@ -214,6 +214,7 @@ return [
         'columns' => [
             'name' => 'Ad',
             'free_tier' => 'Seviye',
+            'popular' => 'Popüler',
             'price' => 'Fiyat',
             'billing_period' => 'Faturalama',
             'services' => 'Hizmetler',

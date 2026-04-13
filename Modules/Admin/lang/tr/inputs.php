@@ -10,7 +10,7 @@ return [
         'features' => [
             'label' => 'Özellikler [:locale]',
             'placeholder' => 'Lütfen özellikleri girin',
-            'help' => 'Özellikleri girin (gerekli)',
+            'help' => 'Özellikleri virgül ile ayırarak girin. örnek: Özellik 1, Özellik 2, Özellik 3',
         ],
         'name' => [
             'label' => 'Ad [:locale]',

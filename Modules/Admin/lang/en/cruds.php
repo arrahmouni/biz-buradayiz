@@ -340,8 +340,13 @@ return [
         'services_placeholder' => 'Select one or more services',
         'connections_count' => 'Number of calls',
         'is_free_tier' => 'Free tier (one subscription per provider, lifetime)',
+        'is_popular' => 'Highlight as popular on the provider registration page (one per linked service)',
+        'is_popular_warning_title' => 'Only one popular package per service',
+        'is_popular_warning_description' => 'If you save this package as popular, any other package linked to the same service will automatically lose its popular highlight. This keeps a single highlighted plan per service on the provider registration page.',
         'free_tier_badge' => 'Free tier',
         'standard_tier_badge' => 'Standard',
+        'popular_badge' => 'Popular',
+        'not_popular_badge' => 'Not highlighted',
         'billing_periods' => [
             'monthly' => 'Monthly',
             'yearly' => 'Yearly',

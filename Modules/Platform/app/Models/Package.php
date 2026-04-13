@@ -25,6 +25,7 @@ class Package extends BaseModel
         'sort_order',
         'connections_count',
         'is_free_tier',
+        'is_popular',
     ];
 
     public $timestamps = true;
@@ -37,6 +38,7 @@ class Package extends BaseModel
 
     protected $appends = [
         'created_at_format',
+        'features_segments',
     ];
 
     protected function casts(): array
@@ -46,6 +48,7 @@ class Package extends BaseModel
             'billing_period' => BillingPeriod::class,
             'connections_count' => 'integer',
             'is_free_tier' => 'boolean',
+            'is_popular' => 'boolean',
         ];
     }
 
@@ -58,6 +61,11 @@ class Package extends BaseModel
     {
         return $this->belongsToMany(Service::class, 'package_service')
             ->withTimestamps();
+    }
+
+    public function scopeFreeTier($query)
+    {
+        return $query->where('is_free_tier', true);
     }
 
     public function scopeSimpleSearch($query, $search)
@@ -87,6 +95,24 @@ class Package extends BaseModel
     {
         return Attribute::make(
             get: fn ($value, $attributes) => getFormattedDate($attributes['created_at'], 'd M Y'),
+        );
+    }
+
+    protected function featuresSegments(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $raw = $this->features;
+
+                if ($raw === null || $raw === '') {
+                    return [];
+                }
+
+                return array_values(array_filter(array_map(
+                    'trim',
+                    explode(',', (string) $raw)
+                )));
+            },
         );
     }
 }

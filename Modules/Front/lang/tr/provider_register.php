@@ -1,0 +1,43 @@
+<?php
+
+return [
+    'landing_meta_title' => 'Hizmet sağlayıcı olun',
+    'landing_meta_description' => 'Hizmet sağlayıcı olarak ağımıza katılın. Kategoriye göre ücretli planları karşılaştırın ve başvurunuzu başlatın.',
+    'hero_title' => 'Hizmet sağlayıcı olarak işinizi büyütün',
+    'hero_subtitle' => 'Hizmetinize ihtiyaç duyan müşterilere ulaşın, kategorinize uygun bir plan seçin ve dakikalar içinde başvurun. Her başvuru etkinleştirmeden önce ekibimiz tarafından incelenir.',
+    'cta_apply' => 'Başvuruyu başlat',
+    'cta_secondary_login' => 'Zaten kayıtlı mısınız? Giriş yapın',
+
+    'stats_providers_value' => '500+',
+    'stats_providers_label' => 'Aktif sağlayıcılar',
+    'stats_rescues_value' => '15 bin+',
+    'stats_rescues_label' => 'Aylık müdahale',
+    'stats_rating_value' => '4,8★',
+    'stats_rating_label' => 'Ort. puan',
+    'stats_support_value' => '7/24',
+    'stats_support_label' => 'Destek',
+
+    'packages_kicker' => 'Hizmetinizi seçin',
+    'packages_heading' => 'İşletmenize uygun bir paket seçin',
+    'packages_intro' => 'Her hizmetin ihtiyaçlarınıza göre paketleri vardır. Listelenen paketlerin tümü ücretlidir; gizli ücret yoktur.',
+    'package_popular' => 'Popüler',
+    'package_choose_plan' => 'Planı seç',
+    'packages_empty' => 'Kategorileriniz için ücretli planlar yapılandırıldığında burada görünecektir. Yine de başvuru gönderebilirsiniz.',
+    'billing_monthly' => 'aylık',
+    'billing_yearly' => 'yıllık',
+    'billing_one_time' => 'tek seferlik',
+    'connections' => ':count bağlantı',
+    'features_label' => 'Dahil olanlar',
+    'form_back_to_landing' => 'Sağlayıcı kaydı ve planlar hakkında',
+
+    'benefits_kicker' => 'Neden biz',
+    'benefits_heading' => 'En geniş yol yardımı ağına katılın',
+    'benefits_intro' => 'İşinizi büyütmek için ihtiyacınız olan her şey',
+    'benefits_revenue_title' => 'Gelirinizi artırın',
+    'benefits_revenue_text' => 'Hizmetinizi arayan müşterilerle eşleşin. Ön maliyet yoktur.',
+    'benefits_tools_title' => 'Modern uygulama ve araçlar',
+    'benefits_tools_text' => 'İşleri yönetin, ödemeleri takip edin ve müşterilerle panelimiz üzerinden iletişim kurun.',
+    'benefits_payments_title' => 'Güvenli ödemeler',
+    'benefits_payments_text' => 'Güvenli ve hızlı ödemeler — haftalık tahsilatlar doğrudan banka hesabınıza.',
+    'benefits_cta_link' => 'Şirketinizi şimdi kaydedin',
+];

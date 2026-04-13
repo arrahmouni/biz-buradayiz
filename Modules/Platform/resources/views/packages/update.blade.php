@@ -74,6 +74,34 @@
 
                                 <div class="separator separator-dashed my-5"></div>
 
+                                @if (! $model->is_free_tier)
+                                    <div class="row">
+                                        <div class="col-12 mb-10 form-group">
+                                            @include('admin::components.inputs.checkbox', [
+                                                'options' => [
+                                                    'id'        => 'package_is_popular',
+                                                    'name'      => 'is_popular',
+                                                    'label'     => trans('admin::cruds.packages.is_popular'),
+                                                    'checked'   => old('is_popular', (bool) $model->is_popular),
+                                                    'value'     => '1',
+                                                ],
+                                            ])
+                                        </div>
+                                    </div>
+
+                                    <div id="js-package-popular-warning" class="row d-none">
+                                        <div class="col-12 mb-10">
+                                            @include('admin::components.alerts.alert', [
+                                                'options' => [
+                                                    'color' => 'warning',
+                                                    'title' => trans('admin::cruds.packages.is_popular_warning_title'),
+                                                    'description' => trans('admin::cruds.packages.is_popular_warning_description'),
+                                                ],
+                                            ])
+                                        </div>
+                                    </div>
+                                @endif
+
                                 <div class="row">
                                     <div class="col-12 mb-10 form-group">
                                         @include('admin::components.inputs.select', [
@@ -171,5 +199,19 @@
 @endsection
 
 @push('script')
-
+    <script>
+        $(function () {
+            var $popular = $('#package_is_popular');
+            var $popularWarning = $('#js-package-popular-warning');
+            function syncPackagePopularWarning() {
+                if ($popular.is(':checked')) {
+                    $popularWarning.removeClass('d-none');
+                } else {
+                    $popularWarning.addClass('d-none');
+                }
+            }
+            $popular.on('change', syncPackagePopularWarning);
+            syncPackagePopularWarning();
+        });
+    </script>
 @endpush

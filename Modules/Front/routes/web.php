@@ -24,7 +24,8 @@ Route::prefix('provider')->name('provider.')->controller(ProviderAuthController:
     Route::middleware('guest')->group(function () {
         Route::get('login', 'showLoginForm')->name('login');
         Route::post('login', 'login')->name('login.store')->middleware('throttle:10,1');
-        Route::get('register', 'showRegisterForm')->name('register');
+        Route::get('register/apply', 'showRegisterForm')->name('register.form');
+        Route::get('register', 'showRegisterLanding')->name('register');
         Route::post('register', 'register')->name('register.store')->middleware('throttle:5,1');
         Route::get('forgot-password', 'showForgotPasswordForm')->name('password.request');
         Route::post('forgot-password', 'sendResetLinkEmail')->name('password.email')->middleware('throttle:5,1');

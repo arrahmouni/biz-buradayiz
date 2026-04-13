@@ -10,7 +10,7 @@ return [
         'features' => [
             'label' => 'Features [:locale]',
             'placeholder' => 'Please enter features',
-            'help' => 'Enter features (required)',
+            'help' => 'Enter features separated by commas. example: Feature 1, Feature 2, Feature 3',
         ],
         'name' => [
             'label' => 'Name [:locale]',

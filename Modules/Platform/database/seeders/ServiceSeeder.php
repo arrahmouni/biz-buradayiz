@@ -3,6 +3,7 @@
 namespace Modules\Platform\Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Modules\Platform\Models\Package;
 use Modules\Platform\Models\Service;
 use Modules\Platform\Models\ServiceTranslation;
 
@@ -58,6 +59,15 @@ class ServiceSeeder extends Seeder
                     'description' => $translation['description'],
                 ]);
             }
+
+            Package::factory()
+                ->count(3)
+                ->sequence(
+                    ['is_popular' => true],
+                    ['is_popular' => false],
+                    ['is_popular' => false],
+                )
+                ->create();
         }
     }
 }

@@ -214,6 +214,7 @@ return [
         'columns' => [
             'name' => 'Name',
             'free_tier' => 'Tier',
+            'popular' => 'Popular',
             'price' => 'Price',
             'billing_period' => 'Billing',
             'services' => 'Services',

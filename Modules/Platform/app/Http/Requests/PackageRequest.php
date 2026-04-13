@@ -23,6 +23,7 @@ class PackageRequest extends BaseRequest
             if ($package) {
                 $this->merge([
                     'is_free_tier' => (bool) $package->is_free_tier,
+                    'is_popular' => $package->is_free_tier ? false : $this->boolean('is_popular'),
                 ]);
                 if ($package->is_free_tier) {
                     $this->merge(['price' => $package->price]);
@@ -32,8 +33,12 @@ class PackageRequest extends BaseRequest
             return;
         }
 
-        $this->merge(['is_free_tier' => $this->boolean('is_free_tier')]);
-        if ($this->boolean('is_free_tier')) {
+        $isFreeTier = $this->boolean('is_free_tier');
+        $this->merge([
+            'is_free_tier' => $isFreeTier,
+            'is_popular' => $isFreeTier ? false : $this->boolean('is_popular'),
+        ]);
+        if ($isFreeTier) {
             $this->merge(['price' => 0]);
         }
     }
@@ -51,6 +56,7 @@ class PackageRequest extends BaseRequest
             'name' => ['required', 'array'],
             'description' => ['nullable', 'array'],
             'features' => ['nullable', 'array'],
+            'is_popular' => ['boolean'],
         ];
 
         if ($this->routeIs('platform.packages.postUpdate')) {

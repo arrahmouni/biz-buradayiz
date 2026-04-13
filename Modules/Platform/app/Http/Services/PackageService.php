@@ -38,6 +38,9 @@ class PackageService extends BaseCrudService
 
             $model->services()->sync($serviceIds);
 
+            $model->refresh();
+            $this->clearPopularFlagForOtherPackagesOnSharedServices($model, $serviceIds);
+
             return $model;
         });
 
@@ -58,9 +61,36 @@ class PackageService extends BaseCrudService
             $model->update($modelData);
             $this->updateTranslations($model, $data, 'name', ['description', 'features']);
             $model->services()->sync($serviceIds);
+            $model->refresh();
+            $this->clearPopularFlagForOtherPackagesOnSharedServices($model, $serviceIds);
         });
 
         return $model;
+    }
+
+    /**
+     * At most one popular paid package per service: clearing others when this package is popular.
+     *
+     * @param  array<int, int|string>  $serviceIds
+     */
+    protected function clearPopularFlagForOtherPackagesOnSharedServices(CrudModel $model, array $serviceIds): void
+    {
+        if (! $model->is_popular) {
+            return;
+        }
+
+        $serviceIds = array_values(array_unique(array_map('intval', $serviceIds)));
+        if ($serviceIds === []) {
+            return;
+        }
+
+        foreach ($serviceIds as $serviceId) {
+            CrudModel::query()
+                ->where('id', '!=', $model->id)
+                ->where('is_popular', true)
+                ->whereHas('services', fn ($q) => $q->where('services.id', $serviceId))
+                ->update(['is_popular' => false]);
+        }
     }
 
     public function getDataTable(array $data): JsonResponse
@@ -98,6 +128,19 @@ class PackageService extends BaseCrudService
 
                 return [
                     'label' => trans('admin::cruds.packages.standard_tier_badge'),
+                    'color' => 'light',
+                ];
+            })
+            ->addColumn('popular_badge', function ($model) {
+                if (! $model->is_free_tier && $model->is_popular) {
+                    return [
+                        'label' => trans('admin::cruds.packages.popular_badge'),
+                        'color' => 'primary',
+                    ];
+                }
+
+                return [
+                    'label' => trans('admin::cruds.packages.not_popular_badge'),
                     'color' => 'light',
                 ];
             })

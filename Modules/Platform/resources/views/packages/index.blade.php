@@ -58,6 +58,7 @@
                     @slot('columns')
                         <th> @lang('admin::datatable.base_columns.name') </th>
                         <th> @lang('admin::datatable.packages.columns.free_tier') </th>
+                        <th> @lang('admin::datatable.packages.columns.popular') </th>
                         <th> @lang('admin::datatable.packages.columns.price') </th>
                         <th> @lang('admin::datatable.packages.columns.billing_period') </th>
                         <th> @lang('admin::datatable.packages.columns.connections_count') </th>
@@ -73,6 +74,18 @@
                             {
                                 data: 'free_tier_badge',
                                 name: 'free_tier_badge',
+                                orderable: false,
+                                searchable: false,
+                                render: function (data, type, row, meta) {
+                                    if (! data || ! data.label) {
+                                        return '<span class="text-muted">—</span>';
+                                    }
+                                    return '<span class="btn btn-sm btn-font-sm btn-label-' + data.color + ' text-center w-100">' + data.label + '</span>';
+                                }
+                            },
+                            {
+                                data: 'popular_badge',
+                                name: 'popular_badge',
                                 orderable: false,
                                 searchable: false,
                                 render: function (data, type, row, meta) {

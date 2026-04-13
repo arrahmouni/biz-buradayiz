@@ -8,6 +8,12 @@
                 'subtitle' => __('front::auth.register_subtitle'),
             ])
 
+            <p class="text-center text-sm">
+                <a href="{{ route('front.provider.register') }}" class="font-medium text-red-600 hover:text-red-500 transition">
+                    {{ __('front::provider_register.form_back_to_landing') }}
+                </a>
+            </p>
+
             @php
                 $registerOldStateId = (string) old('state_id', '');
                 $registerOldCityId = (string) old('city_id', '');
