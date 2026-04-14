@@ -15,7 +15,7 @@ return [
         'active_requires_paid' => 'An active subscription must have payment status set to Paid.',
         'paid_cannot_be_cancelled' => 'A paid subscription cannot have status Cancelled. Change payment status first.',
         'starts_at_required_when_active' => 'A start date is required when the subscription is active or payment is paid.',
-        'provider_already_has_active_package' => 'This service provider already has an active package (paid, not expired, with remaining connections).',
+        'provider_already_has_active_package' => 'This service provider already has an active paid catalog package (not free tier, not expired, with remaining connections).',
         'paid_cannot_be_pending_payment' => 'While payment is Paid, the subscription cannot be set to Pending payment.',
         'paid_cannot_apply_to_cancelled' => 'Payment cannot be marked as Paid while the subscription is cancelled.',
         'paid_requires_active_status' => 'When payment is Paid, subscription status must be Active.',

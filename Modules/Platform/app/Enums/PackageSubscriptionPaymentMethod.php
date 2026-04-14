@@ -2,8 +2,11 @@
 
 namespace Modules\Platform\Enums;
 
+use Modules\Platform\Concerns\ProviderDashboardTailwindPillBadge;
+
 enum PackageSubscriptionPaymentMethod: string
 {
+    use ProviderDashboardTailwindPillBadge;
     case BankTransfer = 'bank_transfer';
     case Cash = 'cash';
     case Other = 'other';
@@ -40,5 +43,13 @@ enum PackageSubscriptionPaymentMethod: string
             self::Other => asset('modules/admin/metronic/demo/media/icons/duotune/general/gen046.svg'),
             self::OnlineGateway => asset('modules/admin/metronic/demo/media/svg/payment-methods/paypal.svg'),
         };
+    }
+
+    /**
+     * Tailwind classes for provider dashboard payment method pills (Front).
+     */
+    public function providerDashboardTailwindBadgeClass(): string
+    {
+        return $this->providerDashboardPillBadgeBase().' bg-slate-100 text-slate-700';
     }
 }

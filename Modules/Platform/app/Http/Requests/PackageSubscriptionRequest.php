@@ -158,7 +158,7 @@ class PackageSubscriptionRequest extends BaseRequest
 
                 $hasActive = PackageSubscription::query()
                     ->where('user_id', (int) $userId)
-                    ->activeSubscription()
+                    ->activeNonFreeTierSubscription()
                     ->exists();
 
                 if ($hasActive) {

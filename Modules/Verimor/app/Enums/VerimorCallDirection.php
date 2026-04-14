@@ -4,6 +4,8 @@ namespace Modules\Verimor\Enums;
 
 enum VerimorCallDirection: string
 {
+    private const PROVIDER_DASHBOARD_PILL_BASE = 'inline-flex items-center font-medium text-xs px-2 py-1 rounded-full';
+
     case Inbound = 'inbound';
     case Outbound = 'outbound';
     case Internal = 'internal';
@@ -52,5 +54,26 @@ enum VerimorCallDirection: string
         }
 
         return $options;
+    }
+
+    /**
+     * Tailwind classes for provider dashboard call direction pills (Front).
+     */
+    public function providerDashboardTailwindBadgeClass(): string
+    {
+        return self::PROVIDER_DASHBOARD_PILL_BASE.' '.match ($this) {
+            self::Inbound => 'bg-green-100 text-green-800',
+            self::Outbound => 'bg-blue-100 text-blue-800',
+            self::Internal => 'bg-gray-100 text-gray-700',
+        };
+    }
+
+    public static function providerDashboardTailwindBadgeClassForNullable(?self $direction): string
+    {
+        if ($direction === null) {
+            return self::PROVIDER_DASHBOARD_PILL_BASE.' bg-gray-100 text-gray-600';
+        }
+
+        return $direction->providerDashboardTailwindBadgeClass();
     }
 }

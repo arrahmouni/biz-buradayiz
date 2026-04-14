@@ -2,8 +2,11 @@
 
 namespace Modules\Platform\Enums;
 
+use Modules\Platform\Concerns\ProviderDashboardTailwindPillBadge;
+
 enum PackageSubscriptionStatus: string
 {
+    use ProviderDashboardTailwindPillBadge;
     case PendingPayment = 'pending_payment';
     case Active = 'active';
     case Cancelled = 'cancelled';
@@ -39,6 +42,19 @@ enum PackageSubscriptionStatus: string
             self::PendingPayment => 'warning',
             self::Cancelled => 'danger',
             self::Expired => 'light',
+        };
+    }
+
+    /**
+     * Tailwind classes for provider dashboard status pills (Front).
+     */
+    public function providerDashboardTailwindBadgeClass(): string
+    {
+        return $this->providerDashboardPillBadgeBase().' '.match ($this) {
+            self::Active => 'bg-green-100 text-green-800',
+            self::PendingPayment => 'bg-amber-100 text-amber-800',
+            self::Cancelled => 'bg-red-100 text-red-800',
+            self::Expired => 'bg-gray-100 text-gray-700',
         };
     }
 }

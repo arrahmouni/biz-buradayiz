@@ -26,6 +26,19 @@
         </x-slot>
     </x-front::page-hero>
 
+    @if (! empty($ownerPreviewWithoutActiveSubscription))
+        <div class="bg-amber-50 border-b border-amber-200">
+            <div class="container mx-auto px-5 py-4 lg:px-8">
+                <div class="flex gap-3 rounded-xl border border-amber-200 bg-white/80 px-4 py-3 text-amber-950 shadow-sm" role="alert">
+                    <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-amber-100 text-amber-700" aria-hidden="true">
+                        <i class="fas fa-info-circle"></i>
+                    </span>
+                    <p class="min-w-0 text-sm font-medium leading-relaxed md:text-base">{{ __('front::home.provider_profile_owner_subscription_required') }}</p>
+                </div>
+            </div>
+        </div>
+    @endif
+
     <section @class([
         'bg-gray-50 pt-8 md:pt-12',
         'pb-8 md:pb-12' => ! filled($provider->central_phone),

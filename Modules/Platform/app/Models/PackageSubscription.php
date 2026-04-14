@@ -147,6 +147,33 @@ class PackageSubscription extends BaseModel
             });
     }
 
+    /**
+     * Active subscription tied to a non–free-tier catalog package (snapshot source).
+     * A provider may still request a paid package while only a free-tier subscription is active.
+     *
+     * @see \Modules\Verimor\Jobs\ProcessVerimorCrmWebhookJob When multiple rows match activeSubscription(),
+     *      the newest id is used first for quota consumption.
+     */
+    public function scopeActiveNonFreeTierSubscription($query)
+    {
+        return $query->activeSubscription()
+            ->whereHas('snapshot.sourcePackage', fn ($q) => $q->where('is_free_tier', false));
+    }
+
+    /**
+     * Non–free-tier subscription awaiting bank confirmation (provider self-service or admin draft).
+     */
+    public function scopePendingNonFreeTierPaymentRequest($query)
+    {
+        return $query
+            ->where('status', PackageSubscriptionStatus::PendingPayment)
+            ->whereIn('payment_status', [
+                PackageSubscriptionPaymentStatus::Pending,
+                PackageSubscriptionPaymentStatus::AwaitingVerification,
+            ])
+            ->whereHas('snapshot.sourcePackage', fn ($q) => $q->where('is_free_tier', false));
+    }
+
     public function formAjaxArray($selected = true): array
     {
         $this->loadMissing(['user', 'snapshot']);

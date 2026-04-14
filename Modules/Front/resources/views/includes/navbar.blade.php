@@ -1,3 +1,9 @@
+@php
+    use Modules\Auth\Enums\UserType;
+
+    $navWebUser = auth('web')->user();
+    $navProviderAuthenticated = $navWebUser && $navWebUser->type === UserType::ServiceProvider;
+@endphp
 <nav class="site-header sticky top-0 z-50 w-full min-w-0 max-w-full border-b border-gray-200/80 bg-white/90 shadow-sm backdrop-blur-md backdrop-saturate-150 supports-[backdrop-filter]:bg-white/80">
     <div class="container mx-auto flex w-full min-w-0 max-w-full items-center justify-between gap-2 px-5 py-3.5 max-[410px]:gap-1.5 max-[410px]:px-3 max-[410px]:py-3 lg:gap-3 lg:px-8 lg:py-4">
         <a
@@ -102,12 +108,55 @@
             </nav>
 
             <div class="hidden lg:flex items-center gap-2 xl:gap-3">
-                <a href="{{ route('front.provider.login') }}" class="inline-flex border-2 border-red-600 text-red-600 hover:bg-red-50 px-4 py-2 xl:px-5 rounded-full text-sm font-semibold transition items-center gap-2 xl:text-base focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2">
-                    <i class="fas fa-sign-in-alt" aria-hidden="true"></i> {{ __('front::home.provider_login') }}
-                </a>
-                <a href="{{ route('front.provider.register') }}" class="inline-flex border-2 border-red-600 bg-red-600 text-white hover:border-red-700 hover:bg-red-700 px-4 py-2 xl:px-5 rounded-full text-sm font-semibold transition items-center gap-2 shadow-sm xl:text-base focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2">
-                    <i class="fas fa-user-plus" aria-hidden="true"></i> {{ __('front::home.provider_register') }}
-                </a>
+                @if ($navProviderAuthenticated)
+                    <details id="providerAccountNav" class="relative">
+                        <summary
+                            class="provider-account-nav__summary flex cursor-pointer list-none items-center gap-2 rounded-full border border-gray-200 bg-white px-2 py-1.5 shadow-sm transition hover:border-gray-300 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2 xl:px-3 [&::-webkit-details-marker]:hidden"
+                            aria-label="{{ __('front::home.nav_provider_account_aria') }}"
+                        >
+                            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-red-100 text-red-700">
+                                <i class="fas fa-user-circle text-lg" aria-hidden="true"></i>
+                            </span>
+                            <span class="hidden max-w-[9rem] truncate text-sm font-semibold text-gray-800 xl:inline">{{ $navWebUser->full_name }}</span>
+                            <i class="fas fa-chevron-down hidden text-xs text-gray-500 xl:inline" aria-hidden="true"></i>
+                        </summary>
+                        <div class="provider-account-nav__panel absolute right-0 z-[60] mt-2 min-w-[13rem] overflow-hidden rounded-lg border border-gray-100 bg-white py-1 shadow-lg">
+                            <a
+                                href="{{ route('front.provider.dashboard') }}"
+                                class="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50 hover:text-red-600 focus:outline-none focus-visible:bg-gray-50"
+                            >
+                                <i class="fas fa-tachometer-alt w-4 shrink-0 text-center text-red-600" aria-hidden="true"></i>
+                                {{ __('front::auth.dashboard_title') }}
+                            </a>
+                            @if (filled($navWebUser->profile_slug))
+                                <a
+                                    href="{{ route('front.provider.show', $navWebUser->profile_slug) }}"
+                                    class="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50 hover:text-red-600 focus:outline-none focus-visible:bg-gray-50"
+                                >
+                                    <i class="fas fa-id-card w-4 shrink-0 text-center text-gray-500" aria-hidden="true"></i>
+                                    {{ __('front::home.nav_public_profile') }}
+                                </a>
+                            @endif
+                            <form method="post" action="{{ route('front.provider.logout') }}" class="border-t border-gray-100">
+                                @csrf
+                                <button
+                                    type="submit"
+                                    class="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm font-medium text-gray-700 transition hover:bg-gray-50 hover:text-red-600 focus:outline-none focus-visible:bg-gray-50"
+                                >
+                                    <i class="fas fa-sign-out-alt w-4 shrink-0 text-center text-gray-500" aria-hidden="true"></i>
+                                    {{ __('front::auth.logout') }}
+                                </button>
+                            </form>
+                        </div>
+                    </details>
+                @else
+                    <a href="{{ route('front.provider.login') }}" class="inline-flex border-2 border-red-600 text-red-600 hover:bg-red-50 px-4 py-2 xl:px-5 rounded-full text-sm font-semibold transition items-center gap-2 xl:text-base focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2">
+                        <i class="fas fa-sign-in-alt" aria-hidden="true"></i> {{ __('front::home.provider_login') }}
+                    </a>
+                    <a href="{{ route('front.provider.register') }}" class="inline-flex border-2 border-red-600 bg-red-600 text-white hover:border-red-700 hover:bg-red-700 px-4 py-2 xl:px-5 rounded-full text-sm font-semibold transition items-center gap-2 shadow-sm xl:text-base focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2">
+                        <i class="fas fa-user-plus" aria-hidden="true"></i> {{ __('front::home.provider_register') }}
+                    </a>
+                @endif
             </div>
 
             <button
@@ -167,12 +216,38 @@
                     <a href="{{ route('front.page.faq') }}" class="site-nav-mobile__link rounded-lg px-2 py-2.5">{{ __('front::home.footer_faq') }}</a>
                     <a href="{{ route('front.contact.show') }}" class="site-nav-mobile__link rounded-lg px-2 py-2.5">{{ __('front::home.nav_contact') }}</a>
                 </div>
-                <a href="{{ route('front.provider.login') }}" class="mt-3 border-2 border-red-600 text-red-600 hover:bg-red-50 text-center py-2.5 rounded-full font-semibold flex items-center justify-center gap-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2">
-                    <i class="fas fa-sign-in-alt" aria-hidden="true"></i> {{ __('front::home.provider_login') }}
-                </a>
-                <a href="{{ route('front.provider.register') }}" class="mt-2 border-2 border-red-600 bg-red-600 text-white hover:border-red-700 hover:bg-red-700 text-center py-2.5 rounded-full font-semibold flex items-center justify-center gap-2 shadow-sm transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2">
-                    <i class="fas fa-user-plus" aria-hidden="true"></i> {{ __('front::home.provider_register') }}
-                </a>
+                @if ($navProviderAuthenticated)
+                    <div class="mt-3 flex items-center gap-3 rounded-xl border border-gray-200 bg-gray-50/80 px-3 py-3">
+                        <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-red-100 text-red-700">
+                            <i class="fas fa-user-circle text-xl" aria-hidden="true"></i>
+                        </span>
+                        <div class="min-w-0 flex-1">
+                            <p class="truncate text-sm font-semibold text-gray-900">{{ $navWebUser->full_name }}</p>
+                            <p class="truncate text-xs text-gray-500">{{ $navWebUser->email }}</p>
+                        </div>
+                    </div>
+                    <a href="{{ route('front.provider.dashboard') }}" class="mt-3 border-2 border-red-600 bg-red-600 text-white hover:border-red-700 hover:bg-red-700 text-center py-2.5 rounded-full font-semibold flex items-center justify-center gap-2 shadow-sm transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2">
+                        <i class="fas fa-tachometer-alt" aria-hidden="true"></i> {{ __('front::auth.dashboard_title') }}
+                    </a>
+                    @if (filled($navWebUser->profile_slug))
+                        <a href="{{ route('front.provider.show', $navWebUser->profile_slug) }}" class="mt-2 border-2 border-gray-200 bg-white text-gray-800 hover:border-red-200 hover:bg-red-50/50 text-center py-2.5 rounded-full font-semibold flex items-center justify-center gap-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2">
+                            <i class="fas fa-id-card" aria-hidden="true"></i> {{ __('front::home.nav_public_profile') }}
+                        </a>
+                    @endif
+                    <form method="post" action="{{ route('front.provider.logout') }}" class="mt-2">
+                        @csrf
+                        <button type="submit" class="w-full border-2 border-gray-200 text-gray-700 hover:bg-gray-50 text-center py-2.5 rounded-full font-semibold flex items-center justify-center gap-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2">
+                            <i class="fas fa-sign-out-alt" aria-hidden="true"></i> {{ __('front::auth.logout') }}
+                        </button>
+                    </form>
+                @else
+                    <a href="{{ route('front.provider.login') }}" class="mt-3 border-2 border-red-600 text-red-600 hover:bg-red-50 text-center py-2.5 rounded-full font-semibold flex items-center justify-center gap-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2">
+                        <i class="fas fa-sign-in-alt" aria-hidden="true"></i> {{ __('front::home.provider_login') }}
+                    </a>
+                    <a href="{{ route('front.provider.register') }}" class="mt-2 border-2 border-red-600 bg-red-600 text-white hover:border-red-700 hover:bg-red-700 text-center py-2.5 rounded-full font-semibold flex items-center justify-center gap-2 shadow-sm transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2">
+                        <i class="fas fa-user-plus" aria-hidden="true"></i> {{ __('front::home.provider_register') }}
+                    </a>
+                @endif
             </div>
         </div>
     </div>

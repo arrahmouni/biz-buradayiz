@@ -37,6 +37,8 @@ return [
                 'emergency_contact_number' => 'رقم اتصال الطوارئ (الموقع العام)',
                 'front_search_default_country_id' => 'معرّف البلد الافتراضي (بحث الموقع في الموقع العام)',
                 'provider_register_landing_youtube_url' => 'صفحة تسجيل مقدم الخدمة — رابط فيديو يوتيوب (مشاهدة أو youtu.be أو رابط تضمين)',
+                'provider_subscription_whatsapp_e164' => 'رقم واتساب لإيصالات دفع مقدمي الخدمة (E.164، مثل +905551234567)',
+                'provider_bank_transfer_instructions' => 'تعليمات التحويل البنكي المعروضة في لوحة مقدم الخدمة',
             ],
         ],
         'media' => [

@@ -15,7 +15,7 @@ return [
         'active_requires_paid' => 'Aktif abonelik için ödeme durumu Ödendi olmalıdır.',
         'paid_cannot_be_cancelled' => 'Ödenmiş bir abonelik İptal durumunda olamaz. Önce ödeme durumunu değiştirin.',
         'starts_at_required_when_active' => 'Abonelik aktif veya ödeme ödendi olduğunda başlangıç tarihi zorunludur.',
-        'provider_already_has_active_package' => 'Bu hizmet sağlayıcının zaten aktif bir paketi var (ödendi, süresi dolmamış, kalan bağlantısı var).',
+        'provider_already_has_active_package' => 'Bu hizmet sağlayıcının zaten aktif ücretli bir katalog paketi var (ücretsiz paket değil, süresi dolmamış, kalan bağlantısı var).',
         'paid_cannot_be_pending_payment' => 'Ödeme Ödendi iken abonelik durumu Ödeme bekleniyor olamaz.',
         'paid_cannot_apply_to_cancelled' => 'Abonelik iptal edilmişken ödeme Ödendi olarak işaretlenemez.',
         'paid_requires_active_status' => 'Ödeme Ödendi iken abonelik durumu Aktif olmalıdır.',

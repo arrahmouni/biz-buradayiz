@@ -37,6 +37,8 @@ return [
                 'emergency_contact_number' => 'Acil iletişim numarası (herkese açık site)',
                 'front_search_default_country_id' => 'Varsayılan ülke kimliği (herkese açık site konum araması)',
                 'provider_register_landing_youtube_url' => 'Hizmet sağlayıcı kayıt sayfası — YouTube video URL’si (izle, youtu.be veya gömme bağlantısı)',
+                'provider_subscription_whatsapp_e164' => 'Sağlayıcı ödeme dekontları için WhatsApp numarası (E.164, örn. +905551234567)',
+                'provider_bank_transfer_instructions' => 'Sağlayıcı panelinde gösterilecek banka havalesi talimatları',
             ],
         ],
         'media' => [

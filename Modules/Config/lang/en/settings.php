@@ -37,6 +37,8 @@ return [
                 'emergency_contact_number' => 'Emergency contact number (public site)',
                 'front_search_default_country_id' => 'Default country ID (public site location search)',
                 'provider_register_landing_youtube_url' => 'Provider registration landing — YouTube video URL (watch, youtu.be, or embed link)',
+                'provider_subscription_whatsapp_e164' => 'WhatsApp number for provider payment receipts (E.164, e.g. +905551234567)',
+                'provider_bank_transfer_instructions' => 'Bank transfer instructions shown on the provider dashboard',
             ],
         ],
         'media' => [

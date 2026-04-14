@@ -34,6 +34,15 @@ Route::prefix('provider')->name('provider.')->controller(ProviderAuthController:
     });
     Route::post('logout', 'logout')->name('logout')->middleware(['auth', 'active.user', 'service.provider']);
     Route::get('dashboard', 'dashboard')->name('dashboard')->middleware(['auth', 'active.user', 'service.provider']);
+    Route::post('dashboard/fragments/subscription-history', 'subscriptionHistoryFragment')
+        ->name('dashboard.fragments.subscription-history')
+        ->middleware(['auth', 'active.user', 'service.provider', 'throttle:60,1']);
+    Route::post('dashboard/fragments/call-log', 'callLogFragment')
+        ->name('dashboard.fragments.call-log')
+        ->middleware(['auth', 'active.user', 'service.provider', 'throttle:60,1']);
+    Route::post('subscriptions/request', 'requestPackageSubscription')
+        ->name('subscriptions.request')
+        ->middleware(['auth', 'active.user', 'service.provider', 'throttle:10,1']);
 });
 
 Route::controller(ProviderController::class)->group(function () {

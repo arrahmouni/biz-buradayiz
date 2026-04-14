@@ -84,7 +84,36 @@ class ProviderController extends BaseWebController
 
     public function showProvider(string $provider): View
     {
-        return $this->renderProviderShow($this->findPublicProviderByProfileSlug($provider));
+        $publicUser = $this->publicProviderQuery()
+            ->where('profile_slug', $provider)
+            ->first();
+
+        if ($publicUser !== null) {
+            return $this->renderProviderShow($publicUser);
+        }
+
+        $viewer = auth('web')->user();
+        if ($viewer
+            && $viewer->type === UserType::ServiceProvider
+            && $viewer->profile_slug === $provider) {
+            $owner = User::query()
+                ->where('type', UserType::ServiceProvider)
+                ->where('status', AdminStatus::ACTIVE)
+                ->whereKey($viewer->id)
+                ->where('profile_slug', $provider)
+                ->with([
+                    'service.translations',
+                    'city.translations',
+                    'city.state.translations',
+                ])
+                ->first();
+
+            if ($owner !== null) {
+                return $this->renderProviderShow($owner, ownerPreviewWithoutActiveSubscription: true);
+            }
+        }
+
+        abort(404);
     }
 
     public function storeProviderReview(StoreProviderReviewRequest $request, string $provider): RedirectResponse
@@ -132,7 +161,7 @@ class ProviderController extends BaseWebController
             ->firstOrFail();
     }
 
-    private function renderProviderShow(User $user): View
+    private function renderProviderShow(User $user, bool $ownerPreviewWithoutActiveSubscription = false): View
     {
         $reviews = $user->reviews()
             ->approved()
@@ -143,6 +172,7 @@ class ProviderController extends BaseWebController
         $this->data['provider'] = $user;
         $this->data['reviews'] = $reviews;
         $this->data['title'] = $user->full_name;
+        $this->data['ownerPreviewWithoutActiveSubscription'] = $ownerPreviewWithoutActiveSubscription;
 
         return view('front::providers.show', $this->data);
     }

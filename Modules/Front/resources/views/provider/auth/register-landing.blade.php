@@ -91,51 +91,18 @@
                                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                                     @foreach ($service->packages as $package)
                                         @php($billingKey = 'front::provider_register.billing_'.$package->billing_period->value)
-                                        @php($currencySymbol = getCurrencySymbol($package->currency))
-                                        @php($featureLines = $package->features_segments)
                                         @php($isPopular = (bool) $package->is_popular)
                                         @php($centerLonePopular = $isPopular && $service->packages->count() === 1)
-                                        <div @class([
-                                            'bg-white rounded-2xl shadow-lg border-2 transition-all duration-300 flex flex-col hover:shadow-xl hover:-translate-y-0.5',
-                                            'border-red-200 ring-2 ring-red-500 scale-105 md:scale-100 z-10 hover:border-red-500 hover:ring-red-600 order-first md:order-none' => $isPopular,
-                                            'border-transparent hover:border-red-400' => ! $isPopular,
-                                            'lg:col-start-2' => $centerLonePopular,
-                                        ])>
-                                            @if ($isPopular)
-                                                <div class="relative">
-                                                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-red-600 text-white text-xs font-bold px-4 py-1 rounded-full shadow-md">
-                                                        {{ __('front::provider_register.package_popular') }}
-                                                    </div>
-                                                </div>
-                                            @endif
-                                            <div class="p-6 flex-1 flex flex-col {{ $isPopular ? 'pt-8' : '' }}">
-                                                <h3 class="text-xl font-bold text-gray-800">{{ $package->smartTrans('name') ?: ('#'.$package->id) }}</h3>
-                                                <div class="mt-4 flex items-baseline flex-wrap gap-x-1">
-                                                    <span class="text-4xl font-extrabold text-gray-900">{{ $currencySymbol }}{{ number_format((float) $package->price, 2) }}</span>
-                                                    <span class="text-gray-500 text-sm font-semibold">/</span>
-                                                    <span class="text-gray-500 text-sm">{{ __($billingKey) }}</span>
-                                                </div>
-                                                @if (filled($package->smartTrans('description')))
-                                                    <p class="text-gray-500 text-sm mt-2">{{ $package->smartTrans('description') }}</p>
-                                                @endif
-                                                <p class="text-gray-600 text-sm mt-2 flex items-center gap-1"><i class="fas fa-exchange-alt text-red-400"></i> {{ __('front::provider_register.connections', ['count' => $package->connections_count]) }}</p>
-                                                @if ($featureLines !== [])
-                                                    <ul class="mt-6 space-y-3 flex-1">
-                                                        @foreach ($featureLines as $line)
-                                                            <li class="flex items-start gap-2 text-gray-600 text-sm">
-                                                                <i class="fas fa-check-circle text-green-500 mt-0.5 shrink-0"></i>
-                                                                <span>{{ $line }}</span>
-                                                            </li>
-                                                        @endforeach
-                                                    </ul>
-                                                @endif
-                                            </div>
-                                            <div class="px-6 pb-6">
-                                                <a href="{{ route('front.provider.register.form') }}" class="block w-full text-center bg-red-600 hover:bg-red-700 text-white font-semibold py-2.5 rounded-lg transition-colors duration-200">
-                                                    {{ __('front::provider_register.package_choose_plan') }}
-                                                </a>
-                                            </div>
-                                        </div>
+                                        <x-front::provider-package-card
+                                            :package="$package"
+                                            :billing-label="__($billingKey)"
+                                            :connections-label="__('front::provider_register.connections', ['count' => $package->connections_count])"
+                                            :center-lone-popular="$centerLonePopular"
+                                        >
+                                            <a href="{{ route('front.provider.register.form') }}" class="block w-full text-center bg-red-600 hover:bg-red-700 text-white font-semibold py-2.5 rounded-lg transition-colors duration-200">
+                                                {{ __('front::provider_register.package_choose_plan') }}
+                                            </a>
+                                        </x-front::provider-package-card>
                                     @endforeach
                                 </div>
                             </div>

@@ -24,6 +24,7 @@
 
     const langDropdown = document.getElementById('langDropdown');
     const servicesNavDropdown = document.getElementById('servicesNavDropdown');
+    const providerAccountNav = document.getElementById('providerAccountNav');
 
     function closeDetailsIfOpen(detailsEl) {
         if (detailsEl && detailsEl.open) {
@@ -31,15 +32,36 @@
         }
     }
 
-    if (langDropdown && servicesNavDropdown) {
+    function closeOtherNavDetails(except) {
+        if (except !== langDropdown) {
+            closeDetailsIfOpen(langDropdown);
+        }
+        if (except !== servicesNavDropdown) {
+            closeDetailsIfOpen(servicesNavDropdown);
+        }
+        if (except !== providerAccountNav) {
+            closeDetailsIfOpen(providerAccountNav);
+        }
+    }
+
+    if (langDropdown) {
         langDropdown.addEventListener('toggle', () => {
             if (langDropdown.open) {
-                closeDetailsIfOpen(servicesNavDropdown);
+                closeOtherNavDetails(langDropdown);
             }
         });
+    }
+    if (servicesNavDropdown) {
         servicesNavDropdown.addEventListener('toggle', () => {
             if (servicesNavDropdown.open) {
-                closeDetailsIfOpen(langDropdown);
+                closeOtherNavDetails(servicesNavDropdown);
+            }
+        });
+    }
+    if (providerAccountNav) {
+        providerAccountNav.addEventListener('toggle', () => {
+            if (providerAccountNav.open) {
+                closeOtherNavDetails(providerAccountNav);
             }
         });
     }
@@ -66,6 +88,17 @@
         });
     }
 
+    if (providerAccountNav) {
+        document.addEventListener('click', (e) => {
+            if (!providerAccountNav.open) {
+                return;
+            }
+            if (!providerAccountNav.contains(e.target)) {
+                providerAccountNav.removeAttribute('open');
+            }
+        });
+    }
+
     document.addEventListener('keydown', (e) => {
         if (e.key !== 'Escape') {
             return;
@@ -76,6 +109,7 @@
         }
         closeDetailsIfOpen(langDropdown);
         closeDetailsIfOpen(servicesNavDropdown);
+        closeDetailsIfOpen(providerAccountNav);
     });
 
     document.querySelectorAll('a[href*="#"]').forEach((anchor) => {

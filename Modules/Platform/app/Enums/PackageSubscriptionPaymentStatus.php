@@ -2,8 +2,11 @@
 
 namespace Modules\Platform\Enums;
 
+use Modules\Platform\Concerns\ProviderDashboardTailwindPillBadge;
+
 enum PackageSubscriptionPaymentStatus: string
 {
+    use ProviderDashboardTailwindPillBadge;
     case Pending = 'pending';
     case AwaitingVerification = 'awaiting_verification';
     case Paid = 'paid';
@@ -43,6 +46,21 @@ enum PackageSubscriptionPaymentStatus: string
             self::Failed,
             self::Cancelled => 'danger',
             self::Refunded => 'light',
+        };
+    }
+
+    /**
+     * Tailwind classes for provider dashboard payment status pills (Front).
+     */
+    public function providerDashboardTailwindBadgeClass(): string
+    {
+        return $this->providerDashboardPillBadgeBase().' '.match ($this) {
+            self::Paid => 'bg-green-100 text-green-800',
+            self::Pending => 'bg-amber-100 text-amber-800',
+            self::AwaitingVerification => 'bg-sky-100 text-sky-800',
+            self::Failed => 'bg-red-100 text-red-800',
+            self::Cancelled => 'bg-red-100 text-red-800',
+            self::Refunded => 'bg-gray-100 text-gray-700',
         };
     }
 }

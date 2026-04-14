@@ -268,6 +268,32 @@ class ConfigDatabaseSeeder extends Seeder
                 'value' => 'https://www.youtube.com/watch?v=fcb0e-IGNFc',
             ] + createTranslateArray('title', 'settings.groups.platform.fields.provider_register_landing_youtube_url', 'config')
         );
+
+        Setting::firstOrCreate(
+            [
+                'group' => SettingGroups::PLATFORM,
+                'key' => 'provider_subscription_whatsapp_e164',
+            ],
+            [
+                'type' => SettingTypes::PHONE,
+                'order' => 4,
+                'is_required' => false,
+                'value' => '+905555555555',
+            ] + createTranslateArray('title', 'settings.groups.platform.fields.provider_subscription_whatsapp_e164', 'config')
+        );
+
+        Setting::firstOrCreate(
+            [
+                'group' => SettingGroups::PLATFORM,
+                'key' => 'provider_bank_transfer_instructions',
+            ],
+            [
+                'type' => SettingTypes::TEXTAREA,
+                'order' => 5,
+                'is_required' => false,
+                'value' => "Bank: Example Bank\nIBAN: TR00 0000 0000 0000 0000 0000 00\nReference: your subscription number",
+            ] + createTranslateArray('title', 'settings.groups.platform.fields.provider_bank_transfer_instructions', 'config')
+        );
     }
 
     /**
