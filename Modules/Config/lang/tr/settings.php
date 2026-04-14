@@ -48,6 +48,7 @@ return [
                 'app_placeholder' => 'Uygulama Yer Tutucusu',
                 'web_logo' => 'Web Logosu',
                 'loader_logo' => 'Sayfa yükleme logosu',
+                'front_hero_background' => 'Herkese açık site kahraman arka planı',
             ],
         ],
         'mobile' => [

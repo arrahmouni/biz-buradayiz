@@ -338,6 +338,18 @@ class ConfigDatabaseSeeder extends Seeder
                 'order' => 6,
             ] + createTranslateArray('title', 'settings.groups.media.fields.loader_logo', 'config')
         );
+
+        Setting::firstOrCreate(
+            [
+                'group' => SettingGroups::MEDIA,
+                'key' => 'front_hero_background',
+            ],
+            [
+                'type' => SettingTypes::IMAGE,
+                'order' => 7,
+                'is_required' => false,
+            ] + createTranslateArray('title', 'settings.groups.media.fields.front_hero_background', 'config')
+        );
     }
 
     /**

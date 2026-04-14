@@ -62,6 +62,10 @@ class UpdateSettingRequest extends BaseRequest
                 ->types(config('config.app_logo.types'))
                 ->max(config('config.app_logo.max_size').'mb'),
             ],
+            'front_hero_background' => ['nullable', 'image', File::image()
+                ->types(config('config.app_logo.types'))
+                ->max(config('config.app_logo.max_size').'mb'),
+            ],
             'app_placeholder' => ['nullable', 'image', File::image()->types(['png', 'jpg', 'jpeg', 'webp'])->max('2mb')],
         ];
 

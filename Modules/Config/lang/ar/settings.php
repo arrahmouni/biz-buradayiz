@@ -46,6 +46,7 @@ return [
                 'email_logo' => 'شعار البريد الإلكتروني',
                 'app_favicon' => 'الصورة المصغرة للموقع',
                 'app_placeholder' => 'الصورة الافتراضية',
+                'front_hero_background' => 'خلفية البطل للموقع العام',
             ],
         ],
         'mobile' => [
