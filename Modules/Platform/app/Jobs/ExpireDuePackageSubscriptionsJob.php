@@ -14,9 +14,15 @@ class ExpireDuePackageSubscriptionsJob
     {
         PackageSubscription::query()
             ->where('status', PackageSubscriptionStatus::Active)
-            ->whereNotNull('ends_at')
             ->whereNull('cancelled_at')
-            ->where('ends_at', '<=', now())
+            ->where(function ($query) {
+                $query
+                    ->where(function ($q) {
+                        $q->whereNotNull('ends_at')
+                            ->where('ends_at', '<=', now());
+                    })
+                    ->orWhere('remaining_connections', 0);
+            })
             ->update(['status' => PackageSubscriptionStatus::Expired]);
     }
 }

@@ -71,6 +71,60 @@ class ExpireDuePackageSubscriptionsJobTest extends TestCase
         $this->assertSame(PackageSubscriptionStatus::Active, $future->status);
     }
 
+    public function test_marks_active_subscriptions_expired_when_remaining_connections_is_zero(): void
+    {
+        Carbon::setTestNow('2026-04-10 12:00:00');
+
+        $user = User::factory()->create([
+            'type' => UserType::ServiceProvider,
+        ]);
+
+        $exhausted = PackageSubscription::query()->create([
+            'user_id' => $user->id,
+            'status' => PackageSubscriptionStatus::Active,
+            'payment_status' => PackageSubscriptionPaymentStatus::Paid,
+            'payment_method' => PackageSubscriptionPaymentMethod::BankTransfer,
+            'starts_at' => Carbon::parse('2026-04-01 10:00:00'),
+            'ends_at' => Carbon::parse('2026-04-30 23:59:59'),
+            'cancelled_at' => null,
+            'paid_at' => Carbon::parse('2026-04-01 10:00:00'),
+            'remaining_connections' => 0,
+            'admin_notes' => null,
+        ]);
+
+        (new ExpireDuePackageSubscriptionsJob)->handle();
+
+        $exhausted->refresh();
+        $this->assertSame(PackageSubscriptionStatus::Expired, $exhausted->status);
+    }
+
+    public function test_marks_active_one_time_subscriptions_expired_when_remaining_connections_is_zero(): void
+    {
+        Carbon::setTestNow('2026-04-10 12:00:00');
+
+        $user = User::factory()->create([
+            'type' => UserType::ServiceProvider,
+        ]);
+
+        $oneTime = PackageSubscription::query()->create([
+            'user_id' => $user->id,
+            'status' => PackageSubscriptionStatus::Active,
+            'payment_status' => PackageSubscriptionPaymentStatus::Paid,
+            'payment_method' => PackageSubscriptionPaymentMethod::BankTransfer,
+            'starts_at' => Carbon::parse('2026-04-01 10:00:00'),
+            'ends_at' => null,
+            'cancelled_at' => null,
+            'paid_at' => Carbon::parse('2026-04-01 10:00:00'),
+            'remaining_connections' => 0,
+            'admin_notes' => null,
+        ]);
+
+        (new ExpireDuePackageSubscriptionsJob)->handle();
+
+        $oneTime->refresh();
+        $this->assertSame(PackageSubscriptionStatus::Expired, $oneTime->status);
+    }
+
     public function test_does_not_expire_cancelled_subscriptions_even_if_ends_at_passed(): void
     {
         Carbon::setTestNow('2026-04-10 12:00:00');
