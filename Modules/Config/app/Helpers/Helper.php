@@ -44,6 +44,65 @@ if (! function_exists('getSetting')) {
     }
 }
 
+if (! function_exists('youtubeEmbedSrcFromUrl')) {
+
+    /**
+     * Normalize a YouTube watch, short, or embed URL to a safe iframe embed src, or null if invalid.
+     */
+    function youtubeEmbedSrcFromUrl(?string $url): ?string
+    {
+        $url = trim((string) $url);
+        if ($url === '') {
+            return null;
+        }
+
+        if (! preg_match('#^https?://#i', $url)) {
+            $url = 'https://'.$url;
+        }
+
+        $parts = parse_url($url);
+        if ($parts === false || empty($parts['host'])) {
+            return null;
+        }
+
+        $host = strtolower($parts['host']);
+        $allowed = ['youtube.com', 'youtube-nocookie.com', 'youtu.be'];
+        $hostOk = false;
+        foreach ($allowed as $suffix) {
+            if ($host === $suffix || str_ends_with($host, '.'.$suffix)) {
+                $hostOk = true;
+                break;
+            }
+        }
+        if (! $hostOk) {
+            return null;
+        }
+
+        $path = trim($parts['path'] ?? '', '/');
+        $id = '';
+
+        if (str_contains($host, 'youtu.be') && $path !== '') {
+            $id = explode('/', $path)[0];
+        } elseif (str_contains($path, 'embed/')) {
+            $id = substr($path, (int) strpos($path, 'embed/') + strlen('embed/'));
+            $id = explode('/', $id)[0];
+        } elseif (str_contains($path, 'shorts/')) {
+            $id = substr($path, (int) strpos($path, 'shorts/') + strlen('shorts/'));
+            $id = explode('/', $id)[0];
+        } else {
+            parse_str($parts['query'] ?? '', $query);
+            $id = isset($query['v']) ? (string) $query['v'] : '';
+        }
+
+        $id = trim($id);
+        if ($id === '' || ! preg_match('/^[a-zA-Z0-9_-]{6,}$/', $id)) {
+            return null;
+        }
+
+        return 'https://www.youtube.com/embed/'.$id;
+    }
+}
+
 if (! function_exists('ipWhoPayloadForPublicIp')) {
 
     /**
@@ -289,7 +348,7 @@ if (! function_exists('getStateFromIp')) {
 
         $region = (string) ($data['region'] ?? '');
         $regionCode = isset($data['region_code']) ? (string) $data['region_code'] : null;
-        
+
         return matchZmsStateForIpRegion($country, $region, $regionCode);
     }
 }

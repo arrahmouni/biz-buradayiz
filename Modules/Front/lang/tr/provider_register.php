@@ -17,6 +17,11 @@ return [
     'stats_support_value' => '7/24',
     'stats_support_label' => 'Destek',
 
+    'video_kicker' => 'Nasıl çalışır?',
+    'video_heading' => 'Sağlayıcı kaydı nasıl işler',
+    'video_intro' => 'Plan seçip başvurmadan önce kısa bir özet videosunu izleyin.',
+    'video_embed_title' => 'Sağlayıcı kaydı tanıtım videosu',
+
     'packages_kicker' => 'Hizmetinizi seçin',
     'packages_heading' => 'İşletmenize uygun bir paket seçin',
     'packages_intro' => 'Her hizmetin ihtiyaçlarınıza göre paketleri vardır. Listelenen paketlerin tümü ücretlidir; gizli ücret yoktur.',

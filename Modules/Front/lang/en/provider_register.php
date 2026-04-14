@@ -17,6 +17,11 @@ return [
     'stats_support_value' => '24/7',
     'stats_support_label' => 'Support',
 
+    'video_kicker' => 'See it in action',
+    'video_heading' => 'How provider registration works',
+    'video_intro' => 'Watch a short overview before you choose a plan and apply.',
+    'video_embed_title' => 'Provider registration overview video',
+
     'packages_kicker' => 'Choose your service',
     'packages_heading' => 'Select a package that fits your business',
     'packages_intro' => 'Each service has specific packages tailored to your needs. All listed packages are paid — no hidden fees. Free tier plans are not shown here.',

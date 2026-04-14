@@ -36,6 +36,7 @@ return [
             'fields' => [
                 'emergency_contact_number' => 'رقم اتصال الطوارئ (الموقع العام)',
                 'front_search_default_country_id' => 'معرّف البلد الافتراضي (بحث الموقع في الموقع العام)',
+                'provider_register_landing_youtube_url' => 'صفحة تسجيل مقدم الخدمة — رابط فيديو يوتيوب (مشاهدة أو youtu.be أو رابط تضمين)',
             ],
         ],
         'media' => [

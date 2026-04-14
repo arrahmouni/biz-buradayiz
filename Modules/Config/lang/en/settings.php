@@ -36,6 +36,7 @@ return [
             'fields' => [
                 'emergency_contact_number' => 'Emergency contact number (public site)',
                 'front_search_default_country_id' => 'Default country ID (public site location search)',
+                'provider_register_landing_youtube_url' => 'Provider registration landing — YouTube video URL (watch, youtu.be, or embed link)',
             ],
         ],
         'media' => [

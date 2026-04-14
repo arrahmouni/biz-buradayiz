@@ -178,12 +178,38 @@
                 </div>
             </div>
         </div>
-        <div class="text-center mt-10">
-            <a href="{{ route('front.provider.register.form') }}" class="inline-flex items-center gap-2 font-semibold text-red-600 hover:text-red-700 transition">
-                {{ __('front::provider_register.benefits_cta_link') }} <i class="fas fa-arrow-right text-sm" aria-hidden="true"></i>
-            </a>
-        </div>
+
     </section>
+
+    @php($providerRegisterYoutubeRaw = trim((string) (getSetting('provider_register_landing_youtube_url') ?? '')))
+    @php($providerRegisterYoutubeEmbed = youtubeEmbedSrcFromUrl($providerRegisterYoutubeRaw))
+    @if ($providerRegisterYoutubeEmbed)
+        <section class="bg-gray-100 py-16 md:py-20 border-t border-gray-200">
+            <div class="container mx-auto px-5 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-10">
+                    <span class="text-red-600 font-semibold uppercase tracking-wide">{{ __('front::provider_register.video_kicker') }}</span>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-2">{{ __('front::provider_register.video_heading') }}</h2>
+                    <p class="text-gray-600 mt-3">{{ __('front::provider_register.video_intro') }}</p>
+                </div>
+                <div class="relative w-full max-w-4xl mx-auto aspect-video rounded-2xl overflow-hidden shadow-xl bg-black">
+                    <iframe
+                        class="absolute inset-0 w-full h-full border-0"
+                        src="{{ $providerRegisterYoutubeEmbed }}"
+                        title="{{ __('front::provider_register.video_embed_title') }}"
+                        loading="lazy"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allowfullscreen
+                    ></iframe>
+                </div>
+            </div>
+            <div class="text-center mt-10">
+                <a href="{{ route('front.provider.register.form') }}" class="inline-flex items-center gap-2 font-semibold text-red-600 hover:text-red-700 transition">
+                    {{ __('front::provider_register.benefits_cta_link') }} <i class="fas fa-arrow-right text-sm" aria-hidden="true"></i>
+                </a>
+            </div>
+        </section>
+    @endif
 
 @endsection
 

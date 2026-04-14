@@ -36,6 +36,7 @@ return [
             'fields' => [
                 'emergency_contact_number' => 'Acil iletişim numarası (herkese açık site)',
                 'front_search_default_country_id' => 'Varsayılan ülke kimliği (herkese açık site konum araması)',
+                'provider_register_landing_youtube_url' => 'Hizmet sağlayıcı kayıt sayfası — YouTube video URL’si (izle, youtu.be veya gömme bağlantısı)',
             ],
         ],
         'media' => [

@@ -255,6 +255,19 @@ class ConfigDatabaseSeeder extends Seeder
                 'is_required' => false,
             ] + createTranslateArray('title', 'settings.groups.platform.fields.front_search_default_country_id', 'config')
         );
+
+        Setting::firstOrCreate(
+            [
+                'group' => SettingGroups::PLATFORM,
+                'key' => 'provider_register_landing_youtube_url',
+            ],
+            [
+                'type' => SettingTypes::URL,
+                'order' => 3,
+                'is_required' => false,
+                'value' => 'https://www.youtube.com/watch?v=fcb0e-IGNFc',
+            ] + createTranslateArray('title', 'settings.groups.platform.fields.provider_register_landing_youtube_url', 'config')
+        );
     }
 
     /**

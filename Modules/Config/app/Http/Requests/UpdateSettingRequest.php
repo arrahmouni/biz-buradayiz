@@ -43,6 +43,7 @@ class UpdateSettingRequest extends BaseRequest
         $platformSettingRules = [
             'emergency_contact_number' => ['nullable', 'string', 'max:255'],
             'front_search_default_country_id' => ['nullable', 'integer', 'exists:countries,id'],
+            'provider_register_landing_youtube_url' => ['nullable', 'url', 'max:2048'],
         ];
 
         $mediaSettingRules = [
