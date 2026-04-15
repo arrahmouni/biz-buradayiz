@@ -56,6 +56,7 @@ return [
     'search_map_placeholder' => 'Etkileşimli harita',
     'search_featured_title' => 'Öne Çıkan Sağlayıcılar',
     'search_featured_badge' => 'Öne Çıkan',
+    'search_featured_callout' => 'Öne çıkanlar — size en uygun sağlayıcılar öne çıkarılır',
     'search_sidebar_help_title' => 'Sağlayıcı mı arıyorsunuz?',
     'search_sidebar_help_text' => '7/24 yönlendirme hattımızı arayın',
     'search_results_meta_description' => 'Yakınınızdaki güvenilir yol yardım ve çekici sağlayıcılarını bulun. Hizmet türü ve konuma göre filtreleyin.',

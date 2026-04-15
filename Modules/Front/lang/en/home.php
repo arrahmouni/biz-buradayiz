@@ -55,6 +55,7 @@ return [
     'search_map_placeholder' => 'Interactive map',
     'search_featured_title' => 'Featured Providers',
     'search_featured_badge' => 'Featured',
+    'search_featured_callout' => 'Featured providers — shown first to help you choose faster.',
     'search_sidebar_help_title' => 'Need help finding a provider?',
     'search_sidebar_help_text' => 'Call our 24/7 dispatch team',
     'search_results_meta_description' => 'Find trusted roadside assistance and towing providers near you. Filter by service type and location.',

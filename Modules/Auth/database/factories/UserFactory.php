@@ -42,8 +42,16 @@ class UserFactory extends Factory
     public function configure()
     {
         return $this->afterCreating(function (User $user) {
-            $randomImagePath = asset('modules/admin/metronic/demo/media/avatars/300-'.rand(1, 30).'.jpg');
-            $user->addMediaFromUrl($randomImagePath)->toMediaCollection(User::MEDIA_COLLECTION);
+            $avatarDir = public_path('modules/admin/metronic/demo/media/avatars');
+            $avatars = glob($avatarDir.'/*.jpg') ?: [];
+
+            if ($avatars !== []) {
+                $randomImagePath = fake()->randomElement($avatars);
+                $user->addMedia($randomImagePath)
+                    ->preservingOriginal()
+                    ->toMediaCollection(User::MEDIA_COLLECTION);
+            }
+
             if ($user->status === AdminStatus::ACTIVE) {
                 $user->approved_at = now();
                 $user->save();

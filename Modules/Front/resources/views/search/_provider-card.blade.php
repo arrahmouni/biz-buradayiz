@@ -1,8 +1,12 @@
-<article class="bg-white rounded-2xl shadow-md hover:shadow-lg transition p-4 sm:p-5 border {{ $isFeatured ?? false ? 'border-red-200 ring-1 ring-red-100' : 'border-gray-100' }}">
+<article class="bg-white rounded-2xl shadow-md hover:shadow-lg transition p-4 sm:p-5 border {{ $isFeatured ?? false ? 'featured-provider-card border-red-200 border-l-4 border-l-red-600 ring-1 ring-red-100' : 'border-gray-100' }}">
     @if ($isFeatured ?? false)
-        <div class="mb-2">
-            <span class="featured-provider-badge">
-                <i class="fas fa-award" aria-hidden="true"></i> {{ __('front::home.search_featured_badge') }}
+        <div class="featured-provider-callout" role="status">
+            <span class="featured-provider-callout__icon" aria-hidden="true">
+                <i class="fas fa-award"></i>
+            </span>
+            <span class="featured-provider-callout__text">
+                <span class="featured-provider-callout__title">{{ __('front::home.search_featured_badge') }}</span>
+                <span class="featured-provider-callout__subtitle">{{ __('front::home.search_featured_callout') }}</span>
             </span>
         </div>
     @endif

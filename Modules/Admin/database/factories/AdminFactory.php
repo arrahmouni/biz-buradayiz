@@ -46,8 +46,15 @@ class AdminFactory extends Factory
     public function configure()
     {
         return $this->afterCreating(function (Admin $admin) {
-            $randomImagePath = asset('modules/admin/metronic/demo/media/avatars/300-'. rand(1, 30) .'.jpg');
-            $admin->addMediaFromUrl($randomImagePath)->toMediaCollection(Admin::MEDIA_COLLECTION);
+            $avatarDir = public_path('modules/admin/metronic/demo/media/avatars');
+            $avatars = glob($avatarDir.'/*.jpg') ?: [];
+
+            if ($avatars !== []) {
+                $randomImagePath = fake()->randomElement($avatars);
+                $admin->addMedia($randomImagePath)
+                    ->preservingOriginal()
+                    ->toMediaCollection(Admin::MEDIA_COLLECTION);
+            }
 
             $role = Role::inRandomOrder()->first();
             BouncerFacade::assign($role)->to($admin);
