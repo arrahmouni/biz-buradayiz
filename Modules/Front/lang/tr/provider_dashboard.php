@@ -92,6 +92,8 @@ return [
     'package_subscribe' => 'Bu paketi talep et',
     'subscription_error_modal_title' => 'Abonelik talebi tamamlanamadı',
     'subscription_error_modal_close' => 'Tamam',
+    'subscription_success_modal_title' => 'Talebiniz alındı',
+    'subscription_success_modal_close' => 'Tamam',
     'package_connections' => ':count bağlantı',
     'package_price' => ':price :currency',
 

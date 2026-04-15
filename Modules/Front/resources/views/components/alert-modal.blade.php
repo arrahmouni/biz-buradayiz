@@ -4,10 +4,12 @@
     'message' => '',
     'closeLabel' => '',
     'modalId' => 'front-alert-modal',
+    'variant' => 'danger',
 ])
 
 @php
     $shouldRender = $show && filled($message);
+    $isSuccess = $variant === 'success';
 @endphp
 
 @if ($shouldRender)
@@ -19,8 +21,11 @@
     >
         <div class="p-6 sm:p-7">
             <div class="flex items-start gap-3">
-                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-100 text-red-600" aria-hidden="true">
-                    <i class="fas fa-exclamation-circle text-lg"></i>
+                <span
+                    class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full {{ $isSuccess ? 'bg-emerald-100 text-emerald-600' : 'bg-red-100 text-red-600' }}"
+                    aria-hidden="true"
+                >
+                    <i class="fas {{ $isSuccess ? 'fa-check-circle' : 'fa-exclamation-circle' }} text-lg"></i>
                 </span>
                 <div class="min-w-0 flex-1">
                     <h2 id="{{ $modalId }}-title" class="text-lg font-bold text-gray-900">{{ $title }}</h2>

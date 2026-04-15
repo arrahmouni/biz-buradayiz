@@ -92,6 +92,8 @@ return [
     'package_subscribe' => 'Request this package',
     'subscription_error_modal_title' => 'Subscription request could not be completed',
     'subscription_error_modal_close' => 'OK',
+    'subscription_success_modal_title' => 'Request received',
+    'subscription_success_modal_close' => 'OK',
     'package_connections' => ':count connections',
     'package_price' => ':price :currency',
 

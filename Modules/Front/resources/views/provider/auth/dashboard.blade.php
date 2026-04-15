@@ -239,6 +239,15 @@
             modal-id="provider-package-request-error-modal"
         />
 
+        <x-front::alert-modal
+            :show="session()->has('success')"
+            variant="success"
+            :title="__('front::provider_dashboard.subscription_success_modal_title')"
+            :message="session('success')"
+            :close-label="__('front::provider_dashboard.subscription_success_modal_close')"
+            modal-id="provider-subscription-request-success-modal"
+        />
+
         <section class="scroll-mt-8" aria-labelledby="bank-heading">
             <h2 id="bank-heading" class="text-xl font-bold tracking-tight text-gray-900">{{ __('front::provider_dashboard.bank_block_title') }}</h2>
             <div class="mt-4 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm ring-1 ring-black/5">
