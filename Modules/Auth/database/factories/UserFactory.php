@@ -1,0 +1,78 @@
+<?php
+
+namespace Modules\Auth\database\factories;
+
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+use Modules\Admin\Enums\AdminStatus;
+use Modules\Auth\Enums\UserType;
+use Modules\Auth\Models\User;
+use Modules\Platform\Models\Service;
+use Modules\Zms\Models\City;
+
+/**
+ * @extends Factory<User>
+ */
+class UserFactory extends Factory
+{
+    protected $model = User::class;
+
+    protected static ?string $password;
+
+    public function definition(): array
+    {
+        return [
+            'first_name' => fake()->firstName(),
+            'last_name' => fake()->lastName(),
+            'type' => UserType::ServiceProvider,
+            'phone_number' => '+'.fake()->unique()->numerify('90##########'),
+            'central_phone' => $this->faker->phoneNumber,
+            'email' => fake()->unique()->safeEmail(),
+            'password' => 'password',
+            'lang' => fake()->randomElement(LaravelLocalization::getSupportedLanguagesKeys()),
+            'email_verified_at' => now(),
+            'remember_token' => Str::random(10),
+            'service_id' => Service::query()->inRandomOrder()->value('id'),
+            'status' => fake()->randomElement(AdminStatus::all()),
+            'city_id' => City::query()->inRandomOrder()->value('id'),
+        ];
+    }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (User $user) {
+            $avatarDir = public_path('modules/admin/metronic/demo/media/avatars');
+            $avatars = glob($avatarDir.'/*.jpg') ?: [];
+
+            if ($avatars !== []) {
+                $randomImagePath = fake()->randomElement($avatars);
+                $user->addMedia($randomImagePath)
+                    ->preservingOriginal()
+                    ->toMediaCollection(User::MEDIA_COLLECTION);
+            }
+
+            if ($user->status === AdminStatus::ACTIVE) {
+                $user->approved_at = now();
+                $user->save();
+            }
+        });
+    }
+
+    public function unverified(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'email_verified_at' => null,
+        ]);
+    }
+
+    /**
+     * Active admin status; {@see configure()} sets approved_at when status is active.
+     */
+    public function activeServiceProvider(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'status' => AdminStatus::ACTIVE,
+        ]);
+    }
+}

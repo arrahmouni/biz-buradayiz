@@ -1,0 +1,48 @@
+<?php
+
+return [
+    'landing_meta_title' => 'Become a provider',
+    'landing_meta_description' => 'Join our network as a service provider. Compare paid plans by category and start your application.',
+    'hero_title' => 'Grow your business as a service provider',
+    'hero_subtitle' => 'Reach customers who need your services, choose a plan that fits your category, and apply in minutes. Our team reviews every application before activation.',
+    'cta_apply' => 'Start your application',
+    'cta_secondary_login' => 'Already registered? Sign in',
+
+    'stats_providers_value' => '500+',
+    'stats_providers_label' => 'Active Providers',
+    'stats_rescues_value' => '15k+',
+    'stats_rescues_label' => 'Monthly Rescues',
+    'stats_rating_value' => '4.8★',
+    'stats_rating_label' => 'Avg. Rating',
+    'stats_support_value' => '24/7',
+    'stats_support_label' => 'Support',
+
+    'video_kicker' => 'See it in action',
+    'video_heading' => 'How provider registration works',
+    'video_intro' => 'Watch a short overview before you choose a plan and apply.',
+    'video_embed_title' => 'Provider registration overview video',
+
+    'packages_kicker' => 'Choose your service',
+    'packages_heading' => 'Select a package that fits your business',
+    'packages_intro' => 'Each service has specific packages tailored to your needs. All listed packages are paid — no hidden fees. Free tier plans are not shown here.',
+    'package_popular' => 'Popular',
+    'package_choose_plan' => 'Choose plan',
+    'packages_empty' => 'Paid plans will appear here once they are configured for your categories. You can still submit an application.',
+    'billing_monthly' => 'per month',
+    'billing_yearly' => 'per year',
+    'billing_one_time' => 'one-time',
+    'connections' => ':count connections',
+    'features_label' => 'Included',
+    'form_back_to_landing' => 'About provider registration and plans',
+
+    'benefits_kicker' => 'Why choose us',
+    'benefits_heading' => 'Join the largest roadside network',
+    'benefits_intro' => 'Everything you need to grow your business',
+    'benefits_revenue_title' => 'Increase your revenue',
+    'benefits_revenue_text' => 'Get matched with customers actively looking for your services. No upfront costs.',
+    'benefits_tools_title' => 'Modern app & tools',
+    'benefits_tools_text' => 'Manage jobs, track payments, and communicate with customers via our dashboard.',
+    'benefits_payments_title' => 'Protected payments',
+    'benefits_payments_text' => 'Secure and fast payouts — weekly settlements directly to your bank account.',
+    'benefits_cta_link' => 'Register your company now',
+];

@@ -49,7 +49,6 @@
                 @component('admin::components.datatables.table', [
                         'options'           => [
                             'url'           => route('zms.countries.datatable'),
-                            'withCheckbox'  => true,
                             'orderType'     => 'asc',
                         ]
                     ])

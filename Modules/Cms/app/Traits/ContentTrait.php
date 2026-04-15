@@ -63,16 +63,16 @@ trait ContentTrait
                         '400x200',
                     ],
                 ],
-                'select'            => [
-                    'tags'          => [
-                        'required'  => false,
-                        'multiple'  => true,
-                        'isAjax'    => true,
-                        'clearable' => true,
-                        'withImg'   => false,
-                        'data'      => 'cms.content_tags.ajaxList',
-                    ],
-                ],
+                // 'select'            => [
+                //     'tags'          => [
+                //         'required'  => false,
+                //         'multiple'  => true,
+                //         'isAjax'    => true,
+                //         'clearable' => true,
+                //         'withImg'   => false,
+                //         'data'      => 'cms.content_tags.ajaxList',
+                //     ],
+                // ],
                 'published_at'      => [
                     'required'      => true,
                 ],
@@ -91,6 +91,23 @@ trait ContentTrait
                     'required'      => true,
                 ],
                 'can_be_deleted'    => [
+                    'required'      => true,
+                ],
+                'appear_in_footer'  => [
+                    'required'      => true,
+                ],
+            ],
+        ],
+
+        BaseContentTypes::FAQS      => [
+            'icon'                  => 'fas fa-circle-question',
+            'show_in_menu'          => true,
+            'name'                  => 'cms::contents.content_categories.faqs',
+            'fields'                => [
+                'title'             => [
+                    'required'      => true,
+                ],
+                'long_description'  => [
                     'required'      => true,
                 ],
             ],

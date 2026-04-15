@@ -7,7 +7,7 @@
     "require": {
         "php": "^8.2",
         "arrahmouni/crud-generator": "^2.0",
-        "arrahmouni/response-helper": "^1.0",
+        "arrahmouni/response-helper": "^1.1",
         "astrotomic/laravel-translatable": "^11.15",
         "firebase/php-jwt": "^7.0",
         "guzzlehttp/guzzle": "^7.9",

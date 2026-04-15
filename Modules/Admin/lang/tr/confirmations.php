@@ -1,9 +1,9 @@
 <?php
 
 return [
-    'cancel'                => 'İptal etmek',
-    'confirm_btn'           => 'Onaylamak',
-    'submit'                => 'Göndermek',
+    'cancel'                => 'İptal et',
+    'confirm_btn'           => 'Onayla',
+    'submit'                => 'Gönder',
     'ok'                    => 'Tamam',
     'yes'                   => 'Evet',
     'no'                    => 'HAYIR',
@@ -24,7 +24,7 @@ return [
         'exit'              => [
             'title'         => 'Emin misin?',
             'desc'          => 'Değişikliklerinizi kaydetmeden çıkmak istediğinizden emin misiniz? Bunu yaparsanız, son değişikliklerin tümünü kaybedersiniz.',
-            'confirm_btn'   => 'Çıkış',
+            'confirm_btn'   => 'Evet, çıkış yap',
         ],
     ],
 

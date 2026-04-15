@@ -1,193 +1,250 @@
 <?php
 
 return [
-    'datatable'                         => asset('lang/ar/datatable.json'),
-    'base_columns'                      => [
-        'id'                            => 'ID',
-        'image'                         => 'الصورة',
-        'name'                          => 'الاسم',
-        'slug'                          => 'الاسم الظاهري',
-        'username'                      => 'اسم المستخدم',
-        'gender'                        => 'الجنس',
-        'title'                         => 'العنوان',
-        'type'                          => 'النوع',
-        'status'                        => 'الحالة',
-        'description'                   => 'الوصف',
-        'email'                         => 'البريد الإلكتروني',
-        'phone_number'                  => 'رقم الهاتف',
-        'created_at'                    => 'تاريخ الإنشاء',
-        'updated_at'                    => 'تاريخ التعديل',
-        'deleted_at'                    => 'تاريخ الحذف',
-        'created_by'                    => 'تم الإنشاء بواسطة',
-        'actions'                       => 'العمليات',
-        'user_agent'                    => 'وكيل المستخدم',
-        'ip_address'                    => 'عنوان ال IP',
+    'datatable' => asset('lang/ar/datatable.json'),
+    'base_columns' => [
+        'id' => 'ID',
+        'image' => 'الصورة',
+        'name' => 'الاسم',
+        'slug' => 'الاسم الظاهري',
+        'username' => 'اسم المستخدم',
+        'gender' => 'الجنس',
+        'title' => 'العنوان',
+        'type' => 'النوع',
+        'status' => 'الحالة',
+        'description' => 'الوصف',
+        'email' => 'البريد الإلكتروني',
+        'phone_number' => 'رقم الهاتف',
+        'central_phone' => 'هاتف مركزي',
+        'created_at' => 'تاريخ الإنشاء',
+        'updated_at' => 'تاريخ التعديل',
+        'deleted_at' => 'تاريخ الحذف',
+        'created_by' => 'تم الإنشاء بواسطة',
+        'actions' => 'العمليات',
+        'user_agent' => 'وكيل المستخدم',
+        'ip_address' => 'عنوان ال IP',
     ],
-    'buttons'                           => [
-        'export'                        => 'تصدير',
-        'refresh'                       => 'تحديث',
-        'add_new'                       => 'إضافة جديد',
-        'select_action'                 => 'اختر العملية',
+    'buttons' => [
+        'export' => 'تصدير',
+        'refresh' => 'تحديث',
+        'add_new' => 'إضافة جديد',
+        'select_action' => 'اختر العملية',
     ],
-    'roles'                             => [
-        'list_title'                    => 'قائمة الأدوار',
-        'columns'                       => [
-            'code'                      => 'الرمز',
-            'permissions'               => 'الصلاحيات',
-        ]
-    ],
-    'permissions'                       => [
-        'list_title'                    => 'قائمة الصلاحيات',
-        'columns'                       => [
-            'code'                      => 'الرمز',
-        ]
-    ],
-    'countries'                         => [
-        'list_title'                    => 'قائمة الدول',
-        'columns'                       => [
-            'native_name'               => 'الاسم الأصلي',
-            'phone_code'                => 'رمز الهاتف',
-            'currency'                  => 'العملة',
-            'states_count'              => 'عدد الولايات',
-            'cities_count'              => 'عدد المدن',
-        ]
-    ],
-    'admins'                            => [
-        'list_title'                    => 'قائمة المشرفين',
-        'columns'                       => [
-            'user'                      => 'المستخدم',
-            'role'                      => 'الدور',
-            'lang'                      => 'اللغة',
-            'last_login_at'             => 'تاريخ آخر تسجيل دخول',
-            'joined_date'               => 'تاريخ الانضمام',
-        ]
-    ],
-    'content_categories'                => [
-        'list_title'                    => 'قائمة تصنيفات المحتوى',
-        'columns'                       => [
-            'slug'                      => 'الاسم الظاهري',
-            'parent'                    => 'التصنيف الاب',
-            'can_be_deleted'            => 'يمكن حذفه',
-        ]
-    ],
-    'contents'                          => [
-        'list_title'                    => 'قائمة المحتوى',
-        'columns'                       => [
-            'category'                  => 'التصنيف',
-            'updated_by'                => 'تم التعديل بواسطة',
-            'published_at'              => 'تاريخ النشر',
+    'roles' => [
+        'list_title' => 'قائمة الأدوار',
+        'columns' => [
+            'code' => 'الرمز',
+            'permissions' => 'الصلاحيات',
         ],
-        'sliders'                       => [
-            'list_title'                => 'قائمة الشرائح',
-            'columns'                   => [
-                'placement'             => 'مكان ظهور الشريحة',
+    ],
+    'permissions' => [
+        'list_title' => 'قائمة الصلاحيات',
+        'columns' => [
+            'code' => 'الرمز',
+        ],
+    ],
+    'countries' => [
+        'list_title' => 'قائمة الدول',
+        'columns' => [
+            'native_name' => 'الاسم الأصلي',
+            'phone_code' => 'رمز الهاتف',
+            'currency' => 'العملة',
+            'states_count' => 'عدد الولايات',
+            'cities_count' => 'عدد المدن',
+        ],
+    ],
+    'admins' => [
+        'list_title' => 'قائمة المشرفين',
+        'columns' => [
+            'user' => 'المستخدم',
+            'role' => 'الدور',
+            'lang' => 'اللغة',
+            'last_login_at' => 'تاريخ آخر تسجيل دخول',
+            'joined_date' => 'تاريخ الانضمام',
+        ],
+    ],
+    'content_categories' => [
+        'list_title' => 'قائمة تصنيفات المحتوى',
+        'columns' => [
+            'slug' => 'الاسم الظاهري',
+            'parent' => 'التصنيف الاب',
+            'can_be_deleted' => 'يمكن حذفه',
+        ],
+    ],
+    'contents' => [
+        'list_title' => 'قائمة المحتوى',
+        'columns' => [
+            'category' => 'التصنيف',
+            'updated_by' => 'تم التعديل بواسطة',
+            'published_at' => 'تاريخ النشر',
+        ],
+        'sliders' => [
+            'list_title' => 'قائمة الشرائح',
+            'columns' => [
+                'placement' => 'مكان ظهور الشريحة',
             ],
         ],
-        'blogs'                         => [
-            'list_title'                => 'قائمة المدونات',
-            'columns'                   => [],
+        'blogs' => [
+            'list_title' => 'قائمة المدونات',
+            'columns' => [],
         ],
-        'pages'                         => [
-            'list_title'                => 'قائمة الصفحات',
-            'columns'                   => [],
+        'pages' => [
+            'list_title' => 'قائمة الصفحات',
+            'columns' => [],
         ],
-        'categories'                    => [
-            'list_title'                => 'قائمة التصنيفات',
+        'faqs' => [
+            'list_title' => 'قائمة الأسئلة الشائعة',
+            'columns' => [],
         ],
-        'brands'                        => [
-            'list_title'                => 'قائمة العلامات التجارية',
+        'categories' => [
+            'list_title' => 'قائمة التصنيفات',
         ],
-        'shapes'                        => [
-            'list_title'                => 'قائمة الأشكال',
+        'brands' => [
+            'list_title' => 'قائمة العلامات التجارية',
         ],
-        'types_of_tiries'               => [
-            'list_title'                => 'قائمة أنواع الإطارات',
+        'shapes' => [
+            'list_title' => 'قائمة الأشكال',
         ],
-        'colors'                        => [
-            'list_title'                => 'قائمة الألوان',
+        'types_of_tiries' => [
+            'list_title' => 'قائمة أنواع الإطارات',
         ],
-        'materials'                     => [
-            'list_title'                => 'قائمة المواد',
+        'colors' => [
+            'list_title' => 'قائمة الألوان',
         ],
-        'proportions'                   => [
-            'list_title'                => 'قائمة التناسبات',
+        'materials' => [
+            'list_title' => 'قائمة المواد',
         ],
-        'gender'                        => [
-            'list_title'                => 'قائمة الأجناس',
+        'proportions' => [
+            'list_title' => 'قائمة التناسبات',
         ],
-        'home_page'                     => [
-            'list_title'                => 'قائمة الصفحة الرئيسية',
+        'gender' => [
+            'list_title' => 'قائمة الأجناس',
         ],
-    ],
-    'categories'                        => [
-        'list_title'                    => 'قائمة التصنيفات',
-        'columns'                       => [
-            'parent'                    => 'التصنيف الاب',
-            'can_be_deleted'            => 'يمكن حذفه',
-        ]
-    ],
-    'users'                             => [
-        'list_title'                    => 'قائمة المستخدمين',
-        'columns'                       => [
+        'home_page' => [
+            'list_title' => 'قائمة الصفحة الرئيسية',
         ],
     ],
-    'notification_templates'            => [
-        'list_title'                    => 'قائمة قوالب الإشعارات',
-        'columns'                       => [
-            'priority'                  => 'الأولوية',
-            'channels'                  => 'القنوات',
-            'variables'                 => 'المتغيرات',
+    'categories' => [
+        'list_title' => 'قائمة التصنيفات',
+        'columns' => [
+            'parent' => 'التصنيف الاب',
+            'can_be_deleted' => 'يمكن حذفه',
         ],
     ],
-    'notifications'                     => [
-        'list_title'                    => 'قائمة الإشعارات',
-        'columns'                       => [
-            'recipient'                 => 'المستلم',
-            'added_by'                  => 'تمت الإضافة بواسطة',
-            'link'                      => 'الرابط',
+    'users' => [
+        'list_title' => 'قائمة المستخدمين',
+        'list_title_customers' => 'قائمة العملاء',
+        'list_title_service_providers' => 'قائمة مقدمي الخدمة',
+        'quick_filter_pending_approval' => 'بانتظار الموافقة',
+        'quick_filter_pending_approval_title' => 'عرض مقدمي الخدمة غير المعتمدين بعد',
+        'quick_filter_pending_approval_option' => 'بانتظار الموافقة',
+        'columns' => [
+            'service_type' => 'نوع الخدمة',
+            'country' => 'الدولة',
+            'state' => 'المنطقة',
+            'city' => 'المدينة',
         ],
     ],
-    'contactuses'                       => [
-        'list_title'                    => 'قائمة طلبات التواصل',
-        'columns'                       => [
-            'message'                   => 'الرسالة',
-            'reply'                     => 'الرد',
-            'submission_date'           => 'تاريخ الإرسال',
+    'notification_templates' => [
+        'list_title' => 'قائمة قوالب الإشعارات',
+        'columns' => [
+            'priority' => 'الأولوية',
+            'channels' => 'القنوات',
+            'variables' => 'المتغيرات',
         ],
     ],
-    'subscribes'                        => [
-        'list_title'                    => 'قائمة الإشتراكات',
-        'columns'                       => [
-            'is_active'                 => 'نشط',
-            'subscription_date'         => 'تاريخ الإشتراك',
+    'notifications' => [
+        'list_title' => 'قائمة الإشعارات',
+        'columns' => [
+            'recipient' => 'المستلم',
+            'added_by' => 'تمت الإضافة بواسطة',
+            'link' => 'الرابط',
         ],
     ],
-    'content_tags'                      => [
-        'list_title'                    => 'قائمة وسوم المحتوى',
-        'columns'                       => [
+    'contactuses' => [
+        'list_title' => 'قائمة طلبات التواصل',
+        'columns' => [
+            'message' => 'الرسالة',
+            'reply' => 'الرد',
+            'submission_date' => 'تاريخ الإرسال',
         ],
     ],
-    'api_logs'                          => [
-        'list_title'                    => 'قائمة سجلات ال API',
-        'columns'                       => [
-            'service_name'              => 'اسم الخدمة',
-            'method'                    => 'الطريقة',
-            'endpoint'                  => 'النقطة النهائية',
-            'request'                   => 'الطلب',
-            'response'                  => 'الاستجابة',
-            'status_code'               => 'كود الحالة',
-            'error'                     => 'خطأ',
+    'subscribes' => [
+        'list_title' => 'قائمة الإشتراكات',
+        'columns' => [
+            'is_active' => 'نشط',
+            'subscription_date' => 'تاريخ الإشتراك',
         ],
     ],
-    'activity_logs'                     => [
-        'list_title'                    => 'قائمة سجلات النشاط',
-        'columns'                       => [
-            'user_made_action'          => 'المستخدم الذي قام بالعملية',
-            'user_type'                 => 'نوع المستخدم',
-            'event'                     => 'الحدث',
-            'old_values'                => 'القيم القديمة',
-            'new_values'                => 'القيم الجديدة',
-            'action_date'               => 'تاريخ الحدث',
+    'content_tags' => [
+        'list_title' => 'قائمة وسوم المحتوى',
+        'columns' => [
+        ],
+    ],
+    'api_logs' => [
+        'list_title' => 'قائمة سجلات ال API',
+        'columns' => [
+            'service_name' => 'اسم الخدمة',
+            'method' => 'الطريقة',
+            'endpoint' => 'النقطة النهائية',
+            'request' => 'الطلب',
+            'response' => 'الاستجابة',
+            'status_code' => 'كود الحالة',
+            'error' => 'خطأ',
+        ],
+    ],
+    'activity_logs' => [
+        'list_title' => 'قائمة سجلات النشاط',
+        'columns' => [
+            'user_made_action' => 'المستخدم الذي قام بالعملية',
+            'user_type' => 'نوع المستخدم',
+            'event' => 'الحدث',
+            'old_values' => 'القيم القديمة',
+            'new_values' => 'القيم الجديدة',
+            'action_date' => 'تاريخ الحدث',
+        ],
+    ],
+    'package_subscriptions' => [
+        'list_title' => 'اشتراكات الباقات',
+        'quick_filter_awaiting_verification' => 'بانتظار اعتماد الدفع',
+        'quick_filter_awaiting_verification_title' => 'عرض الاشتراكات التي تنتظر التحقق من الدفع',
+        'columns' => [
+            'user' => 'المستخدم',
+            'package' => 'الباقة (عند الطلب)',
+            'ordered_price' => 'السعر (عند الطلب)',
+            'status' => 'حالة الاشتراك',
+            'payment_status' => 'حالة الدفع',
+            'payment_method' => 'طريقة الدفع',
+            'starts_at' => 'تاريخ البدء',
+            'paid_at' => 'تاريخ الدفع',
+        ],
+    ],
+    'verimor_call_events' => [
+        'list_title' => 'أحداث مكالمات فيريمور',
+        'columns' => [
+            'call_uuid' => 'معرّف المكالمة',
+            'event_type' => 'نوع الحدث',
+            'direction' => 'الاتجاه',
+            'destination' => 'الوجهة (مطبّعة)',
+            'provider' => 'مقدّم الخدمة',
+            'answered' => 'تم الرد',
+            'consumed_quota' => 'استهلاك الحصة',
+            'subscription_id' => 'معرّف الاشتراك',
+            'raw_payload' => 'حمولة الويب هوك (JSON)',
+        ],
+    ],
+    'reviews' => [
+        'list_title' => 'قائمة التقييمات',
+        'rating_filter_option' => ':n / 5',
+        'columns' => [
+            'user' => 'المستخدم',
+            'rating' => 'التقييم',
+            'comment' => 'التعليق',
+            'call_event' => 'معرّف الحدث',
+            'reviewer_display_name' => 'اسم المقيّم',
+            'reviewer_phone' => 'هاتف المقيّم',
+            'status' => 'الحالة',
+            'verimor_call_events_list' => 'أحداث مكالمات فيريمور',
         ],
     ],
 ];

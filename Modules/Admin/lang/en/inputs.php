@@ -1,486 +1,604 @@
 <?php
 
 return [
-    'base_crud'                     => [
-        'title'                     => [
-            'label'                 => 'Title [:locale]',
-            'placeholder'           => 'Please enter a title',
-            'help'                  => 'Enter a title (required)',
+    'base_crud' => [
+        'title' => [
+            'label' => 'Title [:locale]',
+            'placeholder' => 'Please enter a title',
+            'help' => 'Enter a title (required)',
         ],
-        'name'                      => [
-            'label'                 => 'Name [:locale]',
-            'placeholder'           => 'Please enter a name',
-            'help'                  => 'Enter a name (required)',
+        'features' => [
+            'label' => 'Features [:locale]',
+            'placeholder' => 'Please enter features',
+            'help' => 'Enter features separated by commas. example: Feature 1, Feature 2, Feature 3',
         ],
-        'description'               => [
-            'label'                 => 'Description [:locale]',
-            'placeholder'           => 'Please enter a description',
-            'help'                  => 'Enter a description',
+        'name' => [
+            'label' => 'Name [:locale]',
+            'placeholder' => 'Please enter a name',
+            'help' => 'Enter a name (required)',
         ],
-        'long_description'          => [
-            'label'                 => 'General Description [:locale]',
-            'placeholder'           => 'Please enter a general description',
-            'help'                  => 'Enter a general description',
-            'subText'               => 'Set a general description to improve the overall visibility of the content.',
+        'description' => [
+            'label' => 'Description [:locale]',
+            'placeholder' => 'Please enter a description',
+            'help' => 'Enter a description',
         ],
-        'email'                     => [
-            'label'                 => 'Email',
-            'placeholder'           => 'Email Address',
-            'help'                  => 'Please enter Email Address',
+        'long_description' => [
+            'label' => 'General Description [:locale]',
+            'placeholder' => 'Please enter a general description',
+            'help' => 'Enter a general description',
+            'subText' => 'Set a general description to improve the overall visibility of the content.',
         ],
-        'current_password'          => [
-            'label'                 => 'Current Password',
-            'placeholder'           => 'Current Password',
-            'help'                  => 'Please enter your current password',
+        'email' => [
+            'label' => 'Email',
+            'placeholder' => 'Email Address',
+            'help' => 'Please enter Email Address',
         ],
-        'password'                  => [
-            'label'                 => 'Password',
-            'placeholder'           => 'Password',
-            'help'                  => 'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character. example: Abc@1234',
+        'current_password' => [
+            'label' => 'Current Password',
+            'placeholder' => 'Current Password',
+            'help' => 'Please enter your current password',
         ],
-        'password_confirmation'      => [
-            'label'                 => 'Password Confirmation',
-            'placeholder'           => 'Password Confirmation',
-            'help'                  => 'Please enter the same password as above',
+        'password' => [
+            'label' => 'Password',
+            'placeholder' => 'Password',
+            'help' => 'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character. example: Abc@1234',
         ],
-        'image'                     => [
-            'label'                 => 'Image',
-            'placeholder'           => 'Please select an image',
-            'help'                  => 'Select an image',
-            'subText'               => 'Allowed file types: :types | Maximum file size: :size MB',
+        'password_confirmation' => [
+            'label' => 'Password Confirmation',
+            'placeholder' => 'Password Confirmation',
+            'help' => 'Please enter the same password as above',
         ],
-        'image_lang'                => [
-            'label'                 => 'Image [:locale]',
-            'placeholder'           => 'Please select an image',
-            'help'                  => 'Select an image',
-            'subText'               => 'Allowed file types: :types | Maximum file size: :size MB',
+        'image' => [
+            'label' => 'Image',
+            'placeholder' => 'Please select an image',
+            'help' => 'Select an image',
+            'subText' => 'Allowed file types: :types | Maximum file size: :size MB',
         ],
-        'status'                    => [
-            'label'                 => 'Status',
-            'placeholder'           => 'Please select a status',
-            'help'                  => 'Select a status (required)',
+        'image_lang' => [
+            'label' => 'Image [:locale]',
+            'placeholder' => 'Please select an image',
+            'help' => 'Select an image',
+            'subText' => 'Allowed file types: :types | Maximum file size: :size MB',
         ],
-        'lang'                      => [
-            'label'                 => 'Language',
-            'placeholder'           => 'Please select a Language',
-            'help'                  => 'Select a Language (required)',
+        'status' => [
+            'label' => 'Status',
+            'placeholder' => 'Please select a status',
+            'help' => 'Select a status (required)',
         ],
-        'date_range'                => [
-            'label'                 => 'Date Range',
-            'placeholder'           => 'Please select a date range',
-            'help'                  => 'Select a date range',
+        'lang' => [
+            'label' => 'Language',
+            'placeholder' => 'Please select a Language',
+            'help' => 'Select a Language (required)',
         ],
-        'phone'                     => [
-            'label'                 => 'Phone',
-            'placeholder'           => 'Please enter a Phone',
-            'help'                  => 'Enter a Phone (required)',
+        'date_range' => [
+            'label' => 'Date Range',
+            'placeholder' => 'Please select a date range',
+            'help' => 'Select a date range',
+        ],
+        'phone' => [
+            'label' => 'Phone',
+            'placeholder' => 'Please enter a Phone',
+            'help' => 'Enter a Phone (required)',
+        ],
+        'short_description' => [
+            'label' => 'Short Description [:locale]',
+            'placeholder' => 'Please enter a short description',
+            'help' => 'Enter a short description',
         ],
     ],
 
-    'role_crud'                     => [
-        'code'                      => [
-            'label'                 => 'Code',
-            'placeholder'           => 'Please enter a code',
-            'help'                  => 'The code must be unique and contain only capital letters and underscores. example: ADMIN, CUSTOMER_SERVICE',
+    'role_crud' => [
+        'code' => [
+            'label' => 'Code',
+            'placeholder' => 'Please enter a code',
+            'help' => 'The code must be unique and contain only capital letters and underscores. example: ADMIN, CUSTOMER_SERVICE',
         ],
     ],
 
-    'permission_crud'               => [
-        'permission_type'           => [
-            'label'                 => 'Permissions Type',
-            'placeholder'           => 'Please select a permission type',
-            'help'                  => 'Select a permission type',
-            'data'                  => [
-                'group_permission'  => 'Group Permissions (CRUD)',
-                'sigle_permission'  => 'Single Permissions',
+    'permission_crud' => [
+        'permission_type' => [
+            'label' => 'Permissions Type',
+            'placeholder' => 'Please select a permission type',
+            'help' => 'Select a permission type',
+            'data' => [
+                'group_permission' => 'Group Permissions (CRUD)',
+                'sigle_permission' => 'Single Permissions',
             ],
         ],
-        'permission_group'          => [
-            'label'                 => 'Permission Group',
-            'placeholder'           => 'Please select a Permission group',
-            'help'                  => 'Please select a Permission group to add permission (required)',
+        'permission_group' => [
+            'label' => 'Permission Group',
+            'placeholder' => 'Please select a Permission group',
+            'help' => 'Please select a Permission group to add permission (required)',
         ],
-        'permission_name'           => [
-            'label'                 => 'Permission Name',
-            'placeholder'           => 'Please enter a permission name',
-            'help'                  => 'The permission name must end with the name of the group to which it belongs. example: CREATE_ROLE',
+        'permission_name' => [
+            'label' => 'Permission Name',
+            'placeholder' => 'Please enter a permission name',
+            'help' => 'The permission name must end with the name of the group to which it belongs. example: CREATE_ROLE',
         ],
-        'code'                      => [
-            'label'                 => 'Code',
-            'placeholder'           => 'Please enter a code',
-            'help'                  => 'The code must be unique and contain only capital letters and underscores. example: CONTENT, USER_MANAGEMENT',
+        'code' => [
+            'label' => 'Code',
+            'placeholder' => 'Please enter a code',
+            'help' => 'The code must be unique and contain only capital letters and underscores. example: CONTENT, USER_MANAGEMENT',
         ],
-        'icon'                      => [
-            'label'                 => 'Icon',
-            'placeholder'           => 'Please enter a icon',
-            'help'                  => 'Font Awesome icon class name. example: fas fa-user, fas fa-cogs',
-        ],
-    ],
-
-    'country_crud'                  => [
-        'native_name'               => [
-            'label'                 => 'Native Name',
-            'placeholder'           => 'Please enter a Native Name',
-            'help'                  => 'Enter a Native Name (required)',
-        ],
-        'iso2'                      => [
-            'label'                 => 'ISO2',
-            'placeholder'           => 'Please enter a ISO2',
-            'help'                  => 'Enter a ISO2 (required)',
-        ],
-        'iso3'                      => [
-            'label'                 => 'ISO3',
-            'placeholder'           => 'Please enter a ISO3',
-            'help'                  => 'Enter a ISO3 (required)',
-        ],
-        'phone_code'                => [
-            'label'                 => 'Phone Code',
-            'placeholder'           => 'Please enter a Phone Code',
-            'help'                  => 'Enter a Phone Code (required)',
-        ],
-        'currency'                  => [
-            'label'                 => 'Currency',
-            'placeholder'           => 'Please enter a Currency',
-            'help'                  => 'Enter a Currency (required)',
-        ],
-        'currency_symbol'           => [
-            'label'                 => 'Currency Symbol',
-            'placeholder'           => 'Please enter a Currency Symbol',
-            'help'                  => 'Enter a Currency Symbol (required)',
-        ],
-        'lat'                       => [
-            'label'                 => 'Latitude',
-            'placeholder'           => 'Please enter a Latitude',
-            'help'                  => 'Enter a Latitude (required)',
-        ],
-        'lng'                       => [
-            'label'                 => 'Longitude',
-            'placeholder'           => 'Please enter a Longitude',
-            'help'                  => 'Enter a Longitude (required)',
+        'icon' => [
+            'label' => 'Icon',
+            'placeholder' => 'Please enter a icon',
+            'help' => 'Font Awesome icon class name. example: fas fa-user, fas fa-cogs',
         ],
     ],
 
-    'admin_crud'                    => [
-        'full_name'                 => [
-            'label'                 => 'Full Name',
-            'placeholder'           => 'Please enter a Full Name',
-            'help'                  => 'Enter a Full Name (required)',
+    'country_crud' => [
+        'native_name' => [
+            'label' => 'Native Name',
+            'placeholder' => 'Please enter a Native Name',
+            'help' => 'Enter a Native Name (required)',
         ],
-        'username'                  => [
-            'label'                 => 'Username',
-            'placeholder'           => 'Please enter a Username',
-            'help'                  => 'Username must be unique and contain only english letters, numbers, and underscores. example: john_doe',
+        'iso2' => [
+            'label' => 'ISO2',
+            'placeholder' => 'Please enter a ISO2',
+            'help' => 'Enter a ISO2 (required)',
         ],
-        'phone_number'              => [
-            'label'                 => 'Phone Number',
-            'placeholder'           => 'Phone Number',
-            'help'                  => 'Enter a Phone Number',
+        'iso3' => [
+            'label' => 'ISO3',
+            'placeholder' => 'Please enter a ISO3',
+            'help' => 'Enter a ISO3 (required)',
         ],
-        'avatar'                    => [
-            'label'                 => 'Avatar',
-            'placeholder'           => 'Please select an Avatar',
-            'help'                  => 'Select an Avatar',
-            'subText'               => 'Allowed file types: :types | Maximum file size: :size MB',
+        'phone_code' => [
+            'label' => 'Phone Code',
+            'placeholder' => 'Please enter a Phone Code',
+            'help' => 'Enter a Phone Code (required)',
         ],
-        'gender'                    => [
-            'label'                 => 'Gender',
-            'placeholder'           => 'Please select Gender',
-            'help'                  => 'Select Gender (required)',
+        'currency' => [
+            'label' => 'Currency',
+            'placeholder' => 'Please enter a Currency',
+            'help' => 'Enter a Currency (required)',
         ],
-    ],
-
-    'setting_crud'                  => [
-        'group'                     => [
-            'label'                 => 'Group',
-            'placeholder'           => 'Please select a group',
-            'help'                  => 'Select a group (required)',
+        'currency_symbol' => [
+            'label' => 'Currency Symbol',
+            'placeholder' => 'Please enter a Currency Symbol',
+            'help' => 'Enter a Currency Symbol (required)',
         ],
-        'type'                      => [
-            'label'                 => 'Type',
-            'placeholder'           => 'Please select a type',
-            'help'                  => 'Select a type (required)',
+        'lat' => [
+            'label' => 'Latitude',
+            'placeholder' => 'Please enter a Latitude',
+            'help' => 'Enter a Latitude (required)',
         ],
-        'key'                       => [
-            'label'                 => 'Key',
-            'placeholder'           => 'Please enter a key',
-            'help'                  => 'The key must be unique and contain only lowercase letters, numbers, and underscores. example: site_title, site_description',
-        ],
-        'value'                     => [
-            'label'                 => 'Value',
-            'placeholder'           => 'Please enter a value',
-            'help'                  => 'Enter a value (required)',
-        ],
-        'options'                   => [
-            'label'                 => 'Options',
-            'placeholder'           => 'Please enter options',
-            'help'                  => 'Options enter as JSON format. example: {"key": "value"}.This field is required for the select type',
-        ],
-        'order'                     => [
-            'label'                 => 'Order',
-            'placeholder'           => 'Please enter an order',
-            'help'                  => 'Enter an order (required)',
-        ],
-        'is_required'               => [
-            'label'                 => 'Is Required ?',
-            'placeholder'           => 'Please select required',
-            'help'                  => 'Select is required ?',
-        ],
-        'translatable'              => [
-            'label'                 => 'Is value has translation ?',
-            'placeholder'           => 'Please select translatable',
-            'help'                  => 'Select translatable (required)',
-        ],
-        'trans_value'               => [
-            'label'                 => 'Translation Value [:locale]',
-            'placeholder'           => 'Please enter a translation value',
-            'help'                  => 'Enter a translation value',
+        'lng' => [
+            'label' => 'Longitude',
+            'placeholder' => 'Please enter a Longitude',
+            'help' => 'Enter a Longitude (required)',
         ],
     ],
 
-    'content_category_crud'         => [
-        'slug'                      => [
-            'label'                 => 'Slug',
-            'placeholder'           => 'Please enter a slug',
-            'subText'               => 'The slug is used to generate the URL of the category. You can\'t change the slug after creating the category.',
-            'help'                  => 'The slug must be unique and contain only lowercase letters and dash. example: news, articles, blogs',
+    'admin_crud' => [
+        'full_name' => [
+            'label' => 'Full Name',
+            'placeholder' => 'Please enter a Full Name',
+            'help' => 'Enter a Full Name (required)',
         ],
-
-        'parent_id'                 => [
-            'label'                 => 'Parent Category',
-            'placeholder'           => 'Select a Parent Category (optional)',
-            'help'                  => 'Select a Parent Category (optional)',
+        'username' => [
+            'label' => 'Username',
+            'placeholder' => 'Please enter a Username',
+            'help' => 'Username must be unique and contain only english letters, numbers, and underscores. example: john_doe',
         ],
-        'can_be_deleted'            => [
-            'label'                 => 'Can Be Deleted',
-            'placeholder'           => 'Please select Can Be Deleted',
-            'help'                  => 'Select Can Be Deleted',
+        'phone_number' => [
+            'label' => 'Phone Number',
+            'placeholder' => 'Phone Number',
+            'help' => 'Enter a Phone Number',
+        ],
+        'avatar' => [
+            'label' => 'Avatar',
+            'placeholder' => 'Please select an Avatar',
+            'help' => 'Select an Avatar',
+            'subText' => 'Allowed file types: :types | Maximum file size: :size MB',
+        ],
+        'gender' => [
+            'label' => 'Gender',
+            'placeholder' => 'Please select Gender',
+            'help' => 'Select Gender (required)',
         ],
     ],
 
-    'contents_crud'                 => [
-        'published_at'              => [
-            'label'                 => 'Published At',
-            'placeholder'           => 'Please select a date',
-            'help'                  => 'Select a date (required)',
+    'setting_crud' => [
+        'group' => [
+            'label' => 'Group',
+            'placeholder' => 'Please select a group',
+            'help' => 'Select a group (required)',
         ],
-        'image'                     => [
-            'label'                 => 'Content Image [:locale]',
-            'help'                  => 'It is preferable that the image dimensions be: :dimensions and the image type be: :types',
-            'subText'               => 'It is preferable that the image dimensions be: :dimensions and the image type be: :types',
-            'placeholder'           => '',
+        'type' => [
+            'label' => 'Type',
+            'placeholder' => 'Please select a type',
+            'help' => 'Select a type (required)',
         ],
-        'slug'                      => [
-            'label'                 => 'Slug',
-            'placeholder'           => 'Please enter a slug',
-            'help'                  => 'The slug is used to generate the URL of the content. You can\'t change the slug after creating the content.',
-            'subText'               => 'The slug must be unique and contain only lowercase letters and dash. example: news, articles, blogs',
+        'key' => [
+            'label' => 'Key',
+            'placeholder' => 'Please enter a key',
+            'help' => 'The key must be unique and contain only lowercase letters, numbers, and underscores. example: site_title, site_description',
         ],
-        'sliders'                   => [
-            'placement'             => [
-                'label'             => 'Placement of Slider',
-                'placeholder'       => 'Please select a placement',
-                'help'              => 'Select a placement (required)',
+        'value' => [
+            'label' => 'Value',
+            'placeholder' => 'Please enter a value',
+            'help' => 'Enter a value (required)',
+        ],
+        'options' => [
+            'label' => 'Options',
+            'placeholder' => 'Please enter options',
+            'help' => 'Options enter as JSON format. example: {"key": "value"}.This field is required for the select type',
+        ],
+        'order' => [
+            'label' => 'Order',
+            'placeholder' => 'Please enter an order',
+            'help' => 'Enter an order (required)',
+        ],
+        'is_required' => [
+            'label' => 'Is Required ?',
+            'placeholder' => 'Please select required',
+            'help' => 'Select is required ?',
+        ],
+        'translatable' => [
+            'label' => 'Is value has translation ?',
+            'placeholder' => 'Please select translatable',
+            'help' => 'Select translatable (required)',
+        ],
+        'trans_value' => [
+            'label' => 'Translation Value [:locale]',
+            'placeholder' => 'Please enter a translation value',
+            'help' => 'Enter a translation value',
+        ],
+    ],
+
+    'content_category_crud' => [
+        'slug' => [
+            'label' => 'Slug',
+            'placeholder' => 'Please enter a slug',
+            'subText' => 'The slug is used to generate the URL of the category. You can\'t change the slug after creating the category.',
+            'help' => 'The slug must be unique and contain only lowercase letters and dash. example: news, articles, blogs',
+        ],
+
+        'parent_id' => [
+            'label' => 'Parent Category',
+            'placeholder' => 'Select a Parent Category (optional)',
+            'help' => 'Select a Parent Category (optional)',
+        ],
+        'can_be_deleted' => [
+            'label' => 'Can Be Deleted',
+            'placeholder' => 'Please select Can Be Deleted',
+            'help' => 'Select Can Be Deleted',
+        ],
+    ],
+
+    'contents_crud' => [
+        'published_at' => [
+            'label' => 'Published At',
+            'placeholder' => 'Please select a date',
+            'help' => 'Select a date (required)',
+        ],
+        'image' => [
+            'label' => 'Content Image [:locale]',
+            'help' => 'It is preferable that the image dimensions be: :dimensions and the image type be: :types',
+            'subText' => 'It is preferable that the image dimensions be: :dimensions and the image type be: :types',
+            'placeholder' => '',
+        ],
+        'slug' => [
+            'label' => 'Slug',
+            'placeholder' => 'Please enter a slug',
+            'help' => 'The slug is used to generate the URL of the content. You can\'t change the slug after creating the content.',
+            'subText' => 'The slug must be unique and contain only lowercase letters and dash. example: news, articles, blogs',
+        ],
+        'sliders' => [
+            'placement' => [
+                'label' => 'Placement of Slider',
+                'placeholder' => 'Please select a placement',
+                'help' => 'Select a placement (required)',
             ],
-            'link'                  => [
-                'label'             => 'Link',
-                'placeholder'       => 'https://example.com',
-                'help'              => 'Enter a link (optional)',
-            ],
-        ],
-        'blogs'                     => [
-            'tags'                  => [
-                'label'             => 'Tags',
-                'placeholder'       => 'Please select tags',
-                'help'              => 'Select tags',
+            'link' => [
+                'label' => 'Link',
+                'placeholder' => 'https://example.com',
+                'help' => 'Enter a link (optional)',
             ],
         ],
-    ],
-
-    'category_crud'                 => [
-        'image'                     => [
-            'label'                 => 'Category Image [:locale]',
-            'help'                  => 'It is preferable that the image dimensions be: :dimentions and the image type be: :types',
-            'subText'               => 'It is preferable that the image dimensions be: :dimentions and the image type be: :types',
-            'placeholder'           => '',
+        'blogs' => [
+            'tags' => [
+                'label' => 'Tags',
+                'placeholder' => 'Please select tags',
+                'help' => 'Select tags',
+            ],
+        ],
+        'appear_in_footer' => [
+            'label' => 'Appear in footer',
+            'help' => 'When enabled, this page is shown as a link in the public site footer.',
         ],
     ],
 
-    'user_crud'                     => [
-        'first_name'                => [
-            'label'                 => 'First Name',
-            'placeholder'           => 'Please enter a First Name',
-            'help'                  => 'Enter a First Name (required)',
+    'category_crud' => [
+        'image' => [
+            'label' => 'Category Image [:locale]',
+            'help' => 'It is preferable that the image dimensions be: :dimentions and the image type be: :types',
+            'subText' => 'It is preferable that the image dimensions be: :dimentions and the image type be: :types',
+            'placeholder' => '',
         ],
 
-        'last_name'                 => [
-            'label'                 => 'Last Name',
-            'placeholder'           => 'Please enter a Last Name',
-            'help'                  => 'Enter a Last Name (required)',
+    ],
+
+    'user_crud' => [
+        'first_name' => [
+            'label' => 'First Name',
+            'placeholder' => 'Please enter a First Name',
+            'help' => 'Enter a First Name (required)',
+        ],
+
+        'last_name' => [
+            'label' => 'Last Name',
+            'placeholder' => 'Please enter a Last Name',
+            'help' => 'Enter a Last Name (required)',
+        ],
+
+        'central_phone' => [
+            'label' => 'Central phone',
+            'placeholder' => 'e.g. +905551234567',
+            'help' => 'Optional. Digits only; you may prefix with + once.',
+        ],
+
+        'image' => [
+            'subText' => 'Allowed file types: :types | Maximum file size: :size MB',
+        ],
+
+        'service_id' => [
+            'label' => 'Service type',
+            'placeholder' => 'Select a service',
+            'help' => 'Select the service type (required)',
+        ],
+
+        'country_id' => [
+            'label' => 'Country',
+            'placeholder' => 'Select a country',
+            'help' => 'Select country (required for service providers)',
+        ],
+
+        'state_id' => [
+            'label' => 'State',
+            'placeholder' => 'Select a state',
+            'help' => 'Select state (required for service providers)',
+        ],
+
+        'city_id' => [
+            'label' => 'City',
+            'placeholder' => 'Select a city',
+            'help' => 'Select city (required for service providers)',
+        ],
+
+        'package_id' => [
+            'label' => 'Package',
+            'placeholder' => 'Select a package',
+            'help' => 'Select a package (required for service providers)',
         ],
     ],
 
-    'notification_template_crud'    => [
-        'name'                      => [
-            'label'                 => 'Name',
-            'placeholder'           => 'Please enter a Name',
-            'help'                  => 'Enter a Name (required)',
-            'subText'               => 'The name must be unique and contain only lowercase letters, numbers, and underscores. example: user_registered, order_created',
+    'notification_template_crud' => [
+        'name' => [
+            'label' => 'Name',
+            'placeholder' => 'Please enter a Name',
+            'help' => 'Enter a Name (required)',
+            'subText' => 'The name must be unique and contain only lowercase letters, numbers, and underscores. example: user_registered, order_created',
         ],
-        'priority'                  => [
-            'label'                 => 'Priority',
-            'placeholder'           => 'Please select a Priority',
-            'help'                  => 'Select a Priority (required)',
+        'priority' => [
+            'label' => 'Priority',
+            'placeholder' => 'Please select a Priority',
+            'help' => 'Select a Priority (required)',
         ],
-        'channels'                  => [
-            'label'                 => 'Channels',
-            'placeholder'           => 'Please select Channels',
-            'help'                  => 'Select Channels (required)',
+        'channels' => [
+            'label' => 'Channels',
+            'placeholder' => 'Please select Channels',
+            'help' => 'Select Channels (required)',
         ],
-        'variables'                 => [
-            'label'                 => 'Variables',
-            'placeholder'           => 'Please select Variables',
-            'help'                  => 'Select Variables (required)',
-            'subText'               => 'Enter the variables that will be used in the template. example: user_name, order_number',
+        'variables' => [
+            'label' => 'Variables',
+            'placeholder' => 'Please select Variables',
+            'help' => 'Select Variables (required)',
+            'subText' => 'Enter the variables that will be used in the template. example: user_name, order_number',
         ],
-        'short_template'            => [
-            'label'                 => 'Short Template',
-            'placeholder'           => 'Please enter a Short Template',
-            'help'                  => 'Enter a Short Template (required)',
-            'subText'               => 'Short template is used for SMS and push notifications.',
+        'short_template' => [
+            'label' => 'Short Template',
+            'placeholder' => 'Please enter a Short Template',
+            'help' => 'Enter a Short Template (required)',
+            'subText' => 'Short template is used for SMS and push notifications.',
         ],
-        'long_template'             => [
-            'label'                 => 'Long Template',
-            'placeholder'           => 'Please enter a Long Template',
-            'help'                  => 'Enter a Long Template (required)',
-            'subText'               => 'Long template is used for email notifications.',
-        ],
-    ],
-
-    'notification_crud'             => [
-        'body'                      => [
-            'label'                 => 'Body',
-            'placeholder'           => 'Please enter a Body',
-            'help'                  => 'Enter a Body (required)',
-        ],
-        'link'                      => [
-            'label'                 => 'Link',
-            'placeholder'           => 'https://example.com',
-            'help'                  => 'Enter a Link (optional)',
-            'subText'               => 'A link to be directed to when the user clicks on the notification for fcm_web and fcm_mobile channels.',
-        ],
-        'recipient'                 => [
-            'label'                 => 'Recipient',
-            'placeholder'           => 'Please select a Recipient',
-            'help'                  => 'Select a Recipient (required)',
-        ],
-        'notification_template'     => [
-            'label'                 => 'Notification Template',
-            'placeholder'           => 'Please select a Notification Template',
-            'help'                  => 'Select a Notification Template (required)',
-        ],
-        'added_by'                  => [
-            'label'                 => 'Added By',
-            'placeholder'           => 'Please select a Added By',
-            'help'                  => 'Select a Added By (required)',
-        ],
-        'groups'                    => [
-            'label'                 => 'Groups',
-            'placeholder'           => 'Please select Groups',
-            'help'                  => 'Select Groups (required)',
-        ],
-        'users'                     => [
-            'label'                 => 'Users',
-            'placeholder'           => 'Please select Users',
-            'help'                  => 'Select Users',
-            'subText'               => 'If no users are selected, the notification will be sent to all users in the selected groups.',
-        ],
-        'admins'                    => [
-            'label'                 => 'Admins',
-            'placeholder'           => 'Please select Admins',
-            'help'                  => 'Select Admins',
-            'subText'               => 'If no admins are selected, the notification will be sent to all admins.',
-        ],
-        'channels'                  => [
-            'label'                 => 'Channels',
-            'placeholder'           => 'Please select Channels',
-            'help'                  => 'Select Channels (required)',
-            'subText'               => 'Notice: If you choose either FCM_MOBILE or FCM_WEB and intend to send the notification to all users, you cannot select other channels (such as email or SMS). This is because the notification will be sent via a topic specific to FCM.',
+        'long_template' => [
+            'label' => 'Long Template',
+            'placeholder' => 'Please enter a Long Template',
+            'help' => 'Enter a Long Template (required)',
+            'subText' => 'Long template is used for email notifications.',
         ],
     ],
 
-    'contactus_crud'                => [
-        'first_name'                => [
-            'label'                 => 'First Name',
-            'placeholder'           => 'Please enter a First Name',
-            'help'                  => 'Enter a First Name (required)',
+    'notification_crud' => [
+        'body' => [
+            'label' => 'Body',
+            'placeholder' => 'Please enter a Body',
+            'help' => 'Enter a Body (required)',
         ],
-        'last_name'                 => [
-            'label'                 => 'Last Name',
-            'placeholder'           => 'Please enter a Last Name',
-            'help'                  => 'Enter a Last Name (required)',
+        'link' => [
+            'label' => 'Link',
+            'placeholder' => 'https://example.com',
+            'help' => 'Enter a Link (optional)',
+            'subText' => 'A link to be directed to when the user clicks on the notification for fcm_web and fcm_mobile channels.',
         ],
-        'message'                   => [
-            'label'                 => 'Message',
-            'placeholder'           => 'Please enter a Message',
-            'help'                  => 'Enter a Message (required)',
+        'recipient' => [
+            'label' => 'Recipient',
+            'placeholder' => 'Please select a Recipient',
+            'help' => 'Select a Recipient (required)',
         ],
-        'reply'                     => [
-            'label'                 => 'Reply',
-            'placeholder'           => 'Please enter a Reply',
-            'help'                  => 'Enter a Reply',
+        'notification_template' => [
+            'label' => 'Notification Template',
+            'placeholder' => 'Please select a Notification Template',
+            'help' => 'Select a Notification Template (required)',
         ],
-        'ip_address'                => [
-            'label'                 => 'IP Address',
-            'placeholder'           => 'Please enter an IP Address',
-            'help'                  => 'Enter an IP Address (required)',
+        'added_by' => [
+            'label' => 'Added By',
+            'placeholder' => 'Please select a Added By',
+            'help' => 'Select a Added By (required)',
         ],
-        'user_agent'                => [
-            'label'                 => 'User Agent',
-            'placeholder'           => 'Please enter a User Agent',
-            'help'                  => 'Enter a User Agent (required)',
+        'groups' => [
+            'label' => 'Groups',
+            'placeholder' => 'Please select Groups',
+            'help' => 'Select Groups (required)',
         ],
-        'submission_date'           => [
-            'label'                 => 'Submission Date',
-            'placeholder'           => 'Please select a Submission Date',
-            'help'                  => 'Select a Submission Date (required)',
+        'users' => [
+            'label' => 'Users',
+            'placeholder' => 'Please select Users',
+            'help' => 'Select Users',
+            'subText' => 'If no users are selected, the notification will be sent to all users in the selected groups.',
+        ],
+        'admins' => [
+            'label' => 'Admins',
+            'placeholder' => 'Please select Admins',
+            'help' => 'Select Admins',
+            'subText' => 'If no admins are selected, the notification will be sent to all admins.',
+        ],
+        'channels' => [
+            'label' => 'Channels',
+            'placeholder' => 'Please select Channels',
+            'help' => 'Select Channels (required)',
+            'subText' => 'Notice: If you choose either FCM_MOBILE or FCM_WEB and intend to send the notification to all users, you cannot select other channels (such as email or SMS). This is because the notification will be sent via a topic specific to FCM.',
         ],
     ],
 
-    'api_log_crud'                  => [
-        'service_name'              => [
-            'label'                 => 'Service Name',
-            'placeholder'           => 'Please enter a Service Name',
-            'help'                  => 'Enter a Service Name (required)',
+    'contactus_crud' => [
+        'first_name' => [
+            'label' => 'First Name',
+            'placeholder' => 'Please enter a First Name',
+            'help' => 'Enter a First Name (required)',
         ],
-        'method'                    => [
-            'label'                 => 'Method',
-            'placeholder'           => 'Please enter a Method',
-            'help'                  => 'Enter a Method (required)',
+        'last_name' => [
+            'label' => 'Last Name',
+            'placeholder' => 'Please enter a Last Name',
+            'help' => 'Enter a Last Name (required)',
         ],
-        'endpoint'                  => [
-            'label'                 => 'Endpoint',
-            'placeholder'           => 'Please enter an Endpoint',
-            'help'                  => 'Enter an Endpoint (required)',
+        'message' => [
+            'label' => 'Message',
+            'placeholder' => 'Please enter a Message',
+            'help' => 'Enter a Message (required)',
         ],
-        'request'                   => [
-            'label'                 => 'Request',
-            'placeholder'           => 'Please enter a Request',
-            'help'                  => 'Enter a Request (required)',
+        'reply' => [
+            'label' => 'Reply',
+            'placeholder' => 'Please enter a Reply',
+            'help' => 'Enter a Reply',
         ],
-        'response'                  => [
-            'label'                 => 'Response',
-            'placeholder'           => 'Please enter a Response',
-            'help'                  => 'Enter a Response (required)',
+        'ip_address' => [
+            'label' => 'IP Address',
+            'placeholder' => 'Please enter an IP Address',
+            'help' => 'Enter an IP Address (required)',
         ],
-        'status'                    => [
-            'label'                 => 'Status',
-            'placeholder'           => 'Please select a Status',
-            'help'                  => 'Select a Status (required)',
+        'user_agent' => [
+            'label' => 'User Agent',
+            'placeholder' => 'Please enter a User Agent',
+            'help' => 'Enter a User Agent (required)',
         ],
-        'status_code'               => [
-            'label'                 => 'Status Code',
-            'placeholder'           => 'Please enter a Status Code',
-            'help'                  => 'Enter a Status Code (required)',
+        'submission_date' => [
+            'label' => 'Submission Date',
+            'placeholder' => 'Please select a Submission Date',
+            'help' => 'Select a Submission Date (required)',
+        ],
+    ],
+
+    'api_log_crud' => [
+        'service_name' => [
+            'label' => 'Service Name',
+            'placeholder' => 'Please enter a Service Name',
+            'help' => 'Enter a Service Name (required)',
+        ],
+        'method' => [
+            'label' => 'Method',
+            'placeholder' => 'Please enter a Method',
+            'help' => 'Enter a Method (required)',
+        ],
+        'endpoint' => [
+            'label' => 'Endpoint',
+            'placeholder' => 'Please enter an Endpoint',
+            'help' => 'Enter an Endpoint (required)',
+        ],
+        'request' => [
+            'label' => 'Request',
+            'placeholder' => 'Please enter a Request',
+            'help' => 'Enter a Request (required)',
+        ],
+        'response' => [
+            'label' => 'Response',
+            'placeholder' => 'Please enter a Response',
+            'help' => 'Enter a Response (required)',
+        ],
+        'status' => [
+            'label' => 'Status',
+            'placeholder' => 'Please select a Status',
+            'help' => 'Select a Status (required)',
+        ],
+        'status_code' => [
+            'label' => 'Status Code',
+            'placeholder' => 'Please enter a Status Code',
+            'help' => 'Enter a Status Code (required)',
+        ],
+    ],
+
+    'package_subscriptions_crud' => [
+        'user' => [
+            'label' => 'User',
+            'placeholder' => 'Search user',
+        ],
+        'service_provider' => [
+            'label' => 'Service Provider',
+            'placeholder' => 'Search service provider',
+            'subText' => 'Providers who already have an active paid subscription (not expired, with connections remaining) cannot be given another subscription from this form.',
+        ],
+        'service_provider_preview' => [
+            'title' => 'Provider profile',
+            'email' => 'Email',
+            'phone' => 'Mobile',
+            'central_phone' => 'Central phone',
+            'service' => 'Service',
+            'city' => 'City',
+        ],
+        'package' => [
+            'label' => 'Package',
+            'placeholder' => 'Search package',
+        ],
+        'snapshot_package' => [
+            'label' => 'Package (as ordered)',
+        ],
+        'snapshot_price' => [
+            'label' => 'Price (as ordered)',
+        ],
+        'replace_from_catalog' => [
+            'label' => 'Replace line item from catalog',
+            'placeholder' => 'Optional — select a package to refresh the stored name and price',
+            'subText' => 'Leave empty to keep the original order snapshot. Selecting a package overwrites the stored name, price, currency, billing period, and connection allowance from the catalog at save time.',
+        ],
+        'status' => [
+            'label' => 'Subscription status',
+        ],
+        'payment_status' => [
+            'label' => 'Payment status',
+        ],
+        'payment_method' => [
+            'label' => 'Payment method',
+        ],
+        'starts_at' => [
+            'label' => 'Starts at',
+        ],
+        'ends_at' => [
+            'label' => 'Ends at',
+        ],
+        'cancelled_at' => [
+            'label' => 'Cancelled at',
+        ],
+        'paid_at' => [
+            'label' => 'Paid at',
+        ],
+        'remaining_connections' => [
+            'label' => 'Remaining connections',
+            'subText' => 'Set from the package allowance when the order is created. Choosing “Replace line item from catalog” updates it from the new package when you save.',
+        ],
+        'admin_notes' => [
+            'label' => 'Admin notes',
         ],
     ],
 ];

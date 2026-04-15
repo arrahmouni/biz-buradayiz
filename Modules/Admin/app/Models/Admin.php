@@ -138,7 +138,9 @@ class Admin extends User implements HasMedia, Auditable
 
     public function scopeExceptRoot($query)
     {
-        return $query->where('username', '!=', AdminSeeder::$systemAdmins[SystemDefaultRoles::ROOT_ROLE]['username']);
+        $rootUsername = AdminSeeder::getSystemAdmins()[SystemDefaultRoles::ROOT_ROLE]['username'];
+
+        return $query->where('username', '!=', $rootUsername);
     }
 
     public function scopeExceptCurrentAdmin($query)

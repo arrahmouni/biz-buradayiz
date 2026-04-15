@@ -1,64 +1,79 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ getSetting('app_name') }}</title>
+    <style>
+        /* Reset styles for email clients */
+        body, table, td, p, a { margin: 0; padding: 0; border: 0; font-size: 100%; }
+        body { background-color: #F3F4F6; font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; line-height: 1.5; }
+        .container { max-width: 600px; width: 100%; margin: 0 auto; background-color: #FFFFFF; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); }
+        .header { background: linear-gradient(135deg, #1F2937 0%, #111827 100%); padding: 32px 24px; text-align: center; }
+        .content { padding: 40px 32px; background: #FFFFFF; }
+        .footer { background: #F9FAFB; padding: 24px; text-align: center; border-top: 1px solid #E5E7EB; }
+        .btn { display: inline-block; background-color: #DC2626; color: #FFFFFF; text-decoration: none; padding: 12px 28px; border-radius: 9999px; font-weight: 600; font-size: 14px; text-align: center; transition: all 0.2s; }
+        .social-icons { margin-top: 20px; display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+        .social-icons a { display: inline-block; width: 32px; height: 32px; opacity: 0.8; transition: opacity 0.2s; }
+        .social-icons img { width: 100%; height: auto; }
+        @media only screen and (max-width: 600px) {
+            .content { padding: 24px 20px; }
+            .btn { display: block; width: 100%; text-align: center; box-sizing: border-box; }
+        }
+    </style>
+</head>
+<body style="background-color: #F3F4F6; margin: 0; padding: 20px 0; font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;">
+    <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; margin: 0 auto; border-collapse: collapse;">
+        <tr>
+            <td align="center" style="padding: 0;">
+                <!-- Main container -->
+                <div class="container">
+                    <!-- Header with logo -->
+                    <div class="header">
+                        <a href="{{ url('/') }}" target="_blank" style="display: inline-block; text-decoration: none;">
+                            <img src="{{ getSetting('email_logo', asset('images/default/logos/app_logo.svg')) }}" alt="{{ getSetting('app_name') }}" style="height: 48px; width: auto; max-width: 200px;">
+                        </a>
+                    </div>
 
-        <style>html,body { padding: 0; margin:0;} .h-100{height: 100px;} .w-20{width: 20px;}</style>
-    </head>
-    <body>
-        <div style="font-family:Arial,Helvetica,sans-serif; line-height: 1.5; font-weight: normal; font-size: 15px; color: #2F3044; min-height: 100%; margin:0; padding:0; width:100%; background-color:#edf2f7">
-            <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;margin:0 auto; padding:0; max-width:600px">
-                <tbody>
-                    <tr>
-                        <td align="center" valign="center" style="text-align:center; padding: 40px">
-                            <a href="#" rel="noopener">
-                                <img alt="Logo" class="h-100" src="{{ getSetting('email_logo', asset('images/default/logos/app_logo.svg')) }}" />
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="left" valign="center">
-                            <div style="text-align:left; margin: 0 20px; padding: 40px; background-color:#ffffff; border-radius: 6px">
-                                <!--begin:Email content-->
-                                @yield('content')
-                                <!--end:Email content-->
+                    <!-- Dynamic content -->
+                    <div class="content">
+                        @yield('content')
+                    </div>
 
+                    <!-- Footer -->
+                    <div class="footer">
+                        <p style="margin: 0 0 8px; font-size: 13px; color: #6B7280;">
+                            &copy; {{ date('Y') }} {{ getSetting('app_name') }}. {{ __('admin::strings.all_rights_reserved') }}
+                        </p>
+                        <p style="margin: 0; font-size: 12px; color: #9CA3AF;">
+                            {{ __('admin::strings.email_footer_registered_user_notice') }}
+                        </p>
 
-                                <!--begin:Email footer-->
-                                <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e0e0e0; font-size: 12px; color: #7b7b7b; text-align: center">
-                                    <p style="margin: 0; padding: 0">
-                                        {{ getSetting('app_name') }} &copy; {{ date('Y') }}. @lang('admin::strings.all_rights_reserved')
-                                    </p>
-                                </div>
-
-                                <!-- Social media links -->
-                                <div class="social-icons" style="display:flex; justify-content:space-evenly; padding-top: 20px;">
-                                    <a href="{{ getSetting('facebook', 'https://facebook.com') }}" target="_blank">
-                                        <img class="w-20" src="{{ asset('modules/admin/metronic/demo/media/svg/social-logos/facebook.svg') }}" alt="facebook">
-                                    </a>
-                                    <a href="{{ getSetting('twitter', 'https://twitter.com') }}" target="_blank">
-                                        <img class="w-20" src="{{ asset('modules/admin/metronic/demo/media/svg/social-logos/twitter.svg') }}" alt="twitter">
-                                    </a>
-                                    <a href="{{ getSetting('linkedin', 'https://linkedin.com') }}" target="_blank">
-                                        <img class="w-20" src="{{ asset('modules/admin/metronic/demo/media/svg/social-logos/linkedin.svg') }}" alt="linkedin">
-                                    </a>
-                                    <a href="{{ getSetting('instagram', 'https://instagram.com') }}" target="_blank">
-                                        <img class="w-20" src="{{ asset('modules/admin/metronic/demo/media/svg/social-logos/instagram.svg') }}" alt="instagram">
-                                    </a>
-                                    <a href="{{ getSetting('youtube', 'https://youtube.com') }}" target="_blank">
-                                        <img class="w-20" src="{{ asset('modules/admin/metronic/demo/media/svg/social-logos/youtube.svg') }}" alt="youtube">
-                                    </a>
-                                    <a href="{{ getSetting('tiktok', 'https://tiktok.com') }}" target="_blank">
-                                        <img class="w-20" src="{{ asset('modules/admin/metronic/demo/media/svg/social-logos/tiktok.svg') }}" alt="tiktok">
-                                    </a>
-                                </div>
-
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </body>
+                        <!-- Social links -->
+                        <div class="social-icons">
+                            @if($facebook = getSetting('facebook'))
+                                <a href="{{ $facebook }}" target="_blank"><img src="{{ asset('modules/admin/metronic/demo/media/svg/social-logos/facebook.svg') }}" alt="Facebook"></a>
+                            @endif
+                            @if($twitter = getSetting('twitter'))
+                                <a href="{{ $twitter }}" target="_blank"><img src="{{ asset('modules/admin/metronic/demo/media/svg/social-logos/twitter.svg') }}" alt="Twitter"></a>
+                            @endif
+                            @if($linkedin = getSetting('linkedin'))
+                                <a href="{{ $linkedin }}" target="_blank"><img src="{{ asset('modules/admin/metronic/demo/media/svg/social-logos/linkedin.svg') }}" alt="LinkedIn"></a>
+                            @endif
+                            @if($instagram = getSetting('instagram'))
+                                <a href="{{ $instagram }}" target="_blank"><img src="{{ asset('modules/admin/metronic/demo/media/svg/social-logos/instagram.svg') }}" alt="Instagram"></a>
+                            @endif
+                            @if($youtube = getSetting('youtube'))
+                                <a href="{{ $youtube }}" target="_blank"><img src="{{ asset('modules/admin/metronic/demo/media/svg/social-logos/youtube.svg') }}" alt="YouTube"></a>
+                            @endif
+                            @if($tiktok = getSetting('tiktok'))
+                                <a href="{{ $tiktok }}" target="_blank"><img src="{{ asset('modules/admin/metronic/demo/media/svg/social-logos/tiktok.svg') }}" alt="TikTok"></a>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</body>
 </html>

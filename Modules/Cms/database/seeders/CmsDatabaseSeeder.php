@@ -12,7 +12,7 @@ class CmsDatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            ContentCategorySeeder::class,
+            // ContentCategorySeeder::class,
             ContentSeeder::class,
         ]);
     }

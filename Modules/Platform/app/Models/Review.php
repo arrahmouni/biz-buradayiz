@@ -1,0 +1,128 @@
+<?php
+
+namespace Modules\Platform\Models;
+
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Auth\Models\User;
+use Modules\Base\Models\BaseModel;
+use Modules\Platform\Database\Factories\ReviewFactory;
+use Modules\Platform\Enums\ReviewStatus;
+use Modules\Verimor\Models\VerimorCallEvent;
+
+class Review extends BaseModel
+{
+    use HasFactory, SoftDeletes;
+
+    // Start Properties
+
+    const VIEW_PATH = 'reviews';
+
+    protected $fillable = [
+        'user_id',
+        'verimor_call_event_id',
+        'rating',
+        'status',
+        'body',
+        'reviewer_display_name',
+        'reviewer_phone_normalized',
+    ];
+
+    public $timestamps = true;
+
+    protected function casts(): array
+    {
+        return [
+            'status' => ReviewStatus::class,
+        ];
+    }
+
+    /**
+     * Create a new factory instance for the model.
+     */
+    protected static function newFactory()
+    {
+        return ReviewFactory::new();
+    }
+
+    // End Properties
+
+    // Start Relationships
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function verimorCallEvent(): BelongsTo
+    {
+        return $this->belongsTo(VerimorCallEvent::class);
+    }
+
+    // End Relationships
+
+    // Start Scopes
+
+    public function scopeApproved(Builder $query): Builder
+    {
+        return $query->where('status', ReviewStatus::Approved);
+    }
+
+    public function scopeSimpleSearch($query, $search)
+    {
+        return $query->where(function ($query) use ($search) {
+            $query->where('id', $search)
+                ->orWhere('body', 'like', '%'.$search.'%')
+                ->orWhere('reviewer_display_name', 'like', '%'.$search.'%')
+                ->orWhere('reviewer_phone_normalized', 'like', '%'.$search.'%')
+                ->orWhere('status', 'like', '%'.$search.'%')
+                ->orWhereHas('user', function ($uq) use ($search) {
+                    $uq->where('email', 'like', '%'.$search.'%')
+                        ->orWhere('first_name', 'like', '%'.$search.'%')
+                        ->orWhere('last_name', 'like', '%'.$search.'%')
+                        ->orWhere('central_phone', 'like', '%'.$search.'%');
+                });
+        });
+    }
+
+    public function scopeAdvancedSearch($query, $search)
+    {
+        return $query
+            ->when(
+                ! empty($search['status']) && in_array($search['status'], ReviewStatus::values(), true),
+                fn ($q) => $q->where('status', $search['status'])
+            )
+            ->when(
+                ! empty($search['user_id']) && (int) $search['user_id'] > 0,
+                fn ($q) => $q->where('user_id', (int) $search['user_id'])
+            )
+            ->when(
+                isset($search['rating']) && $search['rating'] !== '' && $search['rating'] !== null,
+                function ($q) use ($search) {
+                    $rating = (int) $search['rating'];
+                    if ($rating >= 1 && $rating <= 5) {
+                        $q->where('rating', $rating);
+                    }
+                }
+            );
+    }
+    // End Scopes
+
+    // Start Get Data From Model
+
+    public function formAjaxArray($selected = true)
+    {
+        return [
+            'id' => $this->id,
+            'selected' => $selected,
+        ];
+    }
+
+    // End Get Data From Model
+
+    // Start Mutators & Accessors
+
+    // End Mutators & Accessors
+}

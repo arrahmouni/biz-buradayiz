@@ -18,6 +18,7 @@ use Modules\Zms\Http\Controllers\Admin\CountryController;
 
 Route::prefix('countries')->name('countries.')->controller(CountryController::class)->group(function () {
     Route::get('list'                           , 'index')->name('index');
+    Route::get('ajax-list'                      , 'ajaxList')->name('ajaxList');
     Route::get('datatable'                      , 'datatable')->name('datatable');
     Route::get('update/{model}'                 , 'update')->name('update');
     Route::put('update/{model}'                 , 'postUpdate')->name('postUpdate');
@@ -35,15 +36,21 @@ Route::prefix('countries')->name('countries.')->controller(CountryController::cl
 });
 
 Route::prefix('states')->name('states.')->controller(StateController::class)->group(function () {
+    Route::get('ajax-list'                      , 'ajaxList')->name('ajaxList');
     Route::get('{country_id?}/datatable'        , 'datatable')->name('datatable')->whereNumber('country_id');
     Route::get('update/{model}'                 , 'update')->name('update');
     Route::put('update/{model}'                 , 'postUpdate')->name('postUpdate');
     Route::delete('hard-delete/{model}'         , 'hardDelete')->name('hardDelete');
+    Route::post('disable/{model}'               , 'disable')->name('disable');
+    Route::post('enable/{model}'                , 'enable')->name('enable');
 });
 
 Route::prefix('cities')->name('cities.')->controller(CityController::class)->group(function () {
+    Route::get('ajax-list'                      , 'ajaxList')->name('ajaxList');
     Route::get('{state_id?}/datatable'          , 'datatable')->name('datatable')->whereNumber('state_id');
     Route::get('update/{model}'                 , 'update')->name('update');
     Route::put('update/{model}'                 , 'postUpdate')->name('postUpdate');
     Route::delete('hard-delete/{model}'         , 'hardDelete')->name('hardDelete');
+    Route::post('disable/{model}'               , 'disable')->name('disable');
+    Route::post('enable/{model}'                , 'enable')->name('enable');
 });

@@ -23,7 +23,7 @@ return [
     'sendgrid'                              => [
         'url'                               => env('SENDGRID_URL', 'https://api.sendgrid.com/v3/mail/send'),
         'api_key'                           => env('SENDGRID_API_KEY'),
-        'from_email'                        => env('MAIL_FROM_ADDRESS', 'nsxezkcvwkuqqafeie@ytnhy.com'),
+        'from_email'                        => env('MAIL_FROM_ADDRESS', 'example@example.com'),
         'from_name'                         => env('MAIL_FROM_NAME', 'Example App'),
         'template_id'                       => env('SENDGRID_TEMPLATE_ID', 'd-1b2b3b4b5b6b7b8b9b0b1b2b3b4b5b6'),
     ],

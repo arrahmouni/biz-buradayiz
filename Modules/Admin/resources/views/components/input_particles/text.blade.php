@@ -1,8 +1,9 @@
-<input @class(['form-control', 'form-control-solid' => $VALUE['solid'], $VALUE['class'], 'has-icon' => !empty($VALUE['icon']), 'email-mask-input' => $VALUE['emailMask']])
+<input @class(['form-control', 'form-control-solid' => $VALUE['solid'], $VALUE['class'], 'has-icon' => !empty($VALUE['icon']), 'email-mask-input' => $VALUE['emailMask'], 'js-only-plus-digits' => $VALUE['onlyPlusDigits']])
 placeholder="{{$VALUE['placeholder']}}" type="{{$VALUE['type']}}" name="{{$VALUE['name']}}" id="{{$VALUE['id']}}" inputmode="{{$VALUE['inputmode']}}"
 value="{{$VALUE['value']}}" @readonly($VALUE['readonly']) @disabled($VALUE['disabled'])
 @if($VALUE['onlyDigit']) onkeypress="return isNumberKey(event)" @endif
 @if($VALUE['isPhone']) onkeypress="return isPhoneKey(event)" @endif
+@if($VALUE['onlyPlusDigits']) onkeypress="return isPlusDigitKey(event)" @endif
 @if($VALUE['maxlength']) maxlength="{{$VALUE['maxlength']}}" @endif
 @if($VALUE['type'] == 'number')
     step="{{$VALUE['step']}}"

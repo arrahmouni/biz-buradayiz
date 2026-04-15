@@ -7,21 +7,21 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Modules\Admin\Models\Admin;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Modules\Edu\Models\Classroom;
 use Modules\Notification\Enums\FirebaseTopics;
 use Modules\Base\Http\Services\BaseCrudService;
 use Modules\Notification\Enums\NotificationAddedBy;
 use Modules\Notification\Enums\NotificationChannels;
 use Modules\Notification\Enums\NotificationPriority;
 use Modules\Notification\Enums\NotificationStatuses;
+use Modules\Notification\Enums\NotificationType;
 use Modules\Notification\Models\NotificationTemplate;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use Modules\Notification\Jobs\SendEmailNotificationJob;
 use Modules\Notification\Jobs\SendFcmPushNotificationJob;
 use Modules\Notification\Jobs\SendFcmTopicPushNotificationJob;
 use Modules\Notification\Models\Notification as CrudModel;
-use Modules\Notification\Enums\permissions\NotificationPermissions;
-use Illuminate\Http\JsonResponse;
-use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class NotificationService extends BaseCrudService
 {
@@ -132,11 +132,34 @@ class NotificationService extends BaseCrudService
 
     public function getAllUsersIds($group)
     {
-        if($group == config('admin.main_roles.users')) {
+        if ($group == config('admin.main_roles.users')) {
             return User::active()->pluck('id')->toArray();
-        } else {
-            return Admin::active()->pluck('id')->toArray();
         }
+        if ($group == config('admin.main_roles.classrooms')) {
+            return $this->getStudentIdsByClassroomIds(Classroom::pluck('id')->toArray());
+        }
+
+        return Admin::active()->pluck('id')->toArray();
+    }
+
+    /**
+     * Get all student (user) IDs enrolled in the given classrooms.
+     *
+     * @param array $classroomIds
+     * @return array
+     */
+    public function getStudentIdsByClassroomIds(array $classroomIds): array
+    {
+        if (empty($classroomIds)) {
+            return [];
+        }
+
+        return User::query()
+            ->whereHas('classroomEnrollments', fn ($q) => $q->whereIn('classrooms.id', $classroomIds))
+            ->pluck('id')
+            ->unique()
+            ->values()
+            ->toArray();
     }
 
     /**
@@ -251,7 +274,7 @@ class NotificationService extends BaseCrudService
         }
 
         if(in_array(NotificationChannels::MAIL, $template->channels)){
-            $this->sendEmailNotification($user->email, $user->full_name, $model, $template->priority, $data['title'], $data['htmlTemplate'], $extraData);
+            $this->sendEmailNotification($user->email, $user->full_name, $model, $template->priority, $data['title'], $data['htmlTemplate'], $extraData, $locale);
         }
 
         return sendSuccessInternalResponse();
@@ -358,10 +381,15 @@ class NotificationService extends BaseCrudService
      */
     public function prepareDataForWithoutTempalteNotificationModel(string $group, int $userId, array $channels): array
     {
-        if($group == config('admin.main_roles.users')) {
+        if ($group == config('admin.main_roles.users')) {
             $user = User::find($userId);
+            $type = NotificationType::USER;
+        } elseif ($group == config('admin.main_roles.classrooms')) {
+            $user = User::find($userId);
+            $type = NotificationType::CLASSROOM;
         } else {
             $user = Admin::find($userId);
+            $type = NotificationType::USER;
         }
 
         $modelData = [
@@ -369,6 +397,7 @@ class NotificationService extends BaseCrudService
             'notifiable_id'     => $user->id,
             'notifiable_type'   => get_class($user),
             'added_by'          => NotificationAddedBy::ADMIN,
+            'type'              => $type,
             'channels'          => $channels,
         ];
 
@@ -443,11 +472,12 @@ class NotificationService extends BaseCrudService
      * @param string $title
      * @param string $body
      * @param array $extraData
+     * @param string|null $locale
      * @return void
      */
-    public function sendEmailNotification(string $email, string $name, CrudModel $notification, mixed $queue = NotificationPriority::DEFAULT, string $title, string $body, array $extraData = [])
+    public function sendEmailNotification(string $email, string $name, CrudModel $notification, mixed $queue = NotificationPriority::DEFAULT, string $title, string $body, array $extraData = [], ?string $locale = null)
     {
-        SendEmailNotificationJob::dispatch($email, $name, $notification, $title, $body, $extraData)->onQueue($queue);
+        SendEmailNotificationJob::dispatch($email, $name, $notification, $title, $body, $extraData, $locale)->onQueue($queue);
     }
 
     /**
@@ -463,6 +493,16 @@ class NotificationService extends BaseCrudService
         $this->data['model']                = $this->data['webNotifications']->union($this->data['topicNotifications'])->latest();
 
         return $this->data['model'];
+    }
+
+    /**
+     * Paginated notifications for a student user: web/mobile push (morph) and Firebase topic broadcasts.
+     */
+    public function paginatedUserNotifications(User $user, int $perPage, int $page): LengthAwarePaginator
+    {
+        $personalQuery = $user->webAndMobileNotifications()->successfully()->select('notifications.*');
+
+        return $personalQuery->latest('notifications.created_at')->paginate($perPage, ['*'], 'page', $page);
     }
 
     /**
@@ -514,45 +554,5 @@ class NotificationService extends BaseCrudService
         })->each(function($notification) use($status) {
             $notification->notificationChannels()->update(['status' => $status]);
         });
-    }
-
-
-    public function getDataTable(array $data) : JsonResponse
-    {
-        $model = CrudModel::query()->with('notifiable');
-
-        if($this->shouldShowTrash($data, NotificationPermissions::VIEW_TRASH)) {
-            $model = $model->onlyTrashed();
-        }
-
-        return DataTables::of($model)
-            ->filter(function ($query) use ($data) {
-                if(isset($data['search']['value']) && !empty($data['search']['value'])){
-                    $query->simpleSearch($data['search']['value']);
-                }
-                if(isset($data['advanced_search']) && !empty($data['advanced_search'])){
-                    $query->advancedSearch($data['advanced_search']);
-                }
-            })
-            ->addColumn('notifiable', function ($model) {
-                if ($model->notifiable) {
-                    return [
-                        'full_name' => $model->notifiable->full_name ?? null,
-                        'email' => $model->notifiable->email ?? null,
-                    ];
-                }
-                return null;
-            })
-            ->addColumn('actions', function ($model) {
-                $excludeActions = [VIEW_ACTION, UPDATE_ACTION];
-
-                return
-                    app('customDataTable')
-                    ->routePrefix('notification.notifications')
-                    ->of($model, NotificationPermissions::PERMISSION_NAMESPACE)
-                    ->excludeActions($excludeActions)
-                    ->getDatatableActions();
-            })
-            ->toJson();
     }
 }

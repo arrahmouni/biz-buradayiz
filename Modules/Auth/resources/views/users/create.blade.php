@@ -1,11 +1,15 @@
-@extends('admin::layouts.master', ['title' => trans('admin::cruds.users.add')])
+@extends('admin::layouts.master', ['title' => $isServiceProvider
+    ? trans('admin::dashboard.aside_menu.user_management.create_service_provider')
+    : trans('admin::dashboard.aside_menu.user_management.create_customer')])
 
 @section('toolbar')
     @include('admin::includes.toolbar', [
         'options'                   => [
-            'title'                 => trans('admin::dashboard.aside_menu.user_management.users'),
-            'backUrl'               => route('auth.users.index'),
-            'createUrl'             => route('auth.users.create'),
+            'title'                 => $isServiceProvider
+                ? trans('admin::dashboard.aside_menu.user_management.create_service_provider')
+                : trans('admin::dashboard.aside_menu.user_management.create_customer'),
+            'backUrl'               => route('auth.users.index', ['userType' => $userType->value]),
+            'createUrl'             => route('auth.users.create', ['userType' => $userType->value]),
             'actions'               => [
                 'save'              => true,
                 'saveAndCreateNew'  => true,
@@ -24,17 +28,39 @@
                 <div class="card card-bordered mb-5">
                     <div class="card-header">
                         <h3 class="card-title">
-                            @lang('admin::cruds.users.add')
+                            {{ $isServiceProvider
+                                ? trans('admin::dashboard.aside_menu.user_management.create_service_provider')
+                                : trans('admin::dashboard.aside_menu.user_management.create_customer') }}
                         </h3>
                     </div>
                     <div class="card-body">
                         @component('admin::components.forms.form', [
                                 'options'       => [
                                     'isAjax'    => true,
-                                    'action'    => route('auth.users.postCreate'),
+                                    'action'    => route('auth.users.postCreate', ['userType' => $userType->value]),
                                 ]
                             ])
                             @slot('fields')
+
+                                <div class="fv-row d-flex justify-content-center">
+                                    <div class="d-flex flex-column align-items-center mb-10 form-group">
+                                        @include('admin::components.inputs.image', [
+                                            'options'       => [
+                                                'name'              => 'image',
+                                                'removeFieldName'   => 'image_remove',
+                                                'isAvatar'          => true,
+                                                'width'             => '125',
+                                                'height'            => '125',
+                                                'circle'            => true,
+                                                'subText'           => trans('admin::inputs.user_crud.image.subText', [
+                                                    'types' => getImageTypes(true),
+                                                    'size'  => config('base.file.image.max_size'),
+                                                ]),
+                                                'accept'            => getImageTypes(),
+                                            ]
+                                        ])
+                                    </div>
+                                </div>
 
                                 <div class="row">
                                     <div class="col-lg-6 col-12 mb-10 form-group">
@@ -118,6 +144,21 @@
 
                                 <div class="row">
                                     <div class="col-lg-6 col-12 mb-10 form-group">
+                                        @include('admin::components.inputs.text', [
+                                            'options'           => [
+                                                'name'              => 'central_phone',
+                                                'label'             => trans('admin::inputs.user_crud.central_phone.label'),
+                                                'placeholder'       => trans('admin::inputs.user_crud.central_phone.placeholder'),
+                                                'help'              => trans('admin::inputs.user_crud.central_phone.help'),
+                                                'required'          => false,
+                                                'onlyPlusDigits'    => true,
+                                            ],
+                                        ])
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-6 col-12 mb-10 form-group">
                                         @include('admin::components.inputs.password', [
                                             'options'           => [
                                                 'name'          => 'password',
@@ -141,6 +182,10 @@
                                         ])
                                     </div>
                                 </div>
+
+                                @if($isServiceProvider)
+                                    @include('auth::users.partials.service-provider-fields', ['model' => null])
+                                @endif
 
                                 <div class="separator separator-dashed my-5"></div>
                             @endslot

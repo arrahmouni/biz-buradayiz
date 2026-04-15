@@ -42,21 +42,6 @@
                     ]
                 ])
             </div>
-
-            <div class="mb-5">
-                @include('admin::components.inputs.select', [
-                    'options'           => [
-                        'name'          => 'gender',
-                        'label'         => trans('admin::datatable.base_columns.gender'),
-                        'placeholder'   => trans('admin::base.all_results'),
-                        'clearable'     => true,
-                        'data'          => $genderTypes,
-                        'text'          => function ($key, $value) { return $value; },
-                        'values'        => function ($key, $value) { return $key; },
-                    ]
-                ])
-            </div>
-
         @endslot
     @endcomponent
 @endsection
@@ -97,7 +82,6 @@
                 @component('admin::components.datatables.table', [
                         'options'           => [
                             'url'           => route('admin.admins.datatable'),
-                            'withCheckbox'  => true,
                             'filter'        => true,
                         ]
                     ])

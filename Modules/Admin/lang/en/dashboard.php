@@ -1,111 +1,148 @@
 <?php
 
 return [
-    'page'                                  => [
-        'welcome_line'                      => 'Welcome back, :name',
-        'fallback_name'                     => 'Admin',
-        'overview'                          => 'Monitor users, content, and CRM activity. Use the date filter in the toolbar to narrow counts.',
-        'statistics_heading'                => 'Overview',
-        'apply_period'                      => 'Apply',
-        'date_range_placeholder'            => 'Select date range',
-    ],
-
-    'header'                                => [
-        'language'                          => 'Language',
-        'my_profile'                        => 'My Profile',
-        'account_settings'                  => 'Account Settings',
-        'back_to_preivos_account'           => 'Back To Previous Account',
-        'logout'                            => 'Logout',
-        'sign_out'                          => 'Sign Out',
-    ],
-
-    'aside_menu'                            => [
-        'home'                              => 'Home',
-        'dashboard'                         => 'Dashboard',
-        'user_management'                   => [
-            'title'                         => 'User Management',
-            'roles'                         => 'Roles',
-            'permissions'                   => 'Permissions',
-            'admins'                        => 'Admins',
-            'users'                         => 'Users',
-        ],
-        'zone_management'                   => [
-            'title'                         => 'Zone Management',
-        ],
-        'country_management'                => [
-            'title'                         => 'Country Management',
-            'countries'                     => 'Countries',
-        ],
-        'state_management'                  => [
-            'title'                         => 'State Management',
-            'states'                        => 'States',
-        ],
-        'city_management'                   => [
-            'title'                         => 'City Management',
-            'cities'                        => 'Cities',
-        ],
-        'setting_management'                => [
-            'title'                         => 'Setting Management',
-            'settings'                      => 'Settings',
-        ],
-        'content_category_management'       => [
-            'title'                         => 'Content Category Management',
-            'content_categories'            => 'Categories',
-        ],
-        'content_management'                => [
-            'title'                         => 'Content Management',
-            'contents'                      => 'Contents',
-        ],
-        'category_management'               => [
-            'title'                         => 'Category Management',
-            'categories'                    => 'Categories',
-        ],
-        'notification_management'           => [
-            'title'                         => 'Notification Management',
-            'notification_templates'        => 'Notification Templates',
-            'notifications'                 => 'Notifications',
-        ],
-        'notification_template_management'  => [
-            'title'                         => 'Notification Template Management',
-            'notification_templates'        => 'Notification Templates',
-        ],
-        'crm_management'                    => [
-            'title'                         => 'Crm Management',
-            'contactuses'                   => 'Contact Us Rquests',
-            'subscribes'                    => 'Subscriptions',
-        ],
-        'contactus_management'              => [
-            'title'                         => 'Contact Us Management',
-            'contactus'                     => 'Contact Us Rquests',
-        ],
-        'subscribe_management'              => [
-            'title'                         => 'Subscribe Management',
-            'subscribes'                    => 'Subscriptions',
-        ],
-        'content_tag_management'            => [
-            'title'                         => 'Content Tag Management',
-            'content_tags'                  => 'Tags',
-        ],
-        'log_management'                    => [
-            'title'                         => 'Log Management',
-            'api_logs'                      => 'Api Logs',
-            'activity_logs'                 => 'Activity Logs',
-        ],
-        'api_log_management'                => [
-            'title'                         => 'Api Log Management',
-            'api_logs'                      => 'Api Logs',
-        ],
-        'activity_log_management'           => [
-            'title'                         => 'Activity Log Management',
-            'activity_logs'                 => 'Activity Logs',
-            'activity_log_type'             => ':type | Activity Log | # :id',
+    'page' => [
+        'welcome_line' => 'Welcome back, :name',
+        'fallback_name' => 'Admin',
+        'overview' => 'This dashboard provides an overview of the system\'s key metrics and activity. It includes statistics on active package subscriptions, paid subscription revenue, incoming calls to service providers, and reviews submitted.',
+        'statistics_heading' => 'Overview',
+        'apply_period' => 'Apply',
+        'date_range_placeholder' => 'Select date range',
+        'stats' => [
+            'active_package_subscriptions' => 'Active package subscriptions (only subscriptions whose status is Active)',
+            'package_subscriptions_paid_revenue' => 'Paid subscription revenue',
+            'verimor_inbound_calls_to_providers' => 'Incoming calls to service providers',
+            'revenue_empty' => '—',
+            'reviews_total' => 'Reviews submitted',
+            'reviews_average_rating' => 'Average rating — approved reviews only (1–5)',
+            'reviews_avg_empty' => '—',
+            'reviews_pending_moderation' => 'Reviews awaiting admin approval',
         ],
     ],
 
-    'breadcrumbs'                           => [
-        'list'                              => 'List',
-        'add_new'                           => 'Add New',
-        'edit'                              => 'Edit',
-        'view'                              => 'View',
+    'header' => [
+        'language' => 'Language',
+        'my_profile' => 'My Profile',
+        'account_settings' => 'Account Settings',
+        'back_to_preivos_account' => 'Back To Previous Account',
+        'logout' => 'Logout',
+        'sign_out' => 'Sign Out',
+    ],
+
+    'aside_menu' => [
+        'home' => 'Home',
+        'dashboard' => 'Dashboard',
+        'user_management' => [
+            'title' => 'User Management',
+            'roles' => 'Roles',
+            'permissions' => 'Permissions',
+            'admins' => 'Admins',
+            'users' => 'Users',
+            'customers' => 'Customers',
+            'service_providers' => 'Service Providers',
+            'create_customer' => 'New customer',
+            'create_service_provider' => 'New service provider',
+        ],
+        'zone_management' => [
+            'title' => 'Zone Management',
+        ],
+        'country_management' => [
+            'title' => 'Country Management',
+            'countries' => 'Countries',
+        ],
+        'state_management' => [
+            'title' => 'State Management',
+            'states' => 'States',
+        ],
+        'city_management' => [
+            'title' => 'City Management',
+            'cities' => 'Cities',
+        ],
+        'setting_management' => [
+            'title' => 'Setting Management',
+            'settings' => 'Settings',
+        ],
+        'content_category_management' => [
+            'title' => 'Content Category Management',
+            'content_categories' => 'Categories',
+        ],
+        'content_management' => [
+            'title' => 'Content Management',
+            'contents' => 'Contents',
+        ],
+        'category_management' => [
+            'title' => 'Category Management',
+            'categories' => 'Categories',
+        ],
+        'notification_management' => [
+            'title' => 'Notification Management',
+            'notification_templates' => 'Notification Templates',
+            'notifications' => 'Notifications',
+        ],
+        'notification_template_management' => [
+            'title' => 'Notification Template Management',
+            'notification_templates' => 'Notification Templates',
+        ],
+        'crm_management' => [
+            'title' => 'Crm Management',
+            'contactuses' => 'Contact Us Rquests',
+            'subscribes' => 'Subscriptions',
+        ],
+        'contactus_management' => [
+            'title' => 'Contact Us Management',
+            'contactus' => 'Contact Us Rquests',
+        ],
+        'subscribe_management' => [
+            'title' => 'Subscribe Management',
+            'subscribes' => 'Subscriptions',
+        ],
+        'content_tag_management' => [
+            'title' => 'Content Tag Management',
+            'content_tags' => 'Tags',
+        ],
+        'log_management' => [
+            'title' => 'Log Management',
+            'api_logs' => 'Api Logs',
+            'activity_logs' => 'Activity Logs',
+        ],
+        'api_log_management' => [
+            'title' => 'Api Log Management',
+            'api_logs' => 'Api Logs',
+        ],
+        'activity_log_management' => [
+            'title' => 'Activity Log Management',
+            'activity_logs' => 'Activity Logs',
+            'activity_log_type' => ':type | Activity Log | # :id',
+        ],
+        'service_management' => [
+            'title' => 'Service Management',
+            'services' => 'Services',
+        ],
+        'package_management' => [
+            'title' => 'Package Management',
+            'packages' => 'Packages',
+        ],
+        'platform_management' => [
+            'title' => 'Platform Management',
+            'services' => 'Services',
+            'packages' => 'Packages',
+            'package_subscriptions' => 'Package subscriptions',
+            'verimor_call_events' => 'Verimor call events',
+        ],
+        'review_management' => [
+            'title' => 'Review Management',
+            'reviews' => 'Reviews',
+        ],
+        'seo_management' => [
+            'title' => 'SEO Management',
+            'entries' => 'SEO entries',
+        ],
+    ],
+
+    'breadcrumbs' => [
+        'list' => 'List',
+        'add_new' => 'Add New',
+        'edit' => 'Edit',
+        'view' => 'View',
     ],
 ];

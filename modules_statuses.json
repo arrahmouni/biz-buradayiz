@@ -8,5 +8,9 @@
     "Notification": true,
     "Crm": true,
     "Log": true,
-    "Zms": true
+    "Zms": true,
+    "Platform": true,
+    "Verimor": true,
+    "Seo": true,
+    "Front": true
 }

@@ -5,12 +5,13 @@ namespace Modules\Zms\Models;
 use Modules\Base\Trait\ModelHelper;
 use Astrotomic\Translatable\Translatable;
 use Modules\Base\Models\BaseModel;
+use Modules\Base\Trait\Disableable;
 use Modules\Zms\Trait\CountryTraitHelper;
 use Modules\Zms\Enums\permissions\CountryPermissions;
 
 class City extends BaseModel
 {
-    use Translatable, ModelHelper, CountryTraitHelper;
+    use Translatable, ModelHelper, CountryTraitHelper, Disableable;
 
     // Start Properties
 
@@ -21,6 +22,7 @@ class City extends BaseModel
         'native_name',
         'lat',
         'lng',
+        'disabled_at',
     ];
 
     public $timestamps = false;
@@ -54,6 +56,15 @@ class City extends BaseModel
         });
     }
     // End Scopes
+
+    public function formAjaxArray($selected = true): array
+    {
+        return [
+            'id'       => $this->id,
+            'text'     => $this->smartTrans('name') ?? $this->native_name,
+            'selected' => $selected,
+        ];
+    }
 
     // End Get Data From Model
 }

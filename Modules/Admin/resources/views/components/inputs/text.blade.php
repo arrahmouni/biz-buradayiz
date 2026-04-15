@@ -11,6 +11,7 @@
             'label'                 => null,
             'onlyDigit'             => false,
             'isPhone'               => false,
+            'onlyPlusDigits'        => false,
             'solid'                 => true,
             'required'              => false,
             'additional_info'       => [],
@@ -27,7 +28,7 @@
             'mask'                  => null,
             'regex'                 => null,
             'emailMask'             => false,
-            'view'                  => 'DEFAULT', // DEFAULT | INLINE
+            'view'                  => 'DEFAULT', // DEFAULT | INLINE | MODERN_LOGIN
             'input_size'            => 'col-lg-8',
             'label_size'            => 'col-lg-12',
         ], $options);
@@ -35,7 +36,9 @@
         $VALUE['id']    = !empty($VALUE['id']) ? $VALUE['id'] : $VALUE['name'];
     @endphp
 
-    @if($VALUE['view'] == 'DEFAULT')
+    @if($VALUE['view'] === 'MODERN_LOGIN')
+        @include('admin::components.input_particles.text_modern_login', ['VALUE' => $VALUE])
+    @elseif($VALUE['view'] == 'DEFAULT')
         @include('admin::components.input_particles.label', ['VALUE' => $VALUE])
         @include('admin::components.input_particles.text' , ['VALUE' => $VALUE])
     @elseif($VALUE['view'] == 'INLINE')

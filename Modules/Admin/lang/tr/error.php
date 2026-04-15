@@ -2,7 +2,7 @@
 
 return [
 
-    'footer'    => '<a href="\'e geri dön' . route('admin.dashboard.index') . '">dashboard</a>.',
+    'footer'    => '<a href="' . route('admin.dashboard.index') . '">Kontrol paneline</a> geri dön.',
 
     '404_page'      => [
         'title'     => 'Sayfa Bulunamadı !!',
@@ -14,6 +14,24 @@ return [
         'title'     => 'Yasak Sayfa !!',
         'header'    => '403 - Yasak',
         'message'   => 'Bu sayfaya erişmenize izin verilmiyor.',
+    ],
+
+    '401_page'      => [
+        'title'     => 'Yetkisiz !!',
+        'header'    => '401 - Yetkisiz',
+        'message'   => 'Bu sayfaya erişmek için oturum açmanız gerekir.',
+    ],
+
+    '419_page'      => [
+        'title'     => 'Sayfanın Süresi Doldu !!',
+        'header'    => '419 - Sayfanın Süresi Doldu',
+        'message'   => 'Oturumunuzun süresi doldu. Lütfen sayfayı yenileyip tekrar deneyin.',
+    ],
+
+    '429_page'      => [
+        'title'     => 'Çok Fazla İstek !!',
+        'header'    => '429 - Çok Fazla İstek',
+        'message'   => 'Kısa sürede çok fazla istek gönderdiniz. Lütfen bir süre bekleyip tekrar deneyin.',
     ],
 
     '405_page'      => [

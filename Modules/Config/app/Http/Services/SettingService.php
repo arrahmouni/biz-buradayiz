@@ -3,11 +3,12 @@
 namespace Modules\Config\Http\Services;
 
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Modules\Base\Http\Services\BaseCrudService;
 use Modules\Config\Models\Setting as CrudModel;
+use Modules\Platform\Jobs\RecalculateProviderRankingsJob;
 
 class SettingService extends BaseCrudService
 {
@@ -25,7 +26,7 @@ class SettingService extends BaseCrudService
 
         $translations = $this->createTranslations($data, 'title', ['description']);
 
-        $model = DB::transaction(function () use($modelData, $translations){
+        $model = DB::transaction(function () use ($modelData, $translations) {
             $model = CrudModel::create($modelData);
 
             $model->update($translations);
@@ -36,24 +37,23 @@ class SettingService extends BaseCrudService
         return $model;
     }
 
-    public function updateSetting(array $data) : void
+    public function updateSetting(array $data): void
     {
-        DB::transaction(function () use($data){
-            foreach($data as $key => $value)
-            {
+        DB::transaction(function () use ($data) {
+            foreach ($data as $key => $value) {
                 // If the value is an object, it means it's a media file
-                if(gettype($value) === 'object')
-                {
+                if (gettype($value) === 'object') {
                     $this->updateSettingMedia($key, $value);
+
                     continue;
                 }
 
                 // If the value is an array, it means it's a translatable setting
-                if(is_array($value))
-                {
-                    foreach($value as $lang => $val) {
+                if (is_array($value)) {
+                    foreach ($value as $lang => $val) {
                         $this->updateSettingTranslation($key, $lang, $val);
                     }
+
                     continue;
                 }
 
@@ -67,24 +67,33 @@ class SettingService extends BaseCrudService
 
         // Clear Cache
         Cache::flush();
+
+        // must include also featured_providers_count and new_provider_hours
+        $rankingKeys = array_filter(
+            array_keys($data),
+            fn ($key) => str_starts_with($key, 'ranking_weight_') || $key === 'featured_providers_count' || $key === 'new_provider_hours'
+        );
+
+        if ($rankingKeys !== []) {
+            RecalculateProviderRankingsJob::dispatch();
+        }
     }
 
     public function updateSettingTranslation(string $key, string $lang, string $value): void
     {
         $setting = CrudModel::where('key', $key)->where('translatable', true)->first();
 
-        if($lang == 'en')
-        {
+        if ($lang == 'en') {
             $setting->update(['value' => $value]);
         }
 
         $setting->translations()->updateOrCreate(
             [
-                'locale'     => $lang,
-                'setting_id' => $setting->id
+                'locale' => $lang,
+                'setting_id' => $setting->id,
             ],
             [
-                'trans_value'=> $value
+                'trans_value' => $value,
             ]
         );
     }
@@ -93,8 +102,7 @@ class SettingService extends BaseCrudService
     {
         $setting = CrudModel::where('key', $key)->first();
 
-        if(!empty($setting->value) && Storage::disk('public')->exists($setting->value))
-        {
+        if (! empty($setting->value) && Storage::disk('public')->exists($setting->value)) {
             Storage::disk('public')->delete($setting->value);
         }
 
@@ -105,20 +113,19 @@ class SettingService extends BaseCrudService
 
     /**
      * Update .env file
-     *
-     * @param array $values
-     * @return bool
      */
     private function updateEnvFile(array $values): bool
     {
-        if(empty($values)) return false;
+        if (empty($values)) {
+            return false;
+        }
 
         $envFile = app()->environmentFilePath();
-        $str     = file_get_contents($envFile);
+        $str = file_get_contents($envFile);
         $updated = false;
 
         foreach ($values as $envKey => $envValue) {
-            $envValue = '"' . trim($envValue) . '"';
+            $envValue = '"'.trim($envValue).'"';
             $envKey = strtoupper($envKey);
 
             if (strpos($str, "{$envKey}=") !== false) {

@@ -1,0 +1,23 @@
+{
+    "name": "nwidart/verimor",
+    "description": "",
+    "authors": [],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {}
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Verimor\\": "app/",
+            "Modules\\Verimor\\Database\\Factories\\": "database/factories/",
+            "Modules\\Verimor\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Verimor\\Tests\\": "tests/"
+        }
+    }
+}

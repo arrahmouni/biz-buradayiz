@@ -87,6 +87,10 @@ class ContentRequest extends BaseRequest
             $rules['can_be_deleted'] = ['required', 'boolean'];
         }
 
+        if(Content::typeHasField($this->getType(), 'appear_in_footer')) {
+            $rules['appear_in_footer'] = ['required', 'boolean'];
+        }
+
         if(Content::typeHasField($this->getType(), 'slug') && $this->isCreate()) { // If it's create, slug is required.Because when updating, slug is cant be updated.
             $rules['slug'] = ['required', 'string', 'regex:/^[a-z0-9-]+$/', Rule::unique('contents', 'slug')->ignore($this->model)];
         }

@@ -8,7 +8,7 @@
         <i class="bi bi-pencil-fill fs-7"></i>
         <!--begin::Inputs-->
         <input type="file" id="{{ $VALUE['id'] }}" name="{{ $VALUE['name'] }}" accept="{{ $VALUE['accept'] }}"/>
-        <input type="hidden" name="avatar_remove" />
+        <input type="hidden" name="{{ $VALUE['removeFieldName'] ?? 'avatar_remove' }}" />
         <!--end::Inputs-->
     </label>
 

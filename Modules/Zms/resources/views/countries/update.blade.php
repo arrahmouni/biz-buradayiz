@@ -206,7 +206,7 @@
                                         @slot('jsColumns')
                                             {
                                                 data        : 'name',
-                                                name        : 'translations.name',
+                                                name        : 'name',
                                                 orderable   : false,
                                             },
                                             {

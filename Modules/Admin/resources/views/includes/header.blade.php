@@ -45,7 +45,7 @@
             <div class="d-flex align-items-stretch flex-shrink-0">
 
                 <!--begin::Theme mode-->
-                <div class="d-flex align-items-center ms-1 ms-lg-3">
+                {{-- <div class="d-flex align-items-center ms-1 ms-lg-3">
                     @component('admin::components.other.hyperlink', [
                             'options'           => [
                                 'class'         => 'btn btn-icon btn-icon-muted btn-active-light btn-active-color-primary w-30px h-30px w-md-40px h-md-40px',
@@ -54,7 +54,7 @@
                         ])
                         <i class="fonticon-sun fs-2"></i>
                     @endcomponent
-                </div>
+                </div> --}}
                 <!--end::Theme mode-->
 
                 <!--begin::Notifications-->

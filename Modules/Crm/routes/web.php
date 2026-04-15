@@ -3,7 +3,6 @@
 use Modules\Crm\Http\Controllers\Admin\SubscribeController;
 use Modules\Crm\Http\Controllers\Admin\ContactusController;
 use Illuminate\Support\Facades\Route;
-use Modules\Crm\Http\Controllers\Admin\CrmController;
 
 /*
 |--------------------------------------------------------------------------

@@ -1,5 +1,20 @@
-@extends('errors::minimal')
+@extends('admin::errors.layouts.custom')
 
-@section('title', __('Unauthorized'))
-@section('code', '401')
-@section('message', __('Unauthorized'))
+@section('title', trans('admin::error.401_page.title'))
+
+@section('content')
+    @include('admin::components.other.image', [
+        'options' => [
+            'class' => 'illustration',
+            'src'   => config('admin.frontend.error_pages.401'),
+            'alt'   => '401 unauthorized',
+        ]
+    ])
+    <h1>
+        @lang('admin::error.401_page.header')
+    </h1>
+    <p>
+        @lang('admin::error.401_page.message')
+    </p>
+    <p>{!! trans('admin::error.footer') !!}</p>
+@endsection

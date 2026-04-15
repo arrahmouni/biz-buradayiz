@@ -24,6 +24,11 @@
                 'required'      => false,
                 'value'         => function($model, $locale) {return null;}
             ],
+            'features'          => [
+                'show'          => false,
+                'required'      => false,
+                'value'         => function($model, $locale) {return null;}
+            ],
             'short_description' => [
                 'show'          => false,
                 'required'      => false,
@@ -45,6 +50,7 @@
         $descriptionInputName       = $VALUE['description']['name']         ?? 'description';
         $longDescriptionInputName   = $VALUE['long_description']['name']    ?? 'long_description';
         $shortDescriptionInputName  = $VALUE['short_description']['name']   ?? 'short_description';
+        $featuresInputName          = $VALUE['features']['name']            ?? 'features';
         $imageInputName             = $VALUE['image']['name']               ?? 'image';
     @endphp
 
@@ -160,6 +166,23 @@
                                     'placeholder'   => $VALUE['long_description']['placeholder'] ?? trans('admin::inputs.base_crud.long_description.placeholder'),
                                     'subText'       => $VALUE['long_description']['subText'] ?? trans('admin::inputs.base_crud.long_description.help'),
                                     'value'         => isset($model) ? $VALUE['long_description']['value']($model, $locale) : $VALUE['long_description']['value'],
+                                ]
+                            ])
+                        </div>
+                    </div>
+                @endif
+
+                @if ($VALUE['features']['show'])
+                    <div class="row">
+                        <div class="col-12 mb-5 form-group">
+                            @include('admin::components.inputs.textarea', [
+                                'options'           => [
+                                    'name'          => $featuresInputName . '[' . $locale . ']',
+                                    'required'      => $VALUE['features']['required'],
+                                    'label'         => $VALUE['features']['label'] ?? trans('admin::inputs.base_crud.features.label', ['locale' => $locale]),
+                                    'placeholder'   => $VALUE['features']['placeholder'] ?? trans('admin::inputs.base_crud.features.placeholder'),
+                                    'subText'       => $VALUE['features']['subText'] ?? trans('admin::inputs.base_crud.features.help'),
+                                    'value'         => isset($model) ? $VALUE['features']['value']($model, $locale) : $VALUE['features']['value'],
                                 ]
                             ])
                         </div>

@@ -52,8 +52,12 @@ class ResetDatabase extends Command
             'module' => 'Admin',
         ]);
 
+        $this->call('module:seed', [
+            'module' => 'Platform',
+        ]);
+
         $modules = array_keys(array_filter(Module::all(), function ($module) {
-            return $module->getName() !== 'Admin' && $module->getName() !== 'Permission' && $module->getName() !== 'Zms';
+            return $module->getName() !== 'Admin' && $module->getName() !== 'Permission' && $module->getName() !== 'Zms' && $module->getName() !== 'Platform';
         }));
 
         foreach($modules as $module) {

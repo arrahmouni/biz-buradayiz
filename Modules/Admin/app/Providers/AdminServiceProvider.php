@@ -139,6 +139,10 @@ class AdminServiceProvider extends ServiceProvider
         view()->share('_STYLE_VER_'         , config('admin.style_version'));
         view()->share('adminStatuses'       , AdminStatus::getStatuses());
         view()->share('systemMainRoles'     , config('admin.main_roles'));
+        view()->share('_LOCALE_FLAG_URLS_'  , [
+            'en' => asset('images/flags/en.svg'),
+            'tr' => asset('images/flags/tr.svg'),
+        ]);
     }
 
     private function registerPassword()

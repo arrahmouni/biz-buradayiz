@@ -29,6 +29,11 @@
             'select'                => function($key, $value, $selected) {return false;},
             'selected'              => [], // for ajax
             'withImg'               => false,
+            'ajaxExtraData'         => [],
+            'parentSelect'          => '',
+            'ajaxParentParam'       => '',
+            'clearDependentsSelector' => '',
+            'autoSelectFirst'         => false,
         ], $options);
 
         $VALUE['id']            = $VALUE['id'] ?? $VALUE['name'];

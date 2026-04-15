@@ -20,8 +20,8 @@ return [
     | Default key: `response` (keeps `app('response')` working).
     |
     */
-    'binding'           => [
-        'key'           => 'response',
+    'binding' => [
+        'key' => 'response',
     ],
 
     /*
@@ -33,8 +33,8 @@ return [
     | Used to switch between api/web message keys and output format.
     |
     */
-    'paths'             => [
-        'api_pattern'   => 'api/*',
+    'paths' => [
+        'api_pattern' => 'api/*',
     ],
 
     /*
@@ -45,12 +45,33 @@ return [
     | View mappings used by helper functions for non-ajax web responses.
     |
     */
-    'views'             => [
-        'errors'        => [
-            '404'       => 'admin::errors.404',
-            '405'       => 'admin::errors.405',
-            '500'       => 'admin::errors.500',
-            '503'       => 'admin::errors.503',
+    'views' => [
+        'default_context' => 'front',
+        'errors' => [
+            '403' => [
+                'admin' => 'admin::errors.403',
+                'front' => 'front::errors.403',
+            ],
+            '404' => [
+                'admin' => 'admin::errors.404',
+                'front' => 'front::errors.404',
+            ],
+            '405' => [
+                'admin' => 'admin::errors.405',
+                'front' => 'front::errors.405',
+            ],
+            '429' => [
+                'admin' => 'admin::errors.429',
+                'front' => 'front::errors.429',
+            ],
+            '500' => [
+                'admin' => 'admin::errors.500',
+                'front' => 'front::errors.500',
+            ],
+            '503' => [
+                'admin' => 'admin::errors.503',
+                'front' => 'front::errors.503',
+            ],
         ],
     ],
 
@@ -62,8 +83,8 @@ return [
     | UI-related defaults for web/ajax responses.
     |
     */
-    'notify'            => [
-        'default'       => 'toastr',
+    'notify' => [
+        'default' => 'toastr',
     ],
 
     /*
@@ -75,13 +96,13 @@ return [
     | Example namespace/file: `response::messages.*`.
     |
     */
-    'translations'      => [
-        'namespace'     => 'response',
-        'file'          => 'messages',
-        'keys'          => [
-            'types'      => 'response_message_types',
-            'web'        => 'web_response_messages',
-            'api'        => 'api_response_messages',
+    'translations' => [
+        'namespace' => 'response',
+        'file' => 'messages',
+        'keys' => [
+            'types' => 'response_message_types',
+            'web' => 'web_response_messages',
+            'api' => 'api_response_messages',
         ],
     ],
 
@@ -93,17 +114,17 @@ return [
     | Controls payload key names and API JSON behavior.
     |
     */
-    'payload'            => [
-        'keys'           => [
-            'success'    => 'success',
-            'code'       => 'code',
-            'message'    => 'message',
-            'data'       => 'data',
-            'errors'     => 'errors',
+    'payload' => [
+        'keys' => [
+            'success' => 'success',
+            'code' => 'code',
+            'message' => 'message',
+            'data' => 'data',
+            'errors' => 'errors',
         ],
-        'api'                         => [
-            'message_as_string'       => true,
-            'cast_empty_to_object'    => true,
+        'api' => [
+            'message_as_string' => true,
+            'cast_empty_to_object' => true,
         ],
     ],
 
@@ -115,9 +136,8 @@ return [
     | Controls if exception details should be exposed in response messages.
     |
     */
-    'debug'                         => [
-        'expose_exception_details'  => null,
-        'dev_environments'          => ['local', 'development', 'staging'],
+    'debug' => [
+        'expose_exception_details' => null,
+        'dev_environments' => ['local', 'development', 'staging'],
     ],
 ];
-

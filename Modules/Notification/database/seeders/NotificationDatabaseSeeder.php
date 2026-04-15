@@ -4,6 +4,7 @@ namespace Modules\Notification\database\seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Modules\Notification\Enums\NotificationChannels;
 use Modules\Notification\Models\NotificationTemplate;
 
 class NotificationDatabaseSeeder extends Seeder
@@ -15,7 +16,26 @@ class NotificationDatabaseSeeder extends Seeder
     {
         DB::transaction(function () {
             $this->seedNotificationTemplateData();
+            $this->seedForgetPasswordNotificationTemplateData();
         });
+    }
+
+    private function seedForgetPasswordNotificationTemplateData(): void
+    {
+        $forgetPasswordTitle         = createTranslateArray('title', 'notifications.notification_templates.forget_password.title', 'notification');
+        $forgetPasswordDescription   = createTranslateArray('description', 'notifications.notification_templates.forget_password.description', 'notification');
+        $forgetPasswordShortTemplate = createTranslateArray('short_template', 'notifications.notification_templates.forget_password.short_template', 'notification');
+        $forgetPasswordLongTemplate  = createTranslateArray('long_template', 'notifications.notification_templates.forget_password.long_template', 'notification');
+
+        NotificationTemplate::updateOrCreate(
+            [
+                'name' => 'forget_password',
+            ],
+            [
+                'channels'  => [NotificationChannels::MAIL],
+                'variables' => ['reset_link', 'username'],
+            ] + array_merge_recursive($forgetPasswordTitle, $forgetPasswordDescription, $forgetPasswordShortTemplate, $forgetPasswordLongTemplate)
+        );
     }
 
     /**

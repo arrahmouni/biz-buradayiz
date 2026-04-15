@@ -3,6 +3,16 @@
 return [
     'name' => 'Base',
 
+    /**
+     * Seeders to run when deploying to production (release:init command).
+     * ConfigDatabaseSeeder is always run first; add other seeder classes here.
+     */
+    'release_seeders' => [
+        \Modules\Permission\database\seeders\PermissionDatabaseSeeder::class,
+        \Modules\Notification\database\seeders\NotificationDatabaseSeeder::class,
+        \Modules\Config\database\seeders\ConfigDatabaseSeeder::class,
+    ],
+
     'datatable_max_characters'   => 50,
 
     'input_size'                => [

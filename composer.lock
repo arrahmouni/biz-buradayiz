@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5aebc90bbafd7627c73f7749c4bd1a6a",
+    "content-hash": "7ffc640ca86928d8ea942db5c81d34b8",
     "packages": [
         {
             "name": "arrahmouni/crud-generator",
@@ -65,16 +65,16 @@
         },
         {
             "name": "arrahmouni/response-helper",
-            "version": "1.0.6",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/arrahmouni/response-helper.git",
-                "reference": "c0cd54eb2aea04839d5ff3e800c325340fff2d34"
+                "reference": "d58589413ce98707ed29a6e4c9e7f8f398cfb666"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/arrahmouni/response-helper/zipball/c0cd54eb2aea04839d5ff3e800c325340fff2d34",
-                "reference": "c0cd54eb2aea04839d5ff3e800c325340fff2d34",
+                "url": "https://api.github.com/repos/arrahmouni/response-helper/zipball/d58589413ce98707ed29a6e4c9e7f8f398cfb666",
+                "reference": "d58589413ce98707ed29a6e4c9e7f8f398cfb666",
                 "shasum": ""
             },
             "require": {
@@ -117,9 +117,9 @@
             ],
             "support": {
                 "issues": "https://github.com/arrahmouni/response-helper/issues",
-                "source": "https://github.com/arrahmouni/response-helper/tree/1.0.6"
+                "source": "https://github.com/arrahmouni/response-helper/tree/1.1.1"
             },
-            "time": "2026-02-14T14:55:29+00:00"
+            "time": "2026-04-11T15:26:27+00:00"
         },
         {
             "name": "astrotomic/laravel-translatable",
@@ -3700,16 +3700,16 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "3.0.50",
+            "version": "3.0.51",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "aa6ad8321ed103dc3624fb600a25b66ebf78ec7b"
+                "reference": "d59c94077f9c9915abb51ddb52ce85188ece1748"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/aa6ad8321ed103dc3624fb600a25b66ebf78ec7b",
-                "reference": "aa6ad8321ed103dc3624fb600a25b66ebf78ec7b",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/d59c94077f9c9915abb51ddb52ce85188ece1748",
+                "reference": "d59c94077f9c9915abb51ddb52ce85188ece1748",
                 "shasum": ""
             },
             "require": {
@@ -3790,7 +3790,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpseclib/phpseclib/issues",
-                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.50"
+                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.51"
             },
             "funding": [
                 {
@@ -3806,7 +3806,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-03-19T02:57:58+00:00"
+            "time": "2026-04-10T01:33:53+00:00"
         },
         {
             "name": "predis/predis",

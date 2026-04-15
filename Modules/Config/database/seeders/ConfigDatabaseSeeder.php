@@ -8,6 +8,7 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use Modules\Config\Enums\SettingGroups;
 use Modules\Config\Enums\SettingTypes;
 use Modules\Config\Models\Setting;
+
 class ConfigDatabaseSeeder extends Seeder
 {
     /**
@@ -28,8 +29,11 @@ class ConfigDatabaseSeeder extends Seeder
         $this->seedGeneralSettings();
         $this->seedSocailMediaSettings();
         $this->seedContactInfoSettings();
+        $this->seedPlatformSettings();
         $this->seedMediaSettings();
+        $this->seedMobileSettings();
         $this->seedDevelopersSettings();
+        $this->seedProviderRankingSettings();
     }
 
     /**
@@ -37,41 +41,52 @@ class ConfigDatabaseSeeder extends Seeder
      */
     private function seedGeneralSettings(): void
     {
-        Setting::updateOrCreate(
+        $appNameTransValues = [];
+        foreach (config('translatable.locales', LaravelLocalization::getSupportedLanguagesKeys()) as $langCode) {
+            $appNameTransValues[$langCode] = [
+                'trans_value' => trans('front::home.brand', [], $langCode),
+            ];
+        }
+
+        Setting::firstOrCreate(
             [
-                'group'         => SettingGroups::GENERAL,
-                'key'           => 'app_name',
+                'group' => SettingGroups::GENERAL,
+                'key' => 'app_name',
             ],
             [
-                'type'          => SettingTypes::TEXT,
-                'order'         => 1,
-                'is_required'   => true,
-                'translatable'  => true,
-            ] + createTranslateArray('title', 'settings.groups.general.fields.app_name', 'config')
+                'type' => SettingTypes::TEXT,
+                'order' => 1,
+                'is_required' => true,
+                'translatable' => true,
+                'value' => trans('front::home.brand', [], 'en'),
+            ] + array_merge_recursive(
+                createTranslateArray('title', 'settings.groups.general.fields.app_name', 'config'),
+                $appNameTransValues
+            )
         );
 
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
-                'group'         => SettingGroups::GENERAL,
-                'key'           => 'app_default_language',
+                'group' => SettingGroups::GENERAL,
+                'key' => 'app_default_language',
             ],
             [
-                'type'          => SettingTypes::SELECT,
-                'order'         => 2,
-                'is_required'   => true,
-                'options'       => LaravelLocalization::getSupportedLocales(),
+                'type' => SettingTypes::SELECT,
+                'order' => 2,
+                'is_required' => true,
+                'options' => LaravelLocalization::getSupportedLocales(),
             ] + createTranslateArray('title', 'settings.groups.general.fields.app_default_language', 'config')
         );
 
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
-                'group'         => SettingGroups::GENERAL,
-                'key'           => 'maintenance_mode',
+                'group' => SettingGroups::GENERAL,
+                'key' => 'maintenance_mode',
             ],
             [
-                'type'          => SettingTypes::SWITCH,
-                'order'         => 4,
-                'value'         => 0,
+                'type' => SettingTypes::SWITCH,
+                'order' => 4,
+                'value' => 0,
             ] + createTranslateArray('title', 'settings.groups.general.fields.maintenance_mode', 'config')
         );
     }
@@ -81,69 +96,75 @@ class ConfigDatabaseSeeder extends Seeder
      */
     private function seedSocailMediaSettings(): void
     {
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::SOCIAL_MEDIA,
-                'key'   => 'facebook',
+                'key' => 'facebook',
             ],
             [
-                'type'  => SettingTypes::URL,
+                'type' => SettingTypes::URL,
                 'order' => 1,
+                'value' => 'https://facebook.com',
             ] + createTranslateArray('title', 'settings.groups.social_media.fields.facebook', 'config')
         );
 
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::SOCIAL_MEDIA,
-                'key'   => 'twitter',
+                'key' => 'twitter',
             ],
             [
-                'type'  => SettingTypes::URL,
+                'type' => SettingTypes::URL,
                 'order' => 2,
+                'value' => 'https://twitter.com',
             ] + createTranslateArray('title', 'settings.groups.social_media.fields.twitter', 'config')
         );
 
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::SOCIAL_MEDIA,
-                'key'   => 'instagram',
+                'key' => 'instagram',
             ],
             [
-                'type'  => SettingTypes::URL,
+                'type' => SettingTypes::URL,
                 'order' => 3,
+                'value' => 'https://instagram.com',
             ] + createTranslateArray('title', 'settings.groups.social_media.fields.instagram', 'config')
         );
 
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::SOCIAL_MEDIA,
-                'key'   => 'linkedin',
+                'key' => 'linkedin',
             ],
             [
-                'type'  => SettingTypes::URL,
+                'type' => SettingTypes::URL,
                 'order' => 4,
+                'value' => 'https://linkedin.com',
             ] + createTranslateArray('title', 'settings.groups.social_media.fields.linkedin', 'config')
         );
 
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::SOCIAL_MEDIA,
-                'key'   => 'youtube',
+                'key' => 'youtube',
             ],
             [
-                'type'  => SettingTypes::URL,
+                'type' => SettingTypes::URL,
                 'order' => 5,
+                'value' => 'https://youtube.com',
             ] + createTranslateArray('title', 'settings.groups.social_media.fields.youtube', 'config')
         );
 
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::SOCIAL_MEDIA,
-                'key'   => 'tiktok',
+                'key' => 'tiktok',
             ],
             [
-                'type'  => SettingTypes::URL,
+                'type' => SettingTypes::URL,
                 'order' => 6,
+                'value' => 'https://tiktok.com',
             ] + createTranslateArray('title', 'settings.groups.social_media.fields.tiktok', 'config')
         );
     }
@@ -153,37 +174,126 @@ class ConfigDatabaseSeeder extends Seeder
      */
     private function seedContactInfoSettings(): void
     {
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::CONTACT_INFO,
-                'key'   => 'phone',
+                'key' => 'phone',
             ],
             [
-                'type'  => SettingTypes::PHONE,
+                'type' => SettingTypes::PHONE,
                 'order' => 1,
+                'value' => '+905555555555',
             ] + createTranslateArray('title', 'settings.groups.contact_info.fields.phone', 'config')
         );
 
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::CONTACT_INFO,
-                'key'   => 'email',
+                'key' => 'email',
             ],
             [
-                'type'  => SettingTypes::TEXT,
+                'type' => SettingTypes::TEXT,
                 'order' => 2,
+                'value' => 'info@bizburadayiz.com.tr',
             ] + createTranslateArray('title', 'settings.groups.contact_info.fields.email', 'config')
         );
 
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::CONTACT_INFO,
-                'key'   => 'address',
+                'key' => 'address',
             ],
             [
-                'type'  => SettingTypes::TEXTAREA,
+                'type' => SettingTypes::TEXTAREA,
                 'order' => 3,
+                'value' => 'Şehitkamil Mahallesi, Kemal Atatürk Caddesi No:15, Kat:2, 27010 Gaziantep, Türkiye',
             ] + createTranslateArray('title', 'settings.groups.contact_info.fields.address', 'config')
+        );
+
+        Setting::firstOrCreate(
+            [
+                'group' => SettingGroups::CONTACT_INFO,
+                'key' => 'contact_map_embed_url',
+            ],
+            [
+                'type' => SettingTypes::URL,
+                'order' => 4,
+                'is_required' => false,
+                'value' => 'https://www.google.com/maps?q=37.0662%2C37.3833&z=15&hl=tr&output=embed',
+            ] + createTranslateArray('title', 'settings.groups.contact_info.fields.contact_map_embed_url', 'config')
+        );
+    }
+
+    /**
+     * Seed platform settings (e.g. public emergency contact number).
+     */
+    private function seedPlatformSettings(): void
+    {
+        Setting::firstOrCreate(
+            [
+                'group' => SettingGroups::PLATFORM,
+                'key' => 'emergency_contact_number',
+            ],
+            [
+                'type' => SettingTypes::PHONE,
+                'order' => 1,
+                'value' => '+905555555555',
+            ] + createTranslateArray('title', 'settings.groups.platform.fields.emergency_contact_number', 'config')
+        );
+
+        $defaultCountryId = getCountryInfo();
+        $defaultCountryId = $defaultCountryId?->id;
+
+        Setting::firstOrCreate(
+            [
+                'group' => SettingGroups::PLATFORM,
+                'key' => 'front_search_default_country_id',
+            ],
+            [
+                'type' => SettingTypes::NUMBER,
+                'order' => 2,
+                'value' => $defaultCountryId,
+                'is_required' => false,
+            ] + createTranslateArray('title', 'settings.groups.platform.fields.front_search_default_country_id', 'config')
+        );
+
+        Setting::firstOrCreate(
+            [
+                'group' => SettingGroups::PLATFORM,
+                'key' => 'provider_register_landing_youtube_url',
+            ],
+            [
+                'type' => SettingTypes::URL,
+                'order' => 3,
+                'is_required' => false,
+                'value' => 'https://www.youtube.com/watch?v=fcb0e-IGNFc',
+            ] + createTranslateArray('title', 'settings.groups.platform.fields.provider_register_landing_youtube_url', 'config')
+        );
+
+        Setting::firstOrCreate(
+            [
+                'group' => SettingGroups::PLATFORM,
+                'key' => 'provider_subscription_whatsapp_e164',
+            ],
+            [
+                'type' => SettingTypes::PHONE,
+                'order' => 4,
+                'is_required' => false,
+                'value' => '+905555555555',
+            ] + createTranslateArray('title', 'settings.groups.platform.fields.provider_subscription_whatsapp_e164', 'config')
+        );
+
+        Setting::firstOrCreate(
+            [
+                'group' => SettingGroups::PLATFORM,
+                'key' => 'provider_bank_transfer_instructions',
+            ],
+            [
+                'type' => SettingTypes::TEXTAREA,
+                'order' => 5,
+                'is_required' => false,
+                'value' => "Bank: Example Bank\nIBAN: TR00 0000 0000 0000 0000 0000 00\nReference: your subscription number",
+            ] + createTranslateArray('title', 'settings.groups.platform.fields.provider_bank_transfer_instructions', 'config')
         );
     }
 
@@ -192,59 +302,123 @@ class ConfigDatabaseSeeder extends Seeder
      */
     private function seedMediaSettings(): void
     {
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::MEDIA,
-                'key'   => 'app_logo',
+                'key' => 'app_logo',
             ],
             [
-                'type'  => SettingTypes::IMAGE,
+                'type' => SettingTypes::IMAGE,
                 'order' => 1,
             ] + createTranslateArray('title', 'settings.groups.media.fields.app_logo', 'config')
         );
 
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::MEDIA,
-                'key'   => 'app_mobile_logo',
+                'key' => 'web_logo',
             ],
             [
-                'type'  => SettingTypes::IMAGE,
+                'type' => SettingTypes::IMAGE,
+                'order' => 2,
+            ] + createTranslateArray('title', 'settings.groups.media.fields.web_logo', 'config')
+        );
+
+        Setting::firstOrCreate(
+            [
+                'group' => SettingGroups::MEDIA,
+                'key' => 'app_mobile_logo',
+            ],
+            [
+                'type' => SettingTypes::IMAGE,
                 'order' => 2,
             ] + createTranslateArray('title', 'settings.groups.media.fields.app_mobile_logo', 'config')
         );
 
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::MEDIA,
-                'key'   => 'email_logo',
+                'key' => 'email_logo',
             ],
             [
-                'type'  => SettingTypes::IMAGE,
+                'type' => SettingTypes::IMAGE,
                 'order' => 3,
             ] + createTranslateArray('title', 'settings.groups.media.fields.email_logo', 'config')
         );
 
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::MEDIA,
-                'key'   => 'app_favicon',
+                'key' => 'app_favicon',
             ],
             [
-                'type'  => SettingTypes::IMAGE,
+                'type' => SettingTypes::IMAGE,
                 'order' => 4,
             ] + createTranslateArray('title', 'settings.groups.media.fields.app_favicon', 'config')
         );
 
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::MEDIA,
-                'key'   => 'app_placeholder',
+                'key' => 'app_placeholder',
             ],
             [
-                'type'  => SettingTypes::IMAGE,
+                'type' => SettingTypes::IMAGE,
                 'order' => 5,
             ] + createTranslateArray('title', 'settings.groups.media.fields.app_placeholder', 'config')
+        );
+
+        Setting::firstOrCreate(
+            [
+                'group' => SettingGroups::MEDIA,
+                'key' => 'loader_logo',
+            ],
+            [
+                'type' => SettingTypes::IMAGE,
+                'order' => 6,
+            ] + createTranslateArray('title', 'settings.groups.media.fields.loader_logo', 'config')
+        );
+
+        Setting::firstOrCreate(
+            [
+                'group' => SettingGroups::MEDIA,
+                'key' => 'front_hero_background',
+            ],
+            [
+                'type' => SettingTypes::IMAGE,
+                'order' => 7,
+                'is_required' => false,
+            ] + createTranslateArray('title', 'settings.groups.media.fields.front_hero_background', 'config')
+        );
+    }
+
+    /**
+     * Seed mobile app store links.
+     */
+    private function seedMobileSettings(): void
+    {
+        Setting::firstOrCreate(
+            [
+                'group' => SettingGroups::MOBILE,
+                'key' => 'app_store',
+            ],
+            [
+                'type' => SettingTypes::URL,
+                'order' => 1,
+                'value' => 'https://apps.apple.com/tr/app/bizburaday%C4%B1z/id6468649321',
+            ] + createTranslateArray('title', 'settings.groups.mobile.fields.app_store', 'config')
+        );
+
+        Setting::firstOrCreate(
+            [
+                'group' => SettingGroups::MOBILE,
+                'key' => 'google_play',
+            ],
+            [
+                'type' => SettingTypes::URL,
+                'order' => 2,
+                'value' => 'https://play.google.com/store/apps/details?id=com.namaait.bizburadayiz',
+            ] + createTranslateArray('title', 'settings.groups.mobile.fields.google_play', 'config')
         );
     }
 
@@ -253,80 +427,144 @@ class ConfigDatabaseSeeder extends Seeder
      */
     private function seedDevelopersSettings(): void
     {
-        $translatableSessionLifeTimeTitle          = createTranslateArray('title', 'settings.groups.developers.fields.session_lifetime.title', 'config');
-        $translatableSessionLifeTimeDescription    = createTranslateArray('description', 'settings.groups.developers.fields.session_lifetime.description', 'config');
+        $translatableSessionLifeTimeTitle = createTranslateArray('title', 'settings.groups.developers.fields.session_lifetime.title', 'config');
+        $translatableSessionLifeTimeDescription = createTranslateArray('description', 'settings.groups.developers.fields.session_lifetime.description', 'config');
 
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::DEVELOPERS,
-                'key'   => 'session_lifetime',
+                'key' => 'session_lifetime',
             ],
             [
-                'type'  => SettingTypes::NUMBER,
+                'type' => SettingTypes::NUMBER,
                 'order' => 1,
+                'value' => 1200,
             ] + array_merge_recursive($translatableSessionLifeTimeTitle, $translatableSessionLifeTimeDescription)
         );
 
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::DEVELOPERS,
-                'key'   => 'allow_debug_for_custom_ip',
+                'key' => 'allow_debug_for_custom_ip',
             ],
             [
-                'type'  => SettingTypes::SWITCH,
+                'type' => SettingTypes::SWITCH,
                 'order' => 2,
                 'value' => 0,
             ] + createTranslateArray('title', 'settings.groups.developers.fields.allow_debug_for_custom_ip', 'config')
         );
 
-        $translatableCustomIpTitle          = createTranslateArray('title', 'settings.groups.developers.fields.custom_ips.title', 'config');
-        $translatableCustomIpDescription    = createTranslateArray('description', 'settings.groups.developers.fields.custom_ips.description', 'config');
+        $translatableCustomIpTitle = createTranslateArray('title', 'settings.groups.developers.fields.custom_ips.title', 'config');
+        $translatableCustomIpDescription = createTranslateArray('description', 'settings.groups.developers.fields.custom_ips.description', 'config');
 
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::DEVELOPERS,
-                'key'   => 'custom_ips',
+                'key' => 'custom_ips',
             ],
             [
-                'type'  => SettingTypes::TEXTAREA,
+                'type' => SettingTypes::TEXTAREA,
                 'order' => 3,
             ] + array_merge_recursive($translatableCustomIpTitle, $translatableCustomIpDescription)
         );
 
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::DEVELOPERS,
-                'key'   => 'clear_cache',
+                'key' => 'clear_cache',
             ],
             [
-                'type'  => SettingTypes::BUTTON,
+                'type' => SettingTypes::BUTTON,
                 'order' => 4,
-                'value' => 'base.clearCache'
+                'value' => 'base.clearCache',
             ] + createTranslateArray('title', 'settings.groups.developers.fields.clear_cache', 'config')
         );
 
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::DEVELOPERS,
-                'key'   => 'clear_logs',
+                'key' => 'clear_logs',
             ],
             [
-                'type'  => SettingTypes::BUTTON,
+                'type' => SettingTypes::BUTTON,
                 'order' => 5,
-                'value' => 'base.clearLogs'
+                'value' => 'base.clearLogs',
             ] + createTranslateArray('title', 'settings.groups.developers.fields.clear_logs', 'config')
         );
 
-        Setting::updateOrCreate(
+        Setting::firstOrCreate(
             [
                 'group' => SettingGroups::DEVELOPERS,
-                'key'   => 'reset_permissions',
+                'key' => 'reset_permissions',
             ],
             [
-                'type'  => SettingTypes::BUTTON,
+                'type' => SettingTypes::BUTTON,
                 'order' => 6,
-                'value' => 'base.resetPermissions'
+                'value' => 'base.resetPermissions',
             ] + createTranslateArray('title', 'settings.groups.developers.fields.reset_permissions', 'config')
+        );
+    }
+
+    private function seedProviderRankingSettings(): void
+    {
+        Setting::firstOrCreate(
+            [
+                'group' => SettingGroups::PROVIDER_RANKING,
+                'key' => 'featured_providers_count',
+            ],
+            [
+                'type' => SettingTypes::NUMBER,
+                'order' => 1,
+                'value' => 3,
+            ] + createTranslateArray('title', 'settings.groups.provider_ranking.fields.featured_providers_count', 'config')
+        );
+
+        Setting::firstOrCreate(
+            [
+                'group' => SettingGroups::PROVIDER_RANKING,
+                'key' => 'new_provider_hours',
+            ],
+            [
+                'type' => SettingTypes::NUMBER,
+                'order' => 2,
+                'value' => 24,
+            ] + createTranslateArray('title', 'settings.groups.provider_ranking.fields.new_provider_hours', 'config')
+        );
+
+        Setting::firstOrCreate(
+            [
+                'group' => SettingGroups::PROVIDER_RANKING,
+                'key' => 'ranking_weight_rating',
+            ],
+            [
+                'type' => SettingTypes::NUMBER,
+                'order' => 3,
+                'value' => 50,
+            ] + createTranslateArray('title', 'settings.groups.provider_ranking.fields.ranking_weight_rating', 'config')
+        );
+
+        Setting::firstOrCreate(
+            [
+                'group' => SettingGroups::PROVIDER_RANKING,
+                'key' => 'ranking_weight_activity',
+            ],
+            [
+                'type' => SettingTypes::NUMBER,
+                'order' => 4,
+                'value' => 30,
+            ] + createTranslateArray('title', 'settings.groups.provider_ranking.fields.ranking_weight_activity', 'config')
+        );
+
+        Setting::firstOrCreate(
+            [
+                'group' => SettingGroups::PROVIDER_RANKING,
+                'key' => 'ranking_weight_experience',
+            ],
+            [
+                'type' => SettingTypes::NUMBER,
+                'order' => 5,
+                'value' => 20,
+            ] + createTranslateArray('title', 'settings.groups.provider_ranking.fields.ranking_weight_experience', 'config')
         );
     }
 }

@@ -1,11 +1,15 @@
 @extends('admin::layouts.master', [
-    'title' => trans('admin::dashboard.aside_menu.user_management.users')
+    'title' => $isServiceProvider
+        ? trans('admin::dashboard.aside_menu.user_management.service_providers')
+        : trans('admin::dashboard.aside_menu.user_management.customers'),
 ])
 
 @section('toolbar')
     @component('admin::includes.toolbar', [
             'options'               => [
-                'title'             => trans('admin::dashboard.aside_menu.user_management.users'),
+                'title'             => $isServiceProvider
+                    ? trans('admin::dashboard.aside_menu.user_management.service_providers')
+                    : trans('admin::dashboard.aside_menu.user_management.customers'),
                 'actions'           => [
                     'filter'        => true,
                     'search'        => true,
@@ -28,6 +32,70 @@
                     ]
                 ])
             </div>
+
+            @if($isServiceProvider)
+                <div class="d-none">
+                    <select name="approval" id="users-filter-approval" aria-hidden="true" tabindex="-1">
+                        <option value="">@lang('admin::base.all_results')</option>
+                        <option value="pending">{{ trans('admin::datatable.users.quick_filter_pending_approval_option') }}</option>
+                    </select>
+                </div>
+            @endif
+
+            @if($isServiceProvider)
+                <div class="mb-5">
+                    @include('admin::components.inputs.select', [
+                        'options'           => [
+                            'id'                      => 'users_filter_country_id',
+                            'name'                    => 'filter_country_id',
+                            'label'                   => trans('admin::inputs.user_crud.country_id.label'),
+                            'placeholder'             => trans('admin::inputs.user_crud.country_id.placeholder'),
+                            'clearable'               => false,
+                            'isAjax'                  => true,
+                            'url'                     => route('zms.countries.ajaxList'),
+                            'selected'                => [],
+                            'clearDependentsSelector' => '#users_filter_state_id,#users_filter_city_id',
+                            'autoSelectFirst'         => true,
+                        ],
+                    ])
+                </div>
+                <div class="mb-5">
+                    @include('admin::components.inputs.select', [
+                        'options'           => [
+                            'id'                      => 'users_filter_state_id',
+                            'name'                    => 'filter_state_id',
+                            'label'                   => trans('admin::inputs.user_crud.state_id.label'),
+                            'placeholder'             => trans('admin::inputs.user_crud.state_id.placeholder'),
+                            'clearable'               => false,
+                            'isAjax'                  => true,
+                            'url'                     => route('zms.states.ajaxList'),
+                            'selected'                => [],
+                            'parentSelect'            => '#users_filter_country_id',
+                            'ajaxParentParam'         => 'country_id',
+                            'clearDependentsSelector' => '#users_filter_city_id',
+                            'autoSelectFirst'         => true,
+                            'disabled'                => true,
+                        ],
+                    ])
+                </div>
+                <div class="mb-5">
+                    @include('admin::components.inputs.select', [
+                        'options'           => [
+                            'id'              => 'users_filter_city_id',
+                            'name'            => 'city_id',
+                            'label'           => trans('admin::inputs.user_crud.city_id.label'),
+                            'placeholder'     => trans('admin::base.all_results'),
+                            'clearable'       => true,
+                            'isAjax'          => true,
+                            'url'             => route('zms.cities.ajaxList'),
+                            'selected'        => [],
+                            'parentSelect'    => '#users_filter_state_id',
+                            'ajaxParentParam' => 'state_id',
+                            'disabled'        => true,
+                        ],
+                    ])
+                </div>
+            @endif
         @endslot
     @endcomponent
 @endsection
@@ -36,46 +104,68 @@
     <div id="kt_content_container" class="container-fluid">
         <div class="card shadow-sm ">
 
-            <!--begin::Card header-->
             <div class="card-header">
-                <!--begin::Card title-->
                 <div class="card-title">
-                    @include('admin::components.datatables.header.title', [
-                        'options'   => [
-                            'role'  => $viewTrashPermission,
-                            'title' => trans('admin::datatable.users.list_title'),
-                        ]
-                    ])
+                    <div class="d-flex flex-wrap align-items-center gap-3">
+                        @include('admin::components.datatables.header.title', [
+                            'options'   => [
+                                'role'  => $viewTrashPermission,
+                                'title' => $isServiceProvider
+                                    ? trans('admin::datatable.users.list_title_service_providers')
+                                    : trans('admin::datatable.users.list_title_customers'),
+                            ]
+                        ])
+                        @if($isServiceProvider && ($service_providers_pending_approval_count ?? 0) > 0)
+                            <button
+                                type="button"
+                                class="btn btn-sm btn-light-danger fw-semibold"
+                                id="users-filter-pending-approval"
+                                title="{{ trans('admin::datatable.users.quick_filter_pending_approval_title') }}"
+                            >
+                                <i class="bi bi-person-check fs-6 me-1"></i>
+                                {{ trans('admin::datatable.users.quick_filter_pending_approval') }}
+                                <span class="badge badge-danger ms-2">{{ $service_providers_pending_approval_count }}</span>
+                            </button>
+                        @endif
+                    </div>
                 </div>
-                <!--begin::Card title-->
 
-                <!--begin::Card toolbar-->
                 <div class="card-toolbar flex-row-reverse">
                     @include('admin::components.datatables.header.toolbar', [
                         'options'               => [
                             'role'              => $createPermission,
                             'multiActions'      => $bulkActionDropdown,
-                            'route'             => route('auth.users.create'),
+                            'route'             => route('auth.users.create', ['userType' => $userType->value]),
                         ]
                     ])
                 </div>
-                <!--end::Card toolbar-->
             </div>
-            <!--end::Card header-->
 
-            <!--begin::Card body-->
             <div class="card-body  py-4">
+                @php
+                    $serviceProviderViewUrlTemplate = $isServiceProvider
+                        ? route('auth.users.view', ['userType' => $userType->value, 'model' => 900000001])
+                        : '';
+                @endphp
                 @component('admin::components.datatables.table', [
                         'options'           => [
-                            'url'           => route('auth.users.datatable'),
+                            'url'           => route('auth.users.datatable', ['userType' => $userType->value]),
                             'filter'        => true,
                         ]
                     ])
                     @slot('columns')
-                        <th style="width: 30%"> @lang('admin::datatable.admins.columns.user') </th>
+                        <th style="width: 30%">
+                            @lang('admin::inputs.package_subscriptions_crud.'.strtolower(str_replace('-', '_', $userType->value)).'.label')
+                        </th>
                         <th> @lang('admin::datatable.base_columns.phone_number') </th>
+                        <th> @lang('admin::datatable.base_columns.central_phone') </th>
                         <th style="width: 8%"> @lang('admin::datatable.base_columns.status') </th>
                         <th> @lang('admin::datatable.admins.columns.joined_date') </th>
+                        @if($isServiceProvider)
+                            <th> @lang('admin::datatable.users.columns.service_type') </th>
+                            <th> @lang('admin::datatable.users.columns.state') </th>
+                            <th> @lang('admin::datatable.users.columns.city') </th>
+                        @endif
                     @endslot
 
                     <script>
@@ -86,17 +176,23 @@
                                 orderable: false,
                                 searchable: false,
                                 render: function (data, type, row, meta) {
+                                    @if ($isServiceProvider)
+                                        const providerViewUrl = @json($serviceProviderViewUrlTemplate).replace('900000001', String(row.id));
+                                        const providerViewLinkAttrs = ' href="' + providerViewUrl + '" target="_blank" rel="noopener noreferrer"';
+                                    @else
+                                        const providerViewLinkAttrs = ' href="javascript:;"';
+                                    @endif
                                     return `
                                         <div class="d-flex align-items-center">
                                             <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                                                <a href="javascript:;">
+                                                <a` + providerViewLinkAttrs + `>
                                                     <div class="symbol-label">
-                                                        <img src="{{ asset('images/default/avatars/user.png') }}" alt="${row.full_name}" class="w-100" />
+                                                        <img src="${row.image_url}" alt="${row.full_name}" class="w-100" onerror="this.onerror=null; this.src='{{ asset('images/default/avatars/user.png') }}';" />
                                                     </div>
                                                 </a>
                                             </div>
                                             <div class="d-flex justify-content-start flex-column">
-                                                <a href="javascript:;" class="text-dark fw-bolder text-hover-primary mb-1">${row.full_name}</a>
+                                                <a` + providerViewLinkAttrs + ` class="text-dark fw-bolder text-hover-primary mb-1">${row.full_name}</a>
                                                 <span class="text-muted">${row.email}</span>
                                             </div>
                                         </div>
@@ -110,6 +206,18 @@
                                 searchable  : false,
                                 render      : function (data, type, row, meta) {
                                     return isEmpty(data) ? "{{ DEFAULT_PHONE }}" :
+                                    `
+                                        <a href="tel:${data}" class="text-dark fw-bolder text-hover-primary">${data}</a>
+                                    `;
+                                }
+                            },
+                            {
+                                data        : 'central_phone',
+                                name        : 'central_phone',
+                                orderable   : false,
+                                searchable  : false,
+                                render      : function (data, type, row, meta) {
+                                    return isEmpty(data) ? '—' :
                                     `
                                         <a href="tel:${data}" class="text-dark fw-bolder text-hover-primary">${data}</a>
                                     `;
@@ -137,12 +245,61 @@
                                     `;
                                 }
                             },
+                            @if($isServiceProvider)
+                            {
+                                data: 'service_name',
+                                name: 'service_name',
+                                orderable: false,
+                                searchable: false,
+                                render: function (data, type, row, meta) {
+                                    return `<span class="text-gray-700 fw-semibold">${data ?? '—'}</span>`;
+                                }
+                            },
+                            {
+                                data: 'state_name',
+                                name: 'state_name',
+                                orderable: false,
+                                searchable: false,
+                                render: function (data, type, row, meta) {
+                                    return `<span class="text-gray-700 fw-semibold">${data ?? '—'}</span>`;
+                                }
+                            },
+                            {
+                                data: 'city_name',
+                                name: 'city_name',
+                                orderable: false,
+                                searchable: false,
+                                render: function (data, type, row, meta) {
+                                    return `<span class="text-gray-700 fw-semibold">${data ?? '—'}</span>`;
+                                }
+                            },
+                            @endif
                         @endslot
                     </script>
 
                 @endcomponent
             </div>
-            <!--end::Card body-->
         </div>
     </div>
 @endsection
+
+@if($isServiceProvider)
+    @push('script')
+        <script>
+            $(function () {
+                $('#users-filter-pending-approval').on('click', function () {
+                    const $select = $('#users-filter-approval');
+                    if (!$select.length) {
+                        return;
+                    }
+
+                    $select.val('pending').trigger('change');
+
+                    if ($.fn.DataTable.isDataTable('#data-table')) {
+                        $('#data-table').DataTable().ajax.reload();
+                    }
+                });
+            });
+        </script>
+    @endpush
+@endif

@@ -28,7 +28,7 @@ class StateController extends BaseCrudController
 
     protected $hasSoftDelete = false;
 
-    protected $hasDisabled = false;
+    protected $hasDisabled = true;
 
     protected $hasBulkActions = false;
 
@@ -47,6 +47,22 @@ class StateController extends BaseCrudController
     {
         $request->merge(['country_id' => $request->country_id]);
         return parent::datatable($request);
+    }
+
+    public function getModelForAjax(Request $request)
+    {
+        if (! $request->filled('country_id')) {
+            return $this->model::query()->whereRaw('0 = 1');
+        }
+
+        $this->data['model'] = $this->model::query()->where('country_id', $request->country_id);
+
+        if ($request->has('q')) {
+            $term = trim($request->q);
+            $this->data['model'] = $this->data['model']->simpleSearch($term);
+        }
+
+        return $this->data['model'];
     }
 
     /**

@@ -3,8 +3,10 @@
 @section('toolbar')
     @include('admin::includes.toolbar', [
         'options'               => [
-            'title'             => trans('admin::dashboard.aside_menu.user_management.users'),
-            'backUrl'           => route('auth.users.index'),
+            'title'             => $isServiceProvider
+                ? trans('admin::dashboard.aside_menu.user_management.service_providers')
+                : trans('admin::dashboard.aside_menu.user_management.customers'),
+            'backUrl'           => route('auth.users.index', ['userType' => $userType->value]),
             'actions'           => [
                 'save'          => true,
                 'back'          => true,
@@ -29,11 +31,32 @@
                         @component('admin::components.forms.form', [
                                 'options'       => [
                                     'isAjax'    => true,
-                                    'action'    => route('auth.users.postUpdate', [$model->id]),
+                                    'action'    => route('auth.users.postUpdate', ['userType' => $userType->value, 'model' => $model->id]),
                                     'method'    => 'PUT',
                                 ]
                             ])
                             @slot('fields')
+
+                                <div class="fv-row d-flex justify-content-center">
+                                    <div class="d-flex flex-column align-items-center mb-10 form-group">
+                                        @include('admin::components.inputs.image', [
+                                            'options'       => [
+                                                'name'              => 'image',
+                                                'removeFieldName'   => 'image_remove',
+                                                'isAvatar'          => true,
+                                                'width'             => '125',
+                                                'height'            => '125',
+                                                'circle'            => true,
+                                                'value'             => $model->getFirstMedia(\Modules\Auth\Models\User::MEDIA_COLLECTION)?->getUrl(),
+                                                'subText'           => trans('admin::inputs.user_crud.image.subText', [
+                                                    'types' => getImageTypes(true),
+                                                    'size'  => config('base.file.image.max_size'),
+                                                ]),
+                                                'accept'            => getImageTypes(),
+                                            ]
+                                        ])
+                                    </div>
+                                </div>
 
                                 <div class="row">
                                     <div class="col-lg-6 col-12 mb-10 form-group">
@@ -127,6 +150,23 @@
 
                                 <div class="row">
                                     <div class="col-lg-6 col-12 mb-10 form-group">
+                                        @include('admin::components.inputs.text', [
+                                            'options'           => [
+                                                'name'              => 'central_phone',
+                                                'label'             => trans('admin::inputs.user_crud.central_phone.label'),
+                                                'placeholder'       => trans('admin::inputs.user_crud.central_phone.placeholder'),
+                                                'help'              => trans('admin::inputs.user_crud.central_phone.help'),
+                                                'required'          => false,
+                                                'value'             => $model->central_phone,
+                                                'onlyPlusDigits'    => true,
+                                                'inputmode'         => 'tel',
+                                            ],
+                                        ])
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-6 col-12 mb-10 form-group">
                                         @include('admin::components.inputs.password', [
                                             'options'           => [
                                                 'name'          => 'password',
@@ -151,6 +191,9 @@
                                     </div>
                                 </div>
 
+                                @if($isServiceProvider)
+                                    @include('auth::users.partials.service-provider-fields', ['model' => $model])
+                                @endif
 
                                 <div class="separator separator-dashed my-5"></div>
 

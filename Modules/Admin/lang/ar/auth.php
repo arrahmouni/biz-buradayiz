@@ -5,8 +5,10 @@ return [
         'meta_title'                => 'تسجيل الدخول',
         'welcome_to_admin_panel'    => 'مرحبا بكم في لوحة التحكم',
         'sign_in_to_account'        => 'تسجيل الدخول الى حسابك',
+        'subtitle'                  => 'سجّل الدخول إلى حسابك',
         'forget_password'           => 'هل نسيت كلمة المرور؟',
         'sign_in'                   => 'تسجيل الدخول',
+        'toggle_password_visibility'=> 'إظهار كلمة المرور أو إخفاؤها',
     ],
 
     'profile_page'                  => [
