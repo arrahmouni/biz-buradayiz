@@ -5,6 +5,7 @@ namespace Modules\Auth\Http\Controllers\admin;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\Middleware;
+use Modules\Admin\Enums\AdminStatus;
 use Modules\Auth\Enums\permissions\UserPermissions;
 use Modules\Auth\Enums\UserType;
 use Modules\Auth\Http\Requests\UserCrudRequest;
@@ -86,6 +87,19 @@ class UserCrudController extends BaseCrudController
         }
 
         return $parent;
+    }
+
+    public function index()
+    {
+        if ($this->userType === UserType::ServiceProvider) {
+            $this->data['service_providers_pending_approval_count'] = User::query()
+                ->where('type', UserType::ServiceProvider->value)
+                ->where('status', AdminStatus::PENDING)
+                ->whereNull('approved_at')
+                ->count();
+        }
+
+        return parent::index();
     }
 
     public function view(Request $request)

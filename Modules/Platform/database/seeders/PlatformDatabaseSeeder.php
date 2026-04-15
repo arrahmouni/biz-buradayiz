@@ -14,6 +14,7 @@ class PlatformDatabaseSeeder extends Seeder
         $this->call([
             ServiceSeeder::class,
             PackageSeeder::class,
+            ServiceProviderListingSeeder::class,
             PackageSubscriptionSeeder::class,
             ReviewSeeder::class,
         ]);

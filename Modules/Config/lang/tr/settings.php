@@ -78,5 +78,16 @@ return [
                 ],
             ],
         ],
+        'provider_ranking' => [
+            'title' => 'Sağlayıcı Sıralaması',
+            'fields' => [
+                'featured_providers_count' => 'Öne çıkan sağlayıcı sayısı',
+                'new_provider_hours' => 'Yeni sağlayıcı süresi (saat)',
+                'ranking_weight_rating' => 'Değerlendirme ağırlığı (%)',
+                'ranking_weight_activity' => 'Aktivite ağırlığı (%)',
+                'ranking_weight_experience' => 'Deneyim/Kıdem ağırlığı (%)',
+            ],
+        ],
     ],
+    'ranking_weights_sum_exceeded' => 'Sıralama ağırlıklarının toplamı (Değerlendirme + Aktivite + Deneyim) 100\'ü geçmemelidir.',
 ];

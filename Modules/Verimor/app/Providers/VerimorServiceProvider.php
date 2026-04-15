@@ -3,6 +3,8 @@
 namespace Modules\Verimor\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Modules\Verimor\Models\VerimorCallEvent;
+use Modules\Verimor\Observers\VerimorCallEventObserver;
 use Nwidart\Modules\Traits\PathNamespace;
 
 class VerimorServiceProvider extends ServiceProvider
@@ -19,6 +21,8 @@ class VerimorServiceProvider extends ServiceProvider
         $this->registerTranslations();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->name, 'database/migrations'));
+
+        VerimorCallEvent::observe(VerimorCallEventObserver::class);
     }
 
     public function registerTranslations(): void

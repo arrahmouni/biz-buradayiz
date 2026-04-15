@@ -86,12 +86,12 @@
                             ]
                         ])
                         @if(($package_subscriptions_awaiting_verification_count ?? 0) > 0)
-                        <button
-                            type="button"
-                            class="btn btn-sm btn-light-danger fw-semibold"
-                            id="package-subscriptions-filter-awaiting-verification"
-                            title="{{ trans('admin::datatable.package_subscriptions.quick_filter_awaiting_verification_title') }}"
-                        >
+                            <button
+                                type="button"
+                                class="btn btn-sm btn-light-danger fw-semibold"
+                                id="package-subscriptions-filter-awaiting-verification"
+                                title="{{ trans('admin::datatable.package_subscriptions.quick_filter_awaiting_verification_title') }}"
+                            >
                             <i class="bi bi-patch-check fs-6 me-1"></i>
                             {{ trans('admin::datatable.package_subscriptions.quick_filter_awaiting_verification') }}
                                 <span class="badge badge-danger ms-2">{{ $package_subscriptions_awaiting_verification_count }}</span>

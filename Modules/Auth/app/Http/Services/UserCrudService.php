@@ -10,6 +10,7 @@ use Modules\Auth\Enums\UserType;
 use Modules\Auth\Models\User as CrudModel;
 use Modules\Base\Http\Services\BaseCrudService;
 use Modules\Platform\Http\Services\GrantWelcomeFreePackageSubscription;
+use Modules\Platform\Jobs\RecalculateProviderRankingsJob;
 use Modules\Verimor\Enums\permissions\VerimorCallEventPermissions;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -38,7 +39,7 @@ class UserCrudService extends BaseCrudService
 
         if (($modelData['type'] ?? null) === UserType::ServiceProvider->value
             && ($modelData['status'] ?? null) === AdminStatus::ACTIVE) {
-            app(GrantWelcomeFreePackageSubscription::class)->grantIfEligible($model);
+            $this->onServiceProviderActivated($model);
         }
 
         return $model;
@@ -74,11 +75,21 @@ class UserCrudService extends BaseCrudService
                 && $previousStatus !== AdminStatus::ACTIVE;
 
             if ($becameActive && $model->type === UserType::ServiceProvider) {
-                app(GrantWelcomeFreePackageSubscription::class)->grantIfEligible($model);
+                $this->onServiceProviderActivated($model);
             }
         });
 
         return $model;
+    }
+
+    private function onServiceProviderActivated(CrudModel $model): void
+    {
+        if ($model->approved_at === null) {
+            $model->forceFill(['approved_at' => now()])->save();
+        }
+
+        app(GrantWelcomeFreePackageSubscription::class)->grantIfEligible($model);
+        RecalculateProviderRankingsJob::dispatch();
     }
 
     private function removeUserImage(CrudModel $model): void
@@ -150,7 +161,7 @@ class UserCrudService extends BaseCrudService
                 if (isset($data['advanced_search']) && is_array($data['advanced_search']) && $data['advanced_search'] !== []) {
                     $advanced = $data['advanced_search'];
                     if (! $isServiceProvider) {
-                        unset($advanced['city_id']);
+                        unset($advanced['city_id'], $advanced['approval']);
                     }
                     $query->advancedSearch($advanced);
                 }

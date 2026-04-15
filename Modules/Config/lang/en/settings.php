@@ -78,5 +78,16 @@ return [
                 ],
             ],
         ],
+        'provider_ranking' => [
+            'title' => 'Provider Ranking',
+            'fields' => [
+                'featured_providers_count' => 'Number of featured providers',
+                'new_provider_hours' => 'New provider window (hours)',
+                'ranking_weight_rating' => 'Rating weight (%)',
+                'ranking_weight_activity' => 'Activity weight (%)',
+                'ranking_weight_experience' => 'Experience/Seniority weight (%)',
+            ],
+        ],
     ],
+    'ranking_weights_sum_exceeded' => 'The total of ranking weights (Rating + Activity + Experience) must not exceed 100.',
 ];

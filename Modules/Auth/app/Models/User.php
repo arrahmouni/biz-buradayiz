@@ -12,6 +12,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
+use Modules\Admin\Enums\AdminStatus;
 use Modules\Admin\Traits\UserTrait;
 use Modules\Auth\database\factories\UserFactory;
 use Modules\Auth\Enums\UserType;
@@ -99,6 +100,8 @@ class User extends Authenticatable implements Auditable, CanResetPasswordContrac
             'review_rating_average' => 'decimal:2',
             'approved_reviews_count' => 'integer',
             'welcome_free_package_granted_at' => 'datetime',
+            'approved_at' => 'datetime',
+            'ranking_score' => 'decimal:4',
         ];
     }
 
@@ -228,6 +231,10 @@ class User extends Authenticatable implements Auditable, CanResetPasswordContrac
             ->when(
                 ! empty($search['city_id']) && (int) $search['city_id'] > 0,
                 fn ($q) => $q->where('city_id', (int) $search['city_id'])
+            )
+            ->when(
+                ! empty($search['approval']) && $search['approval'] === 'pending',
+                fn ($q) => $q->where('status', AdminStatus::PENDING)->whereNull('approved_at')
             );
     }
 

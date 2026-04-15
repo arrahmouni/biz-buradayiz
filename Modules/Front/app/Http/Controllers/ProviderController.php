@@ -12,14 +12,17 @@ use Modules\Auth\Models\User;
 use Modules\Base\Http\Controllers\BaseWebController;
 use Modules\Front\Http\Requests\ProviderSearchRequest;
 use Modules\Front\Http\Requests\StoreProviderReviewRequest;
+use Modules\Front\Support\FeaturedProviderService;
 use Modules\Platform\Http\Services\ReviewSubmissionService;
 use Modules\Zms\Models\City;
 use Modules\Zms\Models\State;
 
 class ProviderController extends BaseWebController
 {
-    public function __construct(protected ReviewSubmissionService $reviewSubmissionService)
-    {
+    public function __construct(
+        protected ReviewSubmissionService $reviewSubmissionService,
+        protected FeaturedProviderService $featuredProviderService,
+    ) {
         parent::__construct();
     }
 
@@ -38,9 +41,22 @@ class ProviderController extends BaseWebController
             $query->whereHas('city', fn ($q) => $q->where('state_id', $validated['state_id']));
         }
 
+        $featuredProviders = collect();
+        $featuredIds = [];
+        $currentPage = (int) $request->input('page', 1);
+
+        if ($currentPage === 1) {
+            $featuredCount = (int) getSetting('featured_providers_count', 3);
+            $featuredProviders = $this->featuredProviderService->getFeatured(clone $query, $featuredCount);
+            $featuredIds = $featuredProviders->pluck('id')->all();
+        }
+
+        if ($featuredIds !== []) {
+            $query->whereNotIn('id', $featuredIds);
+        }
+
         $providers = $query
-            ->orderByDesc('review_rating_average')
-            ->orderByDesc('approved_reviews_count')
+            ->orderByDesc('ranking_score')
             ->orderBy('first_name')
             ->orderBy('last_name')
             ->paginate(12)
@@ -69,6 +85,7 @@ class ProviderController extends BaseWebController
             }
         }
 
+        $this->data['featuredProviders'] = $featuredProviders;
         $this->data['providers'] = $providers;
         $this->data['filters'] = [
             'service_id' => $validated['service_id'] ?? null,

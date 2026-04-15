@@ -18,6 +18,8 @@ final class SettingGroups
 
     public const DEVELOPERS = 'developers';
 
+    public const PROVIDER_RANKING = 'provider_ranking';
+
     public static function all(): array
     {
         return [
@@ -28,6 +30,7 @@ final class SettingGroups
             self::MEDIA,
             self::MOBILE,
             self::DEVELOPERS,
+            self::PROVIDER_RANKING,
         ];
     }
 
@@ -41,6 +44,7 @@ final class SettingGroups
             self::MEDIA => trans('config::settings.groups.media.title'),
             self::MOBILE => trans('config::settings.groups.mobile.title'),
             self::DEVELOPERS => trans('config::settings.groups.developers.title'),
+            self::PROVIDER_RANKING => trans('config::settings.groups.provider_ranking.title'),
         ];
     }
 }

@@ -135,6 +135,9 @@ return [
         'list_title' => 'قائمة المستخدمين',
         'list_title_customers' => 'قائمة العملاء',
         'list_title_service_providers' => 'قائمة مقدمي الخدمة',
+        'quick_filter_pending_approval' => 'بانتظار الموافقة',
+        'quick_filter_pending_approval_title' => 'عرض مقدمي الخدمة غير المعتمدين بعد',
+        'quick_filter_pending_approval_option' => 'بانتظار الموافقة',
         'columns' => [
             'service_type' => 'نوع الخدمة',
             'country' => 'الدولة',

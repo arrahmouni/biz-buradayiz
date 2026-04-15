@@ -33,6 +33,7 @@ class ConfigDatabaseSeeder extends Seeder
         $this->seedMediaSettings();
         $this->seedMobileSettings();
         $this->seedDevelopersSettings();
+        $this->seedProviderRankingSettings();
     }
 
     /**
@@ -501,6 +502,69 @@ class ConfigDatabaseSeeder extends Seeder
                 'order' => 6,
                 'value' => 'base.resetPermissions',
             ] + createTranslateArray('title', 'settings.groups.developers.fields.reset_permissions', 'config')
+        );
+    }
+
+    private function seedProviderRankingSettings(): void
+    {
+        Setting::firstOrCreate(
+            [
+                'group' => SettingGroups::PROVIDER_RANKING,
+                'key' => 'featured_providers_count',
+            ],
+            [
+                'type' => SettingTypes::NUMBER,
+                'order' => 1,
+                'value' => 3,
+            ] + createTranslateArray('title', 'settings.groups.provider_ranking.fields.featured_providers_count', 'config')
+        );
+
+        Setting::firstOrCreate(
+            [
+                'group' => SettingGroups::PROVIDER_RANKING,
+                'key' => 'new_provider_hours',
+            ],
+            [
+                'type' => SettingTypes::NUMBER,
+                'order' => 2,
+                'value' => 24,
+            ] + createTranslateArray('title', 'settings.groups.provider_ranking.fields.new_provider_hours', 'config')
+        );
+
+        Setting::firstOrCreate(
+            [
+                'group' => SettingGroups::PROVIDER_RANKING,
+                'key' => 'ranking_weight_rating',
+            ],
+            [
+                'type' => SettingTypes::NUMBER,
+                'order' => 3,
+                'value' => 50,
+            ] + createTranslateArray('title', 'settings.groups.provider_ranking.fields.ranking_weight_rating', 'config')
+        );
+
+        Setting::firstOrCreate(
+            [
+                'group' => SettingGroups::PROVIDER_RANKING,
+                'key' => 'ranking_weight_activity',
+            ],
+            [
+                'type' => SettingTypes::NUMBER,
+                'order' => 4,
+                'value' => 30,
+            ] + createTranslateArray('title', 'settings.groups.provider_ranking.fields.ranking_weight_activity', 'config')
+        );
+
+        Setting::firstOrCreate(
+            [
+                'group' => SettingGroups::PROVIDER_RANKING,
+                'key' => 'ranking_weight_experience',
+            ],
+            [
+                'type' => SettingTypes::NUMBER,
+                'order' => 5,
+                'value' => 20,
+            ] + createTranslateArray('title', 'settings.groups.provider_ranking.fields.ranking_weight_experience', 'config')
         );
     }
 }

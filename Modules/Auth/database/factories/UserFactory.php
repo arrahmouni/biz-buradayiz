@@ -5,6 +5,7 @@ namespace Modules\Auth\database\factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+use Modules\Admin\Enums\AdminStatus;
 use Modules\Auth\Enums\UserType;
 use Modules\Auth\Models\User;
 use Modules\Platform\Models\Service;
@@ -33,6 +34,7 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'remember_token' => Str::random(10),
             'service_id' => Service::query()->inRandomOrder()->value('id'),
+            'status' => fake()->randomElement(AdminStatus::all()),
             'city_id' => City::query()->inRandomOrder()->value('id'),
         ];
     }
@@ -42,6 +44,10 @@ class UserFactory extends Factory
         return $this->afterCreating(function (User $user) {
             $randomImagePath = asset('modules/admin/metronic/demo/media/avatars/300-'.rand(1, 30).'.jpg');
             $user->addMediaFromUrl($randomImagePath)->toMediaCollection(User::MEDIA_COLLECTION);
+            if ($user->status === AdminStatus::ACTIVE) {
+                $user->approved_at = now();
+                $user->save();
+            }
         });
     }
 
@@ -49,6 +55,16 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
+        ]);
+    }
+
+    /**
+     * Active admin status; {@see configure()} sets approved_at when status is active.
+     */
+    public function activeServiceProvider(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'status' => AdminStatus::ACTIVE,
         ]);
     }
 }

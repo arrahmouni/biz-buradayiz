@@ -76,5 +76,16 @@ return [
                 ],
             ],
         ],
+        'provider_ranking' => [
+            'title' => 'ترتيب مقدمي الخدمة',
+            'fields' => [
+                'featured_providers_count' => 'عدد مقدمي الخدمة المميزين',
+                'new_provider_hours' => 'نافذة مقدم الخدمة الجديد (ساعات)',
+                'ranking_weight_rating' => 'وزن التقييم (%)',
+                'ranking_weight_activity' => 'وزن النشاط (%)',
+                'ranking_weight_experience' => 'وزن الخبرة/الأقدمية (%)',
+            ],
+        ],
     ],
+    'ranking_weights_sum_exceeded' => 'مجموع أوزان الترتيب (التقييم + النشاط + الخبرة) يجب ألا يتجاوز 100.',
 ];

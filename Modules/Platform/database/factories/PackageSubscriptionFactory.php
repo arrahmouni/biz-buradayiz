@@ -2,6 +2,7 @@
 
 namespace Modules\Platform\Database\Factories;
 
+use Closure;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Auth\Enums\UserType;
 use Modules\Auth\Models\User;
@@ -50,18 +51,7 @@ class PackageSubscriptionFactory extends Factory
                 'remaining_connections' => fake()->optional(0.5)->numberBetween(1, 50),
                 'admin_notes' => null,
             ],
-            'active_paid' => [
-                'user_id' => $this->resolveUserId(),
-                'status' => PackageSubscriptionStatus::Active,
-                'payment_status' => PackageSubscriptionPaymentStatus::Paid,
-                'payment_method' => fake()->randomElement(PackageSubscriptionPaymentMethod::cases()),
-                'starts_at' => $start = fake()->dateTimeBetween('-3 months', 'now'),
-                'ends_at' => (clone $start)->modify('+1 month'),
-                'cancelled_at' => null,
-                'paid_at' => $start,
-                'remaining_connections' => fake()->numberBetween(1, 50),
-                'admin_notes' => fake()->optional(0.15)->sentence(),
-            ],
+            'active_paid' => $this->activePaidAttributes($this->resolveUserId()),
             'cancelled' => [
                 'user_id' => $this->resolveUserId(),
                 'status' => PackageSubscriptionStatus::Cancelled,
@@ -121,6 +111,108 @@ class PackageSubscriptionFactory extends Factory
                 'connections_count' => fake()->numberBetween(1, 30),
             ]);
         });
+    }
+
+    /**
+     * Eligible for {@see PackageSubscription::scopeActiveSubscription} (paid, quota, not expired).
+     */
+    public function activePaidSubscription(): static
+    {
+        return $this->state(fn (array $attributes) => $this->activePaidAttributes(
+            $this->coerceUserId($attributes['user_id'] ?? null, $attributes)
+        ));
+    }
+
+    public function pendingPaymentSubscription(): static
+    {
+        return $this->state(fn () => [
+            'user_id' => $this->resolveUserId(),
+            'status' => PackageSubscriptionStatus::PendingPayment,
+            'payment_status' => fake()->randomElement([
+                PackageSubscriptionPaymentStatus::Pending,
+                PackageSubscriptionPaymentStatus::AwaitingVerification,
+            ]),
+            'payment_method' => fake()->randomElement(PackageSubscriptionPaymentMethod::cases()),
+            'starts_at' => null,
+            'ends_at' => null,
+            'cancelled_at' => null,
+            'paid_at' => null,
+            'remaining_connections' => fake()->optional(0.5)->numberBetween(1, 50),
+            'admin_notes' => null,
+        ]);
+    }
+
+    public function cancelledSubscription(): static
+    {
+        return $this->state(fn () => [
+            'user_id' => $this->resolveUserId(),
+            'status' => PackageSubscriptionStatus::Cancelled,
+            'payment_status' => fake()->randomElement([
+                PackageSubscriptionPaymentStatus::Cancelled,
+                PackageSubscriptionPaymentStatus::Failed,
+                PackageSubscriptionPaymentStatus::Pending,
+            ]),
+            'payment_method' => fake()->randomElement(PackageSubscriptionPaymentMethod::cases()),
+            'starts_at' => null,
+            'ends_at' => null,
+            'cancelled_at' => fake()->dateTimeBetween('-2 months', 'now'),
+            'paid_at' => null,
+            'remaining_connections' => 0,
+            'admin_notes' => fake()->optional(0.2)->sentence(),
+        ]);
+    }
+
+    public function expiredSubscription(): static
+    {
+        return $this->state(fn () => [
+            'user_id' => $this->resolveUserId(),
+            'status' => PackageSubscriptionStatus::Expired,
+            'payment_status' => PackageSubscriptionPaymentStatus::Paid,
+            'payment_method' => fake()->randomElement(PackageSubscriptionPaymentMethod::cases()),
+            'starts_at' => $start = fake()->dateTimeBetween('-1 year', '-2 months'),
+            'ends_at' => fake()->dateTimeBetween($start, '-1 month'),
+            'cancelled_at' => null,
+            'paid_at' => $start,
+            'remaining_connections' => 0,
+            'admin_notes' => null,
+        ]);
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    /**
+     * Resolves user_id when the factory passes a Closure (e.g. after Factory::for()).
+     */
+    private function coerceUserId(mixed $userId, array $attributes): int
+    {
+        if ($userId instanceof Closure) {
+            $userId = $userId($attributes);
+        }
+
+        if ($userId === null) {
+            return $this->resolveUserId();
+        }
+
+        return (int) $userId;
+    }
+
+    private function activePaidAttributes(int $userId): array
+    {
+        $start = fake()->dateTimeBetween('-6 months', 'now');
+
+        return [
+            'user_id' => $userId,
+            'status' => PackageSubscriptionStatus::Active,
+            'payment_status' => PackageSubscriptionPaymentStatus::Paid,
+            'payment_method' => fake()->randomElement(PackageSubscriptionPaymentMethod::cases()),
+            'starts_at' => $start,
+            'ends_at' => now()->addMonths(3),
+            'cancelled_at' => null,
+            'paid_at' => $start,
+            'remaining_connections' => fake()->numberBetween(5, 80),
+            'admin_notes' => fake()->optional(0.15)->sentence(),
+        ];
     }
 
     private function resolveUserId(): int

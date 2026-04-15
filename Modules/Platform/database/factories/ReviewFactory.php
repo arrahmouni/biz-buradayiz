@@ -15,21 +15,71 @@ use Modules\Verimor\Support\VerimorPhoneNormalizer;
 
 class ReviewFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     */
     protected $model = Review::class;
 
-    /**
-     * Define the model's default state.
-     */
     public function definition(): array
     {
-        $user = User::factory()->create([
-            'type' => UserType::ServiceProvider,
-            'central_phone' => '+90555'.fake()->unique()->numerify('#######'),
-        ]);
+        return [
+            'user_id' => null,
+            'verimor_call_event_id' => null,
+            'status' => fake()->randomElement(ReviewStatus::cases()),
+            'rating' => fake()->numberBetween(1, 5),
+            'body' => fake()->optional(0.8)->paragraph(),
+            'reviewer_display_name' => fake()->name(),
+            'reviewer_phone_normalized' => null,
+        ];
+    }
 
+    public function configure(): static
+    {
+        return $this->afterMaking(function (Review $review) {
+            if ($review->user_id === null) {
+                $user = User::factory()->create([
+                    'type' => UserType::ServiceProvider,
+                    'central_phone' => '+90555'.fake()->unique()->numerify('#######'),
+                ]);
+                $review->user_id = $user->id;
+            }
+
+            if ($review->verimor_call_event_id === null) {
+                $user = User::query()->findOrFail($review->user_id);
+                $payload = self::createHangupCallForProvider($user);
+                $review->verimor_call_event_id = $payload['id'];
+                $review->reviewer_phone_normalized = $payload['caller_normalized'];
+            }
+        });
+    }
+
+    public function forUser(User $user): static
+    {
+        $payload = self::createHangupCallForProvider($user);
+
+        return $this->state(fn () => [
+            'user_id' => $user->id,
+            'verimor_call_event_id' => $payload['id'],
+            'reviewer_phone_normalized' => $payload['caller_normalized'],
+        ]);
+    }
+
+    public function approved(): static
+    {
+        return $this->state(fn () => [
+            'status' => ReviewStatus::Approved,
+        ]);
+    }
+
+    public function pending(): static
+    {
+        return $this->state(fn () => [
+            'status' => ReviewStatus::Pending,
+        ]);
+    }
+
+    /**
+     * @return array{id: int, caller_normalized: string}
+     */
+    private static function createHangupCallForProvider(User $user): array
+    {
         $destinationNorm = VerimorPhoneNormalizer::canonicalize($user->central_phone);
         $callerNorm = '90530'.fake()->unique()->numerify('########');
 
@@ -50,13 +100,8 @@ class ReviewFactory extends Factory
         ]);
 
         return [
-            'user_id' => $user->id,
-            'verimor_call_event_id' => $event->id,
-            'status' => fake()->randomElement(ReviewStatus::cases()),
-            'rating' => fake()->numberBetween(1, 5),
-            'body' => fake()->optional(0.8)->paragraph(),
-            'reviewer_display_name' => fake()->name(),
-            'reviewer_phone_normalized' => $callerNorm,
+            'id' => $event->id,
+            'caller_normalized' => $callerNorm,
         ];
     }
 }

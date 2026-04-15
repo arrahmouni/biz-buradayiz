@@ -3,9 +3,11 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Modules\Admin\Enums\AdminStatus;
 use Modules\Admin\Enums\permissions\AdminPermissions;
 use Modules\Auth\Enums\permissions\UserPermissions;
 use Modules\Auth\Enums\UserType;
+use Modules\Auth\Models\User;
 use Modules\Cms\Enums\permissions\ContentCategoryPermissions;
 use Modules\Cms\Enums\permissions\ContentTagPermissions;
 use Modules\Cms\Models\Content;
@@ -130,6 +132,12 @@ class ViewServiceProvider extends ServiceProvider
             //     'title'     => trans('admin::dashboard.aside_menu.user_management.customers'),
             //     'order'     => 4,
             // ]);
+            $serviceProvidersPendingApprovalCount = User::query()
+                ->where('type', UserType::ServiceProvider->value)
+                ->where('status', AdminStatus::PENDING)
+                ->whereNull('approved_at')
+                ->count();
+
             app('adminHelper')->asideMenu([
                 'id' => 'view_users_service_providers',
                 'parent_id' => 'users_section',
@@ -137,6 +145,7 @@ class ViewServiceProvider extends ServiceProvider
                 'link' => route('auth.users.index', ['userType' => UserType::ServiceProvider->value]),
                 'title' => trans('admin::dashboard.aside_menu.user_management.service_providers'),
                 'order' => 5,
+                'badge_count' => $serviceProvidersPendingApprovalCount,
             ]);
         }
 

@@ -132,6 +132,9 @@ return [
         'list_title' => 'Users List',
         'list_title_customers' => 'Customers List',
         'list_title_service_providers' => 'Service Providers List',
+        'quick_filter_pending_approval' => 'Pending approval',
+        'quick_filter_pending_approval_title' => 'Show service providers not yet approved',
+        'quick_filter_pending_approval_option' => 'Pending approval',
         'columns' => [
             'service_type' => 'Service type',
             'country' => 'Country',

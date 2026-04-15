@@ -1,10 +1,10 @@
 <?php
 
-use Modules\Admin\Enums\AdminStatus;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
-use Modules\Auth\Enums\SocialiteProviders;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+use Modules\Admin\Enums\AdminStatus;
+use Modules\Auth\Enums\SocialiteProviders;
 
 return new class extends Migration
 {
@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->enum('status', AdminStatus::all())->default(AdminStatus::ACTIVE);
+            $table->enum('status', AdminStatus::all())->default(AdminStatus::PENDING);
             $table->string('type')->nullable();
             $table->unsignedBigInteger('service_id')->nullable();
             $table->unsignedBigInteger('city_id')->nullable();

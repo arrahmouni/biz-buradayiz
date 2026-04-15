@@ -132,6 +132,9 @@ return [
         'list_title' => 'Kullanıcı Listesi',
         'list_title_customers' => 'Müşteri Listesi',
         'list_title_service_providers' => 'Hizmet Sağlayıcıları Listesi',
+        'quick_filter_pending_approval' => 'Onay bekleyenler',
+        'quick_filter_pending_approval_title' => 'Henüz onaylanmamış hizmet sağlayıcılarını listele',
+        'quick_filter_pending_approval_option' => 'Onay bekliyor',
         'columns' => [
             'service_type' => 'Hizmet türü',
             'country' => 'Ülke',

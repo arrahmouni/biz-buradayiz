@@ -34,6 +34,15 @@
             </div>
 
             @if($isServiceProvider)
+                <div class="d-none">
+                    <select name="approval" id="users-filter-approval" aria-hidden="true" tabindex="-1">
+                        <option value="">@lang('admin::base.all_results')</option>
+                        <option value="pending">{{ trans('admin::datatable.users.quick_filter_pending_approval_option') }}</option>
+                    </select>
+                </div>
+            @endif
+
+            @if($isServiceProvider)
                 <div class="mb-5">
                     @include('admin::components.inputs.select', [
                         'options'           => [
@@ -97,14 +106,28 @@
 
             <div class="card-header">
                 <div class="card-title">
-                    @include('admin::components.datatables.header.title', [
-                        'options'   => [
-                            'role'  => $viewTrashPermission,
-                            'title' => $isServiceProvider
-                                ? trans('admin::datatable.users.list_title_service_providers')
-                                : trans('admin::datatable.users.list_title_customers'),
-                        ]
-                    ])
+                    <div class="d-flex flex-wrap align-items-center gap-3">
+                        @include('admin::components.datatables.header.title', [
+                            'options'   => [
+                                'role'  => $viewTrashPermission,
+                                'title' => $isServiceProvider
+                                    ? trans('admin::datatable.users.list_title_service_providers')
+                                    : trans('admin::datatable.users.list_title_customers'),
+                            ]
+                        ])
+                        @if($isServiceProvider && ($service_providers_pending_approval_count ?? 0) > 0)
+                            <button
+                                type="button"
+                                class="btn btn-sm btn-light-danger fw-semibold"
+                                id="users-filter-pending-approval"
+                                title="{{ trans('admin::datatable.users.quick_filter_pending_approval_title') }}"
+                            >
+                                <i class="bi bi-person-check fs-6 me-1"></i>
+                                {{ trans('admin::datatable.users.quick_filter_pending_approval') }}
+                                <span class="badge badge-danger ms-2">{{ $service_providers_pending_approval_count }}</span>
+                            </button>
+                        @endif
+                    </div>
                 </div>
 
                 <div class="card-toolbar flex-row-reverse">
@@ -259,3 +282,24 @@
         </div>
     </div>
 @endsection
+
+@if($isServiceProvider)
+    @push('script')
+        <script>
+            $(function () {
+                $('#users-filter-pending-approval').on('click', function () {
+                    const $select = $('#users-filter-approval');
+                    if (!$select.length) {
+                        return;
+                    }
+
+                    $select.val('pending').trigger('change');
+
+                    if ($.fn.DataTable.isDataTable('#data-table')) {
+                        $('#data-table').DataTable().ajax.reload();
+                    }
+                });
+            });
+        </script>
+    @endpush
+@endif

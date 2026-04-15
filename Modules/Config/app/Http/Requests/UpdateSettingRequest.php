@@ -70,13 +70,21 @@ class UpdateSettingRequest extends BaseRequest
             'app_placeholder' => ['nullable', 'image', File::image()->types(['png', 'jpg', 'jpeg', 'webp'])->max('2mb')],
         ];
 
+        $providerRankingSettingRules = [
+            'featured_providers_count' => ['required', 'integer', 'min:1'],
+            'new_provider_hours' => ['required', 'integer', 'min:1'],
+            'ranking_weight_rating' => ['required', 'integer', 'min:0', 'max:100'],
+            'ranking_weight_activity' => ['required', 'integer', 'min:0', 'max:100'],
+            'ranking_weight_experience' => ['required', 'integer', 'min:0', 'max:100'],
+        ];
+
         $developerSettingRules = app('owner') ? [
             'session_lifetime' => ['required', 'integer', 'min:60'],
             'allow_debug_for_custom_ip' => ['required', 'boolean'],
             'custom_ips' => ['nullable', 'string', 'regex:/^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(,\s*\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})*$/'],
         ] : [];
 
-        return array_merge($generalSettingRules, $socialSettingRules, $mobileSettingRules, $contactSettingRules, $platformSettingRules, $mediaSettingRules, $developerSettingRules);
+        return array_merge($generalSettingRules, $socialSettingRules, $mobileSettingRules, $contactSettingRules, $platformSettingRules, $mediaSettingRules, $developerSettingRules, $providerRankingSettingRules);
     }
 
     public function after(): array
@@ -90,6 +98,16 @@ class UpdateSettingRequest extends BaseRequest
                             $validator->errors()->add($this->custom_ip, trans('validation.ip', ['attribute' => $this->custom_ip]));
                         }
                     }
+                }
+
+                $weights = [
+                    $this->input('ranking_weight_rating', 0),
+                    $this->input('ranking_weight_activity', 0),
+                    $this->input('ranking_weight_experience', 0),
+                ];
+
+                if (array_sum($weights) > 100) {
+                    $validator->errors()->add('ranking_weight_rating', trans('config::settings.ranking_weights_sum_exceeded'));
                 }
             },
         ];

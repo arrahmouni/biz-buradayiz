@@ -54,6 +54,8 @@ return [
     'provider_card_email' => 'E-posta',
     'search_show_map' => 'Haritayı göster',
     'search_map_placeholder' => 'Etkileşimli harita',
+    'search_featured_title' => 'Öne Çıkan Sağlayıcılar',
+    'search_featured_badge' => 'Öne Çıkan',
     'search_sidebar_help_title' => 'Sağlayıcı mı arıyorsunuz?',
     'search_sidebar_help_text' => '7/24 yönlendirme hattımızı arayın',
     'search_results_meta_description' => 'Yakınınızdaki güvenilir yol yardım ve çekici sağlayıcılarını bulun. Hizmet türü ve konuma göre filtreleyin.',

@@ -8,13 +8,13 @@ use Modules\Platform\Models\PackageSubscription;
 class PackageSubscriptionSeeder extends Seeder
 {
     /**
-     * Seeds demo subscriptions with snapshots. Uses existing users when present;
-     * otherwise {@see PackageSubscriptionFactory} creates users (requires services/cities if your User factory needs them).
+     * Non-active subscriptions for admin/demo variety. Listed providers already get an active subscription from
+     * {@see ServiceProviderListingSeeder}.
      */
     public function run(): void
     {
-        PackageSubscription::factory()
-            ->count(50)
-            ->create();
+        PackageSubscription::factory()->count(8)->pendingPaymentSubscription()->create();
+        PackageSubscription::factory()->count(7)->cancelledSubscription()->create();
+        PackageSubscription::factory()->count(5)->expiredSubscription()->create();
     }
 }
