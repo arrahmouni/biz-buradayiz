@@ -90,6 +90,8 @@ return [
     'packages_empty' => 'No paid packages are available for your service type yet.',
     'packages_no_service' => 'Your account has no service type assigned. Contact support.',
     'package_subscribe' => 'Request this package',
+    'subscription_error_modal_title' => 'Subscription request could not be completed',
+    'subscription_error_modal_close' => 'OK',
     'package_connections' => ':count connections',
     'package_price' => ':price :currency',
 

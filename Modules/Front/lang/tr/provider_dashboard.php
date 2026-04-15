@@ -90,6 +90,8 @@ return [
     'packages_empty' => 'Hizmet türünüz için henüz ücretli paket yok.',
     'packages_no_service' => 'Hesabınıza atanmış bir hizmet türü yok. Destek ile iletişime geçin.',
     'package_subscribe' => 'Bu paketi talep et',
+    'subscription_error_modal_title' => 'Abonelik talebi tamamlanamadı',
+    'subscription_error_modal_close' => 'Tamam',
     'package_connections' => ':count bağlantı',
     'package_price' => ':price :currency',
 

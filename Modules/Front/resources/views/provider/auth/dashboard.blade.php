@@ -99,14 +99,14 @@
             <div class="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-emerald-900" role="status">{{ session('success') }}</div>
         @endif
 
-        @if (session('subscription_whatsapp_url'))
+        @if ($pendingSubscriptionWhatsAppUrl)
             <div class="rounded-2xl border border-red-100 bg-red-50/80 px-5 py-4 text-gray-900 shadow-sm">
                 <p class="font-semibold text-red-900">{{ __('front::provider_dashboard.whatsapp_cta') }}</p>
-                <a href="{{ session('subscription_whatsapp_url') }}" rel="noopener noreferrer" target="_blank" class="mt-3 inline-flex items-center gap-2 rounded-full bg-red-600 px-5 py-2.5 text-sm font-bold text-white shadow transition hover:bg-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2">
+                <a href="{{ $pendingSubscriptionWhatsAppUrl }}" rel="noopener noreferrer" target="_blank" class="mt-3 inline-flex items-center gap-2 rounded-full bg-red-600 px-5 py-2.5 text-sm font-bold text-white shadow transition hover:bg-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2">
                     <i class="fab fa-whatsapp text-lg" aria-hidden="true"></i> {{ __('front::provider_dashboard.whatsapp_cta') }}
                 </a>
             </div>
-        @elseif (session('success') && ! $whatsappDigitsConfigured)
+        @elseif ($hasPendingSubscriptionPaymentRequest && ! $whatsappDigitsConfigured)
             <div class="rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4 text-amber-950" role="note">
                 {{ __('front::provider_dashboard.whatsapp_missing_config') }}
             </div>
@@ -117,12 +117,7 @@
             <div class="mt-4 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm ring-1 ring-black/5">
                 <div class="border-l-4 border-red-600 bg-gradient-to-br from-white via-white to-gray-50/60 px-5 py-6 sm:px-7 sm:py-7">
                     @if (! $currentSub || ! $snapshot)
-                        <div class="flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-gray-200 bg-gray-50/80 px-6 py-10 text-center">
-                            <span class="flex h-12 w-12 items-center justify-center rounded-full bg-gray-200/80 text-gray-500" aria-hidden="true">
-                                <i class="fas fa-layer-group text-lg"></i>
-                            </span>
-                            <p class="max-w-md text-sm text-gray-600">{{ __('front::provider_dashboard.current_plan_empty') }}</p>
-                        </div>
+                        <x-front::provider-dashboard-empty-state :message="__('front::provider_dashboard.current_plan_empty')" />
                     @else
                         <dl class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                             <div class="rounded-xl border border-gray-100 bg-white/90 p-4 shadow-sm">
@@ -200,9 +195,20 @@
             <p class="mt-1 text-gray-600">{{ __('front::provider_dashboard.packages_intro') }}</p>
 
             @if ($user->service_id === null)
-                <p class="mt-4 rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4 text-amber-950">{{ __('front::provider_dashboard.packages_no_service') }}</p>
+                <div class="mt-4 rounded-2xl border border-amber-200 bg-amber-50 shadow-sm">
+                    <x-front::provider-dashboard-empty-state
+                        embedded
+                        tone="amber"
+                        :message="__('front::provider_dashboard.packages_no_service')"
+                    />
+                </div>
             @elseif ($paidPackages->isEmpty())
-                <p class="mt-4 text-gray-600">{{ __('front::provider_dashboard.packages_empty') }}</p>
+                <div class="mt-4 rounded-2xl border border-gray-200 bg-white shadow-sm">
+                    <x-front::provider-dashboard-empty-state
+                        embedded
+                        :message="__('front::provider_dashboard.packages_empty')"
+                    />
+                </div>
             @else
                 <div class="mt-6 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
                     @foreach ($paidPackages as $package)
@@ -222,23 +228,23 @@
                         </x-front::provider-package-card>
                     @endforeach
                 </div>
-                @error('package_id')
-                    <p class="mt-4 text-sm text-red-600">{{ $message }}</p>
-                @enderror
             @endif
         </section>
+
+        <x-front::alert-modal
+            :show="$errors->has('package_id')"
+            :title="__('front::provider_dashboard.subscription_error_modal_title')"
+            :message="$errors->first('package_id')"
+            :close-label="__('front::provider_dashboard.subscription_error_modal_close')"
+            modal-id="provider-package-request-error-modal"
+        />
 
         <section class="scroll-mt-8" aria-labelledby="bank-heading">
             <h2 id="bank-heading" class="text-xl font-bold tracking-tight text-gray-900">{{ __('front::provider_dashboard.bank_block_title') }}</h2>
             <div class="mt-4 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm ring-1 ring-black/5">
                 <div class="border-l-4 border-amber-500 bg-gradient-to-br from-amber-50/40 via-white to-white px-5 py-6 sm:px-7 sm:py-7">
                     @if ($bankInstructions === '')
-                        <div class="flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-amber-200/80 bg-amber-50/50 px-6 py-10 text-center">
-                            <span class="flex h-12 w-12 items-center justify-center rounded-full bg-amber-100 text-amber-700" aria-hidden="true">
-                                <i class="fas fa-university text-lg"></i>
-                            </span>
-                            <p class="max-w-md text-sm text-amber-950/80">{{ __('front::provider_dashboard.bank_block_empty') }}</p>
-                        </div>
+                        <x-front::provider-dashboard-empty-state tone="amber" :message="__('front::provider_dashboard.bank_block_empty')" />
                     @else
                         <div class="rounded-xl border border-amber-100/90 bg-white/90 p-5 shadow-inner sm:p-6">
                             <div class="leading-relaxed text-gray-800 whitespace-pre-wrap">{{ $bankInstructions }}</div>

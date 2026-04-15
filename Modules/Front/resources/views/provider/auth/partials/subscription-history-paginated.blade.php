@@ -1,5 +1,8 @@
 @if ($subscriptionHistory->isEmpty())
-    <p class="p-6 text-gray-600">{{ __('front::provider_dashboard.subscription_history_empty') }}</p>
+    <x-front::provider-dashboard-empty-state
+        embedded
+        :message="__('front::provider_dashboard.subscription_history_empty')"
+    />
 @else
     <table class="min-w-full divide-y divide-gray-200 text-left text-sm">
         <thead class="bg-gray-50 text-xs font-semibold uppercase tracking-wide text-gray-600">
