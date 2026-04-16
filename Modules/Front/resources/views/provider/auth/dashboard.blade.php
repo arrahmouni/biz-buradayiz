@@ -18,6 +18,9 @@
                     <p class="mt-2 text-red-100/95">{{ $user->email }}</p>
                 </div>
                 <div class="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+                    <a href="{{ route('front.provider.account') }}" class="inline-flex items-center justify-center gap-2 rounded-full border border-white/70 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-red-800">
+                        <i class="fas fa-user-cog" aria-hidden="true"></i> {{ __('front::provider_account.nav_account_settings') }}
+                    </a>
                     <a href="{{ route('front.index') }}" class="inline-flex items-center justify-center gap-2 rounded-full border border-white/70 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-red-800">
                         <i class="fas fa-home" aria-hidden="true"></i> {{ __('front::provider_dashboard.nav_home') }}
                     </a>

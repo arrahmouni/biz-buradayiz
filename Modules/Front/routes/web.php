@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Modules\Front\Http\Controllers\ContactController;
 use Modules\Front\Http\Controllers\ContentController;
 use Modules\Front\Http\Controllers\HomeController;
+use Modules\Front\Http\Controllers\ProviderAccountController;
 use Modules\Front\Http\Controllers\ProviderAuthController;
 use Modules\Front\Http\Controllers\ProviderController;
 use Modules\Front\Http\Controllers\ProviderDashboardController;
@@ -48,6 +49,15 @@ Route::prefix('provider')->name('provider.')->group(function () {
             ->name('subscriptions.request')
             ->middleware(['auth', 'active.user', 'service.provider', 'throttle:10,1']);
     });
+    Route::controller(ProviderAccountController::class)
+        ->middleware(['auth', 'active.user', 'service.provider'])
+        ->group(function () {
+            Route::get('account', 'edit')->name('account');
+            Route::put('account', 'update')->name('account.update');
+            Route::post('account/password', 'updatePassword')
+                ->name('account.password')
+                ->middleware('throttle:10,1');
+        });
 });
 
 Route::controller(ProviderController::class)->group(function () {

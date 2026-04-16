@@ -1,0 +1,31 @@
+<?php
+
+return [
+    'page_kicker' => 'Hizmet sağlayıcı hesabı',
+    'page_title' => 'Hesap ayarları',
+    'page_subtitle' => 'Profilinizi ve şifrenizi güncelleyin.',
+    'section_profile' => 'Profil',
+    'section_profile_intro' => 'İlanınızı ve iletişim e-postanızı güncel tutun. Telefon numaraları destek tarafından yönetilir.',
+    'public_profile_link_notice' => 'Dikkat: Adınızı veya soyadınızı değiştirdiğinizde herkese açık profil bağlantınız da değişir. Eski bağlantıdan yeni adrese yönlendirme yapılmaz.',
+    'section_password' => 'Şifre',
+    'section_password_intro' => 'Başka yerde kullanmadığınız güçlü bir şifre seçin.',
+    'readonly_phones_title' => 'Telefon numaraları',
+    'readonly_phones_help' => 'Bu numaralar buradan değiştirilemez. Güncelleme gerekiyorsa destek ile iletişime geçin.',
+    'central_phone_label' => 'Genel ilan telefonu',
+    'save_profile' => 'Profili kaydet',
+    'save_password' => 'Şifreyi güncelle',
+    'old_password' => 'Mevcut şifre',
+    'new_password' => 'Yeni şifre',
+    'profile_updated' => 'Profiliniz başarıyla bir şekilde güncellendi.',
+    'password_updated' => 'Şifreniz başarıyla bir şekilde güncellendi.',
+    'password_old_incorrect' => 'Mevcut şifre hatalı.',
+    'password_new_same_as_old' => 'Yeni şifre mevcut şifrenizden farklı olmalıdır.',
+    'password_change_failed' => 'Şifre güncellenemedi. Lütfen tekrar deneyin.',
+    'nav_account_settings' => 'Hesap ayarları',
+    'validation_alert_title' => 'Lütfen aşağıdakileri düzeltin',
+    'validation_alert_intro' => 'Aşağıdaki mesajları inceleyin ve vurgulanan alanları güncelleyin.',
+    'validation' => [
+        'service_change_blocked_pending_payment' => 'Ücretli abonelik ödemesi beklemedeyken hizmetinizi değiştiremezsiniz.',
+        'service_change_blocked_active_paid' => 'Aktif ücretli aboneliğiniz varken hizmetinizi değiştiremezsiniz.',
+    ],
+];

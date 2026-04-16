@@ -1,0 +1,31 @@
+<?php
+
+return [
+    'page_kicker' => 'Provider account',
+    'page_title' => 'Account settings',
+    'page_subtitle' => 'Update your profile and password.',
+    'section_profile' => 'Profile',
+    'section_profile_intro' => 'Keep your listing and contact email up to date. Phone numbers are managed by support.',
+    'public_profile_link_notice' => 'Attention: If you change your first name or last name, your public profile link will change. The old link will not redirect visitors to the new one.',
+    'section_password' => 'Password',
+    'section_password_intro' => 'Choose a strong password you do not use elsewhere.',
+    'readonly_phones_title' => 'Phone numbers',
+    'readonly_phones_help' => 'These numbers cannot be changed here. Contact support if you need an update.',
+    'central_phone_label' => 'Public listing phone',
+    'save_profile' => 'Save profile',
+    'save_password' => 'Update password',
+    'old_password' => 'Current password',
+    'new_password' => 'New password',
+    'profile_updated' => 'Your profile was successfully updated.',
+    'password_updated' => 'Your password was successfully updated.',
+    'password_old_incorrect' => 'The current password is incorrect.',
+    'password_new_same_as_old' => 'The new password must be different from your current password.',
+    'password_change_failed' => 'Could not update the password. Please try again.',
+    'nav_account_settings' => 'Account settings',
+    'validation_alert_title' => 'Please correct the following',
+    'validation_alert_intro' => 'Review the messages below and update the highlighted fields.',
+    'validation' => [
+        'service_change_blocked_pending_payment' => 'You cannot change your service while a paid subscription payment is pending.',
+        'service_change_blocked_active_paid' => 'You cannot change your service while you have an active paid subscription.',
+    ],
+];

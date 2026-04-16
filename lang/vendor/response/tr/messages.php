@@ -30,6 +30,8 @@ return [
         ],
     ],
     'web_response_messages'                                         => [
+        'service_cannot_be_deleted_with_service_providers'          => 'Bir veya daha fazla hizmet saglayicisinin bu hizmeti kullandigindan dolayi silinemez.',
+        'service_cannot_be_disabled_with_service_providers'         => 'Bir veya daha fazla hizmet saglayicisinin bu hizmeti kullandigindan dolayi devre disi alinamaz.',
         'operation_successfully_done'                               => 'Islem basariyla tamamlandi',
         'operation_faield'                                          => 'Islem basarisiz oldu',
         'validation_error'                                          => 'Lutfen girdiginiz verileri kontrol edip tekrar deneyin.',
