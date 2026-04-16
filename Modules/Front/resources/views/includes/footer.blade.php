@@ -74,14 +74,15 @@
                 <h4 class="font-semibold text-white mb-4">{{ __('front::home.footer_quick') }}</h4>
                 <ul class="space-y-2 text-sm">
                     <li><a href="{{ route('front.index') }}" class="hover:text-red-400 transition">{{ __('front::home.nav_home') }}</a></li>
-                    <li><a href="{{ route('front.contact.show') }}" class="hover:text-red-400 transition">{{ __('front::home.nav_contact') }}</a></li>
                     <li><a href="{{ route('front.provider.login') }}" class="hover:text-red-400 transition">{{ __('front::home.provider_login') }}</a></li>
                     <li><a href="{{ route('front.provider.register') }}" class="hover:text-red-400 transition">{{ __('front::home.provider_register') }}</a></li>
+                    <li><a href="{{ route('front.provider.register.form') }}" class="hover:text-red-400 transition">{{ __('front::home.provider_register_form') }}</a></li>
                 </ul>
             </div>
             <div>
                 <h4 class="font-semibold text-white mb-4">{{ __('front::home.footer_support') }}</h4>
                 <ul class="space-y-2 text-sm">
+                    <li><a href="{{ route('front.contact.show') }}" class="hover:text-red-400 transition">{{ __('front::home.nav_contact') }}</a></li>
                     <li><a href="{{ route('front.blog.index') }}" class="hover:text-red-400 transition">{{ __('front::home.footer_blog') }}</a></li>
                     <li><a href="{{ route('front.page.faq') }}" class="hover:text-red-400 transition">{{ __('front::home.footer_faq') }}</a></li>
                 </ul>
