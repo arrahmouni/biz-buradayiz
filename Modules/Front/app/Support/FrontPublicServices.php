@@ -10,7 +10,9 @@ use Modules\Platform\Models\Service;
 
 class FrontPublicServices extends BaseFrontService
 {
-    private const CACHE_TTL_SECONDS = 3600;
+    public const SERVICES_WITH_PACKAGES_CACHE_KEY = 'servicesWithPackages';
+
+    public const CACHE_TTL_SECONDS = 3600;
 
     /**
      * All enabled, non-deleted services (not limited to search filters).
@@ -46,6 +48,8 @@ class FrontPublicServices extends BaseFrontService
 
     public static function flush(): void
     {
+        Cache::forget(self::SERVICES_WITH_PACKAGES_CACHE_KEY);
+
         foreach ((array) config('translatable.locales', ['en']) as $locale) {
             Cache::forget(self::cacheKey('all', $locale));
             Cache::forget(self::cacheKey('filters', $locale));
