@@ -17,6 +17,13 @@ return [
     'stats_support_value' => '24/7',
     'stats_support_label' => 'Support',
 
+    'stats_providers_counter_target' => '500',
+    'stats_providers_counter_suffix' => '+',
+    'stats_rescues_counter_target' => '15',
+    'stats_rescues_counter_suffix' => 'k+',
+    'stats_rating_counter_target' => '4.8',
+    'stats_rating_counter_suffix' => '★',
+
     'video_kicker' => 'See it in action',
     'video_heading' => 'How provider registration works',
     'video_intro' => 'Watch a short overview before you choose a plan and apply.',

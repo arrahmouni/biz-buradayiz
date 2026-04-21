@@ -1,6 +1,6 @@
-<section id="home" class="hero-bg text-white py-24 md:py-32">
-    <div class="container mx-auto px-5 lg:px-8">
-        <div class="max-w-4xl mx-auto text-center">
+<section id="home" class="hero-bg text-white py-24 md:py-32 relative overflow-hidden">
+    <div class="container mx-auto px-5 lg:px-8 relative z-10">
+        <div class="max-w-4xl mx-auto text-center js-front-reveal front-reveal">
             <h1 class="text-4xl md:text-6xl font-extrabold leading-tight">
                 {{ __('front::home.hero_title_top') }} <br>
                 <span class="text-red-400">{{ __('front::home.hero_title_bottom') }}</span>

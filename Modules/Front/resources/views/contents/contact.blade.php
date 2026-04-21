@@ -24,13 +24,13 @@
     <section class="bg-gray-50 py-12 md:py-16">
         <div class="container mx-auto px-5 lg:px-8">
             @if ($errors->has('form'))
-                <div class="mb-8 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-red-800" role="alert">
+                <div class="mb-8 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-red-800 js-front-reveal front-reveal" role="alert">
                     {{ $errors->first('form') }}
                 </div>
             @endif
 
-            <div class="grid lg:grid-cols-2 gap-12">
-                <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+            <div class="grid lg:grid-cols-2 gap-12 js-front-reveal-group front-reveal-group">
+                <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8 front-reveal-child">
                     <h2 class="text-2xl font-bold text-gray-800 mb-6">{{ __('front::home.contact_form_title') }}</h2>
 
                     @if (session('success'))
@@ -145,7 +145,7 @@
                     $hqHasContact = $sitePhone !== '' || $siteEmail !== '' || $siteAddress !== '' || $emergencyContactNumber !== '';
                 @endphp
 
-                <div class="space-y-6">
+                <div class="space-y-6 front-reveal-child">
                     <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
                         <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
                             <i class="fas fa-map-marker-alt text-red-600" aria-hidden="true"></i>

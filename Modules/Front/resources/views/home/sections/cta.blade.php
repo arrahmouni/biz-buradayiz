@@ -1,10 +1,7 @@
 <section id="contact" class="relative py-16 md:py-24 overflow-hidden bg-gradient-to-br from-red-700 via-red-600 to-red-800 text-white">
-    <!-- Animated background pattern (optional) -->
-    <div class="absolute inset-0 opacity-10">
-        <div class="absolute inset-0" style="background-image: radial-gradient(circle at 20% 40%, rgba(255,255,255,0.2) 2px, transparent 2px); background-size: 24px 24px;"></div>
-    </div>
+    <div class="absolute inset-0 opacity-10 front-cta-dot-pattern" aria-hidden="true"></div>
 
-    <div class="container mx-auto px-4 text-center relative z-10">
+    <div class="container mx-auto px-4 text-center relative z-10 js-front-reveal front-reveal">
         <div class="inline-flex items-center justify-center w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full mb-6 shadow-lg">
             <i class="fas fa-headset text-4xl"></i>
         </div>

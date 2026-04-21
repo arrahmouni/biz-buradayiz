@@ -18,11 +18,13 @@
         <div class="container mx-auto px-5 lg:px-8">
             <div class="max-w-3xl mx-auto">
                 @if ($faqs->isEmpty())
-                    @include('front::includes.empty-state', ['text' => __('front::home.faq_empty')])
+                    <div class="js-front-reveal front-reveal">
+                        @include('front::includes.empty-state', ['text' => __('front::home.faq_empty')])
+                    </div>
                 @else
-                    <div class="space-y-4">
+                    <div class="space-y-4 js-front-reveal-group front-reveal-group">
                         @foreach ($faqs as $index => $faq)
-                            <details class="group bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden open:ring-2 open:ring-red-100">
+                            <details class="group bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden open:ring-2 open:ring-red-100 front-reveal-child">
                                 <summary class="cursor-pointer list-none flex items-center justify-between gap-4 px-6 py-5 text-left font-semibold text-gray-900 hover:bg-red-50/50 transition">
                                     <span class="flex items-start gap-3">
                                         <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-red-100 text-red-700 text-sm font-bold" aria-hidden="true">
@@ -44,7 +46,7 @@
                     </div>
                 @endif
 
-                <div class="mt-12 rounded-2xl bg-gradient-to-r from-red-50 to-orange-50 border border-red-100 p-6 md:p-8 text-center shadow-md">
+                <div class="mt-12 rounded-2xl bg-gradient-to-r from-red-50 to-orange-50 border border-red-100 p-6 md:p-8 text-center shadow-md js-front-reveal front-reveal">
                     <div class="flex flex-col items-center gap-3">
                         <div class="flex h-14 w-14 items-center justify-center rounded-full bg-red-100 text-red-600 shadow-inner">
                             <i class="fas fa-headset text-2xl" aria-hidden="true"></i>

@@ -8,9 +8,12 @@
     $resolvedHeadingTag = in_array($headingTag, ['h1', 'h2', 'h3', 'p'], true) ? $headingTag : 'h1';
 @endphp
 
-<div class="bg-gradient-to-r from-gray-900 to-gray-800 text-white py-12 md:py-16">
-    <div class="container mx-auto px-5 lg:px-8">
-        <div class="max-w-3xl">
+<div class="relative overflow-hidden bg-gradient-to-r from-gray-900 to-gray-800 text-white py-12 md:py-16">
+    <div class="absolute inset-0 opacity-10 pointer-events-none" aria-hidden="true">
+        <div class="absolute inset-0 front-cta-dot-pattern"></div>
+    </div>
+    <div class="container mx-auto px-5 lg:px-8 relative z-10">
+        <div class="max-w-3xl js-front-reveal front-reveal">
             @isset($breadcrumb)
                 <nav
                     class="text-sm text-gray-300 mb-3"

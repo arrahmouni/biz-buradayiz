@@ -430,7 +430,7 @@ html {
 
 .js-provider-location-search .select2-container--default .select2-selection--single .select2-selection__rendered {
     line-height: 2.375rem;
-    padding-left: 2.5rem;
+    /* padding-left: 2.5rem; */
     padding-right: 3rem;
     color: #111827;
 }
@@ -660,4 +660,182 @@ body.front-auth-page .select2-dropdown {
 }
 .select2-container--default .select2-selection--single .select2-selection__clear {
     height: 36px !important;
+}
+
+/* —— Front marketing: hero blobs, scroll reveal, CTA pattern —— */
+
+.front-hero-blobs {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.front-hero-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(48px);
+    opacity: 0.45;
+    will-change: transform;
+    animation: front-hero-blob-float 18s ease-in-out infinite;
+}
+
+.front-hero-blob--a {
+    width: min(420px, 70vw);
+    height: min(420px, 70vw);
+    top: -12%;
+    left: -8%;
+    background: radial-gradient(circle at 30% 30%, rgba(252, 165, 165, 0.9), rgba(185, 28, 28, 0.35));
+    animation-delay: 0s;
+}
+
+.front-hero-blob--b {
+    width: min(360px, 60vw);
+    height: min(360px, 60vw);
+    bottom: -18%;
+    right: -10%;
+    background: radial-gradient(circle at 70% 60%, rgba(254, 202, 202, 0.75), rgba(127, 29, 29, 0.4));
+    animation-delay: -6s;
+}
+
+.front-hero-blob--c {
+    width: min(280px, 45vw);
+    height: min(280px, 45vw);
+    top: 35%;
+    right: 5%;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.2), rgba(220, 38, 38, 0.25));
+    animation-delay: -12s;
+    opacity: 0.35;
+}
+
+@keyframes front-hero-blob-float {
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+    33% {
+        transform: translate(3%, -4%) scale(1.04);
+    }
+    66% {
+        transform: translate(-4%, 3%) scale(0.98);
+    }
+}
+
+.front-reveal {
+    opacity: 0;
+    transform: translateY(1rem);
+    transition:
+        opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.front-reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.front-reveal-group:not(.is-visible) .front-reveal-child {
+    opacity: 0;
+    transform: translateY(0.75rem);
+}
+
+.front-reveal-group .front-reveal-child {
+    transition:
+        opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.front-reveal-group.is-visible .front-reveal-child {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.front-reveal-group.is-visible .front-reveal-child:nth-child(1) {
+    transition-delay: 0.04s;
+}
+
+.front-reveal-group.is-visible .front-reveal-child:nth-child(2) {
+    transition-delay: 0.1s;
+}
+
+.front-reveal-group.is-visible .front-reveal-child:nth-child(3) {
+    transition-delay: 0.16s;
+}
+
+.front-reveal-group.is-visible .front-reveal-child:nth-child(4) {
+    transition-delay: 0.22s;
+}
+
+.front-reveal-group.is-visible .front-reveal-child:nth-child(5) {
+    transition-delay: 0.28s;
+}
+
+.front-reveal-group.is-visible .front-reveal-child:nth-child(6) {
+    transition-delay: 0.34s;
+}
+
+.front-cta-dot-pattern {
+    background-image: radial-gradient(circle at 20% 40%, rgba(255, 255, 255, 0.2) 2px, transparent 2px);
+    background-size: 24px 24px;
+}
+
+/* Provider register landing: tab panels stack + crossfade */
+.prl-panels-stack {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+}
+
+.prl-panels-stack > .js-prl-panel {
+    grid-column: 1;
+    grid-row: 1;
+    min-width: 0;
+    transition:
+        opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 0.35s;
+}
+
+.js-prl-panel.is-prl-active {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+    pointer-events: auto;
+    z-index: 2;
+}
+
+.js-prl-panel.is-prl-inactive {
+    opacity: 0;
+    transform: translateY(0.4rem);
+    visibility: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .front-hero-blob {
+        animation: none;
+    }
+
+    .front-reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+
+    .front-reveal-group:not(.is-visible) .front-reveal-child {
+        opacity: 1;
+        transform: none;
+    }
+
+    .front-reveal-group .front-reveal-child {
+        transition: none;
+    }
+
+    .prl-panels-stack > .js-prl-panel {
+        transition: none;
+    }
+
+    .js-prl-panel.is-prl-inactive {
+        transform: none;
+    }
 }
