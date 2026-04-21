@@ -2,6 +2,7 @@
 
 namespace Modules\Config\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\File;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use Modules\Base\Http\Requests\BaseRequest;
@@ -18,6 +19,13 @@ class UpdateSettingRequest extends BaseRequest
             'app_name.*' => ['required', 'string', 'max:255'],
             'app_default_language' => ['required', 'in:'.implode(',', array_values(LaravelLocalization::getSupportedLanguagesKeys()))],
             'maintenance_mode' => ['required', 'boolean'],
+            'coming_soon_mode' => ['required', 'boolean'],
+            'website_launch_date' => [
+                'nullable',
+                Rule::requiredIf(fn () => $this->boolean('coming_soon_mode')),
+                'date',
+                'after:now',
+            ],
         ];
 
         $socialSettingRules = [
@@ -85,6 +93,16 @@ class UpdateSettingRequest extends BaseRequest
         ] : [];
 
         return array_merge($generalSettingRules, $socialSettingRules, $mobileSettingRules, $contactSettingRules, $platformSettingRules, $mediaSettingRules, $developerSettingRules, $providerRankingSettingRules);
+    }
+
+    /**
+     * Get custom messages for validator errors.
+     */
+    public function messages(): array
+    {
+        return [
+            'website_launch_date.required' => trans('config::settings.validation.website_launch_date_required_when_coming_soon'),
+        ];
     }
 
     public function after(): array

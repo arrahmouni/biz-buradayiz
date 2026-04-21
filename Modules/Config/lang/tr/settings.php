@@ -9,6 +9,8 @@ return [
                 'app_default_language' => 'Uygulama Varsayılan Dili',
                 'vat_rate' => 'KDV Oranı (%)',
                 'maintenance_mode' => 'Bakım Modu',
+                'coming_soon_mode' => 'Yakında sayfası (herkese açık site)',
+                'website_launch_date' => 'Web sitesi yayın tarihi',
             ],
         ],
         'social_media' => [
@@ -90,4 +92,7 @@ return [
         ],
     ],
     'ranking_weights_sum_exceeded' => 'Sıralama ağırlıklarının toplamı (Değerlendirme + Aktivite + Deneyim) 100\'ü geçmemelidir.',
+    'validation' => [
+        'website_launch_date_required_when_coming_soon' => 'Yakında sayfası açıkken web sitesi yayın tarihi zorunludur.',
+    ],
 ];

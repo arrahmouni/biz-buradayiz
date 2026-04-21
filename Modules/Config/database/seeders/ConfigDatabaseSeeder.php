@@ -89,6 +89,31 @@ class ConfigDatabaseSeeder extends Seeder
                 'value' => 0,
             ] + createTranslateArray('title', 'settings.groups.general.fields.maintenance_mode', 'config')
         );
+
+        Setting::firstOrCreate(
+            [
+                'group' => SettingGroups::GENERAL,
+                'key' => 'coming_soon_mode',
+            ],
+            [
+                'type' => SettingTypes::SWITCH,
+                'order' => 3,
+                'value' => 0,
+            ] + createTranslateArray('title', 'settings.groups.general.fields.coming_soon_mode', 'config')
+        );
+
+        Setting::firstOrCreate(
+            [
+                'group' => SettingGroups::GENERAL,
+                'key' => 'website_launch_date',
+            ],
+            [
+                'type' => SettingTypes::DATE,
+                'order' => 5,
+                'is_required' => false,
+                'value' => null,
+            ] + createTranslateArray('title', 'settings.groups.general.fields.website_launch_date', 'config')
+        );
     }
 
     /**

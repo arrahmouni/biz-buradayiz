@@ -203,6 +203,30 @@
                                                                                 'select'        => function($key, $value, $selected) {return $key == $selected;},
                                                                             ]
                                                                         ])
+                                                                    @elseif($setting->type == 'date')
+                                                                        @php
+                                                                            $settingDateValue = '';
+                                                                            if (filled($setting->value)) {
+                                                                                try {
+                                                                                    $settingDateValue = \Carbon\Carbon::parse($setting->value)->format('Y-m-d');
+                                                                                } catch (\Throwable) {
+                                                                                    $settingDateValue = (string) $setting->value;
+                                                                                }
+                                                                            }
+                                                                        @endphp
+                                                                        @include('admin::components.inputs.datepicker', [
+                                                                            'options'           => [
+                                                                                'id'            => 'settings_' . $setting->id,
+                                                                                'name'          => $setting->key,
+                                                                                'required'      => $setting->is_required,
+                                                                                'label'         => $setting->smartTrans('title'),
+                                                                                'placeholder'   => $setting->smartTrans('title'),
+                                                                                'subText'       => $setting->smartTrans('description'),
+                                                                                'value'         => $settingDateValue,
+                                                                                'withTime'      => false,
+                                                                                'dateFormat'    => 'Y-m-d',
+                                                                            ]
+                                                                        ])
                                                                     @endif
                                                                 </div>
                                                             @endif

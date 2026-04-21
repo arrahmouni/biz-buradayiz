@@ -5,7 +5,7 @@ namespace Modules\Base\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class CheckMaintenanceMode extends BaseMiddleware
+class CheckComingSoonMode extends BaseMiddleware
 {
     /**
      * Handle an incoming request.
@@ -19,18 +19,19 @@ class CheckMaintenanceMode extends BaseMiddleware
             return $next($request);
         }
 
-        if ($this->isMaintenanceMode()) {
-            return sendMaintenanceModeResponse();
+        if ($this->shouldShowComingSoon()) {
+            return response()->view('front::coming-soon', [], 200);
         }
 
         return $next($request);
     }
 
-    /**
-     * Check if the application is in maintenance mode.
-     */
-    private function isMaintenanceMode(): bool
+    private function shouldShowComingSoon(): bool
     {
-        return getSetting('maintenance_mode', false);
+        if (getSetting('maintenance_mode', false)) {
+            return false;
+        }
+
+        return (bool) getSetting('coming_soon_mode', false);
     }
 }

@@ -9,6 +9,8 @@ return [
                 'app_default_language' => 'لغة التطبيق الافتراضية',
                 'vat_rate' => 'نسبة ضريبة القيمة المضافة (%)',
                 'maintenance_mode' => 'وضع الصيانة',
+                'coming_soon_mode' => 'صفحة قريبًا (الموقع العام)',
+                'website_launch_date' => 'تاريخ إطلاق الموقع',
             ],
         ],
         'social_media' => [
@@ -88,4 +90,7 @@ return [
         ],
     ],
     'ranking_weights_sum_exceeded' => 'مجموع أوزان الترتيب (التقييم + النشاط + الخبرة) يجب ألا يتجاوز 100.',
+    'validation' => [
+        'website_launch_date_required_when_coming_soon' => 'تاريخ إطلاق الموقع مطلوب عند تفعيل صفحة «قريبًا».',
+    ],
 ];

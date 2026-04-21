@@ -11,6 +11,7 @@ use Modules\Admin\Http\Middleware\IsActiveAdmin;
 use Modules\Admin\Http\Middleware\SystemUserInfo;
 use Modules\Auth\Enums\UserType;
 use Modules\Auth\Http\Middleware\ActiveUser;
+use Modules\Base\Http\Middleware\CheckComingSoonMode;
 use Modules\Base\Http\Middleware\CheckMaintenanceMode;
 use Modules\Base\Http\Middleware\OnlyDevEnvMiddleware;
 use Modules\Front\Http\Middleware\EnsureUserIsServiceProvider;
@@ -48,6 +49,7 @@ return Application::configure(basePath: dirname(__DIR__))
         // Custom Global Middleware (example)
         $middleware->append([
             CheckMaintenanceMode::class,
+            CheckComingSoonMode::class,
         ]);
 
         // Append Web Middleware

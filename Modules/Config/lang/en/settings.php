@@ -9,6 +9,8 @@ return [
                 'app_default_language' => 'App Default Language',
                 'vat_rate' => 'VAT Rate (%)',
                 'maintenance_mode' => 'Maintenance Mode',
+                'coming_soon_mode' => 'Coming soon page (public site)',
+                'website_launch_date' => 'Website launch date',
             ],
         ],
         'social_media' => [
@@ -90,4 +92,7 @@ return [
         ],
     ],
     'ranking_weights_sum_exceeded' => 'The total of ranking weights (Rating + Activity + Experience) must not exceed 100.',
+    'validation' => [
+        'website_launch_date_required_when_coming_soon' => 'Website launch date is required when the coming soon page is enabled.',
+    ],
 ];
