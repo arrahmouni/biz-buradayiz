@@ -279,7 +279,7 @@ class ConfigDatabaseSeeder extends Seeder
                 'type' => SettingTypes::PHONE,
                 'order' => 4,
                 'is_required' => false,
-                'value' => '+905555555555',
+                'value' => '+905314544285',
             ] + createTranslateArray('title', 'settings.groups.platform.fields.provider_subscription_whatsapp_e164', 'config')
         );
 
