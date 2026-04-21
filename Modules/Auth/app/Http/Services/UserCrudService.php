@@ -4,6 +4,7 @@ namespace Modules\Auth\Http\Services;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use InvalidArgumentException;
 use Modules\Admin\Enums\AdminStatus;
 use Modules\Auth\Enums\permissions\UserPermissions;
 use Modules\Auth\Enums\UserType;
@@ -82,6 +83,23 @@ class UserCrudService extends BaseCrudService
         return $model;
     }
 
+    public function acceptPendingServiceProvider(CrudModel $model): void
+    {
+        if ($model->type !== UserType::ServiceProvider) {
+            throw new InvalidArgumentException(trans('admin::cruds.users.accept_not_pending'));
+        }
+
+        if ($model->status !== AdminStatus::PENDING || $model->approved_at !== null) {
+            throw new InvalidArgumentException(trans('admin::cruds.users.accept_not_pending'));
+        }
+
+        DB::transaction(function () use ($model) {
+            $model->update(['status' => AdminStatus::ACTIVE]);
+            $model->refresh();
+            $this->onServiceProviderActivated($model);
+        });
+    }
+
     private function onServiceProviderActivated(CrudModel $model): void
     {
         if ($model->approved_at === null) {
@@ -152,6 +170,8 @@ class UserCrudService extends BaseCrudService
 
         $routeParamsForActions = $userType !== null ? ['userType' => $userType] : [];
         $canViewVerimorCallEvents = app('owner') || app('admin')->can(VerimorCallEventPermissions::READ);
+        $canAcceptPendingServiceProvider = $isServiceProvider
+            && (app('owner') || app('admin')->can(UserPermissions::UPDATE));
 
         $dataTable = DataTables::of($model)
             ->filter(function ($query) use ($data, $isServiceProvider) {
@@ -189,9 +209,25 @@ class UserCrudService extends BaseCrudService
         }
 
         return $dataTable
-            ->addColumn('actions', function ($row) use ($routeParamsForActions, $isServiceProvider, $canViewVerimorCallEvents) {
+            ->addColumn('actions', function ($row) use ($routeParamsForActions, $isServiceProvider, $canViewVerimorCallEvents, $canAcceptPendingServiceProvider, $userType) {
                 $excludeActions = $isServiceProvider ? [] : [VIEW_ACTION];
                 $additionalActions = [];
+
+                if ($canAcceptPendingServiceProvider
+                    && $row->status === AdminStatus::PENDING
+                    && $row->approved_at === null) {
+                    $additionalActions[] = app('customDataTable')->addAction(
+                        'accept',
+                        'bi-check2-circle',
+                        14,
+                        $row->id,
+                        trans('admin::cruds.accept.title'),
+                        'button',
+                        '#198754',
+                        true,
+                        route('auth.users.accept', ['userType' => $userType, 'model' => $row->id])
+                    );
+                }
 
                 if ($isServiceProvider && $canViewVerimorCallEvents) {
                     $additionalActions[] = app('customDataTable')->addAction(

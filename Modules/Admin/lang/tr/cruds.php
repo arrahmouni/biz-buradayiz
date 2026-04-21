@@ -254,6 +254,7 @@ return [
             'default_yes' => 'Evet',
             'default_no' => 'Hayır',
         ],
+        'accept_not_pending' => 'Bu hizmet sağlayıcı onay beklemiyor.',
     ],
     'notification_templates' => [
         'title' => 'Bildirim Şablonları',
@@ -427,6 +428,9 @@ return [
             'rejected' => 'Reddedildi',
         ],
         'moderation_not_pending' => 'Bu yorum onay beklemiyor.',
+    ],
+    'accept' => [
+        'title' => 'Kabul et',
     ],
     'approve' => [
         'title' => 'Onayla',

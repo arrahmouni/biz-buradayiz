@@ -2,9 +2,11 @@
 
 namespace Modules\Auth\Http\Controllers\admin;
 
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\Middleware;
+use InvalidArgumentException;
 use Modules\Admin\Enums\AdminStatus;
 use Modules\Auth\Enums\permissions\UserPermissions;
 use Modules\Auth\Enums\UserType;
@@ -86,7 +88,43 @@ class UserCrudController extends BaseCrudController
             }
         }
 
+        $parent[] = new Middleware(
+            'need.permissions:'.UserPermissions::UPDATE,
+            only: ['acceptServiceProvider'],
+        );
+
         return $parent;
+    }
+
+    public function acceptServiceProvider(Request $request)
+    {
+        if ($this->userType !== UserType::ServiceProvider) {
+            abort(404);
+        }
+
+        $model = $this->crudService->getModel(
+            id: (int) $request->route('model'),
+            withTrashed: $this->hasSoftDelete,
+            withDisabled: $this->hasDisabled
+        );
+
+        $modelTypeValue = $model->type instanceof UserType
+            ? $model->type->value
+            : (string) $model->type;
+
+        if ($modelTypeValue !== $this->userType->value) {
+            abort(404);
+        }
+
+        try {
+            $this->crudService->acceptPendingServiceProvider($model);
+        } catch (InvalidArgumentException $e) {
+            return sendFailResponse(customMessage: $e->getMessage());
+        } catch (Exception $e) {
+            return sendExceptionResponse($e);
+        }
+
+        return sendSuccessResponse();
     }
 
     public function index()

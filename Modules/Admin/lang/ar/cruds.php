@@ -262,6 +262,7 @@ return [
             'default_yes' => 'نعم',
             'default_no' => 'لا',
         ],
+        'accept_not_pending' => 'مقدم الخدمة هذا لا ينتظر الموافقة.',
     ],
     'notification_templates' => [
         'title' => 'قوالب الإشعارات',
@@ -389,6 +390,9 @@ return [
             'rejected' => 'مرفوض',
         ],
         'moderation_not_pending' => 'هذا التقييم لا ينتظر الموافقة.',
+    ],
+    'accept' => [
+        'title' => 'قبول',
     ],
     'approve' => [
         'title' => 'اعتماد',
