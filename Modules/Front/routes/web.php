@@ -65,6 +65,10 @@ Route::controller(ProviderController::class)->group(function () {
     Route::get('/providers/{provider}', 'showProvider')
         ->where('provider', '[0-9a-z]+(?:-[0-9a-z]+)*')
         ->name('provider.show');
+    Route::get('/providers/{provider}/reviews', 'providerReviewsFragment')
+        ->where('provider', '[0-9a-z]+(?:-[0-9a-z]+)*')
+        ->name('provider.reviews.fragment')
+        ->middleware('throttle:60,1');
     Route::post('/providers/{provider}/reviews', 'storeProviderReview')
         ->where('provider', '[0-9a-z]+(?:-[0-9a-z]+)*')
         ->name('provider.reviews.store')

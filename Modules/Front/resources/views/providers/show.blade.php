@@ -93,45 +93,31 @@
                         <h2 class="text-xl font-bold text-gray-800">{{ __('front::home.provider_detail_reviews_title') }}</h2>
                         <p class="text-sm text-gray-600 mt-1">{{ __('front::home.provider_detail_reviews_intro') }}</p>
 
-                        @if ($reviews->isEmpty())
+                        @if ($reviews->count() === 0)
                             <p class="mt-6 text-center text-gray-500 text-sm py-8 border border-dashed border-gray-200 rounded-xl bg-gray-50/80">
                                 <i class="fa-regular fa-comment-dots text-2xl text-gray-400 block mb-2" aria-hidden="true"></i>
                                 {{ __('front::home.provider_detail_reviews_empty') }}
                             </p>
                         @else
-                            <ul class="mt-6 divide-y divide-gray-100 border-t border-gray-100">
-                                @foreach ($reviews as $review)
-                                    <li class="py-6">
-                                        <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
-                                            <div class="min-w-0 flex flex-col flex-wrap items-start gap-x-3 gap-y-1.5">
-                                                @if (filled($review->reviewer_display_name))
-                                                    <span class="text-sm font-semibold text-gray-900">{{ $review->reviewer_display_name }}</span>
-                                                @endif
-                                                <span
-                                                    class="inline-flex items-center gap-0.5 text-yellow-400"
-                                                    role="img"
-                                                    aria-label="{{ __('front::home.provider_detail_review_list_rating_aria', ['n' => (int) $review->rating]) }}"
-                                                >
-                                                    @for ($s = 1; $s <= 5; $s++)
-                                                        <i class="{{ $s <= (int) $review->rating ? 'fa-solid' : 'fa-regular' }} fa-star text-sm sm:text-[0.9375rem]" aria-hidden="true"></i>
-                                                    @endfor
-                                                </span>
-                                            </div>
-                                            @if ($review->created_at)
-                                                <time
-                                                    datetime="{{ $review->created_at->toIso8601String() }}"
-                                                    class="shrink-0 text-xs font-medium text-gray-500 tabular-nums sm:pt-0.5 sm:text-right"
-                                                >
-                                                    {{ $review->created_at->isoFormat('LL') }}
-                                                </time>
-                                            @endif
-                                        </div>
-                                        @if (filled($review->body))
-                                            <p class="mt-4 border-l-2 border-red-100 pl-4 text-sm leading-relaxed text-gray-700">{{ $review->body }}</p>
-                                        @endif
-                                    </li>
-                                @endforeach
-                            </ul>
+                            <div
+                                data-provider-reviews
+                                data-next-page-url="{{ e($reviews->hasMorePages() ? route('front.provider.reviews.fragment', ['provider' => $provider->profile_slug, 'page' => $reviews->currentPage() + 1]) : '') }}"
+                            >
+                                <ul class="mt-6 divide-y divide-gray-100 border-t border-gray-100" data-reviews-list>
+                                    @include('front::providers.partials.review-items', ['reviews' => $reviews])
+                                </ul>
+                                <div class="mt-4 hidden" data-reviews-loader>
+                                    <div class="flex items-center justify-center">
+                                        <span class="inline-flex items-center gap-2 text-sm text-gray-500">
+                                            <i class="fas fa-circle-notch fa-spin" aria-hidden="true"></i>
+                                            Loading…
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="mt-4 hidden text-center text-sm text-gray-500" data-reviews-end>
+                                    No more reviews.
+                                </div>
+                            </div>
                         @endif
                     </div>
                 </div>
@@ -291,6 +277,102 @@
             if (hidden && hidden.value) {
                 setRating(hidden.value);
             }
+        })();
+    </script>
+    <script>
+        (function () {
+            const root = document.querySelector('[data-provider-reviews]');
+            if (!root) {
+                return;
+            }
+
+            const list = root.querySelector('[data-reviews-list]');
+            const loader = root.querySelector('[data-reviews-loader]');
+            const end = root.querySelector('[data-reviews-end]');
+            let nextPageUrl = root.getAttribute('data-next-page-url') || '';
+            let loading = false;
+            let loadedExtraPage = false;
+
+            function setLoading(on) {
+                loading = on;
+                if (loader) {
+                    loader.classList.toggle('hidden', !on);
+                }
+            }
+
+            function clearNextPage() {
+                nextPageUrl = '';
+                root.setAttribute('data-next-page-url', '');
+            }
+
+            function markPaginationFinished() {
+                clearNextPage();
+                if (end && loadedExtraPage) {
+                    end.classList.remove('hidden');
+                }
+            }
+
+            function abortPaginationSilently() {
+                clearNextPage();
+            }
+
+            async function loadNext() {
+                if (loading || !nextPageUrl || !list) {
+                    return;
+                }
+
+                setLoading(true);
+                try {
+                    const res = await fetch(nextPageUrl, {
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            Accept: 'application/json',
+                        },
+                    });
+                    if (!res.ok) {
+                        throw new Error('Request failed');
+                    }
+                    const data = await res.json();
+
+                    loadedExtraPage = true;
+                    if (data && typeof data.html === 'string' && data.html.trim() !== '') {
+                        const tmp = document.createElement('div');
+                        tmp.innerHTML = data.html;
+                        while (tmp.firstChild) {
+                            list.appendChild(tmp.firstChild);
+                        }
+                    }
+
+                    const incomingNext = data && data.next_page_url ? String(data.next_page_url) : '';
+                    nextPageUrl = incomingNext;
+                    root.setAttribute('data-next-page-url', incomingNext);
+                    if (!incomingNext) {
+                        markPaginationFinished();
+                    }
+                } catch (e) {
+                    abortPaginationSilently();
+                } finally {
+                    setLoading(false);
+                }
+            }
+
+            function shouldLoadMore() {
+                if (!nextPageUrl || loading) {
+                    return false;
+                }
+                const rect = root.getBoundingClientRect();
+                return rect.bottom - window.innerHeight < 450;
+            }
+
+            function onScroll() {
+                if (shouldLoadMore()) {
+                    loadNext();
+                }
+            }
+
+            window.addEventListener('scroll', onScroll, { passive: true });
+            window.addEventListener('resize', onScroll);
+            onScroll();
         })();
     </script>
 @endpush

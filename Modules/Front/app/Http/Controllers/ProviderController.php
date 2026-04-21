@@ -158,6 +158,23 @@ class ProviderController extends BaseWebController
             ->with('success', __('front::home.provider_detail_review_success'));
     }
 
+    public function providerReviewsFragment(string $provider)
+    {
+        $user = $this->findPublicProviderByProfileSlug($provider);
+
+        $perPage = 10;
+        $reviews = $user->reviews()
+            ->approved()
+            ->latest()
+            ->paginate($perPage)
+            ->withQueryString();
+
+        return response()->json([
+            'html' => view('front::providers.partials.review-items', ['reviews' => $reviews])->render(),
+            'next_page_url' => $reviews->nextPageUrl(),
+        ]);
+    }
+
     private function publicProviderQuery(): Builder
     {
         return User::query()
@@ -180,11 +197,12 @@ class ProviderController extends BaseWebController
 
     private function renderProviderShow(User $user, bool $ownerPreviewWithoutActiveSubscription = false): View
     {
+        $perPage = 10;
         $reviews = $user->reviews()
             ->approved()
             ->latest()
-            ->limit(20)
-            ->get();
+            ->paginate($perPage)
+            ->withQueryString();
 
         $this->data['provider'] = $user;
         $this->data['reviews'] = $reviews;
