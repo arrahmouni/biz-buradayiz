@@ -86,5 +86,3 @@ Route::controller(ContentController::class)->group(function () {
         Route::get('/{slug}', 'showPage')->name('show');
     });
 });
-
-Route::view('/test', 'front::test');
