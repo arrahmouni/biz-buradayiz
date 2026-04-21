@@ -114,7 +114,10 @@ if(!function_exists('getImageTypes')) {
         }
 
         return implode(', ', array_map(function($type) {
-            return 'image/' . $type;
+            return match ($type) {
+                'svg' => 'image/svg+xml',
+                default => 'image/' . $type,
+            };
         }, $types));
     }
 }

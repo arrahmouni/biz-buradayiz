@@ -19,7 +19,7 @@ class UpdateAuthInfoRequest extends BaseRequest
         $adminId = auth('admin')->id();
 
         $rules = [
-            'avatar'                => ['nullable', 'image', File::image()->types(config('base.file.image.accepted_types'))->max(config('base.file.image.max_size') . 'mb')],
+            'avatar'                => ['nullable', 'image', File::image(allowSvg: true)->types(config('base.file.image.accepted_types'))->max(config('base.file.image.max_size') . 'mb')],
             'avatar_remove'         => ['nullable', 'boolean'],
             'lang'                  => ['required', 'in:' . implode(',', LaravelLocalization::getSupportedLanguagesKeys())],
             'full_name'             => ['required', 'string', 'min:3', 'max:255'],

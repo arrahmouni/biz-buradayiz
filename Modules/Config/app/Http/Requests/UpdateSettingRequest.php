@@ -47,27 +47,27 @@ class UpdateSettingRequest extends BaseRequest
         ];
 
         $mediaSettingRules = [
-            'app_logo' => ['nullable', 'image', File::image()
+            'app_logo' => ['nullable', 'image', File::image(allowSvg: true)
                 ->types(config('config.app_logo.types'))
                 ->max(config('config.app_logo.max_size').'mb'),
             ],
-            'app_mobile_logo' => ['nullable', 'image', File::image()
+            'app_mobile_logo' => ['nullable', 'image', File::image(allowSvg: true)
                 ->types(config('config.app_logo.types'))
                 ->max(config('config.app_logo.max_size').'mb'),
             ],
-            'app_favicon' => ['nullable', 'image', File::image()
+            'app_favicon' => ['nullable', 'image', File::image(allowSvg: true)
                 ->types(config('config.app_favicon.types'))
                 ->max(config('config.app_favicon.max_size').'mb'),
             ],
-            'email_logo' => ['nullable', 'image', File::image()
+            'email_logo' => ['nullable', 'image', File::image(allowSvg: true)
                 ->types(config('config.app_logo.types'))
                 ->max(config('config.app_logo.max_size').'mb'),
             ],
-            'front_hero_background' => ['nullable', 'image', File::image()
+            'front_hero_background' => ['nullable', 'image', File::image(allowSvg: true)
                 ->types(config('config.app_logo.types'))
                 ->max(config('config.app_logo.max_size').'mb'),
             ],
-            'app_placeholder' => ['nullable', 'image', File::image()->types(['png', 'jpg', 'jpeg', 'webp'])->max('2mb')],
+            'app_placeholder' => ['nullable', 'image', File::image(allowSvg: true)->types(config('base.file.image.accepted_types'))->max('2mb')],
         ];
 
         $providerRankingSettingRules = [
