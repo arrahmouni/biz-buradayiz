@@ -1,2 +1,22 @@
+# robots.txt for SEO optimization
+
+# Allow all search engines to crawl the entire site
 User-agent: *
-Disallow:
+Allow: /
+
+# Disallow admin panel
+Disallow: /ar/admin/
+Disallow: /en/admin/
+Disallow: /tr/admin/
+
+# Disallow API endpoints (optional - remove if you want APIs indexed)
+Disallow: /api/
+
+# Disallow storage and private files
+Disallow: /storage/
+Disallow: /vendor/
+
+# Allow important resources
+Allow: /build/
+Allow: /images/
+Allow: /media/
