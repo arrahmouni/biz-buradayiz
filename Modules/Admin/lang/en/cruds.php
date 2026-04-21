@@ -235,6 +235,7 @@ return [
             'ratings' => 'Ratings',
             'rating_average' => 'Average rating',
             'approved_reviews_count' => 'Approved reviews',
+            'ranking_score' => 'Rank score',
             'service_location' => 'Service and location',
             'contact' => 'Contact',
             'account' => 'Account',

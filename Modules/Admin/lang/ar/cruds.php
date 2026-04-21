@@ -243,6 +243,7 @@ return [
             'ratings' => 'التقييمات',
             'rating_average' => 'متوسط التقييم',
             'approved_reviews_count' => 'التقييمات المعتمدة',
+            'ranking_score' => 'درجة الترتيب',
             'service_location' => 'الخدمة والموقع',
             'contact' => 'جهة الاتصال',
             'account' => 'الحساب',

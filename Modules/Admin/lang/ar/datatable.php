@@ -138,11 +138,13 @@ return [
         'quick_filter_pending_approval' => 'بانتظار الموافقة',
         'quick_filter_pending_approval_title' => 'عرض مقدمي الخدمة غير المعتمدين بعد',
         'quick_filter_pending_approval_option' => 'بانتظار الموافقة',
+        'filtered_results_count_label' => 'مقدّم خدمة يطابق النتائج',
         'columns' => [
             'service_type' => 'نوع الخدمة',
             'country' => 'الدولة',
             'state' => 'المنطقة',
             'city' => 'المدينة',
+            'ranking_score' => 'درجة الترتيب',
         ],
     ],
     'notification_templates' => [

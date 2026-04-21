@@ -180,6 +180,11 @@ class UserCrudService extends BaseCrudService
                 })
                 ->addColumn('city_name', function ($row) {
                     return $row->city?->name ?? '—';
+                })
+                ->addColumn('ranking_score_display', function ($row) {
+                    $raw = $row->ranking_score;
+
+                    return $raw === null ? '—' : number_format((float) $raw, 4);
                 });
         }
 

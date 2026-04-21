@@ -235,6 +235,7 @@ return [
             'ratings' => 'Değerlendirmeler',
             'rating_average' => 'Ortalama puan',
             'approved_reviews_count' => 'Onaylı yorumlar',
+            'ranking_score' => 'Sıralama skoru',
             'service_location' => 'Hizmet ve konum',
             'contact' => 'İletişim',
             'account' => 'Hesap',

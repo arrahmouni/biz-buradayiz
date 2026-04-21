@@ -95,6 +95,12 @@
                                                 <td class="text-muted">@lang('admin::cruds.users.view_page.approved_reviews_count')</td>
                                                 <td class="fw-bolder text-end">{{ $model->approved_reviews_count ?? 0 }}</td>
                                             </tr>
+                                            <tr>
+                                                <td class="text-muted">@lang('admin::cruds.users.view_page.ranking_score')</td>
+                                                <td class="fw-bolder text-end font-monospace">
+                                                    {{ $model->ranking_score === null ? '—' : number_format((float) $model->ranking_score, 4) }}
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>

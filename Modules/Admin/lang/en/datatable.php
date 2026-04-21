@@ -135,12 +135,14 @@ return [
         'quick_filter_pending_approval' => 'Pending approval',
         'quick_filter_pending_approval_title' => 'Show service providers not yet approved',
         'quick_filter_pending_approval_option' => 'Pending approval',
+        'filtered_results_count_label' => 'providers in these results',
         'columns' => [
             'service_type' => 'Service type',
             'country' => 'Country',
             'state' => 'State',
             'city' => 'City',
             'package' => 'Package',
+            'ranking_score' => 'Rank score',
         ],
     ],
     'notification_templates' => [
