@@ -70,6 +70,28 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -p ${{ secrets.CLOUDWAYS_SSH_PORT || 22 }} -H ${{ secrets.CLOUDWAYS_SSH_HOST }} >> ~/.ssh/known_hosts
 
+      # rsync's remote side cannot create the destination if parent dirs are missing.
+      # CLOUDWAYS_APP_PATH must be the full path, e.g.
+      # /home/master_xxxxx/applications/<app-folder>/public_html
+      - name: Ensure remote deploy directory exists
+        env:
+          DEPLOY_PATH: ${{ secrets.CLOUDWAYS_APP_PATH }}
+        run: |
+          if [ -z "$DEPLOY_PATH" ]; then
+            echo "CLOUDWAYS_APP_PATH secret is empty."
+            exit 1
+          fi
+          case "$DEPLOY_PATH" in
+            /*) ;;
+            *)
+              echo "CLOUDWAYS_APP_PATH must be an absolute path (begin with /)."
+              exit 1
+              ;;
+          esac
+          ssh -p ${{ secrets.CLOUDWAYS_SSH_PORT || 22 }} \
+            ${{ secrets.CLOUDWAYS_SSH_USER }}@${{ secrets.CLOUDWAYS_SSH_HOST }} \
+            "mkdir -p -- \"$DEPLOY_PATH\""
+
       - name: Deploy files to Cloudways via rsync
         run: |
           rsync -avz --delete \
