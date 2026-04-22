@@ -53,4 +53,11 @@ return [
         'header' => '503 - Service Unavailable',
         'message' => 'Sorry, we are currently under maintenance. Please check back later.',
     ],
+
+    'coming_soon_page' => [
+        'title' => 'Coming Soon !!',
+        'badge' => 'Soon',
+        'header' => 'We are launching soon',
+        'message' => 'We are putting the finishing touches on something new. Check back shortly — we will be here before you know it.',
+    ],
 ];

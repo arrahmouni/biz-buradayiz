@@ -53,4 +53,11 @@ return [
         'header' => '503 - Hizmet Kullanılamıyor',
         'message' => 'Üzgünüz, şu anda bakımdayız. Lütfen daha sonra tekrar kontrol edin.',
     ],
+
+    'coming_soon_page' => [
+        'title' => 'Çok Yakında !!',
+        'badge' => 'Yakında',
+        'header' => 'Çok yakında yayında',
+        'message' => 'Yeni deneyimimiz üzerinde son rötuşları yapıyoruz. Kısa süre içinde tekrar uğrayın.',
+    ],
 ];

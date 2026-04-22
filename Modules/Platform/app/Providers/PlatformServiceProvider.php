@@ -5,10 +5,14 @@ namespace Modules\Platform\Providers;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
-use Modules\Platform\Jobs\ExpireDuePackageSubscriptionsJob;
 use Modules\Platform\Console\SyncServiceProviderRatingsCommand;
+use Modules\Platform\Jobs\ExpireDuePackageSubscriptionsJob;
 use Modules\Platform\Models\Review;
+use Modules\Platform\Models\Service;
+use Modules\Platform\Models\ServiceTranslation;
 use Modules\Platform\Observers\ReviewObserver;
+use Modules\Platform\Observers\ServiceObserver;
+use Modules\Platform\Observers\ServiceTranslationObserver;
 use Nwidart\Modules\Traits\PathNamespace;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -27,6 +31,8 @@ class PlatformServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Review::observe(ReviewObserver::class);
+        Service::observe(ServiceObserver::class);
+        ServiceTranslation::observe(ServiceTranslationObserver::class);
 
         $this->registerCommands();
         $this->registerCommandSchedules();

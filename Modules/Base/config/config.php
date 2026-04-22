@@ -33,7 +33,7 @@ return [
     'file'                      => [
         'image'                 => [
             'max_size'          => 10,
-            'accepted_types'    => ['png', 'jpg', 'jpeg', 'webp'],
+            'accepted_types'    => ['png', 'jpg', 'jpeg', 'webp', 'svg'],
         ],
         'document'              => [
             'max_size'          => 100,

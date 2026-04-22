@@ -11,29 +11,10 @@ use Modules\Auth\Enums\UserType;
 use Modules\Auth\Models\User;
 use Modules\Base\Models\BaseModel;
 use Modules\Base\Trait\Disableable;
-use Modules\Front\Support\FrontPublicServices;
 
 class Service extends BaseModel
 {
     use Disableable, HasFactory, SoftDeletes, Translatable;
-
-    protected static function booted(): void
-    {
-        $flushFrontPublicServicesCache = static function (): void {
-            if (class_exists(FrontPublicServices::class)) {
-                FrontPublicServices::flush();
-            }
-        };
-
-        static::saved($flushFrontPublicServicesCache);
-        static::deleted($flushFrontPublicServicesCache);
-        static::restored($flushFrontPublicServicesCache);
-        static::disabled($flushFrontPublicServicesCache);
-        static::enabled($flushFrontPublicServicesCache);
-
-        ServiceTranslation::saved($flushFrontPublicServicesCache);
-        ServiceTranslation::deleted($flushFrontPublicServicesCache);
-    }
 
     // Start Properties
 

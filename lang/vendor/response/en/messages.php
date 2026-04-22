@@ -30,6 +30,8 @@ return [
         ],
     ],
     'web_response_messages'                                         => [
+        'service_cannot_be_deleted_with_service_providers'          => 'This service cannot be deleted because one or more service providers are using it.',
+        'service_cannot_be_disabled_with_service_providers'         => 'This service cannot be disabled because one or more service providers are using it.',
         'operation_successfully_done'                               => 'Operation done successfully',
         'operation_faield'                                          => 'Operation failed',
         'validation_error'                                          => 'Please check the data you entered and try again.',

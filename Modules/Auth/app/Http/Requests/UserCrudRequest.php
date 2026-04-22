@@ -27,7 +27,7 @@ class UserCrudRequest extends BaseRequest
         $type = $this->input('type');
 
         $rules = [
-            'image'         => ['nullable', 'image', File::image()->types(config('base.file.image.accepted_types'))->max(config('base.file.image.max_size') . 'mb')],
+            'image'         => ['nullable', 'image', File::image(allowSvg: true)->types(config('base.file.image.accepted_types'))->max(config('base.file.image.max_size') . 'mb')],
             'image_remove'  => ['nullable', 'boolean'],
             'type'          => ['required', Rule::in(UserType::values())],
             'first_name'    => ['required', 'string', 'max:255'],

@@ -235,6 +235,7 @@ return [
             'ratings' => 'Ratings',
             'rating_average' => 'Average rating',
             'approved_reviews_count' => 'Approved reviews',
+            'ranking_score' => 'Rank score',
             'service_location' => 'Service and location',
             'contact' => 'Contact',
             'account' => 'Account',
@@ -253,6 +254,7 @@ return [
             'default_yes' => 'Yes',
             'default_no' => 'No',
         ],
+        'accept_not_pending' => 'This service provider is not awaiting approval.',
     ],
     'notification_templates' => [
         'title' => 'Notification Templates',
@@ -426,6 +428,9 @@ return [
             'rejected' => 'Rejected',
         ],
         'moderation_not_pending' => 'This review is not awaiting approval.',
+    ],
+    'accept' => [
+        'title' => 'Accept',
     ],
     'approve' => [
         'title' => 'Approve',

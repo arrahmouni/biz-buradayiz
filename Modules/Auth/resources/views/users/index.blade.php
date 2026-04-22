@@ -151,7 +151,7 @@
                         'options'           => [
                             'url'           => route('auth.users.datatable', ['userType' => $userType->value]),
                             'filter'        => true,
-                        ]
+                        ],
                     ])
                     @slot('columns')
                         <th style="width: 30%">
@@ -165,6 +165,7 @@
                             <th> @lang('admin::datatable.users.columns.service_type') </th>
                             <th> @lang('admin::datatable.users.columns.state') </th>
                             <th> @lang('admin::datatable.users.columns.city') </th>
+                            <th> @lang('admin::datatable.users.columns.ranking_score') </th>
                         @endif
                     @endslot
 
@@ -273,6 +274,19 @@
                                     return `<span class="text-gray-700 fw-semibold">${data ?? '—'}</span>`;
                                 }
                             },
+                            {
+                                data: 'ranking_score_display',
+                                name: 'ranking_score',
+                                orderable: true,
+                                searchable: false,
+                                render: function (data, type, row, meta) {
+                                    if (type === 'sort' || type === 'filter' || type === 'type' || type === 'export') {
+                                        return data ?? '';
+                                    }
+                                    const v = data == null || data === '' ? '—' : data;
+                                    return `<span class="text-gray-800 fw-bold font-monospace">${v}</span>`;
+                                }
+                            },
                             @endif
                         @endslot
                     </script>
@@ -287,6 +301,23 @@
     @push('script')
         <script>
             $(function () {
+                function bindServiceProvidersFilteredCount() {
+                    const $table = $('#data-table');
+                    const $value = $('#users-service-providers-filtered-count-value');
+                    if (!$table.length || !$value.length || !$.fn.DataTable.isDataTable($table)) {
+                        return;
+                    }
+                    const api = $table.DataTable();
+                    const update = function () {
+                        const n = api.page.info().recordsDisplay;
+                        $value.text(typeof n === 'number' ? n.toLocaleString() : '—');
+                    };
+                    $table.off('draw.dt.usersSpFilteredCount').on('draw.dt.usersSpFilteredCount', update);
+                    update();
+                }
+
+                bindServiceProvidersFilteredCount();
+
                 $('#users-filter-pending-approval').on('click', function () {
                     const $select = $('#users-filter-approval');
                     if (!$select.length) {

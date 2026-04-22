@@ -128,6 +128,13 @@
                                 <i class="fas fa-tachometer-alt w-4 shrink-0 text-center text-red-600" aria-hidden="true"></i>
                                 {{ __('front::auth.dashboard_title') }}
                             </a>
+                            <a
+                                href="{{ route('front.provider.account') }}"
+                                class="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50 hover:text-red-600 focus:outline-none focus-visible:bg-gray-50"
+                            >
+                                <i class="fas fa-user-cog w-4 shrink-0 text-center text-gray-500" aria-hidden="true"></i>
+                                {{ __('front::provider_account.nav_account_settings') }}
+                            </a>
                             @if (filled($navWebUser->profile_slug))
                                 <a
                                     href="{{ route('front.provider.show', $navWebUser->profile_slug) }}"
@@ -228,6 +235,9 @@
                     </div>
                     <a href="{{ route('front.provider.dashboard') }}" class="mt-3 border-2 border-red-600 bg-red-600 text-white hover:border-red-700 hover:bg-red-700 text-center py-2.5 rounded-full font-semibold flex items-center justify-center gap-2 shadow-sm transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2">
                         <i class="fas fa-tachometer-alt" aria-hidden="true"></i> {{ __('front::auth.dashboard_title') }}
+                    </a>
+                    <a href="{{ route('front.provider.account') }}" class="mt-2 border-2 border-gray-200 bg-white text-gray-800 hover:border-red-200 hover:bg-red-50/50 text-center py-2.5 rounded-full font-semibold flex items-center justify-center gap-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2">
+                        <i class="fas fa-user-cog" aria-hidden="true"></i> {{ __('front::provider_account.nav_account_settings') }}
                     </a>
                     @if (filled($navWebUser->profile_slug))
                         <a href="{{ route('front.provider.show', $navWebUser->profile_slug) }}" class="mt-2 border-2 border-gray-200 bg-white text-gray-800 hover:border-red-200 hover:bg-red-50/50 text-center py-2.5 rounded-full font-semibold flex items-center justify-center gap-2 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2">

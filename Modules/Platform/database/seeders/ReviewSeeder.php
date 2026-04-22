@@ -26,11 +26,11 @@ class ReviewSeeder extends Seeder
         }
 
         Review::withoutEvents(function () use ($providers): void {
-            foreach (range(1, 12) as $_) {
+            foreach (range(1, 1200) as $_) {
                 $user = $providers->random();
                 Review::factory()
                     ->forUser($user)
-                    ->pending()
+                    ->approved()
                     ->create([
                         'rating' => fake()->numberBetween(1, 5),
                     ]);

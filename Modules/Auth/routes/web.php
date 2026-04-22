@@ -31,6 +31,7 @@ Route::prefix('users/{userType}')->name('users.')->whereIn('userType', UserType:
     Route::post('restore/{model}', 'restore')->name('restore');
     Route::post('disable/{model}', 'disable')->name('disable');
     Route::post('enable/{model}', 'enable')->name('enable');
+    Route::post('accept/{model}', 'acceptServiceProvider')->name('accept');
     Route::delete('bulk-soft-delete', 'bulkSoftDelete')->name('bulkSoftDelete');
     Route::delete('bulk-hard-delete', 'bulkHardDelete')->name('bulkHardDelete');
     Route::post('bulk-restore', 'bulkRestore')->name('bulkRestore');

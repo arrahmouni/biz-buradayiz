@@ -43,7 +43,7 @@ class FrontServiceProvider extends ServiceProvider
 
         View::composer('front::*', function ($view) {
             $name = $view->name();
-            if (is_string($name) && str_starts_with($name, 'front::errors.')) {
+            if (is_string($name) && (str_starts_with($name, 'front::errors.') || $name === 'front::coming-soon')) {
                 return;
             }
             $view->with([

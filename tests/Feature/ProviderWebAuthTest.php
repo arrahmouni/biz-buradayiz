@@ -15,8 +15,12 @@ use Modules\Auth\Enums\UserType;
 use Modules\Auth\Http\Services\UserCrudService;
 use Modules\Auth\Models\User;
 use Modules\Platform\Enums\BillingPeriod;
+use Modules\Platform\Enums\PackageSubscriptionPaymentMethod;
+use Modules\Platform\Enums\PackageSubscriptionPaymentStatus;
+use Modules\Platform\Enums\PackageSubscriptionStatus;
 use Modules\Platform\Models\Package;
 use Modules\Platform\Models\PackageSubscription;
+use Modules\Platform\Models\PackageSubscriptionSnapshot;
 use Modules\Platform\Models\Service;
 use Modules\Zms\Models\City;
 use Modules\Zms\Models\Country;
@@ -330,5 +334,255 @@ class ProviderWebAuthTest extends TestCase
         app(UserCrudService::class)->updateModel($user, $payload);
 
         $this->assertSame(1, PackageSubscription::query()->count());
+    }
+
+    public function test_guest_cannot_view_provider_account_settings(): void
+    {
+        $response = $this->get(route('front.provider.account'));
+
+        $response->assertRedirect();
+    }
+
+    public function test_active_provider_can_view_account_settings(): void
+    {
+        $serviceId = $this->createServiceWithTranslation();
+        $location = $this->createCityWithTranslation();
+
+        $user = User::query()->create([
+            'email' => 'account-view@example.test',
+            'password' => Hash::make('Str0ng!Pass'),
+            'type' => UserType::ServiceProvider,
+            'status' => AdminStatus::ACTIVE,
+            'first_name' => 'V',
+            'last_name' => 'U',
+            'phone_number' => '+905551110001',
+            'lang' => 'en',
+            'service_id' => $serviceId,
+            'city_id' => $location['city_id'],
+        ]);
+
+        $response = $this->actingAs($user, 'web')->get(route('front.provider.account'));
+
+        $response->assertOk();
+        $response->assertSee(__('front::provider_account.page_title'), false);
+    }
+
+    public function test_active_provider_can_update_profile_without_changing_phones(): void
+    {
+        $serviceId = $this->createServiceWithTranslation();
+        $location = $this->createCityWithTranslation();
+
+        $user = User::query()->create([
+            'email' => 'account-upd@example.test',
+            'password' => Hash::make('Str0ng!Pass'),
+            'type' => UserType::ServiceProvider,
+            'status' => AdminStatus::ACTIVE,
+            'first_name' => 'O',
+            'last_name' => 'G',
+            'phone_number' => '+905551110002',
+            'central_phone' => '+905551110003',
+            'lang' => 'en',
+            'service_id' => $serviceId,
+            'city_id' => $location['city_id'],
+        ]);
+
+        $response = $this->actingAs($user, 'web')->from(route('front.provider.account'))->put(route('front.provider.account.update'), [
+            'first_name' => 'N1',
+            'last_name' => 'N2',
+            'email' => 'account-upd-new@example.test',
+            'service_id' => $serviceId,
+            'state_id' => $location['state_id'],
+            'city_id' => $location['city_id'],
+        ]);
+
+        $response->assertRedirect(route('front.provider.account'));
+        $response->assertSessionHas('success');
+
+        $user->refresh();
+        $this->assertSame('N1', $user->first_name);
+        $this->assertSame('N2', $user->last_name);
+        $this->assertSame('account-upd-new@example.test', $user->email);
+        $this->assertSame('+905551110002', $user->phone_number);
+        $this->assertSame('+905551110003', $user->central_phone);
+        $this->assertSame('n1-n2', $user->profile_slug);
+    }
+
+    public function test_provider_profile_update_keeps_profile_slug_when_only_email_changes(): void
+    {
+        $serviceId = $this->createServiceWithTranslation();
+        $location = $this->createCityWithTranslation();
+
+        $user = User::query()->create([
+            'email' => 'slug-keep@example.test',
+            'password' => 'Str0ng!Pass',
+            'type' => UserType::ServiceProvider,
+            'status' => AdminStatus::ACTIVE,
+            'first_name' => 'Slug',
+            'last_name' => 'Keep',
+            'phone_number' => '+905551110099',
+            'lang' => 'en',
+            'service_id' => $serviceId,
+            'city_id' => $location['city_id'],
+        ]);
+
+        $slugBefore = $user->fresh()->profile_slug;
+        $this->assertNotNull($slugBefore);
+
+        $response = $this->actingAs($user, 'web')->from(route('front.provider.account'))->put(route('front.provider.account.update'), [
+            'first_name' => 'Slug',
+            'last_name' => 'Keep',
+            'email' => 'slug-keep-new@example.test',
+            'service_id' => $serviceId,
+            'state_id' => $location['state_id'],
+            'city_id' => $location['city_id'],
+        ]);
+
+        $response->assertRedirect(route('front.provider.account'));
+
+        $user->refresh();
+        $this->assertSame($slugBefore, $user->profile_slug);
+        $this->assertSame('slug-keep-new@example.test', $user->email);
+    }
+
+    public function test_provider_profile_update_rejects_duplicate_email(): void
+    {
+        $serviceId = $this->createServiceWithTranslation();
+        $location = $this->createCityWithTranslation();
+
+        User::query()->create([
+            'email' => 'taken@example.test',
+            'password' => Hash::make('Str0ng!Pass'),
+            'type' => UserType::ServiceProvider,
+            'status' => AdminStatus::ACTIVE,
+            'first_name' => 'T',
+            'last_name' => 'K',
+            'phone_number' => '+905551110004',
+            'lang' => 'en',
+            'service_id' => $serviceId,
+            'city_id' => $location['city_id'],
+        ]);
+
+        $user = User::query()->create([
+            'email' => 'free@example.test',
+            'password' => Hash::make('Str0ng!Pass'),
+            'type' => UserType::ServiceProvider,
+            'status' => AdminStatus::ACTIVE,
+            'first_name' => 'F',
+            'last_name' => 'R',
+            'phone_number' => '+905551110005',
+            'lang' => 'en',
+            'service_id' => $serviceId,
+            'city_id' => $location['city_id'],
+        ]);
+
+        $response = $this->actingAs($user, 'web')->from(route('front.provider.account'))->put(route('front.provider.account.update'), [
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'email' => 'taken@example.test',
+            'service_id' => $serviceId,
+            'state_id' => $location['state_id'],
+            'city_id' => $location['city_id'],
+        ]);
+
+        $response->assertSessionHasErrors('email');
+        $user->refresh();
+        $this->assertSame('free@example.test', $user->email);
+    }
+
+    public function test_provider_can_change_password_with_correct_old_password(): void
+    {
+        $serviceId = $this->createServiceWithTranslation();
+        $location = $this->createCityWithTranslation();
+
+        $user = User::query()->create([
+            'email' => 'pwd@example.test',
+            'password' => 'Str0ng!Pass',
+            'type' => UserType::ServiceProvider,
+            'status' => AdminStatus::ACTIVE,
+            'first_name' => 'P',
+            'last_name' => 'W',
+            'phone_number' => '+905551110006',
+            'lang' => 'en',
+            'service_id' => $serviceId,
+            'city_id' => $location['city_id'],
+        ]);
+
+        $bad = $this->actingAs($user, 'web')->from(route('front.provider.account'))->post(route('front.provider.account.password'), [
+            'old_password' => 'WrongPass!',
+            'new_password' => 'NewStr0ng!Pass',
+            'new_password_confirmation' => 'NewStr0ng!Pass',
+        ]);
+        $bad->assertSessionHasErrors('old_password');
+
+        $ok = $this->actingAs($user, 'web')->from(route('front.provider.account'))->post(route('front.provider.account.password'), [
+            'old_password' => 'Str0ng!Pass',
+            'new_password' => 'NewStr0ng!Pass',
+            'new_password_confirmation' => 'NewStr0ng!Pass',
+        ]);
+        $ok->assertRedirect(route('front.provider.account'));
+        $ok->assertSessionHas('success');
+
+        $user->refresh();
+        $this->assertTrue(Hash::check('NewStr0ng!Pass', $user->password));
+    }
+
+    public function test_provider_cannot_change_service_while_active_non_free_subscription_exists(): void
+    {
+        $serviceId1 = $this->createServiceWithTranslation();
+        $serviceId2 = $this->createServiceWithTranslation();
+        $location = $this->createCityWithTranslation();
+
+        $user = User::query()->create([
+            'email' => 'svc-guard@example.test',
+            'password' => Hash::make('Str0ng!Pass'),
+            'type' => UserType::ServiceProvider,
+            'status' => AdminStatus::ACTIVE,
+            'first_name' => 'S',
+            'last_name' => 'G',
+            'phone_number' => '+905551110007',
+            'lang' => 'en',
+            'service_id' => $serviceId1,
+            'city_id' => $location['city_id'],
+        ]);
+
+        $paid = Package::query()->create([
+            'price' => 99,
+            'currency' => 'TRY',
+            'billing_period' => BillingPeriod::Monthly,
+            'sort_order' => 0,
+            'connections_count' => 5,
+            'is_free_tier' => false,
+            'is_popular' => false,
+        ]);
+        $paid->services()->sync([$serviceId1]);
+        $paid->translateOrNew('en')->name = 'GuardPaidPlan';
+        $paid->save();
+
+        $start = now()->subDay();
+        $subscription = PackageSubscription::query()->create([
+            'user_id' => $user->id,
+            'status' => PackageSubscriptionStatus::Active,
+            'payment_status' => PackageSubscriptionPaymentStatus::Paid,
+            'payment_method' => PackageSubscriptionPaymentMethod::BankTransfer,
+            'starts_at' => $start,
+            'ends_at' => now()->addMonth(),
+            'cancelled_at' => null,
+            'paid_at' => $start,
+            'remaining_connections' => 10,
+        ]);
+        $subscription->snapshot()->create(PackageSubscriptionSnapshot::attributesFromPackage($paid));
+
+        $response = $this->actingAs($user, 'web')->from(route('front.provider.account'))->put(route('front.provider.account.update'), [
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'email' => $user->email,
+            'service_id' => $serviceId2,
+            'state_id' => $location['state_id'],
+            'city_id' => $location['city_id'],
+        ]);
+
+        $response->assertSessionHasErrors('service_id');
+        $user->refresh();
+        $this->assertSame($serviceId1, $user->service_id);
     }
 }

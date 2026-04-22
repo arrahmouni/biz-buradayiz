@@ -49,7 +49,7 @@ class ServiceController extends BaseCrudController
     public function canDelete($model)
     {
         if ($this->checkIfServiceProviderHasActiveSubscription($model->id)) {
-            return sendFailInternalResponse('service_cannot_be_deleted_with_active_subscriptions');
+            return sendFailInternalResponse('service_cannot_be_deleted_with_service_providers');
         }
 
         return sendSuccessInternalResponse();
@@ -58,7 +58,7 @@ class ServiceController extends BaseCrudController
     public function canDisable($model)
     {
         if ($this->checkIfServiceProviderHasActiveSubscription($model->id)) {
-            return sendFailInternalResponse('service_cannot_be_disabled_with_active_subscriptions');
+            return sendFailInternalResponse('service_cannot_be_disabled_with_service_providers');
         }
 
         return sendSuccessInternalResponse();
@@ -70,7 +70,7 @@ class ServiceController extends BaseCrudController
         return User::query()
             ->where('type', UserType::ServiceProvider->value)
             ->where('service_id', $serviceId)
-            ->whereHas('activePackageSubscription')
+            // ->whereHas('activePackageSubscription')
             ->exists();
     }
 

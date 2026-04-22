@@ -190,4 +190,5 @@ return [
     'provider_detail_display_name_placeholder' => 'ör. Ahmet Y.',
     'provider_detail_submit_feedback' => 'Geri bildirimi gönder',
     'provider_detail_view_profile' => 'Profili görüntüle',
+    'provider_register_form' => 'Kayıt formu',
 ];

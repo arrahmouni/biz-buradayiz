@@ -27,14 +27,14 @@ class FrontLayoutMetaComposer
      */
     protected function resolveMeta(View $view, ?string $routeName): array
     {
-        if ($routeName === 'front.blog.show') {
+        if ($routeName === 'front.blog.show' && $view->offsetExists('post')) {
             $post = $view->offsetGet('post');
             if ($post instanceof Content) {
                 return $this->seoService->publicMetaForContent($post);
             }
         }
 
-        if ($routeName === 'front.page.show') {
+        if ($routeName === 'front.page.show' && $view->offsetExists('page')) {
             $page = $view->offsetGet('page');
             if ($page instanceof Content) {
                 return $this->seoService->publicMetaForContent($page);

@@ -18,7 +18,7 @@ class CreateOrUpdateAdminRequest extends BaseRequest
     public function rules(): array
     {
         $rules = [
-            'avatar'                => ['nullable', 'image', File::image()->types(config('base.file.image.accepted_types'))->max(config('base.file.image.max_size') . 'mb')],
+            'avatar'                => ['nullable', 'image', File::image(allowSvg: true)->types(config('base.file.image.accepted_types'))->max(config('base.file.image.max_size') . 'mb')],
             'avatar_remove'         => ['nullable', 'boolean'],
             'status'                => ['required', 'in:' . implode(',', AdminStatus::all())],
             'lang'                  => ['required', 'in:' . implode(',', LaravelLocalization::getSupportedLanguagesKeys())],

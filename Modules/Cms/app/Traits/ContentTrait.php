@@ -11,6 +11,7 @@ trait ContentTrait
         'jpeg',
         'png',
         'webp',
+        'svg',
     ];
 
     public static $typeList = [

@@ -135,12 +135,14 @@ return [
         'quick_filter_pending_approval' => 'Onay bekleyenler',
         'quick_filter_pending_approval_title' => 'Henüz onaylanmamış hizmet sağlayıcılarını listele',
         'quick_filter_pending_approval_option' => 'Onay bekliyor',
+        'filtered_results_count_label' => 'sağlayıcı (filtreye uyan)',
         'columns' => [
             'service_type' => 'Hizmet türü',
             'country' => 'Ülke',
             'state' => 'Şehir',
             'city' => 'İlçe',
             'package' => 'Paket',
+            'ranking_score' => 'Sıralama skoru',
         ],
     ],
     'notification_templates' => [

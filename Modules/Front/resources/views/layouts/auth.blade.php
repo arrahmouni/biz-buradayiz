@@ -19,7 +19,7 @@
 
     @yield('content')
     @include('front::includes.scripts')
-    <script src="{{ asset('modules/front/js/front-auth.js') }}"></script>
+    <script src="{{ asset('modules/front/js/front-auth.js') }}?v={{$_STYLE_VER_}}"></script>
     @stack('script')
 </body>
 </html>

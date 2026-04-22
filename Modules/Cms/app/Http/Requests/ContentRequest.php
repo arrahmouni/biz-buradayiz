@@ -80,7 +80,7 @@ class ContentRequest extends BaseRequest
         }
 
         if(Content::typeHasField($this->getType(), 'image')) {
-            $rules['image.*'] = [File::image()->types(config('base.file.image.accepted_types'))->max(config('base.file.image.max_size') . 'mb')];
+            $rules['image.*'] = [File::image(allowSvg: true)->types(config('base.file.image.accepted_types'))->max(config('base.file.image.max_size') . 'mb')];
         }
 
         if(Content::typeHasField($this->getType(), 'can_be_deleted')) {

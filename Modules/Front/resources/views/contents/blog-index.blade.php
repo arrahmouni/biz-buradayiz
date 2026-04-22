@@ -22,14 +22,16 @@
             <div class="flex flex-col lg:flex-row gap-10">
                 <div class="lg:w-2/3">
                     @if ($blogs->isEmpty())
-                        @include('front::includes.empty-state', [
-                            'text' => __('front::home.blog_empty'),
-                            'icon' => 'fas fa-newspaper',
-                        ])
+                        <div class="js-front-reveal front-reveal">
+                            @include('front::includes.empty-state', [
+                                'text' => __('front::home.blog_empty'),
+                                'icon' => 'fas fa-newspaper',
+                            ])
+                        </div>
                     @else
-                        <div class="space-y-8">
+                        <div class="space-y-8 js-front-reveal-group front-reveal-group">
                             @foreach ($blogs as $post)
-                                <article class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-shadow">
+                                <article class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-shadow front-reveal-child">
                                     @if ($post->front_blog_show_url && $post->front_cover_image_url !== '')
                                         <a href="{{ $post->front_blog_show_url }}">
                                             <img src="{{ $post->front_cover_image_url }}" alt="{{ $post->smartTrans('title') }}" class="w-full h-56 md:h-64 object-cover">
@@ -67,7 +69,7 @@
                                 $end = min($start + 4, $blogs->lastPage());
                                 $start = max($end - 4, 1);
                             @endphp
-                            <nav class="mt-10 flex justify-center" aria-label="{{ __('front::home.blog_pagination_label') }}">
+                            <nav class="mt-10 flex justify-center js-front-reveal front-reveal" aria-label="{{ __('front::home.blog_pagination_label') }}">
                                 <div class="flex flex-wrap items-center gap-2">
                                     @if (! $blogs->onFirstPage())
                                         <a href="{{ $blogs->url($blogs->currentPage() - 1) }}" class="px-3 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition">
@@ -92,8 +94,8 @@
                     @endif
                 </div>
 
-                <aside class="lg:w-1/3 space-y-8">
-                    <div class="bg-white rounded-xl shadow-md p-5">
+                <aside class="lg:w-1/3 space-y-8 js-front-reveal-group front-reveal-group">
+                    <div class="bg-white rounded-xl shadow-md p-5 front-reveal-child">
                         <h2 class="font-bold text-lg text-gray-800 border-b border-gray-200 pb-2 mb-4">{{ __('front::home.blog_search_title') }}</h2>
                         <form action="{{ route('front.blog.index') }}" method="GET" class="space-y-3">
                             <div class="relative">
@@ -104,7 +106,7 @@
                     </div>
 
                     @if ($recentPosts->isNotEmpty())
-                        <div class="bg-white rounded-xl shadow-md p-5">
+                        <div class="bg-white rounded-xl shadow-md p-5 front-reveal-child">
                             <h2 class="font-bold text-lg text-gray-800 border-b border-gray-200 pb-2 mb-4">{{ __('front::home.blog_recent_title') }}</h2>
                             <ul class="space-y-3">
                                 @foreach ($recentPosts as $recent)

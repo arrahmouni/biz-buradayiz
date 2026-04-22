@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Modules\Auth\Enums\UserType;
 use Modules\Auth\Models\User;
+use Modules\Platform\Enums\PackageSubscriptionStatus;
 use Modules\Platform\Models\PackageSubscription;
 use Modules\Verimor\Enums\VerimorCallDirection;
 use Modules\Verimor\Enums\VerimorCallEventType;
@@ -118,6 +119,12 @@ class ProcessVerimorCrmWebhookJob implements ShouldQueue
             }
 
             $subscription->decrement('remaining_connections');
+
+            if ($subscription->remaining_connections === 0 && $subscription->cancelled_at === null) {
+                $subscription->status = PackageSubscriptionStatus::Expired;
+                $subscription->save();
+            }
+
             $event->forceFill([
                 'package_subscription_id' => $subscription->id,
                 'consumed_quota' => true,

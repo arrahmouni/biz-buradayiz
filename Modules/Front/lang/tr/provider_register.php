@@ -17,6 +17,13 @@ return [
     'stats_support_value' => '7/24',
     'stats_support_label' => 'Destek',
 
+    'stats_providers_counter_target' => '500',
+    'stats_providers_counter_suffix' => '+',
+    'stats_rescues_counter_target' => '15',
+    'stats_rescues_counter_suffix' => ' bin+',
+    'stats_rating_counter_target' => '4.8',
+    'stats_rating_counter_suffix' => '★',
+
     'video_kicker' => 'Nasıl çalışır?',
     'video_heading' => 'Sağlayıcı kaydı nasıl işler',
     'video_intro' => 'Plan seçip başvurmadan önce kısa bir özet videosunu izleyin.',

@@ -189,4 +189,5 @@ return [
     'provider_detail_display_name_placeholder' => 'e.g. Alex M.',
     'provider_detail_submit_feedback' => 'Submit feedback',
     'provider_detail_view_profile' => 'View profile',
+    'provider_register_form' => 'Register form',
 ];

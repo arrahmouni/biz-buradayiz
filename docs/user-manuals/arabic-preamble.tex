@@ -1,0 +1,27 @@
+% Arabic PDF: Amiri + RTL. LuaLaTeX (HarfBuzz) gives the most reliable cursive joining; XeTeX needs Script=Arabic (do not use Ligatures=TeX on the Arabic face).
+\usepackage{iftex}
+\ifLuaTeX
+  \usepackage{fontspec}
+  \usepackage{polyglossia}
+  \setdefaultlanguage{arabic}
+  \newfontfamily\arabicfont[Script=Arabic,Renderer=Harfbuzz]{Amiri-Regular.ttf}[
+    Path=fonts/,
+    BoldFont=Amiri-Bold.ttf
+  ]
+  \setmainfont{Amiri-Regular.ttf}[
+    Path=fonts/,
+    BoldFont=Amiri-Bold.ttf,
+    Script=Arabic,
+    Renderer=Harfbuzz
+  ]
+\else
+  \usepackage{fontspec}
+  \setmainfont{Amiri-Regular.ttf}[
+    Path=fonts/,
+    BoldFont=Amiri-Bold.ttf,
+    Script=Arabic,
+    Language=Arabic
+  ]
+  \usepackage{bidi}
+  \setRTL
+\fi
