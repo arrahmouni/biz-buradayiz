@@ -38,6 +38,13 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
 
+      # No .env on the runner: default DB is sqlite at database/database.sqlite.
+      # package:discover boots the app; Schema::hasTable needs that file to exist.
+      - name: Prepare SQLite file for Composer / Artisan
+        run: |
+          mkdir -p database
+          touch database/database.sqlite
+
       - name: Install PHP dependencies (production)
         run: composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader --no-progress
 
