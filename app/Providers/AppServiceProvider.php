@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Sanctum\Sanctum;
 use Modules\Auth\Models\PersonalAccessToken;
@@ -56,6 +57,10 @@ class AppServiceProvider extends ServiceProvider
         });
 
         // $this->checkDebugBar();
+
+        if(! isLocal()){
+            URL::forceScheme('https');
+        }
     }
 
     private function createDirectives()

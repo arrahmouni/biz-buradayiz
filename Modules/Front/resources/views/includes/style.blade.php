@@ -1,4 +1,4 @@
-<script src="https://cdn.tailwindcss.com"></script>
+@vite(['resources/css/app.css'])
 <link rel="stylesheet" href="{{ asset('css/page-loader.css') }}?v={{$_STYLE_VER_}}">
 <link rel="stylesheet" href="{{ asset('modules/front/css/front.css') }}?v={{$_STYLE_VER_}}">
 @php($frontHeroBackgroundImageUrl = getSetting('front_hero_background', config('front.default_hero_background_url')))

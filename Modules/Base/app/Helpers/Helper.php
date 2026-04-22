@@ -16,6 +16,12 @@ if(!function_exists('isDev')){
     }
 }
 
+if(!function_exists('isLocal')){
+    function isLocal(){
+        return app()->environment('local');
+    }
+}
+
 if(!function_exists('createTranslateArray')) {
 
     /**

@@ -79,7 +79,7 @@
             <option value="">{{ __('front::home.city_placeholder') }}</option>
         </select>
     </div>
-    <button type="submit" class="{{ $buttonClass }}">
+    <button type="submit" class="cursor-pointer {{ $buttonClass }}">
         <i class="fas fa-search" aria-hidden="true"></i> {{ __('front::home.search_button') }}
     </button>
 </form>

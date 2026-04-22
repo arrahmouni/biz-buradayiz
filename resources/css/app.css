@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+@source "../views";
+@source "../../Modules/**/resources/views";
+@source "../../Modules/**/resources/assets";
