@@ -70,48 +70,6 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -p ${{ secrets.CLOUDWAYS_SSH_PORT || 22 }} -H ${{ secrets.CLOUDWAYS_SSH_HOST }} >> ~/.ssh/known_hosts
 
-      # Secrets pasted in GitHub often include a trailing newline — that breaks ssh/rsync/cd.
-      - name: Normalize CLOUDWAYS_APP_PATH
-        id: cw_path
-        env:
-          RAW: ${{ secrets.CLOUDWAYS_APP_PATH }}
-        run: |
-          P=$(printf '%s' "$RAW" | tr -d '\r' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
-          if [ -z "$P" ]; then
-            echo "::error::CLOUDWAYS_APP_PATH secret is empty."
-            exit 1
-          fi
-          case "$P" in
-            /*) ;;
-            *)
-              echo "::error::CLOUDWAYS_APP_PATH must be absolute (begin with /)."
-              exit 1
-              ;;
-          esac
-          {
-            echo "deploy_path<<__CW_PATH__"
-            printf '%s\n' "$P"
-            echo "__CW_PATH__"
-          } >> "$GITHUB_OUTPUT"
-
-      # Use sh -c (not bash -lc): login shells on Cloudways can exit or alter env for non-TTY SSH.
-      - name: Verify remote deploy directory exists and is writable
-        env:
-          DEPLOY_PATH: ${{ steps.cw_path.outputs.deploy_path }}
-        run: |
-          set -e
-          REMOTE_CMD=$(printf '%q' "set -e; test -d \"$DEPLOY_PATH\" || exit 2; touch \"$DEPLOY_PATH/.cw-gha-write-check\"; rm -f \"$DEPLOY_PATH/.cw-gha-write-check\"")
-          if ! ssh -p ${{ secrets.CLOUDWAYS_SSH_PORT || 22 }} \
-            -o BatchMode=yes \
-            ${{ secrets.CLOUDWAYS_SSH_USER }}@${{ secrets.CLOUDWAYS_SSH_HOST }} \
-            "sh -c $REMOTE_CMD"; then
-            echo "::error::SSH user cannot open or write to CLOUDWAYS_APP_PATH."
-            echo "Confirm: CLOUDWAYS_SSH_USER matches the account that owns that folder (master vs application)."
-            echo "Master path example: /home/master_xxx/applications/mjezgszqej/public_html"
-            echo "Application user: use the absolute path from Application → Access Details."
-            exit 1
-          fi
-
       - name: Deploy files to Cloudways via rsync
         run: |
           rsync -avz --delete \
@@ -131,14 +89,14 @@ jobs:
             --exclude='.phpunit.result.cache' \
             --exclude='phpunit.xml' \
             -e "ssh -p ${{ secrets.CLOUDWAYS_SSH_PORT || 22 }}" \
-            ./ ${{ secrets.CLOUDWAYS_SSH_USER }}@${{ secrets.CLOUDWAYS_SSH_HOST }}:${{ steps.cw_path.outputs.deploy_path }}/
+            ./ ${{ secrets.CLOUDWAYS_SSH_USER }}@${{ secrets.CLOUDWAYS_SSH_HOST }}:${{ secrets.CLOUDWAYS_APP_PATH }}/
 
       - name: Run post-deploy commands on Cloudways
         run: |
           ssh -p ${{ secrets.CLOUDWAYS_SSH_PORT || 22 }} \
             ${{ secrets.CLOUDWAYS_SSH_USER }}@${{ secrets.CLOUDWAYS_SSH_HOST }} << 'ENDSSH'
             set -e
-            cd ${{ steps.cw_path.outputs.deploy_path }}
+            cd ${{ secrets.CLOUDWAYS_APP_PATH }}
 
             php artisan down --render="errors::503" --retry=30 || true
 
