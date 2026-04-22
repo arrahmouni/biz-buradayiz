@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Modules\Cms\Traits\ContentTrait;
 use Modules\Permission\database\seeders\RoleSeeder;
-use Modules\Permission\trait\PermissionSeederTrait;
+use Modules\Permission\Trait\PermissionSeederTrait;
 use Modules\Permission\Classes\PermissionSeederInitializer;
 class PermissionDatabaseSeeder extends Seeder
 {
