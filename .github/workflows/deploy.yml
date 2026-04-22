@@ -70,10 +70,10 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -p ${{ secrets.CLOUDWAYS_SSH_PORT || 22 }} -H ${{ secrets.CLOUDWAYS_SSH_HOST }} >> ~/.ssh/known_hosts
 
-      # rsync's remote side cannot create the destination if parent dirs are missing.
-      # CLOUDWAYS_APP_PATH must be the full path, e.g.
-      # /home/master_xxxxx/applications/<app-folder>/public_html
-      - name: Ensure remote deploy directory exists
+      # Do not mkdir on the server: Cloudways application SSH users cannot create paths
+      # under /home/master_... (permission denied). Use a path that already exists for
+      # your SSH user (from Application → Access Details, not only Master Credentials).
+      - name: Verify remote deploy directory exists and is writable
         env:
           DEPLOY_PATH: ${{ secrets.CLOUDWAYS_APP_PATH }}
         run: |
@@ -88,9 +88,14 @@ jobs:
               exit 1
               ;;
           esac
-          ssh -p ${{ secrets.CLOUDWAYS_SSH_PORT || 22 }} \
+          if ! ssh -p ${{ secrets.CLOUDWAYS_SSH_PORT || 22 }} \
             ${{ secrets.CLOUDWAYS_SSH_USER }}@${{ secrets.CLOUDWAYS_SSH_HOST }} \
-            "mkdir -p -- \"$DEPLOY_PATH\""
+            "test -d \"$DEPLOY_PATH\" && test -w \"$DEPLOY_PATH\""; then
+            echo "Remote path is missing, or this SSH user cannot write there."
+            echo "Set CLOUDWAYS_APP_PATH to the Laravel root on the server (directory that contains artisan)."
+            echo "Application SSH: use the app path under *.cloudwaysapps.com/.../public_html, not /home/master_.../applications/..."
+            exit 1
+          fi
 
       - name: Deploy files to Cloudways via rsync
         run: |
