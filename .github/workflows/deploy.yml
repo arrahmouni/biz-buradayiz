@@ -1,0 +1,124 @@
+name: Deploy to Production (Cloudways)
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy to Cloudways
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, bcmath, intl, pdo_mysql, redis, gd, zip, exif
+          coverage: none
+          tools: composer:v2
+
+      - name: Validate composer files
+        run: composer validate --strict --no-check-publish
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install PHP dependencies (production)
+        run: composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader --no-progress
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Build frontend assets
+        run: npm run build
+
+      - name: Setup SSH key
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.CLOUDWAYS_SSH_PRIVATE_KEY }}
+
+      - name: Add Cloudways host to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -p ${{ secrets.CLOUDWAYS_SSH_PORT || 22 }} -H ${{ secrets.CLOUDWAYS_SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy files to Cloudways via rsync
+        run: |
+          rsync -avz --delete \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='node_modules' \
+            --exclude='tests' \
+            --exclude='.env' \
+            --exclude='.env.example' \
+            --exclude='.env.testing' \
+            --exclude='.env.testing.example' \
+            --exclude='storage/app/public' \
+            --exclude='storage/logs' \
+            --exclude='storage/framework/cache/*' \
+            --exclude='storage/framework/sessions/*' \
+            --exclude='storage/framework/views/*' \
+            --exclude='.phpunit.result.cache' \
+            --exclude='phpunit.xml' \
+            -e "ssh -p ${{ secrets.CLOUDWAYS_SSH_PORT || 22 }}" \
+            ./ ${{ secrets.CLOUDWAYS_SSH_USER }}@${{ secrets.CLOUDWAYS_SSH_HOST }}:${{ secrets.CLOUDWAYS_APP_PATH }}/
+
+      - name: Run post-deploy commands on Cloudways
+        run: |
+          ssh -p ${{ secrets.CLOUDWAYS_SSH_PORT || 22 }} \
+            ${{ secrets.CLOUDWAYS_SSH_USER }}@${{ secrets.CLOUDWAYS_SSH_HOST }} << 'ENDSSH'
+            set -e
+            cd ${{ secrets.CLOUDWAYS_APP_PATH }}
+
+            php artisan down --render="errors::503" --retry=30 || true
+
+            php artisan storage:link || true
+
+            php artisan migrate --force
+
+            php artisan release:init
+
+            php artisan config:clear
+            php artisan cache:clear
+            php artisan route:clear
+            php artisan view:clear
+
+            php artisan config:cache
+            php artisan route:cache
+            php artisan view:cache
+            php artisan event:cache
+
+            php artisan queue:restart || true
+
+            php artisan up
+          ENDSSH
+
+      - name: Notify deployment status
+        if: always()
+        run: |
+          if [ "${{ job.status }}" = "success" ]; then
+            echo "Deployment succeeded."
+          else
+            echo "Deployment failed."
+          fi
