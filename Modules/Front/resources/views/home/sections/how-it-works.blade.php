@@ -7,23 +7,23 @@
         </div>
 
         <div class="grid md:grid-cols-3 gap-8 lg:gap-12 js-front-reveal-group front-reveal-group">
-            <div class="text-center p-6 rounded-2xl bg-gray-50 shadow-sm card-hover transition-smooth front-reveal-child">
-                <div class="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-5">
-                    <i class="fas fa-map-marked-alt text-red-600 text-3xl"></i>
+            <div class="text-center p-6 rounded-2xl bg-gray-50 shadow-sm card-hover transition-smooth step-card front-reveal-child">
+                <div class="step-card__icon-wrap w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-5">
+                    <i class="step-card__icon fas fa-map-marked-alt text-red-600 text-3xl"></i>
                 </div>
                 <h3 class="text-xl font-bold text-gray-800">{{ __('front::home.step1_title') }}</h3>
                 <p class="text-gray-600 mt-2">{{ __('front::home.step1_desc') }}</p>
             </div>
-            <div class="text-center p-6 rounded-2xl bg-gray-50 shadow-sm card-hover transition-smooth front-reveal-child">
-                <div class="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-5">
-                    <i class="fas fa-handshake text-red-600 text-3xl"></i>
+            <div class="text-center p-6 rounded-2xl bg-gray-50 shadow-sm card-hover transition-smooth step-card front-reveal-child">
+                <div class="step-card__icon-wrap w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-5">
+                    <i class="step-card__icon fas fa-handshake text-red-600 text-3xl"></i>
                 </div>
                 <h3 class="text-xl font-bold text-gray-800">{{ __('front::home.step2_title') }}</h3>
                 <p class="text-gray-600 mt-2">{{ __('front::home.step2_desc') }}</p>
             </div>
-            <div class="text-center p-6 rounded-2xl bg-gray-50 shadow-sm card-hover transition-smooth front-reveal-child">
-                <div class="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-5">
-                    <i class="fas fa-car-crash text-red-600 text-3xl"></i>
+            <div class="text-center p-6 rounded-2xl bg-gray-50 shadow-sm card-hover transition-smooth step-card front-reveal-child">
+                <div class="step-card__icon-wrap w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-5">
+                    <i class="step-card__icon fas fa-car-crash text-red-600 text-3xl"></i>
                 </div>
                 <h3 class="text-xl font-bold text-gray-800">{{ __('front::home.step3_title') }}</h3>
                 <p class="text-gray-600 mt-2">{{ __('front::home.step3_desc') }}</p>
