@@ -14,11 +14,10 @@ class PlatformDatabaseSeeder extends Seeder
         $this->call([
             ServiceSeeder::class,
             PackageSeeder::class,
+            StaticDemoServiceProviderSeeder::class,
             ServiceProviderListingSeeder::class,
             PackageSubscriptionSeeder::class,
             ReviewSeeder::class,
-            StaticDemoServiceProviderSeeder::class,
-            
         ]);
 
     }
