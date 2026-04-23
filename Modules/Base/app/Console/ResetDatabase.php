@@ -3,9 +3,11 @@
 namespace Modules\Base\Console;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Nwidart\Modules\Facades\Module;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 class ResetDatabase extends Command
 {
@@ -40,6 +42,10 @@ class ResetDatabase extends Command
 
         $this->call('migrate:fresh');
 
+        $this->info('Cleaning uploaded files...');
+        $this->cleanUploadedFiles();
+        $this->info('Uploaded files cleaned successfully.');
+
         $this->call('module:seed', [
             'module' => 'Permission',
         ]);
@@ -70,6 +76,37 @@ class ResetDatabase extends Command
         $this->alert('Please run "php artisan key:generate" to generate a new key (if needed)');
         $this->alert('Please run "php artisan storage:link" to create symbolic links (if needed)');
         $this->alert('You must execute this command if there is a queue that needs to be started. Please run "php artisan queue:work"');
+    }
+
+    /**
+     * Remove all user-uploaded files from public/media and storage/app/public.
+     */
+    protected function cleanUploadedFiles(): void
+    {
+        $directories = [
+            public_path('media'),
+            storage_path('app/public'),
+        ];
+
+        $preserve = ['.gitignore', '.gitkeep'];
+
+        foreach ($directories as $directory) {
+            if (!File::isDirectory($directory)) {
+                continue;
+            }
+
+            foreach (File::files($directory) as $file) {
+                if (!in_array($file->getFilename(), $preserve)) {
+                    File::delete($file->getPathname());
+                }
+            }
+
+            foreach (File::directories($directory) as $subDirectory) {
+                File::deleteDirectory($subDirectory);
+            }
+
+            $this->info("Cleaned: {$directory}");
+        }
     }
 
     /**
