@@ -6,7 +6,7 @@ final class SystemDefaultRoles
 {
     const ROOT_ROLE = 'ROOT';
 
-    const SYSTEM_ADMIN_ROLE = 'SUPER_ADMIN';
+    const SYSTEM_ADMIN_ROLE = 'SYSTEM_ADMIN';
 
     public static function all()
     {
