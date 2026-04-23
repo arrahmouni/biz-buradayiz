@@ -65,28 +65,6 @@ class StaticDemoServiceProviderSeeder extends Seeder
 
         $this->seedDemoAvatar($user);
 
-        Address::query()->updateOrCreate(
-            [
-                'user_id' => $user->id,
-                'is_default' => true,
-            ],
-            [
-                'country_id' => $city->state->country_id,
-                'state_id' => $city->state_id,
-                'city_id' => $city->id,
-                'title' => 'Merkez Ofis',
-                'first_name' => 'Demo',
-                'last_name' => 'Yetkili',
-                'phone_number' => '+9034221112233',
-                'email' => 'ofis@demo-hizmet.local',
-                'building' => '12',
-                'street' => 'Atatürk Bulvarı',
-                'floor' => '3',
-                'apartment' => '5',
-                'address' => 'Şehitkamil',
-            ]
-        );
-
         $user->packageSubscriptions()->delete();
         $user->reviews()->forceDelete();
 
@@ -201,17 +179,18 @@ class StaticDemoServiceProviderSeeder extends Seeder
 
     private function seedDemoAvatar(User $user): void
     {
-        $avatarDir = public_path('modules/admin/metronic/demo/media/avatars');
-        $avatars = glob($avatarDir.'/*.jpg') ?: [];
+        $avatarPath = public_path('modules/admin/metronic/demo/media/avatars/300-1.jpg');
 
-        if ($avatars === []) {
+        if (! is_file($avatarPath)) {
             return;
         }
 
         $user->clearMediaCollection(User::MEDIA_COLLECTION);
 
-        $user->addMedia(fake()->randomElement($avatars))
+        $user->addMedia($avatarPath)
             ->preservingOriginal()
             ->toMediaCollection(User::MEDIA_COLLECTION);
     }
 }
+
+
