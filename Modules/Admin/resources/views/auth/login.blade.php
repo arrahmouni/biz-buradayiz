@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{{ Module::asset('admin:global/css/admin-login.css') }}?v={{ $_STYLE_VER_ }}">
     <style>
         .admin-modern-login-page .admin-login-background-section {
-            background-image: url('{{ asset('modules/admin/metronic/demo/media/patterns/A7.png') }}');
+            background-image: url('{{ asset('modules/admin/metronic/demo/media/patterns/A7.webp') }}');
         }
     </style>
 @endpush

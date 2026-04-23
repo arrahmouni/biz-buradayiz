@@ -8,7 +8,7 @@ return [
     | Public site hero background (default when setting has no upload)
     |--------------------------------------------------------------------------
     */
-    'default_hero_background_url' => asset('images/default/hero_background.jpeg'),
+    'default_hero_background_url' => asset('images/default/hero_background.webp'),
 
     /*
     |--------------------------------------------------------------------------

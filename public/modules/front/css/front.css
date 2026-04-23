@@ -31,7 +31,7 @@ html {
 
 .front-auth-page--pattern-a7 {
     background-color: #f3f4f6;
-    background-image: linear-gradient(rgba(217, 67, 80, 0.93), rgba(243, 244, 246, 0.92)), url('../../admin/metronic/demo/media/patterns/A7.png');
+    background-image: linear-gradient(rgba(217, 67, 80, 0.93), rgba(243, 244, 246, 0.92)), url('../../admin/metronic/demo/media/patterns/A7.webp');
     background-position: center;
     background-size: cover;
 }

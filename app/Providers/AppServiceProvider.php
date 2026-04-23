@@ -2,19 +2,24 @@
 
 namespace App\Providers;
 
+use App\Console\Commands\LocalizedRouteCacheCommand;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Foundation\Console\RouteCacheCommand;
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider as FrameworkRouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Sanctum\Sanctum;
+use Mcamara\LaravelLocalization\Traits\LoadsTranslatedCachedRoutes;
 use Modules\Auth\Models\PersonalAccessToken;
 use Modules\Permission\Models\Ability;
 use Modules\Permission\Models\Role;
@@ -22,16 +27,34 @@ use Silber\Bouncer\BouncerFacade;
 
 class AppServiceProvider extends ServiceProvider
 {
+    use LoadsTranslatedCachedRoutes;
+
+    private static bool $localizedCachedRoutesLoaderRegistered = false;
+
     /**
      * Register any application services.
      */
-    public function register(): void {}
+    public function register(): void
+    {
+        FrameworkRouteServiceProvider::loadCachedRoutesUsing(function () {
+            if (self::$localizedCachedRoutesLoaderRegistered) {
+                return;
+            }
+            self::$localizedCachedRoutesLoaderRegistered = true;
+
+            $this->loadCachedRoutes();
+        });
+    }
 
     /**
      * Bootstrap any application services.
      */
     public function boot(): void
     {
+        $this->app->singleton(RouteCacheCommand::class, function ($app) {
+            return new LocalizedRouteCacheCommand($app['files']);
+        });
+
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
@@ -56,6 +79,10 @@ class AppServiceProvider extends ServiceProvider
         });
 
         // $this->checkDebugBar();
+
+        if (! isLocal()) {
+            URL::forceScheme('https');
+        }
     }
 
     private function createDirectives()

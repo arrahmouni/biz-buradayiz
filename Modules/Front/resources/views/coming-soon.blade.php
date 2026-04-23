@@ -25,7 +25,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="{{ $faviconUrl }}" type="image/png">
     <title>{{ __('coming_soon.page_title') }}</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    @vite(['resources/css/app.css'])
 </head>
 <body class="relative min-h-screen overflow-x-hidden antialiased">
     <div class="pointer-events-none fixed inset-0 -z-10" aria-hidden="true">
@@ -51,29 +51,29 @@
                     <p class="max-w-xl text-lg leading-relaxed text-gray-600 md:text-xl">
                         {{ __('coming_soon.tagline') }}
                     </p>
-                    <p class="mt-4 max-w-xl text-base leading-relaxed text-gray-600 md:text-lg">
+                    {{-- <p class="mt-4 max-w-xl text-base leading-relaxed text-gray-600 md:text-lg">
                         {{ __('coming_soon.description') }}
-                    </p>
+                    </p> --}}
                 </div>
 
                 @if ($launchAtMs !== null)
                     <div id="coming-soon-countdown" data-launch-ms="{{ $launchAtMs }}" class="space-y-4">
-                        <div id="countdown-active" class="flex flex-wrap gap-4">
-                            <div class="countdown-box min-w-[110px] rounded-3xl border border-red-100 bg-white px-6 py-7 text-center shadow-xl">
-                                <div class="countdown-days text-4xl font-black text-red-600 tabular-nums">00</div>
-                                <div class="mt-2 text-sm text-gray-500">{{ __('coming_soon.days') }}</div>
+                        <div id="countdown-active" class="flex w-full min-w-0 flex-nowrap items-stretch justify-center gap-2 sm:gap-4">
+                            <div class="countdown-box min-w-0 flex-1 basis-0 rounded-2xl border border-red-100 bg-white px-2 py-4 text-center shadow-xl sm:rounded-3xl sm:px-4 sm:py-6 md:px-6 md:py-7">
+                                <div class="countdown-days text-2xl font-black text-red-600 tabular-nums sm:text-3xl md:text-4xl">00</div>
+                                <div class="mt-1 text-xs text-gray-500 sm:mt-2 sm:text-sm">{{ __('coming_soon.days') }}</div>
                             </div>
-                            <div class="countdown-box min-w-[110px] rounded-3xl border border-red-100 bg-white px-6 py-7 text-center shadow-xl">
-                                <div class="countdown-hours text-4xl font-black text-red-600 tabular-nums">00</div>
-                                <div class="mt-2 text-sm text-gray-500">{{ __('coming_soon.hours') }}</div>
+                            <div class="countdown-box min-w-0 flex-1 basis-0 rounded-2xl border border-red-100 bg-white px-2 py-4 text-center shadow-xl sm:rounded-3xl sm:px-4 sm:py-6 md:px-6 md:py-7">
+                                <div class="countdown-hours text-2xl font-black text-red-600 tabular-nums sm:text-3xl md:text-4xl">00</div>
+                                <div class="mt-1 text-xs text-gray-500 sm:mt-2 sm:text-sm">{{ __('coming_soon.hours') }}</div>
                             </div>
-                            <div class="countdown-box min-w-[110px] rounded-3xl border border-red-100 bg-white px-6 py-7 text-center shadow-xl">
-                                <div class="countdown-minutes text-4xl font-black text-red-600 tabular-nums">00</div>
-                                <div class="mt-2 text-sm text-gray-500">{{ __('coming_soon.minutes') }}</div>
+                            <div class="countdown-box min-w-0 flex-1 basis-0 rounded-2xl border border-red-100 bg-white px-2 py-4 text-center shadow-xl sm:rounded-3xl sm:px-4 sm:py-6 md:px-6 md:py-7">
+                                <div class="countdown-minutes text-2xl font-black text-red-600 tabular-nums sm:text-3xl md:text-4xl">00</div>
+                                <div class="mt-1 text-xs text-gray-500 sm:mt-2 sm:text-sm">{{ __('coming_soon.minutes') }}</div>
                             </div>
-                            <div class="countdown-box min-w-[110px] rounded-3xl border border-red-100 bg-white px-6 py-7 text-center shadow-xl">
-                                <div class="countdown-seconds text-4xl font-black text-red-600 tabular-nums">00</div>
-                                <div class="mt-2 text-sm text-gray-500">{{ __('coming_soon.seconds') }}</div>
+                            <div class="countdown-box min-w-0 flex-1 basis-0 rounded-2xl border border-red-100 bg-white px-2 py-4 text-center shadow-xl sm:rounded-3xl sm:px-4 sm:py-6 md:px-6 md:py-7">
+                                <div class="countdown-seconds text-2xl font-black text-red-600 tabular-nums sm:text-3xl md:text-4xl">00</div>
+                                <div class="mt-1 text-xs text-gray-500 sm:mt-2 sm:text-sm">{{ __('coming_soon.seconds') }}</div>
                             </div>
                         </div>
                         <p id="countdown-launched" class="hidden rounded-3xl border border-green-200 bg-green-50 px-6 py-4 text-center font-semibold text-green-800">

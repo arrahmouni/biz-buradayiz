@@ -2,15 +2,12 @@
 
 namespace Modules\Platform\Providers;
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-use Mcamara\LaravelLocalization\Traits\LoadsTranslatedCachedRoutes;
+use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class RouteServiceProvider extends ServiceProvider
 {
-    use LoadsTranslatedCachedRoutes;
-
     protected string $name = 'Platform';
 
     protected string $moduleNamespace = 'Modules\Platform\Http\Controllers';
@@ -45,10 +42,10 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapWebRoutes(): void
     {
         Route::middleware(['web', 'locale'])
-        ->namespace($this->moduleNamespace)
-        ->prefix(LaravelLocalization::setLocale() . '/admin')
-        ->name('platform.')
-        ->group(module_path('Platform', '/routes/web.php'));
+            ->namespace($this->moduleNamespace)
+            ->prefix(LaravelLocalization::setLocale().'/admin')
+            ->name('platform.')
+            ->group(module_path('Platform', '/routes/web.php'));
     }
 
     /**
@@ -58,9 +55,9 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes(): void
     {
-        Route::prefix('api/' . config('app.api_version'))
-        ->middleware('api')
-        ->namespace($this->moduleNamespace)
-        ->group(module_path('Platform', '/routes/api.php'));
+        Route::prefix('api/'.config('app.api_version'))
+            ->middleware('api')
+            ->namespace($this->moduleNamespace)
+            ->group(module_path('Platform', '/routes/api.php'));
     }
 }
