@@ -5,12 +5,9 @@ namespace Modules\Notification\Providers;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
-use Mcamara\LaravelLocalization\Traits\LoadsTranslatedCachedRoutes;
 
 class RouteServiceProvider extends ServiceProvider
 {
-    use LoadsTranslatedCachedRoutes;
-
     /**
      * The module namespace to assume when generating URLs to actions.
      */

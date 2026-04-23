@@ -5,12 +5,9 @@ namespace Modules\Verimor\Providers;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
-use Mcamara\LaravelLocalization\Traits\LoadsTranslatedCachedRoutes;
 
 class RouteServiceProvider extends ServiceProvider
 {
-    use LoadsTranslatedCachedRoutes;
-
     protected string $name = 'Verimor';
 
     protected string $moduleNamespace = 'Modules\Verimor\Http\Controllers';

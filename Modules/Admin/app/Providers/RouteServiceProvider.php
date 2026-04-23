@@ -2,15 +2,12 @@
 
 namespace Modules\Admin\Providers;
 
-use Illuminate\Support\Facades\Route;
-use Mcamara\LaravelLocalization\Traits\LoadsTranslatedCachedRoutes;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class RouteServiceProvider extends ServiceProvider
 {
-    use LoadsTranslatedCachedRoutes;
-
     public const ADMIN_HOME = '/admin/dashboard';
 
     /**
@@ -49,7 +46,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::middleware(['web', 'locale'])
             ->namespace($this->moduleNamespace)
-            ->prefix(LaravelLocalization::setLocale() . '/admin')
+            ->prefix(LaravelLocalization::setLocale().'/admin')
             ->name('admin.')
             ->group(module_path('Admin', '/routes/web.php'));
     }

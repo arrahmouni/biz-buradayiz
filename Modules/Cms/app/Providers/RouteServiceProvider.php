@@ -2,15 +2,12 @@
 
 namespace Modules\Cms\Providers;
 
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
-use Mcamara\LaravelLocalization\Traits\LoadsTranslatedCachedRoutes;
-use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
 class RouteServiceProvider extends ServiceProvider
 {
-    use LoadsTranslatedCachedRoutes;
-
     /**
      * The module namespace to assume when generating URLs to actions.
      */
@@ -47,7 +44,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::middleware(['web', 'locale'])
             ->namespace($this->moduleNamespace)
-            ->prefix(LaravelLocalization::setLocale() . '/admin')
+            ->prefix(LaravelLocalization::setLocale().'/admin')
             ->name('cms.')
             ->group(module_path('Cms', '/routes/web.php'));
     }
@@ -59,7 +56,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes(): void
     {
-        Route::prefix('api/' . config('app.api_version'))
+        Route::prefix('api/'.config('app.api_version'))
             ->middleware('api')
             ->namespace($this->moduleNamespace)
             ->group(module_path('Cms', '/routes/api.php'));

@@ -2,15 +2,12 @@
 
 namespace Modules\Config\Providers;
 
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
-use Mcamara\LaravelLocalization\Traits\LoadsTranslatedCachedRoutes;
-use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
 class RouteServiceProvider extends ServiceProvider
 {
-    use LoadsTranslatedCachedRoutes;
-
     /**
      * The module namespace to assume when generating URLs to actions.
      */
@@ -45,7 +42,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::middleware(['web', 'locale'])
             ->namespace($this->moduleNamespace)
-            ->prefix(LaravelLocalization::setLocale() . '/admin')
+            ->prefix(LaravelLocalization::setLocale().'/admin')
             ->name('config.')
             ->group(module_path('Config', '/routes/web.php'));
     }

@@ -2,15 +2,12 @@
 
 namespace Modules\Front\Providers;
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
-use Mcamara\LaravelLocalization\Traits\LoadsTranslatedCachedRoutes;
 
 class RouteServiceProvider extends ServiceProvider
 {
-    use LoadsTranslatedCachedRoutes;
-
     protected string $name = 'Front';
 
     protected string $moduleNamespace = 'Modules\Front\Http\Controllers';
@@ -42,10 +39,10 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapWebRoutes(): void
     {
         Route::middleware(['web', 'locale'])
-        ->namespace($this->moduleNamespace)
-        ->prefix(LaravelLocalization::setLocale())
-        ->name('front.')
-        ->group(module_path($this->name, '/routes/web.php'));
+            ->namespace($this->moduleNamespace)
+            ->prefix(LaravelLocalization::setLocale())
+            ->name('front.')
+            ->group(module_path($this->name, '/routes/web.php'));
     }
 
     /**
@@ -55,9 +52,9 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes(): void
     {
-        Route::prefix('api/' . config('app.api_version'))
-        ->middleware('api')
-        ->namespace($this->moduleNamespace)
-        ->group(module_path($this->name, '/routes/api.php'));
+        Route::prefix('api/'.config('app.api_version'))
+            ->middleware('api')
+            ->namespace($this->moduleNamespace)
+            ->group(module_path($this->name, '/routes/api.php'));
     }
 }
