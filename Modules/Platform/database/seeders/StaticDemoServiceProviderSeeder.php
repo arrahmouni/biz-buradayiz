@@ -192,3 +192,5 @@ class StaticDemoServiceProviderSeeder extends Seeder
             ->toMediaCollection(User::MEDIA_COLLECTION);
     }
 }
+
+
