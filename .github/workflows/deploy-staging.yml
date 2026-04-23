@@ -44,7 +44,7 @@ jobs:
           touch database/database.sqlite
 
       - name: Install PHP dependencies (production)
-        run: composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader --no-progress
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader --no-progress
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
