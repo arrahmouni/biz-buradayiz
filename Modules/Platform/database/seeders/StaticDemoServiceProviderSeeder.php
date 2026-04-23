@@ -20,12 +20,12 @@ class StaticDemoServiceProviderSeeder extends Seeder
 {
     public function run(): void
     {
-        $email = env('SEED_DEMO_SERVICE_PROVIDER_EMAIL');
-        $password = env('SEED_DEMO_SERVICE_PROVIDER_PASSWORD');
+        $email = config('platform.seeders.demo_service_provider_email');
+        $password = config('platform.seeders.demo_service_provider_password');
 
         if (! filled($email) || ! filled($password)) {
             if ($this->command !== null) {
-                $this->command->warn('Skipping static demo service provider: set SEED_DEMO_SERVICE_PROVIDER_EMAIL and SEED_DEMO_SERVICE_PROVIDER_PASSWORD in .env.');
+                $this->command->warn('Skipping static demo service provider: set SEED_DEMO_SERVICE_PROVIDER_EMAIL and SEED_DEMO_SERVICE_PROVIDER_PASSWORD in .env to populate platform.seeders config.');
             }
 
             return;

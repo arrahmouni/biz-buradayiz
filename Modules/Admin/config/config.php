@@ -11,4 +11,10 @@ return [
         'users'                 => 'users',
         'admins'                => 'admins',
     ],
+    'seeders'                   => [
+        'root_email'            => env('ROOT_ADMIN_EMAIL'),
+        'root_password'         => env('ROOT_ADMIN_PASSWORD'),
+        'system_admin_email'    => env('SYSTEM_ADMIN_EMAIL'),
+        'system_admin_password' => env('SYSTEM_ADMIN_PASSWORD'),
+    ],
 ];

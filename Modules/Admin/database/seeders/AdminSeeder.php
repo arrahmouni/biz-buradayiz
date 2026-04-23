@@ -26,15 +26,15 @@ class AdminSeeder extends Seeder
             SystemDefaultRoles::ROOT_ROLE => [
                 'full_name' => 'Root',
                 'username'  => 'root',
-                'email'     => env('ROOT_ADMIN_EMAIL'),
-                'password'  => env('ROOT_ADMIN_PASSWORD'),
+                'email'     => config('admin.seeders.root_email'),
+                'password'  => config('admin.seeders.root_password'),
                 'gender'    => Gender::MALE,
             ],
             SystemDefaultRoles::SYSTEM_ADMIN_ROLE  => [
                 'full_name' => 'System Admin',
                 'username'  => 'admin',
-                'email'     => env('SYSTEM_ADMIN_EMAIL'),
-                'password'  => env('SYSTEM_ADMIN_PASSWORD'),
+                'email'     => config('admin.seeders.system_admin_email'),
+                'password'  => config('admin.seeders.system_admin_password'),
                 'gender'    => Gender::MALE,
             ],
         ];
