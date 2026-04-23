@@ -4,43 +4,48 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
-if(!function_exists('isProd')){
-    function isProd(){
+if (! function_exists('isProd')) {
+    function isProd()
+    {
         return app()->environment('production');
     }
 }
 
-if(!function_exists('isDev')){
-    function isDev(){
+if (! function_exists('isDev')) {
+    function isDev()
+    {
         return app()->environment('local') || app()->environment('development') || app()->environment('staging');
     }
 }
 
-if(!function_exists('isLocal')){
-    function isLocal(){
+if (! function_exists('isLocal')) {
+    function isLocal()
+    {
         return app()->environment('local');
     }
 }
 
-if(!function_exists('createTranslateArray')) {
+if (! function_exists('isStaging')) {
+    function isStaging(): bool
+    {
+        return app()->environment('staging');
+    }
+}
+
+if (! function_exists('createTranslateArray')) {
 
     /**
      * To Create Translation Array To Insert Directly When Creating Model
      * ex: ['en' => ['title' => 'Test'], 'ar' => ['title', 'تجربة']]
-     *
-     * @param  string  $field
-     * @param  string  $key
-     *
-     * @return array
      */
-    function createTranslateArray(string $field = 'title', string $key, string $module = 'permission') : array
+    function createTranslateArray(string $field, string $key, string $module = 'permission'): array
     {
         $translatedData = [];
         $locales = config('translatable.locales', LaravelLocalization::getSupportedLanguagesKeys());
 
-        foreach($locales as $langCode) {
+        foreach ($locales as $langCode) {
             $translatedData[$langCode] = [
-                $field => trans("{$module}::" . $key, [], $langCode)
+                $field => trans("{$module}::".$key, [], $langCode),
             ];
         }
 
@@ -48,7 +53,7 @@ if(!function_exists('createTranslateArray')) {
     }
 }
 
-if(!function_exists('getRandomColorPair')) {
+if (! function_exists('getRandomColorPair')) {
 
     /**
      * Get Random Color Pair
@@ -58,35 +63,30 @@ if(!function_exists('getRandomColorPair')) {
     function getRandomColorPair()
     {
         $colors = [
-            ['bg-light-danger'  , 'text-danger'],
-            ['bg-light-primary' , 'text-primary'],
-            ['bg-light-success' , 'text-success'],
-            ['bg-light-info'    , 'text-info'],
-            ['bg-light-warning' , 'text-warning'],
-            ['bg-light-dark'    , 'text-dark'],
+            ['bg-light-danger', 'text-danger'],
+            ['bg-light-primary', 'text-primary'],
+            ['bg-light-success', 'text-success'],
+            ['bg-light-info', 'text-info'],
+            ['bg-light-warning', 'text-warning'],
+            ['bg-light-dark', 'text-dark'],
         ];
 
         return $colors[array_rand($colors)];
     }
 }
 
-if(!function_exists('getFormattedDate')) {
+if (! function_exists('getFormattedDate')) {
 
     /**
      * Get Formatted Date
-     *
-     * @param  string  $date
-     * @param  string  $format
-     *
-     * @return string
      */
-    function getFormattedDate(string|null $date, string $format = 'Y-m-d H:i:s') : string
+    function getFormattedDate(?string $date, string $format = 'Y-m-d H:i:s'): string
     {
-        return !empty($date) ? Carbon::parse($date)->locale(app()->getLocale())->translatedFormat($format) : DEFAULT_DATE;
+        return ! empty($date) ? Carbon::parse($date)->locale(app()->getLocale())->translatedFormat($format) : DEFAULT_DATE;
     }
 }
 
-if(!function_exists('getFileUrl')) {
+if (! function_exists('getFileUrl')) {
 
     function getFileUrl($path, $default = null, $disk = 'public')
     {
@@ -100,29 +100,25 @@ if(!function_exists('getFileUrl')) {
     }
 }
 
-if(!function_exists('getImageTypes')) {
+if (! function_exists('getImageTypes')) {
 
     /**
      * Get Image Types For Img Tag
-     *
-     * @param  array  $types
-     *
-     * @return string
      */
-    function getImageTypes(bool $forDisplay = false, array $types = []) : string
+    function getImageTypes(bool $forDisplay = false, array $types = []): string
     {
         $types = empty($types) ? config('base.file.image.accepted_types') : $types;
 
-        if($forDisplay) {
-            return implode(' | ', array_map(function($type) {
-                return '.' . $type;
+        if ($forDisplay) {
+            return implode(' | ', array_map(function ($type) {
+                return '.'.$type;
             }, $types));
         }
 
-        return implode(', ', array_map(function($type) {
+        return implode(', ', array_map(function ($type) {
             return match ($type) {
                 'svg' => 'image/svg+xml',
-                default => 'image/' . $type,
+                default => 'image/'.$type,
             };
         }, $types));
     }

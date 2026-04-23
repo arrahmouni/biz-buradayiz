@@ -28,3 +28,7 @@
 
 <!-- Font Awesome (Its temproray exists when update metronic we must remove this)-->
 <link href="{{ asset('fontawesome-free-6.6.0-web/css/all.min.css') }}?v={{$_STYLE_VER_}}" rel="stylesheet" type="text/css">
+@if (isStaging())
+    {{-- After Metronic bundle so #kt_header / #kt_aside / #kt_toolbar offsets win the cascade --}}
+    <link rel="stylesheet" href="{{ asset('css/staging-environment-banner.css') }}?v={{$_STYLE_VER_}}" type="text/css">
+@endif

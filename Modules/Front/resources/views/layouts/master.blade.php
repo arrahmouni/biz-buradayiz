@@ -12,8 +12,9 @@
 
 </head>
 
-<body class="bg-gray-50 text-gray-800">
+<body @class(['bg-gray-50', 'text-gray-800', 'app-env-staging' => isStaging()])>
 
+    @include('partials.staging-environment-banner')
     @include('partials.page-loader')
 
     @include('front::includes.navbar')

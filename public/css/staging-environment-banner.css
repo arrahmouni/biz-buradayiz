@@ -1,0 +1,118 @@
+/* Staging (APP_ENV=staging) — “beta / pipeline” top bar (above page loader) */
+:root {
+    --app-staging-banner-height: 2.5rem;
+}
+
+body.app-env-staging {
+    padding-top: var(--app-staging-banner-height, 2.5rem);
+    box-sizing: border-box;
+}
+
+/* Sticky header must stick below the fixed bar, not at viewport top: 0 (see /js/staging-environment-banner.js for exact height) */
+body.app-env-staging nav.site-header {
+    top: var(--app-staging-banner-height, 2.5rem);
+}
+
+.app-staging-environment-banner {
+    --staging-bar-accent: #22d3ee;
+    --staging-bar-accent-dim: rgba(34, 211, 238, 0.35);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000000;
+    width: 100%;
+    box-sizing: border-box;
+    background: linear-gradient(95deg, #0b1020 0%, #111827 40%, #0f172a 100%);
+    border-bottom: 1px solid var(--staging-bar-accent-dim);
+    box-shadow:
+        0 1px 0 rgba(15, 23, 42, 0.9) inset,
+        0 8px 32px rgba(0, 0, 0, 0.35);
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    color: #cbd5e1;
+}
+
+.app-staging-environment-banner::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, var(--staging-bar-accent) 0%, #6366f1 50%, #a855f7 100%);
+    pointer-events: none;
+}
+
+.app-staging-environment-banner__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem 0.9rem;
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 0.42rem 1.25rem 0.45rem 1.35rem;
+    text-align: center;
+}
+
+.app-staging-environment-banner__label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+    border: 1px solid var(--staging-bar-accent-dim);
+    background: linear-gradient(145deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 27, 75, 0.65) 100%);
+    color: #a5f3fc;
+    font-weight: 700;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25) inset, 0 0 20px rgba(34, 211, 238, 0.12);
+}
+
+.app-staging-environment-banner__sep {
+    display: inline-block;
+    width: 1px;
+    min-height: 0.9rem;
+    align-self: stretch;
+    background: linear-gradient(180deg, transparent, rgba(148, 163, 184, 0.45), transparent);
+    flex-shrink: 0;
+}
+
+.app-staging-environment-banner__text {
+    flex: 1 1 14rem;
+    max-width: 52rem;
+    color: #e2e8f0;
+    font-weight: 500;
+    font-size: 0.8125rem;
+}
+
+/* Softer, readable secondary line on very small viewports (wrap keeps one block) */
+@media (max-width: 24rem) {
+    .app-staging-environment-banner__sep {
+        display: none;
+    }
+}
+
+/* Control panel (Metronic): style.bundle set top:0 — this file loads last in admin::includes.style */
+/* --app-staging-kt-header-stack-top = banner + #kt_header height (set in staging-environment-banner.js) */
+body#kt_body.app-env-staging #kt_header {
+    top: var(--app-staging-banner-height, 2.5rem) !important;
+}
+
+body#kt_body.app-env-staging #kt_aside {
+    top: var(--app-staging-banner-height, 2.5rem) !important;
+    bottom: 0 !important;
+    height: auto !important;
+}
+
+body#kt_body.app-env-staging.toolbar-fixed #kt_toolbar {
+    top: var(
+        --app-staging-kt-header-stack-top,
+        calc(var(--app-staging-banner-height, 2.5rem) + 4.125rem)
+    ) !important;
+}
+

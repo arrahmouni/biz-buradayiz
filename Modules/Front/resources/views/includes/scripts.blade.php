@@ -1,6 +1,9 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="{{ asset('js/page-loader.js') }}?v={{$_STYLE_VER_}}"></script>
+@if (isStaging())
+    <script src="{{ asset('js/staging-environment-banner.js') }}?v={{$_STYLE_VER_}}"></script>
+@endif
 
 <script>
     const menuBtn = document.getElementById('menuBtn');

@@ -16,7 +16,8 @@
 
     @include('admin::errors.layouts.style')
 </head>
-<body>
+<body @class(['app-env-staging' => isStaging()])>
+    @include('partials.staging-environment-banner')
     <div class="container">
         @yield('content')
     </div>

@@ -21,8 +21,9 @@
 	<!--end::Head-->
 
 	<!--begin::Body-->
-	<body id="kt_body" class="admin-modern-login-page">
+	<body id="kt_body" @class(['admin-modern-login-page', 'app-env-staging' => isStaging()])>
 
+        @include('partials.staging-environment-banner')
         @include('partials.page-loader')
 
 		<div class="d-flex flex-column flex-root flex-root-modern">

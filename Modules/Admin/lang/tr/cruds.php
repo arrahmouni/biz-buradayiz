@@ -348,7 +348,7 @@ return [
         'free_tier_badge' => 'Ücretsiz',
         'standard_tier_badge' => 'Standart',
         'popular_badge' => 'Popüler',
-        'not_popular_badge' => 'Vurgulanmıyor',
+        'not_popular_badge' => 'Popüler değil',
         'billing_periods' => [
             'monthly' => 'Aylık',
             'yearly' => 'Yıllık',

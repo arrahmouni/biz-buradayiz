@@ -1,3 +1,6 @@
+@if (isStaging())
+    <link rel="stylesheet" href="{{ asset('css/staging-environment-banner.css') }}?v={{ config('admin.style_version') }}">
+@endif
 <style>
     body {
         display: flex;
