@@ -11,6 +11,7 @@
         "astrotomic/laravel-translatable": "^11.15",
         "firebase/php-jwt": "^7.0",
         "guzzlehttp/guzzle": "^7.9",
+        "fakerphp/faker": "^1.23",
         "laravel/framework": "^12.0",
         "laravel/nightwatch": "^1.9",
         "laravel/sanctum": "^4.0",
@@ -27,7 +28,6 @@
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.15",
-        "fakerphp/faker": "^1.23",
         "laravel/pint": "^1.24",
         "laravel/sail": "^1.41",
         "mockery/mockery": "^1.6",
