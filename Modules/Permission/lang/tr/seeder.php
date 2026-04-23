@@ -2,7 +2,7 @@
 
 return [
     'ability_group' => [
-        'role_management' => 'Silindir Yönetimi',
+        'role_management' => 'Rol Yönetimi',
         'user_management' => 'Kullanıcıların Yönetimi',
         'permission_management' => 'Yetkiler Yönetimi',
         'country_management' => 'Ülke Yönetimi',

@@ -715,6 +715,13 @@
             let parentVal = $(parentSel).val();
             let isEmpty = !parentVal || parentVal === '' || (Array.isArray(parentVal) && parentVal.length === 0);
             $child.prop('disabled', isEmpty);
+            // Select2 4 does not always refresh its UI when the native <select> is toggled; keep widget in sync.
+            let $cont = $child.next('.select2-container');
+            if ($cont.length) {
+                $cont.toggleClass('select2-container--disabled', isEmpty);
+            } else if ($child.data('select2')) {
+                $child.trigger('change.select2');
+            }
         }
 
         if(select2Ajax.length > 0) {

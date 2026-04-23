@@ -268,9 +268,22 @@
                     });
 
                     // Handle When Reset Filter
-                    $('#reset-filter').on('click', function () {
-                        $('#{{$VALUE['filterModalId']}}').trigger('reset');
-                        $(this).closest('form').find('select').trigger('change');
+                    $('#reset-filter').on('click', function (e) {
+                        e.preventDefault();
+                        const $form = $('#{{$VALUE['filterModalId']}}');
+                        $form.trigger('reset');
+                        $form.find('select').trigger('change');
+                        // Re-run root autoSelectFirst (e.g. country) after reset; initial page load
+                        // only runs on DOM ready, so without this dependent filters stay disabled
+                        $form.find('select.select2-ajax[data-auto-select-first="true"]').each(function () {
+                            const $s = $(this);
+                            if (!$s.attr('data-parent-select')) {
+                                const fn = $s.data('tryAutoSelectFirst');
+                                if (typeof fn === 'function') {
+                                    setTimeout(fn, 0);
+                                }
+                            }
+                        });
                         datatable.ajax.reload();
                     });
 

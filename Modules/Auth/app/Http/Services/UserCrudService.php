@@ -181,7 +181,7 @@ class UserCrudService extends BaseCrudService
                 if (isset($data['advanced_search']) && is_array($data['advanced_search']) && $data['advanced_search'] !== []) {
                     $advanced = $data['advanced_search'];
                     if (! $isServiceProvider) {
-                        unset($advanced['city_id'], $advanced['approval']);
+                        unset($advanced['city_id'], $advanced['approval'], $advanced['service_id']);
                     }
                     $query->advancedSearch($advanced);
                 }

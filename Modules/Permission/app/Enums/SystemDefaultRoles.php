@@ -4,8 +4,9 @@ namespace Modules\Permission\Enums;
 
 final class SystemDefaultRoles
 {
-    const ROOT_ROLE         = 'ROOT';
-    const SYSTEM_ADMIN_ROLE = 'SYSTEM_ADMIN';
+    const ROOT_ROLE = 'ROOT';
+
+    const SYSTEM_ADMIN_ROLE = 'SUPER_ADMIN';
 
     public static function all()
     {

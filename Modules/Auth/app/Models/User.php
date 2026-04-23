@@ -217,17 +217,28 @@ class User extends Authenticatable implements Auditable, CanResetPasswordContrac
     // Start Scopes
     public function scopeSimpleSearch($query, $search)
     {
-        return $query->whereAny(
-            ['id', 'first_name', 'last_name', 'phone_number', 'central_phone', 'email'],
-            'LIKE',
-            '%'.$search.'%'
-        );
+        $like = '%'.$search.'%';
+
+        return $query->where(function ($q) use ($like) {
+            $q->whereAny(
+                ['id', 'first_name', 'last_name', 'phone_number', 'central_phone', 'email'],
+                'LIKE',
+                $like
+            )->orWhereRaw(
+                "TRIM(CONCAT(COALESCE(first_name, ''), ' ', COALESCE(last_name, ''))) LIKE ?",
+                [$like]
+            );
+        });
     }
 
     public function scopeAdvancedSearch($query, $search)
     {
         return $query
             ->when(! empty($search['status']), fn ($q) => $q->where('status', $search['status']))
+            ->when(
+                ! empty($search['service_id']) && (int) $search['service_id'] > 0,
+                fn ($q) => $q->where('service_id', (int) $search['service_id'])
+            )
             ->when(
                 ! empty($search['city_id']) && (int) $search['city_id'] > 0,
                 fn ($q) => $q->where('city_id', (int) $search['city_id'])

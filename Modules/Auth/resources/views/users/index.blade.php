@@ -46,6 +46,21 @@
                 <div class="mb-5">
                     @include('admin::components.inputs.select', [
                         'options'           => [
+                            'id'            => 'users_filter_service_id',
+                            'name'          => 'service_id',
+                            'label'         => trans('admin::datatable.users.columns.service_type'),
+                            'placeholder'   => trans('admin::base.all_results'),
+                            'clearable'     => true,
+                            'isAjax'        => true,
+                            'url'           => route('platform.services.ajaxList'),
+                            'selected'      => [],
+                            'autoSelectFirst' => false,
+                        ],
+                    ])
+                </div>
+                <div class="mb-5">
+                    @include('admin::components.inputs.select', [
+                        'options'           => [
                             'id'                      => 'users_filter_country_id',
                             'name'                    => 'filter_country_id',
                             'label'                   => trans('admin::inputs.user_crud.country_id.label'),
