@@ -44,7 +44,7 @@ jobs:
           touch database/database.sqlite
 
       - name: Install PHP dependencies (production)
-        run: composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader --no-progress
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader --no-progress
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -67,15 +67,7 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           ssh-keyscan -p ${{ secrets.CLOUDWAYS_STAGING_SSH_PORT || 22 }} -H ${{ secrets.CLOUDWAYS_STAGING_SSH_HOST }} >> ~/.ssh/known_hosts
-      - name: Clean and install dependencies on Cloudways
-        run: |
-          ssh -p ${{ secrets.CLOUDWAYS_STAGING_SSH_PORT || 22 }} \
-            ${{ secrets.CLOUDWAYS_STAGING_SSH_USER }}@${{ secrets.CLOUDWAYS_STAGING_SSH_HOST }} << 'ENDSSH'
-            set -e
-            cd ${{ secrets.CLOUDWAYS_STAGING_APP_PATH }}
-            rm -rf vendor
-            composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
-          ENDSSH
+
       - name: Deploy files to Cloudways via rsync
         run: |
           rsync -avz --delete --no-perms --no-owner --omit-dir-times \
