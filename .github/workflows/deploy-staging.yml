@@ -46,7 +46,7 @@ jobs:
       - name: Install PHP dependencies (production)
         run: composer install --no-interaction --prefer-dist --optimize-autoloader --no-progress
 
-      - name: Setup Node.js
+      - name: Setup Node.js  
         uses: actions/setup-node@v4
         with:
           node-version: '20'
