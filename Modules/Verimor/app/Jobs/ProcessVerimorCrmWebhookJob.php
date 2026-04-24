@@ -32,6 +32,7 @@ class ProcessVerimorCrmWebhookJob implements ShouldQueue
 
     public function handle(): void
     {
+        logger()->info('Processing Verimor CRM webhook', ['payload' => $this->payload]);
         $eventTypeRaw = strtolower(trim((string) ($this->payload['event_type'] ?? '')));
         $eventType = VerimorCallEventType::tryFrom($eventTypeRaw);
         if ($eventType === null) {

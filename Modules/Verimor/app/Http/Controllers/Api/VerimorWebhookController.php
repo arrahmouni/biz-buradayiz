@@ -11,11 +11,14 @@ class VerimorWebhookController extends Controller
 {
     public function crm(Request $request, string $token): Response
     {
+        logger()->info('Verimor CRM webhook received', ['request' => $request->all()]);
+
         $expected = (string) config('verimor.webhook_token');
         if ($expected === '') {
             abort(503);
         }
         if (! hash_equals($expected, $token)) {
+            logger()->error('Verimor CRM webhook token mismatch', ['expected' => $expected, 'token' => $token]);
             abort(403);
         }
 
