@@ -2,6 +2,25 @@
     font-family: 'Inter', sans-serif;
 }
 
+button[type='submit'],
+input[type='submit'] {
+    cursor: pointer;
+}
+
+button[type='submit']:disabled,
+input[type='submit']:disabled,
+button[type='submit'].front-submit-is-loading,
+input[type='submit'].front-submit-is-loading {
+    cursor: wait;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    button.front-submit-is-loading .fa-spinner,
+    button.front-submit-is-loading .fa-spin {
+        animation: none;
+    }
+}
+
 html {
     scroll-behavior: smooth;
 }
@@ -942,4 +961,17 @@ body.front-auth-page .select2-dropdown {
     .js-prl-panel.is-prl-inactive {
         transform: none;
     }
+}
+
+/*
+ * Tailwind preflight zeros margins on all elements, which removes the UA centering
+ * for native modal <dialog>. Keep alert modals in the viewport center explicitly.
+ */
+dialog.front-alert-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
 }

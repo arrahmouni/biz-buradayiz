@@ -43,6 +43,7 @@
     action="{{ route('front.search') }}"
     method="GET"
     class="js-provider-location-search {{ $formClass }}"
+    data-skip-submit-loading
     data-states-list-url="{{ route('zms.states.list') }}"
     data-cities-list-url="{{ route('zms.cities.list') }}"
     data-default-country-id="{{ $frontSearchDefaultCountryId }}"

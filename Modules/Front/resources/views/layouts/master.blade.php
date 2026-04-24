@@ -14,6 +14,8 @@
 
 <body @class(['bg-gray-50', 'text-gray-800', 'app-env-staging' => isStaging()])>
 
+    <span id="front-submit-processing-label" class="hidden">{{ __('front::auth.submit_processing') }}</span>
+
     @include('partials.staging-environment-banner')
     @include('partials.page-loader')
 

@@ -72,7 +72,7 @@ Route::controller(ProviderController::class)->group(function () {
     Route::post('/providers/{provider}/reviews', 'storeProviderReview')
         ->where('provider', '[0-9a-z]+(?:-[0-9a-z]+)*')
         ->name('provider.reviews.store')
-        ->middleware('throttle:3,1');
+        ->middleware('throttle:10,1');
 });
 
 Route::controller(ContactController::class)->prefix('contact')->name('contact.')->group(function () {

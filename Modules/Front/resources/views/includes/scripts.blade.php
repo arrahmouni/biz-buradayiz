@@ -158,5 +158,6 @@
     });
 </script>
 
+<script src="{{ asset('modules/front/js/front-form-submit-loading.js') }}?v={{$_STYLE_VER_}}"></script>
 <script src="{{ asset('modules/front/js/front-provider-location-select.js') }}?v={{$_STYLE_VER_}}"></script>
 <script src="{{ asset('modules/front/js/front-scroll-reveal.js') }}?v={{$_STYLE_VER_}}"></script>

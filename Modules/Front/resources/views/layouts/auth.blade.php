@@ -13,7 +13,7 @@
 
 <body @class(['min-h-screen', 'text-gray-900', 'front-auth-page', 'front-auth-page--pattern-a7', 'app-env-staging' => isStaging()])>
 
-    <span id="front-auth-submit-processing" class="hidden">{{ __('front::auth.submit_processing') }}</span>
+    <span id="front-submit-processing-label" class="hidden">{{ __('front::auth.submit_processing') }}</span>
 
     @include('partials.staging-environment-banner')
     @include('partials.page-loader')
