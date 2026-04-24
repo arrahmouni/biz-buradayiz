@@ -14,6 +14,7 @@ class FeaturedProviderService
         }
 
         $newProviderHours = (int) getSetting('new_provider_hours', 24);
+        $newProviders = collect();
 
         if ($newProviderHours > 0) {
             $cutoff = now()->subHours($newProviderHours);
@@ -24,15 +25,22 @@ class FeaturedProviderService
                 ->orderByDesc('approved_at')
                 ->limit($count)
                 ->get();
-
-            if ($newProviders->count() >= $count) {
-                return $newProviders;
-            }
         }
 
-        return (clone $baseQuery)
+        $remaining = $count - $newProviders->count();
+
+        if ($remaining <= 0) {
+            return $newProviders;
+        }
+
+        $excludeIds = $newProviders->pluck('id')->all();
+
+        $rest = (clone $baseQuery)
+            ->when($excludeIds !== [], fn (Builder $q) => $q->whereNotIn('id', $excludeIds))
             ->orderByDesc('ranking_score')
-            ->limit($count)
+            ->limit($remaining)
             ->get();
+
+        return $newProviders->merge($rest);
     }
 }
