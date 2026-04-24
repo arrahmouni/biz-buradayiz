@@ -66,6 +66,14 @@ class ProviderDashboardController extends BaseController
             ? $this->whatsappUrlForLatestPendingNonFreeTierRequest($user, $whatsappDigits)
             : null;
 
+        $showFreeTierConnectionCarryoverNotice = false;
+        $freeTierConnectionCarryoverRemaining = 0;
+        $currentForCarryoverNotice = $user->currentPackageSubscription;
+        if ($currentForCarryoverNotice && $currentForCarryoverNotice->isFreeTierCatalogSubscription()) {
+            $showFreeTierConnectionCarryoverNotice = true;
+            $freeTierConnectionCarryoverRemaining = (int) ($currentForCarryoverNotice->remaining_connections ?? 0);
+        }
+
         return view('front::provider.auth.dashboard', [
             'providerUser' => $user,
             'subscriptionHistory' => $subscriptionHistory,
@@ -76,6 +84,8 @@ class ProviderDashboardController extends BaseController
             'whatsappDigitsConfigured' => $whatsappDigits !== '',
             'hasPendingSubscriptionPaymentRequest' => $hasPendingSubscriptionPaymentRequest,
             'pendingSubscriptionWhatsAppUrl' => $pendingSubscriptionWhatsAppUrl,
+            'showFreeTierConnectionCarryoverNotice' => $showFreeTierConnectionCarryoverNotice,
+            'freeTierConnectionCarryoverRemaining' => $freeTierConnectionCarryoverRemaining,
         ]);
     }
 

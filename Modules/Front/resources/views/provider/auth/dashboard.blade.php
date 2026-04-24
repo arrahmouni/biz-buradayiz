@@ -102,6 +102,13 @@
             <div class="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-emerald-900" role="status">{{ session('success') }}</div>
         @endif
 
+        @if (! empty($showFreeTierConnectionCarryoverNotice))
+            <div class="rounded-2xl border border-sky-200 bg-sky-50 px-5 py-4 text-sky-950 shadow-sm" role="note">
+                <p class="font-semibold text-sky-900">{{ __('front::provider_dashboard.free_tier_carryover_title') }}</p>
+                <p class="mt-2 text-sm leading-relaxed text-sky-950/90">{{ __('front::provider_dashboard.free_tier_carryover_body', ['count' => $freeTierConnectionCarryoverRemaining]) }}</p>
+            </div>
+        @endif
+
         @if ($pendingSubscriptionWhatsAppUrl)
             <div class="rounded-2xl border border-red-100 bg-red-50/80 px-5 py-4 text-gray-900 shadow-sm">
                 <p class="font-semibold text-red-900">{{ __('front::provider_dashboard.whatsapp_cta') }}</p>

@@ -204,7 +204,7 @@ class User extends Authenticatable implements Auditable, CanResetPasswordContrac
 
     public function currentPackageSubscription()
     {
-        return $this->hasOne(PackageSubscription::class)->activeSubscription()->latestOfMany('id');
+        return $this->hasOne(PackageSubscription::class)->activeSubscription()->latest('id');
     }
 
     public function reviews()

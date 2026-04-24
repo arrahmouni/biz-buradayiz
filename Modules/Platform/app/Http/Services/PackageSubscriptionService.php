@@ -85,6 +85,7 @@ class PackageSubscriptionService extends BaseCrudService
 
             $this->applyPaidBusinessRules($modelData, $model, null);
             $this->fillActivationTimelineFromSnapshotIfNeeded($model, $modelData);
+            $this->carryOverFreeTierConnectionsOnFirstPaidActivation($model, $modelData);
             $this->clearSubscriptionTimelineUnlessActive($modelData);
             $model->update($modelData);
 
@@ -196,6 +197,53 @@ class PackageSubscriptionService extends BaseCrudService
         };
         if (empty($data['paid_at'])) {
             $data['paid_at'] = $startsAt;
+        }
+    }
+
+    /**
+     * When a paid catalog subscription is verified for the first time, merge any remaining connection
+     * quota from the provider's active free-tier subscription(s) into this subscription and retire the free tier rows.
+     *
+     * @param  array<string, mixed>  $data
+     */
+    protected function carryOverFreeTierConnectionsOnFirstPaidActivation(CrudModel $existing, array &$data): void
+    {
+        $payment = PackageSubscriptionPaymentStatus::tryFrom((string) ($data['payment_status'] ?? ''));
+        if ($payment !== PackageSubscriptionPaymentStatus::Paid) {
+            return;
+        }
+
+        $wasPaid = $existing->payment_status === PackageSubscriptionPaymentStatus::Paid;
+        if ($wasPaid || $existing->isFreeTierCatalogSubscription()) {
+            return;
+        }
+
+        $existing->loadMissing('snapshot');
+
+        $freeTierSubs = CrudModel::query()
+            ->where('user_id', $existing->user_id)
+            ->whereKeyNot($existing->id)
+            ->activeFreeTierSubscription()
+            ->get();
+
+        if ($freeTierSubs->isEmpty()) {
+            return;
+        }
+
+        $bonus = (int) $freeTierSubs->sum(fn (CrudModel $sub) => max(0, (int) ($sub->remaining_connections ?? 0)));
+
+        $base = $data['remaining_connections'] ?? $existing->remaining_connections;
+        if ($base === null) {
+            $base = $existing->snapshot?->connections_count ?? 0;
+        }
+        $data['remaining_connections'] = (int) $base + $bonus;
+
+        foreach ($freeTierSubs as $freeTierSub) {
+            $freeTierSub->update([
+                'remaining_connections' => 0,
+                'status' => PackageSubscriptionStatus::Cancelled,
+                'cancelled_at' => $freeTierSub->cancelled_at ?? now(),
+            ]);
         }
     }
 

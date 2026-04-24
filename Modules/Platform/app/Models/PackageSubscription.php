@@ -14,6 +14,7 @@ use Modules\Platform\Enums\BillingPeriod;
 use Modules\Platform\Enums\PackageSubscriptionPaymentMethod;
 use Modules\Platform\Enums\PackageSubscriptionPaymentStatus;
 use Modules\Platform\Enums\PackageSubscriptionStatus;
+use Modules\Verimor\Jobs\ProcessVerimorCrmWebhookJob;
 
 class PackageSubscription extends BaseModel
 {
@@ -151,13 +152,22 @@ class PackageSubscription extends BaseModel
      * Active subscription tied to a non–free-tier catalog package (snapshot source).
      * A provider may still request a paid package while only a free-tier subscription is active.
      *
-     * @see \Modules\Verimor\Jobs\ProcessVerimorCrmWebhookJob When multiple rows match activeSubscription(),
+     * @see ProcessVerimorCrmWebhookJob When multiple rows match activeSubscription(),
      *      the newest id is used first for quota consumption.
      */
     public function scopeActiveNonFreeTierSubscription($query)
     {
         return $query->activeSubscription()
             ->whereHas('snapshot.sourcePackage', fn ($q) => $q->where('is_free_tier', false));
+    }
+
+    /**
+     * Active subscription tied to the catalog free-tier package (snapshot source).
+     */
+    public function scopeActiveFreeTierSubscription($query)
+    {
+        return $query->activeSubscription()
+            ->whereHas('snapshot.sourcePackage', fn ($q) => $q->where('is_free_tier', true));
     }
 
     /**

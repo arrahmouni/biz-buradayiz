@@ -100,6 +100,9 @@ return [
     'bank_block_title' => 'Bank transfer details',
     'bank_block_empty' => 'Payment instructions will appear here once configured by the site administrator.',
 
+    'free_tier_carryover_title' => 'Your free package connections carry over',
+    'free_tier_carryover_body' => 'You currently have :count remaining connections on your free package. When you subscribe to a paid package and our team confirms your payment, we add those remaining connections to your new package balance so you do not lose unused quota.',
+
     'subscription_requested_flash' => 'Your subscription request was submitted. Complete payment and send your receipt via WhatsApp if prompted below.',
     'whatsapp_cta' => 'Send receipt on WhatsApp',
     'whatsapp_missing_config' => 'WhatsApp number is not configured yet. Contact support with your payment receipt and reference number.',

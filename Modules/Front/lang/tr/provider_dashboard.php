@@ -100,6 +100,9 @@ return [
     'bank_block_title' => 'Banka havalesi bilgileri',
     'bank_block_empty' => 'Ödeme talimatları site yöneticisi tarafından yapılandırıldığında burada görünecek.',
 
+    'free_tier_carryover_title' => 'Ücretsiz paket bağlantılarınız korunur',
+    'free_tier_carryover_body' => 'Ücretsiz paketinizde şu anda :count kalan bağlantınız var. Ücretli bir pakete geçtiğinizde ve ekibimiz ödemenizi onayladığında, bu kalan bağlantılar yeni paket bakiyenize eklenir; böylece kullanılmayan kotanız kaybolmaz.',
+
     'subscription_requested_flash' => 'Abonelik talebiniz alındı. Ödemeyi tamamlayıp aşağıdaki bağlantı varsa dekontunuzu WhatsApp ile gönderin.',
     'whatsapp_cta' => 'WhatsApp ile dekont gönder',
     'whatsapp_missing_config' => 'WhatsApp numarası henüz yapılandırılmadı. Ödeme dekontunuzu ve referans numaranızı destek ile paylaşın.',
