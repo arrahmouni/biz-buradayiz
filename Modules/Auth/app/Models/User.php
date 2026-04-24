@@ -342,6 +342,27 @@ class User extends Authenticatable implements Auditable, CanResetPasswordContrac
         return Str::slug(trim(($this->first_name ?? '').' '.($this->last_name ?? ''))) ?: 'provider';
     }
 
+    /**
+     * Whether this provider is within the configured "new provider" visibility window (same rules as featured search).
+     */
+    public function isNewProvider(): bool
+    {
+        if ($this->type !== UserType::ServiceProvider) {
+            return false;
+        }
+
+        $hours = (int) getSetting('new_provider_hours', 24);
+        if ($hours <= 0) {
+            return false;
+        }
+
+        if ($this->approved_at === null) {
+            return false;
+        }
+
+        return $this->approved_at->greaterThanOrEqualTo(now()->subHours($hours));
+    }
+
     protected function getArrayableAppends(): array
     {
         $appends = parent::getArrayableAppends();

@@ -1,5 +1,14 @@
-<article class="bg-white rounded-2xl shadow-md hover:shadow-lg transition p-4 sm:p-5 border {{ $isFeatured ?? false ? 'featured-provider-card border-red-200 border-l-4 border-l-red-600 ring-1 ring-red-100' : 'border-gray-100' }}">
-    @if ($isFeatured ?? false)
+@php
+    $isFeaturedCard = $isFeatured ?? false;
+    $isNewCard = $provider->isNewProvider();
+@endphp
+<article @class([
+    'bg-white rounded-2xl shadow-md hover:shadow-lg transition p-4 sm:p-5 border',
+    'featured-provider-card border-red-200 border-l-4 border-l-red-600 ring-1 ring-red-100' => $isFeaturedCard,
+    'new-provider-card border-emerald-200 border-l-4 border-l-emerald-600 ring-1 ring-emerald-50' => $isNewCard && ! $isFeaturedCard,
+    'border-gray-100' => ! $isFeaturedCard && ! $isNewCard,
+])>
+    @if ($isFeaturedCard)
         <div class="featured-provider-callout" role="status">
             <span class="featured-provider-callout__icon" aria-hidden="true">
                 <i class="fas fa-award"></i>
@@ -10,16 +19,23 @@
             </span>
         </div>
     @endif
+
     <div class="flex flex-row gap-3 sm:gap-5">
         <div class="h-14 w-14 sm:h-32 sm:w-32 bg-gray-100 rounded-full sm:rounded-xl overflow-hidden flex-shrink-0">
             <img src="{{ $provider->image_url }}" alt="{{ $provider->full_name }}" class="w-full h-full object-cover">
         </div>
         <div class="flex-1 min-w-0">
             <div class="flex flex-wrap justify-between items-start gap-2">
-                <h2 class="text-base sm:text-xl font-bold text-gray-800 leading-snug">
+                <h2 class="text-base sm:text-xl font-bold text-gray-800 leading-snug flex flex-wrap items-center gap-2">
                     <a href="{{ route('front.provider.show', ['provider' => $provider->frontProfileSlug()]) }}" class="text-gray-800 hover:text-red-600 transition">
                         {{ $provider->full_name }}
                     </a>
+                    @if ($isNewCard)
+                        <span class="provider-new-badge">
+                            <i class="fas fa-rocket" aria-hidden="true"></i>
+                            {{ __('front::home.provider_new_badge') }}
+                        </span>
+                    @endif
                 </h2>
                 @if ($provider->service && filled($provider->service->icon))
                     <span class="text-red-600 shrink-0" aria-hidden="true"><i class="{{ $provider->service->icon }} text-lg sm:text-xl"></i></span>

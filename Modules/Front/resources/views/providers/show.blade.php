@@ -54,7 +54,15 @@
                             </div>
                             <div class="min-w-0 flex-1 text-center sm:text-left">
                                 <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide">{{ __('front::home.provider_detail_about_title') }}</p>
-                                <h1 class="mt-2 text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">{{ $provider->full_name }}</h1>
+                                <div class="mt-2 flex flex-wrap items-center gap-2 justify-center sm:justify-start">
+                                    <h1 class="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">{{ $provider->full_name }}</h1>
+                                    @if ($provider->isNewProvider())
+                                        <span class="provider-new-badge provider-new-badge--large">
+                                            <i class="fas fa-rocket" aria-hidden="true"></i>
+                                            {{ __('front::home.provider_new_badge') }}
+                                        </span>
+                                    @endif
+                                </div>
                                 <div class="mt-3 flex flex-wrap items-center justify-center sm:justify-start gap-3 text-sm text-gray-600">
                                     @if ((int) $provider->approved_reviews_count > 0)
                                         <span>
