@@ -113,17 +113,17 @@
     };
 
     GLOBAL.TOASTR.TITLE = {
-        SUCCESS     : "{{trans('admin::messages.response_message_types.success.title')}}",
-        ERROR       : "{{trans('admin::messages.response_message_types.error.title')}}",
-        WARINING    : "{{trans('admin::messages.response_message_types.warning.title')}}",
-        INFO        : "{{trans('admin::messages.response_message_types.info.title')}}",
+        SUCCESS     : "{{trans('response::messages.response_message_types.success.title')}}",
+        ERROR       : "{{trans('response::messages.response_message_types.error.title')}}",
+        WARINING    : "{{trans('response::messages.response_message_types.warning.title')}}",
+        INFO        : "{{trans('response::messages.response_message_types.info.title')}}",
     };
 
     GLOBAL.TOASTR.DESC = {
-        SUCCESS     : "{{trans('admin::messages.response_message_types.success.description')}}",
-        ERROR       : "{{trans('admin::messages.response_message_types.error.description')}}",
-        WARINING    : "{{trans('admin::messages.response_message_types.warning.description')}}",
-        INFO        : "{{trans('admin::messages.response_message_types.info.description')}}",
+        SUCCESS     : "{{trans('response::messages.response_message_types.success.description')}}",
+        ERROR       : "{{trans('response::messages.response_message_types.error.description')}}",
+        WARINING    : "{{trans('response::messages.response_message_types.warning.description')}}",
+        INFO        : "{{trans('response::messages.response_message_types.info.description')}}",
     };
 
 
