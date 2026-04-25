@@ -15,8 +15,11 @@ use Modules\Config\Http\Controllers\Admin\SettingController;
 */
 
 Route::prefix('settings')->name('settings.')->controller(SettingController::class)->group(function () {
-    Route::get('list'       , 'index')->name('index');
-    Route::get('create'     , 'create')->name('create');
-    Route::post('create'    , 'postCreate')->name('postCreate');
-    Route::put('update'     , 'postUpdate')->name('postUpdate');
+    Route::get('list', 'index')->name('index');
+    Route::get('create', 'create')->name('create');
+    Route::post('create', 'postCreate')->name('postCreate');
+    Route::put('update', 'postUpdate')->name('postUpdate');
+    Route::delete('media/{key}', 'deleteMedia')
+        ->where('key', '[a-z0-9_]+')
+        ->name('deleteMedia');
 });

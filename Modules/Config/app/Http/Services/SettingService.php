@@ -6,6 +6,8 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Modules\Base\Http\Services\BaseCrudService;
+use Modules\Config\Enums\SettingGroups;
+use Modules\Config\Enums\SettingTypes;
 use Modules\Config\Jobs\RefreshOptimizationCachesJob;
 use Modules\Config\Models\Setting as CrudModel;
 use Modules\Config\Support\SettingsSnapshot;
@@ -112,6 +114,24 @@ class SettingService extends BaseCrudService
         $mediaPath = $value->store('settings/media', 'public');
 
         $setting->update(['value' => $mediaPath]);
+    }
+
+    public function deleteSettingMedia(string $key): void
+    {
+        $setting = CrudModel::query()
+            ->where('key', $key)
+            ->where('group', SettingGroups::MEDIA)
+            ->where('type', SettingTypes::IMAGE)
+            ->firstOrFail();
+
+        if (filled($setting->value) && Storage::disk('public')->exists($setting->value)) {
+            Storage::disk('public')->delete($setting->value);
+        }
+
+        $setting->update(['value' => null]);
+
+        SettingsSnapshot::forget();
+        RefreshOptimizationCachesJob::dispatch();
     }
 
     /**

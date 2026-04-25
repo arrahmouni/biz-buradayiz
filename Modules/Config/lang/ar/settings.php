@@ -93,4 +93,9 @@ return [
     'validation' => [
         'website_launch_date_required_when_coming_soon' => 'تاريخ إطلاق الموقع مطلوب عند تفعيل صفحة «قريبًا».',
     ],
+    'media_delete' => [
+        'confirm_title' => 'إزالة هذه الصورة؟',
+        'confirm_text' => 'سيتم حذف الملف نهائياً من الخادم. لا يمكن التراجع عن هذا الإجراء.',
+        'success' => 'تمت إزالة الصورة من الخادم.',
+    ],
 ];

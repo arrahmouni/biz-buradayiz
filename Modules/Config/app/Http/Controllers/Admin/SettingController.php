@@ -4,14 +4,15 @@ namespace Modules\Config\Http\Controllers\Admin;
 
 use Exception;
 use Illuminate\Http\Request;
-use Modules\Config\Models\Setting;
-use Modules\Config\Enums\SettingTypes;
-use Modules\Config\Enums\SettingGroups;
-use Modules\Config\Http\Services\SettingService;
+use Illuminate\Routing\Controllers\Middleware;
 use Modules\Base\Http\Controllers\BaseCrudController;
+use Modules\Config\Enums\permissions\SettingPermissions;
+use Modules\Config\Enums\SettingGroups;
+use Modules\Config\Enums\SettingTypes;
 use Modules\Config\Http\Requests\CreateSettingRequest;
 use Modules\Config\Http\Requests\UpdateSettingRequest;
-use Modules\Config\Enums\permissions\SettingPermissions;
+use Modules\Config\Http\Services\SettingService;
+use Modules\Config\Models\Setting;
 
 class SettingController extends BaseCrudController
 {
@@ -39,10 +40,17 @@ class SettingController extends BaseCrudController
 
     public function __construct(Setting $model, SettingService $crudService)
     {
-        $this->model            = $model;
-        $this->crudService      = $crudService;
+        $this->model = $model;
+        $this->crudService = $crudService;
 
         parent::__construct();
+    }
+
+    public static function middleware(): array
+    {
+        return array_merge(parent::middleware(), [
+            new Middleware('need.permissions:'.static::$permissionClass::UPDATE, only: ['deleteMedia']),
+        ]);
     }
 
     public function index()
@@ -61,7 +69,7 @@ class SettingController extends BaseCrudController
     public function create()
     {
         $this->data['groups'] = SettingGroups::getGroups();
-        $this->data['types']  = SettingTypes::all();
+        $this->data['types'] = SettingTypes::all();
 
         return parent::create();
     }
@@ -70,15 +78,23 @@ class SettingController extends BaseCrudController
     {
         app($this->updateRequest);
 
-        try
-        {
+        try {
             $this->crudService->updateSetting(app($this->updateRequest)->validated());
-        }
-        catch(Exception $e)
-        {
+        } catch (Exception $e) {
             return sendExceptionResponse($e);
         }
 
-        return sendSuccessResponse(route($this->routePrefix . '.index'));
+        return sendSuccessResponse(route($this->routePrefix.'.index'));
+    }
+
+    public function deleteMedia(string $key)
+    {
+        try {
+            $this->crudService->deleteSettingMedia($key);
+        } catch (Exception $e) {
+            return sendExceptionResponse($e);
+        }
+
+        return sendSuccessResponse(customMessage: trans('config::settings.media_delete.success'));
     }
 }

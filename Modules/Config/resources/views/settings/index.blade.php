@@ -144,8 +144,9 @@
                                                                             ]
                                                                         ])
                                                                     @elseif ($setting->type == 'image')
-                                                                        @include('admin::components.inputs.image', [
-                                                                            'options'           => [
+                                                                        @php
+                                                                            $isMediaGroup = $groupName === SettingGroups::MEDIA;
+                                                                            $imageFieldOptions = [
                                                                                 'view'          => 'INLINE',
                                                                                 'name'          => $setting->key,
                                                                                 'required'      => $setting->is_required,
@@ -153,7 +154,13 @@
                                                                                 'subText'       => $setting->smartTrans('description'),
                                                                                 'default'       => empty($setting->value) ? $setting->media_url : null,
                                                                                 'value'         => !empty($setting->value) ? $setting->media_url : null,
-                                                                            ]
+                                                                            ];
+                                                                            if ($isMediaGroup) {
+                                                                                $imageFieldOptions['mediaDeleteUrl'] = route('config.settings.deleteMedia', ['key' => $setting->key]);
+                                                                            }
+                                                                        @endphp
+                                                                        @include('admin::components.inputs.image', [
+                                                                            'options' => $imageFieldOptions,
                                                                         ])
                                                                     @elseif ($setting->type == 'button')
                                                                         @include('admin::components.other.hyperlink', [
@@ -252,6 +259,84 @@
 
 @push('script')
     <script>
+        (function () {
+            const mediaPane = document.getElementById('kt_tab_pane_{{ \Modules\Config\Enums\SettingGroups::MEDIA }}');
+            if (! mediaPane) {
+                return;
+            }
+            const confirmTitle = {!! json_encode(trans('config::settings.media_delete.confirm_title'), JSON_HEX_TAG | JSON_HEX_APOS) !!};
+            const confirmText = {!! json_encode(trans('config::settings.media_delete.confirm_text'), JSON_HEX_TAG | JSON_HEX_APOS) !!};
+            const blockUiSpinner = {
+                overlayClass: 'bg-danger bg-opacity-25',
+                message: '<span class="loader"></span>',
+            };
+
+            mediaPane.addEventListener('click', function (e) {
+                const removeControl = e.target.closest('[data-kt-image-input-action="remove"]');
+                if (! removeControl) {
+                    return;
+                }
+                const root = removeControl.closest('.image-input[data-media-delete-url]');
+                if (! root) {
+                    return;
+                }
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                const deleteUrl = root.getAttribute('data-media-delete-url');
+                if (! deleteUrl) {
+                    return;
+                }
+                GLOBAL.CONFIRM_DIALOG.RESET();
+                GLOBAL.CONFIRM_DIALOG.TITLE = confirmTitle;
+                GLOBAL.CONFIRM_DIALOG.TEXT = confirmText;
+                return GLOBAL.CONFIRM_DIALOG.INIT(true, function () {
+                    const target = document.querySelector('#root-page');
+                    const blockUI = new KTBlockUI(target, blockUiSpinner);
+                    const csrfToken = $('meta[name="csrf-token"]').attr('content');
+                    const data = { _token: csrfToken };
+                    blockUI.block();
+                    return $.ajax({
+                        type: 'DELETE',
+                        url: deleteUrl,
+                        data: data,
+                        success: function (response) {
+                            if (response.notify_type === 'toastr') {
+                                GLOBAL.TOASTR.INIT(response.message.type, response.message.title, response.message.description);
+                            } else {
+                                GLOBAL.SWAL.INIT(response.message.type, response.message.title, response.message.description);
+                            }
+                            if (response.success) {
+                                window.setTimeout(function () {
+                                    window.location.reload();
+                                }, 600);
+                            }
+                        },
+                        error: function (response) {
+                            const responseJson = response.responseJSON;
+                            if (isEmpty(responseJson)) {
+                                return GLOBAL.TOASTR.INIT('error');
+                            }
+                            if (responseJson.notify_type || 'toastr' === 'toastr') {
+                                return GLOBAL.TOASTR.INIT(
+                                    responseJson.message.type || 'error',
+                                    responseJson.message.title,
+                                    responseJson.message.description
+                                );
+                            }
+                            return GLOBAL.SWAL.INIT(
+                                responseJson.message.type || 'error',
+                                responseJson.message.title,
+                                responseJson.message.description
+                            );
+                        },
+                    }).always(function () {
+                        blockUI.release();
+                        blockUI.destroy();
+                    });
+                });
+            }, true);
+        })();
+
         $(document).ready(function () {
             $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
                 $('[data-toggle="switchbutton"]').parent().css({

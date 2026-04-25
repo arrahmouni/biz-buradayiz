@@ -95,4 +95,9 @@ return [
     'validation' => [
         'website_launch_date_required_when_coming_soon' => 'Website launch date is required when the coming soon page is enabled.',
     ],
+    'media_delete' => [
+        'confirm_title' => 'Remove this image?',
+        'confirm_text' => 'The file will be permanently deleted from the server. This action cannot be undone.',
+        'success' => 'The image was removed from the server.',
+    ],
 ];

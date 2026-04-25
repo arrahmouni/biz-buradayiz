@@ -25,6 +25,7 @@
             'view'          => 'DEFAULT', // DEFAULT | INLINE
             'input_size'    => 'col-lg-8',
             'label_size'    => 'col-lg-12',
+            'mediaDeleteUrl' => null,
         ], $options);
 
         $VALUE['id']      = !empty($VALUE['id']) ? $VALUE['id'] : $VALUE['name'];

@@ -1,4 +1,7 @@
 <div @class(['image-input image-input-outline','image-input-empty' => ! $VALUE['value'] ,'image-input-circle' => $VALUE['circle']]) data-kt-image-input="true"
+    @if (! empty($VALUE['mediaDeleteUrl']))
+        data-media-delete-url="{{ $VALUE['mediaDeleteUrl'] }}"
+    @endif
     @style(['background-position:center', 'background-size:contain', 'background-image:url('.$VALUE['default'].')' ]) >
     <!--begin::Preview existing avatar-->
     <div @class(['image-input-wrapper'])  @style(['width:' . $VALUE['width'], 'height:' . $VALUE['height'] , 'background-image:url('.$VALUE['value'].')' ])></div>

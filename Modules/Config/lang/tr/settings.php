@@ -95,4 +95,9 @@ return [
     'validation' => [
         'website_launch_date_required_when_coming_soon' => 'Yakında sayfası açıkken web sitesi yayın tarihi zorunludur.',
     ],
+    'media_delete' => [
+        'confirm_title' => 'Bu görsel kaldırılsın mı?',
+        'confirm_text' => 'Dosya sunucudan kalıcı olarak silinecektir. Bu işlem geri alınamaz.',
+        'success' => 'Görsel sunucudan kaldırıldı.',
+    ],
 ];
