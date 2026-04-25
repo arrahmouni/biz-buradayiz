@@ -6,7 +6,7 @@
     <meta name="keywords" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link rel="shortcut icon" href="{{ getSetting('app_favicon', asset('images/default/logos/favicon.png')) }}" />
+    <link rel="shortcut icon" href="{{ getSetting(\Modules\Config\Constatnt::APP_FAVICON, asset('images/default/logos/favicon.png')) }}" />
 
     <title>
         @yield('title')

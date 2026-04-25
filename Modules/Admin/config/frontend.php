@@ -1,5 +1,6 @@
 <?php
 
+use Modules\Config\Constatnt;
 use Nwidart\Modules\Facades\Module;
 
 return [
@@ -28,5 +29,5 @@ return [
         'tr'                            => Module::asset('admin:metronic/demo/media/flags/tr.svg'),
     ],
 
-    'default_placeholder'               => getSetting('app_placeholder', asset('images/default/placeholder/global.png')),
+    'default_placeholder'               => getSetting(Constatnt::APP_PLACEHOLDER, asset('images/default/placeholder/global.png')),
 ];

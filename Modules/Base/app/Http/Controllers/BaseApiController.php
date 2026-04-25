@@ -2,9 +2,10 @@
 
 namespace Modules\Base\Http\Controllers;
 
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Modules\Admin\Resources\PaginateResource;
+use Modules\Config\Constatnt;
 
 class BaseApiController extends BaseController
 {
@@ -28,11 +29,11 @@ class BaseApiController extends BaseController
 
     public function __construct()
     {
-        $this->defaultLocale = getSetting('app_default_language', 'ar');
+        $this->defaultLocale = getSetting(Constatnt::APP_DEFAULT_LANGUAGE, 'ar');
 
         $this->supportedLang = view()->shared('_ALL_LOCALE_KEY_');
 
-        $this->locale = in_array(request()->header('locale', $this->defaultLocale), $this->supportedLang) ? request()->header('locale', $this->defaultLocale) : getSetting('app_default_language', 'ar');
+        $this->locale = in_array(request()->header('locale', $this->defaultLocale), $this->supportedLang) ? request()->header('locale', $this->defaultLocale) : getSetting(Constatnt::APP_DEFAULT_LANGUAGE, 'ar');
 
         app()->setLocale($this->locale);
 

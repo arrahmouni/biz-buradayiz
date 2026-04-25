@@ -3,7 +3,7 @@
     <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-kt-docs-toast="stack">
         <div class="toast-header">
             <span class="svg-icon svg-icon-2 svg-icon-primary me-3">
-                <img src="{{ getSetting('app_favicon', asset('images/default/logos/favicon.png')) }}" alt="app-logo" class="w-20px h-20px rounded-circle">
+                <img src="{{ getSetting(\Modules\Config\Constatnt::APP_FAVICON, asset('images/default/logos/favicon.png')) }}" alt="app-logo" class="w-20px h-20px rounded-circle">
             </span>
             <strong class="me-auto toast-title"></strong>
             <small class="toast-time"></small>

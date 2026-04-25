@@ -3,12 +3,12 @@
 namespace Modules\Config\Http\Services;
 
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Modules\Base\Http\Services\BaseCrudService;
 use Modules\Config\Jobs\RefreshOptimizationCachesJob;
 use Modules\Config\Models\Setting as CrudModel;
+use Modules\Config\Support\SettingsSnapshot;
 use Modules\Platform\Jobs\RecalculateProviderRankingsJob;
 
 class SettingService extends BaseCrudService
@@ -34,6 +34,8 @@ class SettingService extends BaseCrudService
 
             return $model;
         });
+
+        SettingsSnapshot::forget();
 
         return $model;
     }
@@ -66,8 +68,7 @@ class SettingService extends BaseCrudService
         $envSettings = CrudModel::whereIn('key', $this->settingsInEnv)->pluck('value', 'key')->toArray();
         $this->updateEnvFile($envSettings);
 
-        // Clear Cache
-        Cache::flush();
+        SettingsSnapshot::forget();
         RefreshOptimizationCachesJob::dispatch();
 
         // must include also featured_providers_count and new_provider_hours

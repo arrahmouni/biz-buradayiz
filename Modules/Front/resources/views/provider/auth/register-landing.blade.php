@@ -171,7 +171,7 @@
 
     </section>
 
-    @php($providerRegisterYoutubeRaw = trim((string) (getSetting('provider_register_landing_youtube_url') ?? '')))
+    @php($providerRegisterYoutubeRaw = trim((string) (getSetting(\Modules\Config\Constatnt::PROVIDER_REGISTER_LANDING_YOUTUBE_URL) ?? '')))
     @php($providerRegisterYoutubeEmbed = youtubeEmbedSrcFromUrl($providerRegisterYoutubeRaw))
     @if ($providerRegisterYoutubeEmbed)
         <section class="bg-gray-100 py-16 md:py-20 border-t border-gray-200">

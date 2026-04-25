@@ -11,6 +11,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 use Modules\Admin\Enums\AdminStatus;
 use Modules\Auth\Enums\UserType;
+use Modules\Config\Constatnt;
 
 class RecalculateProviderRankingsJob implements ShouldBeUnique, ShouldQueue
 {
@@ -20,9 +21,9 @@ class RecalculateProviderRankingsJob implements ShouldBeUnique, ShouldQueue
 
     public function handle(): void
     {
-        $wRating = max(0, (int) getSetting('ranking_weight_rating', 50));
-        $wActivity = max(0, (int) getSetting('ranking_weight_activity', 30));
-        $wExperience = max(0, (int) getSetting('ranking_weight_experience', 20));
+        $wRating = max(0, (int) getSetting(Constatnt::RANKING_WEIGHT_RATING, 50));
+        $wActivity = max(0, (int) getSetting(Constatnt::RANKING_WEIGHT_ACTIVITY, 30));
+        $wExperience = max(0, (int) getSetting(Constatnt::RANKING_WEIGHT_EXPERIENCE, 20));
 
         $totalWeight = $wRating + $wActivity + $wExperience;
         if ($totalWeight === 0) {

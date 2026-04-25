@@ -4,6 +4,7 @@ namespace Modules\Front\Support;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
+use Modules\Config\Constatnt;
 
 class FeaturedProviderService
 {
@@ -13,7 +14,7 @@ class FeaturedProviderService
             return collect();
         }
 
-        $newProviderHours = (int) getSetting('new_provider_hours', 24);
+        $newProviderHours = (int) getSetting(Constatnt::NEW_PROVIDER_HOURS, 24);
         $newProviders = collect();
 
         if ($newProviderHours > 0) {

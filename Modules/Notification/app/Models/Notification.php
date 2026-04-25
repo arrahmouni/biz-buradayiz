@@ -12,6 +12,7 @@ use Modules\Admin\Models\Admin;
 use Modules\Auth\Models\User;
 use Modules\Notification\Enums\NotificationChannels;
 use Modules\Notification\Enums\NotificationStatuses;
+use Modules\Config\Constatnt;
 use Modules\Notification\Enums\permissions\NotificationPermissions;
 
 class Notification extends BaseModel
@@ -114,7 +115,7 @@ class Notification extends BaseModel
             'body'          => $this->smartTrans('body'),
             'sent_at'       => $this->created_at_format,
             'is_read'       => $this->notificationChannels->where('is_fcm_web', true)->first()?->status == NotificationStatuses::READ,
-            'icon'          =>  getSetting('app_favicon', asset('images/default/logos/app_logo.svg')),
+            'icon'          =>  getSetting(Constatnt::APP_FAVICON, asset('images/default/logos/app_logo.svg')),
             'link'          => $this->link,
             'selected'      => $selected
         ];

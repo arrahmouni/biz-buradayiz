@@ -4,7 +4,7 @@
 @if (isStaging())
     <link rel="stylesheet" href="{{ asset('css/staging-environment-banner.css') }}?v={{$_STYLE_VER_}}">
 @endif
-@php($frontHeroBackgroundImageUrl = getSetting('front_hero_background', config('front.default_hero_background_url')))
+@php($frontHeroBackgroundImageUrl = getSetting(\Modules\Config\Constatnt::FRONT_HERO_BACKGROUND, config('front.default_hero_background_url')))
 <style>
     :root {
         --front-hero-bg-image: url("{{ e($frontHeroBackgroundImageUrl) }}");

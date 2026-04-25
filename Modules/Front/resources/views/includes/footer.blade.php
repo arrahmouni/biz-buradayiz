@@ -1,36 +1,36 @@
 @php
-    $footerAppStoreUrl = trim((string) (getSetting('app_store', '') ?? ''));
-    $footerGooglePlayUrl = trim((string) (getSetting('google_play', '') ?? ''));
+    $footerAppStoreUrl = trim((string) (getSetting(\Modules\Config\Constatnt::APP_STORE, '') ?? ''));
+    $footerGooglePlayUrl = trim((string) (getSetting(\Modules\Config\Constatnt::GOOGLE_PLAY, '') ?? ''));
     $footerHasDownloadLinks = $footerAppStoreUrl !== '' || $footerGooglePlayUrl !== '';
 
     $footerSocial = array_values(array_filter([
         [
-            'url' => trim((string) (getSetting('facebook', '') ?? '')),
+            'url' => trim((string) (getSetting(\Modules\Config\Constatnt::FACEBOOK, '') ?? '')),
             'icon' => 'fab fa-facebook-f',
             'label' => __('front::home.footer_social_facebook'),
         ],
         [
-            'url' => trim((string) (getSetting('twitter', '') ?? '')),
+            'url' => trim((string) (getSetting(\Modules\Config\Constatnt::TWITTER, '') ?? '')),
             'icon' => 'fab fa-twitter',
             'label' => __('front::home.footer_social_twitter'),
         ],
         [
-            'url' => trim((string) (getSetting('instagram', '') ?? '')),
+            'url' => trim((string) (getSetting(\Modules\Config\Constatnt::INSTAGRAM, '') ?? '')),
             'icon' => 'fab fa-instagram',
             'label' => __('front::home.footer_social_instagram'),
         ],
         [
-            'url' => trim((string) (getSetting('linkedin', '') ?? '')),
+            'url' => trim((string) (getSetting(\Modules\Config\Constatnt::LINKEDIN, '') ?? '')),
             'icon' => 'fab fa-linkedin-in',
             'label' => __('front::home.footer_social_linkedin'),
         ],
         [
-            'url' => trim((string) (getSetting('youtube', '') ?? '')),
+            'url' => trim((string) (getSetting(\Modules\Config\Constatnt::YOUTUBE, '') ?? '')),
             'icon' => 'fab fa-youtube',
             'label' => __('front::home.footer_social_youtube'),
         ],
         [
-            'url' => trim((string) (getSetting('tiktok', '') ?? '')),
+            'url' => trim((string) (getSetting(\Modules\Config\Constatnt::TIKTOK, '') ?? '')),
             'icon' => 'fab fa-tiktok',
             'label' => __('front::home.footer_social_tiktok'),
         ],
@@ -66,7 +66,7 @@
                     href="{{ route('front.index') }}"
                     class="inline-flex items-center space-x-2 mb-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 rounded"
                 >
-                    <img src="{{ getSetting('web_logo', asset('images/default/logos/web_logo.svg')) }}" alt="{{ __('front::home.brand') }}" class="h-10 w-auto md:h-12 brightness-0 invert">
+                    <img src="{{ getSetting(\Modules\Config\Constatnt::WEB_LOGO, asset('images/default/logos/web_logo.svg')) }}" alt="{{ __('front::home.brand') }}" class="h-10 w-auto md:h-12 brightness-0 invert">
                 </a>
                 <p class="text-sm text-gray-400">{{ __('front::home.footer_desc') }}</p>
             </div>

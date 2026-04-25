@@ -4,6 +4,7 @@ namespace Modules\Base\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Modules\Config\Constatnt;
 
 class CheckMaintenanceMode extends BaseMiddleware
 {
@@ -31,6 +32,6 @@ class CheckMaintenanceMode extends BaseMiddleware
      */
     private function isMaintenanceMode(): bool
     {
-        return getSetting('maintenance_mode', false);
+        return getSetting(Constatnt::MAINTENANCE_MODE, false);
     }
 }

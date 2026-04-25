@@ -17,6 +17,7 @@ use Modules\Admin\Traits\UserTrait;
 use Modules\Auth\database\factories\UserFactory;
 use Modules\Auth\Enums\UserType;
 use Modules\Base\Trait\ModelHelper;
+use Modules\Config\Constatnt;
 use Modules\Platform\Models\PackageSubscription;
 use Modules\Platform\Models\Review;
 use Modules\Platform\Models\Service;
@@ -351,7 +352,7 @@ class User extends Authenticatable implements Auditable, CanResetPasswordContrac
             return false;
         }
 
-        $hours = (int) getSetting('new_provider_hours', 24);
+        $hours = (int) getSetting(Constatnt::NEW_PROVIDER_HOURS, 24);
         if ($hours <= 0) {
             return false;
         }

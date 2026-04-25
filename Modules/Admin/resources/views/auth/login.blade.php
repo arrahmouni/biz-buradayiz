@@ -19,7 +19,7 @@
                     @include('admin::components.other.image', [
                         'options' => [
                             'class' => 'modern-login-logo',
-                            'src'   => getSetting('app_mobile_logo', asset('images/default/logos/app_mobile_logo.svg')),
+                            'src'   => getSetting(\Modules\Config\Constatnt::APP_MOBILE_LOGO, asset('images/default/logos/app_mobile_logo.svg')),
                             'alt'   => 'Logo',
                         ]
                     ])

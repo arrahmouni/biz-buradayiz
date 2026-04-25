@@ -1,5 +1,5 @@
 @php
-    $websiteLaunchDate = getSetting('website_launch_date');
+    $websiteLaunchDate = getSetting(\Modules\Config\Constatnt::WEBSITE_LAUNCH_DATE);
     $launchAtMs = null;
     if (! empty($websiteLaunchDate)) {
         try {
@@ -11,8 +11,8 @@
             $launchAtMs = null;
         }
     }
-    $logoUrl = getSetting('web_logo', asset('images/default/logos/web_logo.svg'));
-    $faviconUrl = getSetting('app_favicon', asset('images/default/logos/favicon.png'));
+    $logoUrl = getSetting(\Modules\Config\Constatnt::WEB_LOGO, asset('images/default/logos/web_logo.svg'));
+    $faviconUrl = getSetting(\Modules\Config\Constatnt::APP_FAVICON, asset('images/default/logos/favicon.png'));
     $features = __('coming_soon.features');
     if (! is_array($features)) {
         $features = [];

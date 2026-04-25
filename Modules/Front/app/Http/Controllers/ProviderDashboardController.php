@@ -6,6 +6,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Modules\Auth\Models\User;
+use Modules\Config\Constatnt;
 use Modules\Base\Http\Controllers\BaseController;
 use Modules\Front\Http\Requests\ProviderRequestPackageSubscriptionRequest;
 use Modules\Platform\Enums\PackageSubscriptionPaymentMethod;
@@ -55,8 +56,8 @@ class ProviderDashboardController extends BaseController
                 ->get();
         }
 
-        $bankInstructions = (string) getSetting('provider_bank_transfer_instructions', '');
-        $whatsappSetting = (string) getSetting('provider_subscription_whatsapp_e164', '');
+        $bankInstructions = (string) getSetting(Constatnt::PROVIDER_BANK_TRANSFER_INSTRUCTIONS, '');
+        $whatsappSetting = (string) getSetting(Constatnt::PROVIDER_SUBSCRIPTION_WHATSAPP_E164, '');
         $whatsappDigits = preg_replace('/\D+/', '', $whatsappSetting) ?? '';
 
         $hasPendingSubscriptionPaymentRequest = $user->packageSubscriptions()
@@ -166,7 +167,7 @@ class ProviderDashboardController extends BaseController
     {
         $subscription->loadMissing('snapshot');
         $packageName = $subscription->snapshot?->smartTransName() ?? (string) $subscription->id;
-        $bankInstructions = (string) getSetting('provider_bank_transfer_instructions', '');
+        $bankInstructions = (string) getSetting(Constatnt::PROVIDER_BANK_TRANSFER_INSTRUCTIONS, '');
 
         $messageLines = [
             __('front::provider_dashboard.whatsapp_message_heading'),

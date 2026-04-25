@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ getSetting('app_name') }}</title>
+    <title>{{ getSetting(\Modules\Config\Constatnt::APP_NAME) }}</title>
     <style>
         /* Reset styles for email clients */
         body, table, td, p, a { margin: 0; padding: 0; border: 0; font-size: 100%; }
@@ -31,7 +31,7 @@
                     <!-- Header with logo -->
                     <div class="header">
                         <a href="{{ url('/') }}" target="_blank" style="display: inline-block; text-decoration: none;">
-                            <img src="{{ getSetting('email_logo', asset('images/default/logos/app_logo.svg')) }}" alt="{{ getSetting('app_name') }}" style="height: 48px; width: auto; max-width: 200px;">
+                            <img src="{{ getSetting(\Modules\Config\Constatnt::EMAIL_LOGO, asset('images/default/logos/app_logo.svg')) }}" alt="{{ getSetting(\Modules\Config\Constatnt::APP_NAME) }}" style="height: 48px; width: auto; max-width: 200px;">
                         </a>
                     </div>
 
@@ -43,7 +43,7 @@
                     <!-- Footer -->
                     <div class="footer">
                         <p style="margin: 0 0 8px; font-size: 13px; color: #6B7280;">
-                            &copy; {{ date('Y') }} {{ getSetting('app_name') }}. {{ __('admin::strings.all_rights_reserved') }}
+                            &copy; {{ date('Y') }} {{ getSetting(\Modules\Config\Constatnt::APP_NAME) }}. {{ __('admin::strings.all_rights_reserved') }}
                         </p>
                         <p style="margin: 0; font-size: 12px; color: #9CA3AF;">
                             {{ __('admin::strings.email_footer_registered_user_notice') }}
@@ -51,22 +51,22 @@
 
                         <!-- Social links -->
                         <div class="social-icons">
-                            @if($facebook = getSetting('facebook'))
+                            @if($facebook = getSetting(\Modules\Config\Constatnt::FACEBOOK))
                                 <a href="{{ $facebook }}" target="_blank"><img src="{{ asset('modules/admin/metronic/demo/media/svg/social-logos/facebook.svg') }}" alt="Facebook"></a>
                             @endif
-                            @if($twitter = getSetting('twitter'))
+                            @if($twitter = getSetting(\Modules\Config\Constatnt::TWITTER))
                                 <a href="{{ $twitter }}" target="_blank"><img src="{{ asset('modules/admin/metronic/demo/media/svg/social-logos/twitter.svg') }}" alt="Twitter"></a>
                             @endif
-                            @if($linkedin = getSetting('linkedin'))
+                            @if($linkedin = getSetting(\Modules\Config\Constatnt::LINKEDIN))
                                 <a href="{{ $linkedin }}" target="_blank"><img src="{{ asset('modules/admin/metronic/demo/media/svg/social-logos/linkedin.svg') }}" alt="LinkedIn"></a>
                             @endif
-                            @if($instagram = getSetting('instagram'))
+                            @if($instagram = getSetting(\Modules\Config\Constatnt::INSTAGRAM))
                                 <a href="{{ $instagram }}" target="_blank"><img src="{{ asset('modules/admin/metronic/demo/media/svg/social-logos/instagram.svg') }}" alt="Instagram"></a>
                             @endif
-                            @if($youtube = getSetting('youtube'))
+                            @if($youtube = getSetting(\Modules\Config\Constatnt::YOUTUBE))
                                 <a href="{{ $youtube }}" target="_blank"><img src="{{ asset('modules/admin/metronic/demo/media/svg/social-logos/youtube.svg') }}" alt="YouTube"></a>
                             @endif
-                            @if($tiktok = getSetting('tiktok'))
+                            @if($tiktok = getSetting(\Modules\Config\Constatnt::TIKTOK))
                                 <a href="{{ $tiktok }}" target="_blank"><img src="{{ asset('modules/admin/metronic/demo/media/svg/social-logos/tiktok.svg') }}" alt="TikTok"></a>
                             @endif
                         </div>

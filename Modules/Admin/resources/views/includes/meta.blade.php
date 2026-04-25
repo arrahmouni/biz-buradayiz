@@ -12,5 +12,5 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 <!--begin::shortcut icon-->
-<link rel="shortcut icon" href="{{ getSetting('app_favicon', asset('images/default/logos/favicon.png')) }}" />
+<link rel="shortcut icon" href="{{ getSetting(\Modules\Config\Constatnt::APP_FAVICON, asset('images/default/logos/favicon.png')) }}" />
 <!--end::shortcut icon-->

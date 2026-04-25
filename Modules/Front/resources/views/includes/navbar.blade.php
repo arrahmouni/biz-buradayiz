@@ -10,7 +10,7 @@
             href="{{ route('front.index') }}"
             class="site-header__brand inline-block min-w-0 shrink text-2xl font-extrabold tracking-tight rounded transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2"
         >
-            <img src="{{ getSetting('web_logo', asset('images/default/logos/web_logo.svg')) }}" alt="{{ __('front::home.brand') }}" class="h-10 w-auto max-w-full object-contain object-left max-[410px]:h-8 lg:h-12">
+            <img src="{{ getSetting(\Modules\Config\Constatnt::WEB_LOGO, asset('images/default/logos/web_logo.svg')) }}" alt="{{ __('front::home.brand') }}" class="h-10 w-auto max-w-full object-contain object-left max-[410px]:h-8 lg:h-12">
         </a>
 
         <div class="hidden min-w-0 flex-1 justify-center lg:flex">

@@ -3,8 +3,8 @@
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Schema;
-use Modules\Config\Enums\SettingTypes;
-use Modules\Config\Models\Setting;
+use Modules\Config\Constatnt;
+use Modules\Config\Support\SettingsSnapshot;
 use Modules\Zms\Models\City;
 use Modules\Zms\Models\Country;
 use Modules\Zms\Models\State;
@@ -29,7 +29,7 @@ if (! function_exists('schemaTableExists')) {
 if (! function_exists('getSetting')) {
 
     /**
-     * Get setting value from cache or database
+     * Get setting value from the cached all-settings snapshot (one DB round-trip on cold cache).
      */
     function getSetting(string $key, mixed $default = null): mixed
     {
@@ -37,27 +37,7 @@ if (! function_exists('getSetting')) {
             return $default;
         }
 
-        $setting = Cache::get($key);
-
-        if (! $setting) {
-            $data = Setting::where('key', $key)->first();
-            if ($data && ! is_null($data->value)) {
-
-                if ($data->translatable) {
-                    $setting = $data->smartTrans('trans_value');
-                } elseif ($data->type == SettingTypes::IMAGE || $data->type == SettingTypes::FILE) {
-                    $setting = asset('storage/'.$data->value);
-                } else {
-                    $setting = $data->value;
-                }
-
-                Cache::forever($key, $setting);
-            } else {
-                $setting = $default;
-            }
-        }
-
-        return $setting;
+        return SettingsSnapshot::resolveValue($key, $default);
     }
 }
 
@@ -317,7 +297,7 @@ if (! function_exists('resolveFrontSearchDefaultCountryIdFromIp')) {
      */
     function resolveFrontSearchDefaultCountryIdFromIp(?string $ip = null): int
     {
-        $fallback = (int) getSetting('front_search_default_country_id', 225);
+        $fallback = (int) getSetting(Constatnt::FRONT_SEARCH_DEFAULT_COUNTRY_ID, 225);
         $data = ipWhoPayloadForPublicIp($ip);
 
         if ($data === null || empty($data['country_code'])) {

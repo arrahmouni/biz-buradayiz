@@ -26,10 +26,10 @@
         $heroLocationLabel = $selectedState['name'];
     }
 
-    $emergencyContactNumber = getSetting('emergency_contact_number');
+    $emergencyContactNumber = getSetting(\Modules\Config\Constatnt::EMERGENCY_CONTACT_NUMBER);
     $hasEmergencyLine = filled(trim((string) ($emergencyContactNumber ?? '')));
-    $appStoreUrl = trim((string) (getSetting('app_store', '') ?? ''));
-    $googlePlayUrl = trim((string) (getSetting('google_play', '') ?? ''));
+    $appStoreUrl = trim((string) (getSetting(\Modules\Config\Constatnt::APP_STORE, '') ?? ''));
+    $googlePlayUrl = trim((string) (getSetting(\Modules\Config\Constatnt::GOOGLE_PLAY, '') ?? ''));
     $hasAppLinks = $appStoreUrl !== '' || $googlePlayUrl !== '';
 @endphp
 

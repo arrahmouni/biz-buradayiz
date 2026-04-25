@@ -137,11 +137,11 @@
                 </div>
 
                 @php
-                    $sitePhone = trim((string) (getSetting('phone') ?? ''));
-                    $siteEmail = trim((string) (getSetting('email') ?? ''));
-                    $siteAddress = trim((string) (getSetting('address') ?? ''));
-                    $emergencyContactNumber = trim((string) (getSetting('emergency_contact_number') ?? ''));
-                    $contactMapEmbedUrl = trim((string) (getSetting('contact_map_embed_url') ?? ''));
+                    $sitePhone = trim((string) (getSetting(\Modules\Config\Constatnt::PHONE) ?? ''));
+                    $siteEmail = trim((string) (getSetting(\Modules\Config\Constatnt::EMAIL) ?? ''));
+                    $siteAddress = trim((string) (getSetting(\Modules\Config\Constatnt::ADDRESS) ?? ''));
+                    $emergencyContactNumber = trim((string) (getSetting(\Modules\Config\Constatnt::EMERGENCY_CONTACT_NUMBER) ?? ''));
+                    $contactMapEmbedUrl = trim((string) (getSetting(\Modules\Config\Constatnt::CONTACT_MAP_EMBED_URL) ?? ''));
                     $hqHasContact = $sitePhone !== '' || $siteEmail !== '' || $siteAddress !== '' || $emergencyContactNumber !== '';
                 @endphp
 

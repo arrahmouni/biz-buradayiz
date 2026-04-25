@@ -21,6 +21,7 @@ use Illuminate\Support\ServiceProvider;
 use Laravel\Sanctum\Sanctum;
 use Mcamara\LaravelLocalization\Traits\LoadsTranslatedCachedRoutes;
 use Modules\Auth\Models\PersonalAccessToken;
+use Modules\Config\Constatnt;
 use Modules\Permission\Models\Ability;
 use Modules\Permission\Models\Role;
 use Silber\Bouncer\BouncerFacade;
@@ -108,8 +109,8 @@ class AppServiceProvider extends ServiceProvider
 
     private function checkDebugBar()
     {
-        $allowDebugForCustomIp = getSetting('allow_debug_for_custom_ip', false);
-        $ipAddresses = getSetting('custom_ips', '[]');
+        $allowDebugForCustomIp = getSetting(Constatnt::ALLOW_DEBUG_FOR_CUSTOM_IP, false);
+        $ipAddresses = getSetting(Constatnt::CUSTOM_IPS, '[]');
         $ipAddresses = explode(',', $ipAddresses);
         $currentIp = request()->ip();
 

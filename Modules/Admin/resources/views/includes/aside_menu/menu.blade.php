@@ -7,7 +7,7 @@
             @include('admin::components.other.image', [
                 'options'   => [
                     'class' => 'w-100 logo',
-                    'src'   => getSetting('app_logo', asset('images/default/logos/app_logo.svg')),
+                    'src'   => getSetting(\Modules\Config\Constatnt::APP_LOGO, asset('images/default/logos/app_logo.svg')),
                     'alt'   => 'Logo',
                 ]
             ])

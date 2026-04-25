@@ -12,7 +12,7 @@
             {{ __('front::home.cta_subtitle') }}
         </p>
 
-        @php($emergencyContactNumber = getSetting('emergency_contact_number'))
+        @php($emergencyContactNumber = getSetting(\Modules\Config\Constatnt::EMERGENCY_CONTACT_NUMBER))
         @if (filled(trim((string) ($emergencyContactNumber ?? ''))))
             <a href="{{ phoneToTelHref(trim((string) $emergencyContactNumber)) }}"
                class="mt-8 inline-flex items-center gap-3 bg-white text-red-600 px-8 py-4 rounded-full font-bold text-lg shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 hover:bg-gray-50 focus:outline-none focus:ring-4 focus:ring-white/50">

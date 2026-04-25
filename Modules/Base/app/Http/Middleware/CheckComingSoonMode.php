@@ -4,6 +4,7 @@ namespace Modules\Base\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Modules\Config\Constatnt;
 
 class CheckComingSoonMode extends BaseMiddleware
 {
@@ -28,10 +29,10 @@ class CheckComingSoonMode extends BaseMiddleware
 
     private function shouldShowComingSoon(): bool
     {
-        if (getSetting('maintenance_mode', false)) {
+        if (getSetting(Constatnt::MAINTENANCE_MODE, false)) {
             return false;
         }
 
-        return (bool) getSetting('coming_soon_mode', false);
+        return (bool) getSetting(Constatnt::COMING_SOON_MODE, false);
     }
 }

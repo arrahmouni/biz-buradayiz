@@ -10,7 +10,7 @@
         <div class="page-loader__logo-row">
             <div class="page-loader__logo-anchor" data-page-loader-logo-anchor>
                 <img
-                    src="{{ getSetting('loader_logo', asset('images/default/logos/loader_logo.svg')) }}"
+                    src="{{ getSetting(\Modules\Config\Constatnt::LOADER_LOGO, asset('images/default/logos/loader_logo.svg')) }}"
                     alt="{{ __('front::home.brand') }}"
                     class="page-loader__logo"
                 >

@@ -10,6 +10,7 @@ use Modules\Admin\Enums\AdminStatus;
 use Modules\Auth\Enums\UserType;
 use Modules\Auth\Models\User;
 use Modules\Base\Http\Controllers\BaseWebController;
+use Modules\Config\Constatnt;
 use Modules\Front\Http\Requests\ProviderSearchRequest;
 use Modules\Front\Http\Requests\StoreProviderReviewRequest;
 use Modules\Front\Support\FeaturedProviderService;
@@ -44,7 +45,7 @@ class ProviderController extends BaseWebController
         $featuredProviders = collect();
         $featuredIds = [];
         $currentPage = (int) $request->input('page', 1);
-        $featuredCount = (int) getSetting('featured_providers_count', 3);
+        $featuredCount = (int) getSetting(Constatnt::FEATURED_PROVIDERS_COUNT, 3);
 
         if ($featuredCount > 0) {
             $featuredForExclusion = $this->featuredProviderService->getFeatured(clone $query, $featuredCount);
