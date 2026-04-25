@@ -3,6 +3,7 @@
 namespace Modules\Config\Http\Services;
 
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -67,6 +68,8 @@ class SettingService extends BaseCrudService
 
         // Clear Cache
         Cache::flush();
+        Artisan::call('optimize:clear');
+        Artisan::call('optimize');
 
         // must include also featured_providers_count and new_provider_hours
         $rankingKeys = array_filter(
