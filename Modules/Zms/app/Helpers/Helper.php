@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Schema;
 use Modules\Zms\Models\Country;
 
 if (! function_exists('getCountryInfo')) {
@@ -14,7 +13,7 @@ if (! function_exists('getCountryInfo')) {
 
         $country = Cache::get($iso3);
 
-        if (! Schema::hasTable('countries')) {
+        if (! schemaTableExists('countries')) {
             return $default;
         }
 
@@ -34,7 +33,7 @@ if (! function_exists('getCurrencySymbol')) {
      */
     function getCurrencySymbol(?string $currencyCode = null, string $iso3 = 'TUR'): string
     {
-        if (Schema::hasTable('countries')) {
+        if (schemaTableExists('countries')) {
             if (filled($currencyCode)) {
                 $code = strtoupper($currencyCode);
                 $byCurrency = Country::where('currency', $code)->first();
@@ -67,7 +66,7 @@ if (! function_exists('getCurreny')) {
 
         $currency = Cache::get($iso3.'_currency');
 
-        if (! Schema::hasTable('countries')) {
+        if (! schemaTableExists('countries')) {
             return $default;
         }
 
@@ -92,7 +91,7 @@ if (! function_exists('getCountryPhoneCode')) {
 
         $phoneCode = Cache::get($iso3.'_phone_code');
 
-        if (! Schema::hasTable('countries')) {
+        if (! schemaTableExists('countries')) {
             return $default;
         }
 
@@ -123,7 +122,7 @@ if (! function_exists('getCurrencySelectOptions')) {
             return $options;
         }
 
-        if (! Schema::hasTable('countries')) {
+        if (! schemaTableExists('countries')) {
             $options = ['TRY' => 'TRY'];
             Cache::forever($cacheKey, $options);
 

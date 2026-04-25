@@ -9,6 +9,23 @@ use Modules\Zms\Models\City;
 use Modules\Zms\Models\Country;
 use Modules\Zms\Models\State;
 
+if (! function_exists('schemaTableExists')) {
+
+    /**
+     * Cache Schema::hasTable calls in-process to avoid repeated metadata queries.
+     */
+    function schemaTableExists(string $table): bool
+    {
+        static $exists = [];
+
+        if (! array_key_exists($table, $exists)) {
+            $exists[$table] = Schema::hasTable($table);
+        }
+
+        return $exists[$table];
+    }
+}
+
 if (! function_exists('getSetting')) {
 
     /**
@@ -16,7 +33,7 @@ if (! function_exists('getSetting')) {
      */
     function getSetting(string $key, mixed $default = null): mixed
     {
-        if (! Schema::hasTable('settings')) {
+        if (! schemaTableExists('settings')) {
             return $default;
         }
 
@@ -307,7 +324,7 @@ if (! function_exists('resolveFrontSearchDefaultCountryIdFromIp')) {
             return $fallback;
         }
 
-        if (! Schema::hasTable('countries')) {
+        if (! schemaTableExists('countries')) {
             return $fallback;
         }
 
@@ -334,7 +351,7 @@ if (! function_exists('getStateFromIp')) {
             return null;
         }
 
-        if (! Schema::hasTable('countries') || ! Schema::hasTable('states')) {
+        if (! schemaTableExists('countries') || ! schemaTableExists('states')) {
             return null;
         }
 
@@ -365,7 +382,7 @@ if (! function_exists('getCityFromIp')) {
             return null;
         }
 
-        if (! Schema::hasTable('countries') || ! Schema::hasTable('cities')) {
+        if (! schemaTableExists('countries') || ! schemaTableExists('cities')) {
             return null;
         }
 
