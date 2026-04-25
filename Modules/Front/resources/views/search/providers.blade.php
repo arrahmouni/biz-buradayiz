@@ -2,11 +2,18 @@
 
 @php
     $heroServiceLabel = __('front::home.search_results_hero_any_service');
+    $selectedService = null;
+    $selectedServiceHiddenFromFilters = false;
     if (! empty($filters['service_id'])) {
+        $selectedService = collect($frontPublicServices)->firstWhere('id', (int) $filters['service_id']);
         $matchedService = collect($frontPublicFilterServices)->firstWhere('id', (int) $filters['service_id']);
         if ($matchedService && filled($matchedService['name'] ?? null)) {
             $heroServiceLabel = $matchedService['name'];
+        } elseif ($selectedService && filled($selectedService['name'] ?? null)) {
+            $heroServiceLabel = $selectedService['name'];
         }
+
+        $selectedServiceHiddenFromFilters = $selectedService !== null && $matchedService === null;
     }
 
     $heroLocationLabel = __('front::home.search_results_hero_any_location');
@@ -21,6 +28,9 @@
 
     $emergencyContactNumber = getSetting('emergency_contact_number');
     $hasEmergencyLine = filled(trim((string) ($emergencyContactNumber ?? '')));
+    $appStoreUrl = trim((string) (getSetting('app_store', '') ?? ''));
+    $googlePlayUrl = trim((string) (getSetting('google_play', '') ?? ''));
+    $hasAppLinks = $appStoreUrl !== '' || $googlePlayUrl !== '';
 @endphp
 
 @section('content')
@@ -45,6 +55,48 @@
 
     <section class="bg-gray-50 py-8 md:py-12">
         <div class="container mx-auto px-5 lg:px-8">
+            @if ($selectedServiceHiddenFromFilters)
+                <div class="mb-6 rounded-2xl border border-amber-200 bg-amber-50 p-4 md:p-5">
+                    <div class="flex items-start gap-3">
+                        <i class="fas fa-mobile-alt mt-0.5 text-amber-600" aria-hidden="true"></i>
+                        <div class="min-w-0">
+                            <p class="text-sm font-semibold text-amber-900">
+                                {{ __('front::home.search_hidden_service_notice_title', ['service' => data_get($selectedService, 'name', __('front::home.search_results_hero_any_service'))]) }}
+                            </p>
+                            <p class="mt-1 text-sm text-amber-800">
+                                {{ __('front::home.search_hidden_service_notice_body') }}
+                            </p>
+                            @if ($hasAppLinks)
+                                <div class="mt-3 flex flex-wrap gap-2">
+                                    @if ($appStoreUrl !== '')
+                                        <a
+                                            href="{{ $appStoreUrl }}"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            class="inline-flex items-center gap-2.5 rounded-full bg-gray-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-gray-800"
+                                        >
+                                            <i class="fab fa-app-store-ios text-base mr-1" aria-hidden="true"></i>
+                                            <span>{{ __('front::home.footer_app_store') }}</span>
+                                        </a>
+                                    @endif
+                                    @if ($googlePlayUrl !== '')
+                                        <a
+                                            href="{{ $googlePlayUrl }}"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            class="inline-flex items-center gap-2.5 rounded-full bg-gray-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-gray-800"
+                                        >
+                                            <i class="fab fa-google-play text-sm mr-1" aria-hidden="true"></i>
+                                            <span>{{ __('front::home.footer_google_play') }}</span>
+                                        </a>
+                                    @endif
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            @endif
+
             <div class="bg-white rounded-2xl shadow-md p-5 md:p-6 mb-8">
                 <x-front::provider-location-search-form
                     form-id="providerSearchFiltersForm"

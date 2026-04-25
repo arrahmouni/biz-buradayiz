@@ -64,6 +64,8 @@ return [
     'search_sidebar_help_text' => '7/24 yönlendirme hattımızı arayın',
     'search_results_meta_description' => 'Yakınınızdaki güvenilir yol yardım ve çekici sağlayıcılarını bulun. Hizmet türü ve konuma göre filtreleyin.',
     'search_results_meta_keywords' => 'hizmet sağlayıcıları, yol yardım, çekici, Biz Buradayiz',
+    'search_hidden_service_notice_title' => ':service uygulamada mevcut.',
+    'search_hidden_service_notice_body' => 'Bu hizmet şu anda web sitesindeki arama filtresinde listelenmiyor. Bu hizmetle devam etmek için mobil uygulamayı kullanabilirsiniz.',
     'filter_hint' => 'Konumunuzu girerek yakınınızdaki ekipleri görüntüleyin.',
     'hero_badge_arrival' => 'Ort. varış 15 dk',
     'hero_badge_licensed' => 'Lisanslı ve sigortalı',

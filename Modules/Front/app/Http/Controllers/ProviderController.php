@@ -44,11 +44,15 @@ class ProviderController extends BaseWebController
         $featuredProviders = collect();
         $featuredIds = [];
         $currentPage = (int) $request->input('page', 1);
+        $featuredCount = (int) getSetting('featured_providers_count', 3);
 
-        if ($currentPage === 1) {
-            $featuredCount = (int) getSetting('featured_providers_count', 3);
-            $featuredProviders = $this->featuredProviderService->getFeatured(clone $query, $featuredCount);
-            $featuredIds = $featuredProviders->pluck('id')->all();
+        if ($featuredCount > 0) {
+            $featuredForExclusion = $this->featuredProviderService->getFeatured(clone $query, $featuredCount);
+            $featuredIds = $featuredForExclusion->pluck('id')->all();
+
+            if ($currentPage === 1) {
+                $featuredProviders = $featuredForExclusion;
+            }
         }
 
         if ($featuredIds !== []) {

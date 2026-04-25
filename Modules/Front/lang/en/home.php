@@ -63,6 +63,8 @@ return [
     'search_sidebar_help_text' => 'Call our 24/7 dispatch team',
     'search_results_meta_description' => 'Find trusted roadside assistance and towing providers near you. Filter by service type and location.',
     'search_results_meta_keywords' => 'service providers, roadside assistance, towing, Biz Buradayiz',
+    'search_hidden_service_notice_title' => ':service is available in the app.',
+    'search_hidden_service_notice_body' => 'This service is currently not listed in the website search filter. Use the mobile app to continue with this service.',
     'filter_hint' => 'Enter your location to see available rescue units near you.',
     'hero_badge_arrival' => '15 min avg arrival',
     'hero_badge_licensed' => 'Licensed & insured',
