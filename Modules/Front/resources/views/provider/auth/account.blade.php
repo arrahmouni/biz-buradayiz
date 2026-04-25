@@ -137,7 +137,7 @@
                             @enderror
                         </div>
                         <div
-                            class="js-provider-location-search grid grid-cols-1 gap-4 sm:grid-cols-2"
+                            class="js-provider-location-search account-provider-location-search grid grid-cols-1 gap-4 sm:grid-cols-2"
                             data-states-list-url="{{ route('zms.states.list') }}"
                             data-cities-list-url="{{ route('zms.cities.list') }}"
                             data-default-country-id="{{ $frontSearchDefaultCountryId }}"
