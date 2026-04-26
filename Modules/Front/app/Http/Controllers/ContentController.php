@@ -97,6 +97,7 @@ class ContentController extends BaseController
             ->where(function ($q) {
                 $q->whereNull('published_at')
                     ->orWhere('published_at', '<=', now());
-            });
+            })
+            ->with('translations.media');
     }
 }

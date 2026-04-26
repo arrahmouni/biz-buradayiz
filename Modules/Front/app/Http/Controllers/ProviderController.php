@@ -4,6 +4,8 @@ namespace Modules\Front\Http\Controllers;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 use Modules\Admin\Enums\AdminStatus;
@@ -71,9 +73,12 @@ class ProviderController extends BaseWebController
         $selectedCity = null;
 
         if (! empty($validated['city_id'] ?? null)) {
-            $city = City::query()
-                ->with(['state.translations', 'translations'])
-                ->find($validated['city_id']);
+            $cityId = (int) $validated['city_id'];
+            $city = $this->resolveCityForSearchFilters(
+                $cityId,
+                $featuredProviders,
+                $providers
+            );
             if ($city !== null) {
                 $cityName = $city->smartTrans('name') ?? $city->native_name;
                 $selectedCity = ['id' => (int) $city->id, 'name' => $cityName];
@@ -83,7 +88,12 @@ class ProviderController extends BaseWebController
                 }
             }
         } elseif (! empty($validated['state_id'] ?? null)) {
-            $state = State::query()->with('translations')->find($validated['state_id']);
+            $stateId = (int) $validated['state_id'];
+            $state = $this->resolveStateForSearchFilters(
+                $stateId,
+                $featuredProviders,
+                $providers
+            );
             if ($state !== null) {
                 $stateName = $state->smartTrans('name') ?? $state->native_name;
                 $selectedState = ['id' => (int) $state->id, 'name' => $stateName];
@@ -180,11 +190,55 @@ class ProviderController extends BaseWebController
         ]);
     }
 
+    private function resolveCityForSearchFilters(
+        int $cityId,
+        Collection $featuredProviders,
+        LengthAwarePaginator $paginator
+    ): ?City {
+        foreach (array_merge(
+            $featuredProviders->all(),
+            $paginator->getCollection()->all()
+        ) as $user) {
+            if ((int) $user->city_id === $cityId
+                && $user->relationLoaded('city')
+                && $user->city !== null) {
+                return $user->city;
+            }
+        }
+
+        return City::query()
+            ->with(['state.translations', 'translations'])
+            ->find($cityId);
+    }
+
+    private function resolveStateForSearchFilters(
+        int $stateId,
+        Collection $featuredProviders,
+        LengthAwarePaginator $paginator
+    ): ?State {
+        foreach (array_merge(
+            $featuredProviders->all(),
+            $paginator->getCollection()->all()
+        ) as $user) {
+            $state = $user->city?->state;
+            if ($state === null) {
+                continue;
+            }
+            if ((int) $state->id === $stateId) {
+                return $state;
+            }
+        }
+
+        return State::query()->with('translations')->find($stateId);
+    }
+
     private function publicProviderQuery(): Builder
     {
         return User::query()
             ->where('type', UserType::ServiceProvider->value)
             ->where('status', AdminStatus::ACTIVE)
+            ->whereNotNull('approved_at')
+            ->whereNotNull('central_phone')
             ->whereHas('activePackageSubscription')
             ->with([
                 'service.translations',
