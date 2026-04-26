@@ -97,6 +97,18 @@ jobs:
             set -e
             cd ${{ secrets.CLOUDWAYS_STAGING_APP_PATH }}
 
+            # Storage/bootstrap dirs: rsync excludes cache contents and --no-perms; missing
+            # storage/framework/cache/data causes file cache writes to fail. Align ownership
+            # with the deploy user (same as Cloudways app user/PHP in typical setups).
+            mkdir -p storage/app/public
+            mkdir -p storage/framework/cache/data
+            mkdir -p storage/framework/sessions
+            mkdir -p storage/framework/views
+            mkdir -p storage/logs
+            mkdir -p bootstrap/cache
+            chmod -R 775 storage bootstrap/cache
+            chown -R "$(whoami):$(id -gn)" storage bootstrap/cache 2>/dev/null || true
+
             php artisan down --render="errors::503" --retry=30 || true
 
             php artisan storage:link || true
