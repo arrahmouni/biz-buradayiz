@@ -113,11 +113,6 @@ jobs:
             php artisan up
           ENDSSH
 
-      - name: Set permissions on Cloudways
-        run: |
-          ssh -p ${{ secrets.CLOUDWAYS_STAGING_SSH_PORT || 22 }} -o StrictHostKeyChecking=no ${{ secrets.CLOUDWAYS_STAGING_SSH_USER }}@${{ secrets.CLOUDWAYS_STAGING_SSH_HOST }} "cd ${{ secrets.CLOUDWAYS_STAGING_APP_PATH }} && \
-          chmod -R 775 storage/app storage/framework storage/logs && \
-          chmod -R 755 storage bootstrap/cache"
       - name: Notify deployment status
         if: always()
         run: |
