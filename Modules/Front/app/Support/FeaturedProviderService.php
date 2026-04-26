@@ -38,6 +38,7 @@ class FeaturedProviderService
 
         $rest = (clone $baseQuery)
             ->when($excludeIds !== [], fn (Builder $q) => $q->whereNotIn('id', $excludeIds))
+            ->whereNotNull('approved_at')
             ->orderByDesc('ranking_score')
             ->limit($remaining)
             ->get();

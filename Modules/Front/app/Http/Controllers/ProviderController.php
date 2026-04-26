@@ -64,7 +64,7 @@ class ProviderController extends BaseWebController
             ->orderByDesc('ranking_score')
             ->orderBy('first_name')
             ->orderBy('last_name')
-            ->paginate(12)
+            ->paginate(NUMBER_OF_RECORDS_PER_PAGE)
             ->withQueryString();
 
         $selectedState = null;
@@ -188,8 +188,8 @@ class ProviderController extends BaseWebController
             ->whereHas('activePackageSubscription')
             ->with([
                 'service.translations',
-                'city.translations',
                 'city.state.translations',
+                'media',
             ]);
     }
 
