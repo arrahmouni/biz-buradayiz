@@ -5,6 +5,7 @@ namespace Modules\Log\Providers;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+use Modules\Admin\Http\Middleware\SystemUserInfo;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -43,7 +44,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapWebRoutes(): void
     {
-        Route::middleware(['web', 'locale'])
+        Route::middleware(['web', 'locale', SystemUserInfo::class])
             ->namespace($this->moduleNamespace)
             ->prefix(LaravelLocalization::setLocale().'/admin')
             ->name('log.')

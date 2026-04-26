@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRedirectFilter;
 use Mcamara\LaravelLocalization\Middleware\LaravelLocalizationViewPath;
 use Modules\Admin\Http\Middleware\IsActiveAdmin;
-use Modules\Admin\Http\Middleware\SystemUserInfo;
 use Modules\Auth\Enums\UserType;
 use Modules\Auth\Http\Middleware\ActiveUser;
 use Modules\Base\Http\Middleware\CheckComingSoonMode;
@@ -50,11 +49,6 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->append([
             CheckMaintenanceMode::class,
             CheckComingSoonMode::class,
-        ]);
-
-        // Append Web Middleware
-        $middleware->web([
-            SystemUserInfo::class,
         ]);
 
         // Append API Middleware
