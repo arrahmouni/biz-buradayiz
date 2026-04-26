@@ -312,6 +312,12 @@
     </div>
 @endsection
 
+@section('modal')
+    @if($isServiceProvider)
+        @include('auth::users.partials.service-provider-accept-approval-modal')
+    @endif
+@endsection
+
 @if($isServiceProvider)
     @push('script')
         <script>
@@ -345,6 +351,192 @@
                         $('#data-table').DataTable().ajax.reload();
                     }
                 });
+
+                const $acceptModal = $('#spAcceptServiceProviderModal');
+                const $acceptInput = $('#sp_accept_central_phone');
+                const $acceptError = $('[data-sp-accept-central-phone-error]');
+                const spAcceptUrlDataKey = 'spAcceptUrl';
+                const spAcceptErrorMsg = @json(trans('admin::cruds.users.central_phone_required_approval'));
+                const spAcceptTarget = document.querySelector('#root-page');
+
+                function spAcceptParseResponseJson(xhr) {
+                    if (xhr.responseJSON) {
+                        return xhr.responseJSON;
+                    }
+                    if (xhr.responseText) {
+                        try {
+                            return JSON.parse(xhr.responseText);
+                        } catch (e) {
+                            return null;
+                        }
+                    }
+                    return null;
+                }
+
+                function spAcceptFirstErrorMessage(payload) {
+                    if (! payload || ! payload.errors || typeof payload.errors !== 'object') {
+                        return null;
+                    }
+                    const keys = Object.keys(payload.errors);
+                    for (let i = 0; i < keys.length; i++) {
+                        const v = payload.errors[keys[i]];
+                        if (Array.isArray(v) && v.length) {
+                            return v[0];
+                        }
+                        if (typeof v === 'string' && v) {
+                            return v;
+                        }
+                    }
+                    return null;
+                }
+
+                function spAcceptShowModalError(message) {
+                    if (! message) {
+                        return;
+                    }
+                    $acceptInput.addClass('is-invalid');
+                    $acceptError.removeClass('d-none').addClass('d-block').text(message);
+                    $acceptInput.trigger('focus');
+                }
+
+                function spAcceptClearModalError() {
+                    $acceptInput.removeClass('is-invalid');
+                    $acceptError.addClass('d-none').removeClass('d-block').text('');
+                }
+
+                function spAcceptReloadUsersDataTable() {
+                    const $table = $('#data-table');
+                    if ($table.length
+                        && typeof $.fn.DataTable !== 'undefined'
+                        && $.fn.DataTable.isDataTable($table[0])) {
+                        $table.DataTable().ajax.reload(null, false);
+                    }
+                }
+
+                if ($acceptModal.length) {
+                    $(document).on('click', '.sp-service-provider-accept', function (e) {
+                        e.preventDefault();
+                        e.stopImmediatePropagation();
+                        const $a = $(this);
+                        $acceptModal.data(spAcceptUrlDataKey, $a.attr('data-accept-url'));
+                        const p = $a.attr('data-initial-prefill');
+                        let prefill = null;
+                        if (p) {
+                            try {
+                                prefill = JSON.parse(p);
+                            } catch (err) {
+                                prefill = null;
+                            }
+                        }
+                        if (prefill == null) {
+                            $acceptInput.val('');
+                        } else {
+                            $acceptInput.val(String(prefill));
+                        }
+                        spAcceptClearModalError();
+                        bootstrap.Modal.getOrCreateInstance($acceptModal[0]).show();
+                    });
+
+                    $acceptInput.on('input', function () {
+                        if (String($acceptInput.val() || '').trim()) {
+                            spAcceptClearModalError();
+                        }
+                    });
+
+                    $acceptModal.on('hidden.bs.modal', function () {
+                        $acceptInput.val('').removeClass('is-invalid');
+                        $acceptError.addClass('d-none').removeClass('d-block').text('');
+                    });
+
+                    $('#spAcceptServiceProviderConfirm').on('click', function () {
+                        const postUrl = $acceptModal.data(spAcceptUrlDataKey);
+                        if (!postUrl) {
+                            return;
+                        }
+                        const v = String($acceptInput.val() || '').trim();
+                        if (!v) {
+                            spAcceptShowModalError(spAcceptErrorMsg);
+                            return;
+                        }
+                        spAcceptClearModalError();
+                        if (! spAcceptTarget) {
+                            return;
+                        }
+                        const blockUI = new KTBlockUI(spAcceptTarget, spinnerOption);
+                        const csrfToken = $('meta[name="csrf-token"]').attr('content');
+                        const handleNotify = function (response) {
+                            if (! response || ! response.message) {
+                                return;
+                            }
+                            if (response.notify_type === 'toastr') {
+                                GLOBAL.TOASTR.INIT(response.message.type, response.message.title, response.message.description);
+                            } else {
+                                GLOBAL.SWAL.INIT(response.message.type, response.message.title, response.message.description);
+                            }
+                        };
+                        $.ajax({
+                            type: 'POST',
+                            url: postUrl,
+                            dataType: 'json',
+                            headers: {
+                                'Accept': 'application/json',
+                                'X-Requested-With': 'XMLHttpRequest',
+                            },
+                            data: {
+                                _token: csrfToken,
+                                central_phone: v,
+                            },
+                            beforeSend: function () {
+                                blockUI.block();
+                            },
+                        })
+                            .done(function (response) {
+                                if (response && response.success) {
+                                    spAcceptReloadUsersDataTable();
+                                    const inst = bootstrap.Modal.getInstance($acceptModal[0]);
+                                    if (inst) {
+                                        inst.hide();
+                                    }
+                                }
+                                handleNotify(response);
+                            })
+                            .fail(function (xhr) {
+                                const j = spAcceptParseResponseJson(xhr);
+                                if (! j) {
+                                    GLOBAL.TOASTR.INIT('error');
+                                    return;
+                                }
+                                const is422 = xhr.status === 422 || Number(j.code) === 422;
+                                if (is422) {
+                                    const fromFields = spAcceptFirstErrorMessage(j);
+                                    if (fromFields) {
+                                        spAcceptShowModalError(fromFields);
+                                        return;
+                                    }
+                                    if (j.message && j.message.description) {
+                                        spAcceptShowModalError(j.message.description);
+                                        return;
+                                    }
+                                }
+                                if (j.message && j.message.type && j.message.description) {
+                                    handleNotify({ message: j.message, notify_type: j.notify_type || 'toastr' });
+                                    return;
+                                }
+                                if (typeof j.message === 'string' && j.message) {
+                                    GLOBAL.TOASTR.INIT('error', '', j.message);
+                                    return;
+                                }
+                                GLOBAL.TOASTR.INIT('error');
+                            })
+                            .always(function () {
+                                try {
+                                    blockUI.release();
+                                    blockUI.destroy();
+                                } catch (err) {
+                                }
+                            });
+                    });
+                }
             });
         </script>
     @endpush

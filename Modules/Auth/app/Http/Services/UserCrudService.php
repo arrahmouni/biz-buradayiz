@@ -83,7 +83,7 @@ class UserCrudService extends BaseCrudService
         return $model;
     }
 
-    public function acceptPendingServiceProvider(CrudModel $model): void
+    public function acceptPendingServiceProvider(CrudModel $model, string $centralPhone): void
     {
         if ($model->type !== UserType::ServiceProvider) {
             throw new InvalidArgumentException(trans('admin::cruds.users.accept_not_pending'));
@@ -93,8 +93,16 @@ class UserCrudService extends BaseCrudService
             throw new InvalidArgumentException(trans('admin::cruds.users.accept_not_pending'));
         }
 
-        DB::transaction(function () use ($model) {
-            $model->update(['status' => AdminStatus::ACTIVE]);
+        $centralPhone = trim($centralPhone);
+        if ($centralPhone === '') {
+            throw new InvalidArgumentException(trans('admin::cruds.users.central_phone_required_approval'));
+        }
+
+        DB::transaction(function () use ($model, $centralPhone) {
+            $model->update([
+                'status' => AdminStatus::ACTIVE,
+                'central_phone' => $centralPhone,
+            ]);
             $model->refresh();
             $this->onServiceProviderActivated($model);
         });
@@ -216,7 +224,7 @@ class UserCrudService extends BaseCrudService
                 if ($canAcceptPendingServiceProvider
                     && $row->status === AdminStatus::PENDING
                     && $row->approved_at === null) {
-                    $additionalActions[] = app('customDataTable')->addAction(
+                    $acceptAction = app('customDataTable')->addAction(
                         'accept',
                         'bi-check2-circle',
                         14,
@@ -224,9 +232,11 @@ class UserCrudService extends BaseCrudService
                         trans('admin::cruds.accept.title'),
                         'button',
                         '#198754',
-                        true,
+                        false,
                         route('auth.users.accept', ['userType' => $userType, 'model' => $row->id])
                     );
+                    $acceptAction['initial_central_phone'] = $row->central_phone;
+                    $additionalActions[] = $acceptAction;
                 }
 
                 if ($isServiceProvider && $canViewVerimorCallEvents) {

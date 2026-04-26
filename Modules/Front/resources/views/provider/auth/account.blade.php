@@ -56,7 +56,7 @@
         </div>
     </div>
 
-    <div class="container mx-auto px-4 py-10 lg:px-8 space-y-10">
+    <div class="provider-account-page container mx-auto px-4 py-10 lg:px-8 space-y-10">
         @if (session('success'))
             <div class="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-emerald-900" role="status">{{ session('success') }}</div>
         @endif

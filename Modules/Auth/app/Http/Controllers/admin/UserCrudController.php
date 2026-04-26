@@ -10,6 +10,7 @@ use InvalidArgumentException;
 use Modules\Admin\Enums\AdminStatus;
 use Modules\Auth\Enums\permissions\UserPermissions;
 use Modules\Auth\Enums\UserType;
+use Modules\Auth\Http\Requests\AcceptServiceProviderRequest;
 use Modules\Auth\Http\Requests\UserCrudRequest;
 use Modules\Auth\Http\Services\UserCrudService;
 use Modules\Auth\Models\User;
@@ -96,7 +97,7 @@ class UserCrudController extends BaseCrudController
         return $parent;
     }
 
-    public function acceptServiceProvider(Request $request)
+    public function acceptServiceProvider(AcceptServiceProviderRequest $request)
     {
         if ($this->userType !== UserType::ServiceProvider) {
             abort(404);
@@ -117,7 +118,10 @@ class UserCrudController extends BaseCrudController
         }
 
         try {
-            $this->crudService->acceptPendingServiceProvider($model);
+            $this->crudService->acceptPendingServiceProvider(
+                $model,
+                (string) $request->validated('central_phone')
+            );
         } catch (InvalidArgumentException $e) {
             return sendFailResponse(customMessage: $e->getMessage());
         } catch (Exception $e) {

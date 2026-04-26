@@ -903,7 +903,9 @@ body.front-auth-page .select2-container {
 body.front-auth-page .select2-dropdown {
     z-index: 10061;
 }
-.select2-container--default .select2-selection--single .select2-selection__clear {
+
+/* Provider account page only (Modules/Front/.../account.blade.php): Select2 clear control height */
+.provider-account-page .select2-container--default .select2-selection--single .select2-selection__clear {
     height: 36px !important;
 }
 

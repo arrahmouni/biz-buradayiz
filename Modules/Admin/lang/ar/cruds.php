@@ -263,6 +263,12 @@ return [
             'default_no' => 'لا',
         ],
         'accept_not_pending' => 'مقدم الخدمة هذا لا ينتظر الموافقة.',
+        'central_phone_required_approval' => 'الهاتف المركزي (للعامة) مطلوب لاعتماد وتفعيل مقدم الخدمة.',
+        'accept_approval_modal' => [
+            'title' => 'الموافقة على مقدم الخدمة',
+            'description' => 'يلزم رقم هاتف مركزي عام قبل تفعيل مقدم الخدمة. أدخل الرقم أو أكّد عليه، ثم وافق.',
+            'confirm' => 'الموافقة والتفعيل',
+        ],
     ],
     'notification_templates' => [
         'title' => 'قوالب الإشعارات',

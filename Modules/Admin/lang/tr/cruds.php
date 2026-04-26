@@ -255,6 +255,12 @@ return [
             'default_no' => 'Hayır',
         ],
         'accept_not_pending' => 'Bu hizmet sağlayıcı onay beklemiyor.',
+        'central_phone_required_approval' => 'Onaylamak ve etkinleştirmek için merkez (ilan) telefonu zorunludur.',
+        'accept_approval_modal' => [
+            'title' => 'Hizmet sağlayıcıyı onayla',
+            'description' => 'Sağlayıcı etkinleşmeden önce herkese açık merkez telefon numarası gerekir. Numarayı girin veya onaylayın, ardından onaylayın.',
+            'confirm' => 'Onayla ve etkinleştir',
+        ],
     ],
     'notification_templates' => [
         'title' => 'Bildirim Şablonları',

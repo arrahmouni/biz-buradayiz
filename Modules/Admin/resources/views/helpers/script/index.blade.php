@@ -562,6 +562,22 @@
                 </div>
             `;
         }
+        else if (value.type == 'button' && value.action == 'accept') {
+            const prefill = JSON.stringify('initial_central_phone' in value ? value.initial_central_phone : null);
+            items +=  `
+                <div class="menu-item px-3">
+                    <a href="#"
+                        class="menu-link px-3 sp-service-provider-accept"
+                        data-accept-url="${value.route}"
+                        data-model-id="${value.model}"
+                        data-initial-prefill='${prefill}'
+                    >
+                        <i class="${value.icon} me-2 text-success"></i>
+                        ${label}
+                    </a>
+                </div>
+            `;
+        }
         else {
             let mdethod = (value.action == 'soft_delete' || value.action == 'hard_delete') ? 'DELETE' : 'POST';
             items +=  `
