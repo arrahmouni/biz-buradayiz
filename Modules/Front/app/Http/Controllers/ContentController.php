@@ -53,8 +53,12 @@ class ContentController extends BaseController
             });
         }
 
-        $this->data['blogs'] = $query->orderByDesc('published_at')->paginate(5)->withQueryString();
+        $blogs = $query->orderByDesc('published_at')->paginate(5)->withQueryString();
+        $this->data['blogs'] = $blogs;
+
+        $excludeIds = $blogs->pluck('id')->all();
         $this->data['recentPosts'] = $this->publishedBlogsQuery()
+            ->when($excludeIds !== [], fn ($q) => $q->whereNotIn('contents.id', $excludeIds))
             ->orderByDesc('published_at')
             ->limit(5)
             ->get();
