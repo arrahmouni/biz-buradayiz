@@ -5,6 +5,7 @@
     $metaDescription = filled($serviceDescription)
         ? \Illuminate\Support\Str::limit(strip_tags($serviceDescription), 160)
         : __('front::home.provider_detail_meta_fallback', ['name' => $provider->full_name]);
+    $providerAvatarOnError = 'this.onerror=null;this.src='.(string) \Illuminate\Support\Js::from(provider_avatar_placeholder_url());
 @endphp
 
 @extends('front::layouts.master', ['title' => $metaTitle])
@@ -50,7 +51,12 @@
                     <div class="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden">
                         <div class="flex flex-col sm:flex-row gap-6 p-6 md:p-8">
                             <div class="sm:w-40 h-40 bg-gray-100 rounded-2xl overflow-hidden shrink-0 mx-auto sm:mx-0">
-                                <img src="{{ $provider->image_url }}" alt="{{ $provider->full_name }}" class="w-full h-full object-cover">
+                                <img
+                                    src="{{ $provider->image_url }}"
+                                    alt="{{ $provider->full_name }}"
+                                    class="w-full h-full object-cover"
+                                    onerror="{{ $providerAvatarOnError }}"
+                                >
                             </div>
                             <div class="min-w-0 flex-1 text-center sm:text-left">
                                 <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide">{{ __('front::home.provider_detail_about_title') }}</p>

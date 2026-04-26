@@ -1,6 +1,7 @@
 @php
     $isFeaturedCard = $isFeatured ?? false;
     $isNewCard = $provider->isNewProvider();
+    $providerAvatarOnError = 'this.onerror=null;this.src='.(string) \Illuminate\Support\Js::from(provider_avatar_placeholder_url());
 @endphp
 <article @class([
     'bg-white rounded-2xl shadow-md hover:shadow-lg transition p-4 sm:p-5 border',
@@ -22,7 +23,12 @@
 
     <div class="flex flex-row gap-3 sm:gap-5">
         <div class="h-14 w-14 sm:h-32 sm:w-32 bg-gray-100 rounded-full sm:rounded-xl overflow-hidden flex-shrink-0">
-            <img src="{{ $provider->image_url }}" alt="{{ $provider->full_name }}" class="w-full h-full object-cover">
+            <img
+                src="{{ $provider->image_url }}"
+                alt="{{ $provider->full_name }}"
+                class="w-full h-full object-cover"
+                onerror="{{ $providerAvatarOnError }}"
+            >
         </div>
         <div class="flex-1 min-w-0">
             <div class="flex flex-wrap justify-between items-start gap-2">

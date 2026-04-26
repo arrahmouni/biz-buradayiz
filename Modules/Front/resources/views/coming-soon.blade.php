@@ -40,7 +40,11 @@
             <div class="space-y-8">
                 <div class="inline-flex items-center gap-3 rounded-2xl border border-red-100 bg-white px-5 py-4 shadow-xl">
                     <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-4 border-red-100 bg-red-50 text-2xl font-bold text-red-600" aria-hidden="true">&#128295;</div>
-                    <img src="{{ $logoUrl }}" alt="{{ config('app.name') }}" class="h-10 w-auto max-w-[200px] object-contain">
+                    <x-front::placeholder-image
+                        :src="$logoUrl"
+                        :alt="config('app.name')"
+                        class="h-10 w-auto max-w-[200px] object-contain"
+                    />
                 </div>
 
                 <div>

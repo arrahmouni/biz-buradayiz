@@ -28,10 +28,14 @@
                     <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
                         @if ($post->front_cover_image_url !== '')
                             <div class="w-full max-h-96 overflow-hidden">
-                                <img src="{{ $post->front_cover_image_url }}" alt="{{ $post->smartTrans('title') }}" class="w-full h-full object-cover max-h-96">
+                                <x-front::placeholder-image
+                                    :src="$post->front_cover_image_url"
+                                    :alt="$post->smartTrans('title')"
+                                    class="w-full h-full object-cover max-h-96"
+                                />
                             </div>
                         @endif
-                        <div class="p-6 md:p-8 lg:p-10 text-gray-700 leading-relaxed
+                        <div class="front-cms-prose p-6 md:p-8 lg:p-10 text-gray-700 leading-relaxed
                                     [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-gray-800 [&_h2]:mt-8 [&_h2]:mb-4 [&_h2]:pb-2 [&_h2]:border-b [&_h2]:border-gray-200
                                     [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:text-gray-800 [&_h3]:mt-6 [&_h3]:mb-3
                                     [&_h4]:text-lg [&_h4]:font-semibold [&_h4]:mt-5 [&_h4]:mb-2
@@ -81,7 +85,11 @@
                                         <li>
                                             <a href="{{ $recent->front_blog_show_url }}" class="flex gap-3 hover:text-red-600 transition">
                                                 @if ($recent->front_cover_thumb_sidebar_url !== '')
-                                                    <img src="{{ $recent->front_cover_thumb_sidebar_url }}" alt="" class="w-16 h-16 object-contain rounded-md shrink-0 bg-gray-100">
+                                                    <x-front::placeholder-image
+                                                        :src="$recent->front_cover_thumb_sidebar_url"
+                                                        alt=""
+                                                        class="w-16 h-16 object-contain rounded-md shrink-0 bg-gray-100"
+                                                    />
                                                 @else
                                                     <span class="w-16 h-16 rounded-md bg-gray-100 flex items-center justify-center text-gray-400 shrink-0" aria-hidden="true">
                                                         <i class="fas fa-newspaper"></i>

@@ -10,7 +10,11 @@
             href="{{ route('front.index') }}"
             class="site-header__brand inline-block min-w-0 shrink text-2xl font-extrabold tracking-tight rounded transition-opacity hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2"
         >
-            <img src="{{ getSetting(\Modules\Config\Constatnt::WEB_LOGO, asset('images/default/logos/web_logo.svg')) }}" alt="{{ __('front::home.brand') }}" class="h-10 w-auto max-w-full object-contain object-left max-[410px]:h-8 lg:h-12">
+            <x-front::placeholder-image
+                :src="getSetting(\Modules\Config\Constatnt::WEB_LOGO, asset('images/default/logos/web_logo.svg'))"
+                :alt="__('front::home.brand')"
+                class="h-10 w-auto max-w-full object-contain object-left max-[410px]:h-8 lg:h-12"
+            />
         </a>
 
         <div class="hidden min-w-0 flex-1 justify-center lg:flex">
@@ -68,7 +72,12 @@
                         aria-label="{{ __('front::home.language') }}: {{ data_get($_ALL_LOCALE_, $_LOCALE_.'.native', strtoupper($_LOCALE_)) }}"
                     >
                         @isset($_LOCALE_FLAG_URLS_[$_LOCALE_])
-                            <img src="{{ $_LOCALE_FLAG_URLS_[$_LOCALE_] }}" alt="" decoding="async" class="lang-dropdown__flag shrink-0">
+                            <x-front::placeholder-image
+                                :src="$_LOCALE_FLAG_URLS_[$_LOCALE_]"
+                                alt=""
+                                decoding="async"
+                                class="lang-dropdown__flag shrink-0"
+                            />
                         @else
                             <i class="fas fa-globe text-gray-500 lang-dropdown__flag-icon" aria-hidden="true"></i>
                         @endisset
@@ -80,7 +89,12 @@
                             @if ($_LOCALE_ === $localeCode)
                                 <span class="flex cursor-default items-center gap-3 px-4 py-2.5 text-sm font-medium text-red-700 bg-red-50" aria-current="true">
                                     @isset($_LOCALE_FLAG_URLS_[$localeCode])
-                                        <img src="{{ $_LOCALE_FLAG_URLS_[$localeCode] }}" alt="" decoding="async" class="lang-dropdown__flag shrink-0">
+                                        <x-front::placeholder-image
+                                            :src="$_LOCALE_FLAG_URLS_[$localeCode]"
+                                            alt=""
+                                            decoding="async"
+                                            class="lang-dropdown__flag shrink-0"
+                                        />
                                     @else
                                         <i class="fas fa-globe text-gray-400 lang-dropdown__flag-icon" aria-hidden="true"></i>
                                     @endisset
@@ -95,7 +109,12 @@
                                     class="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50 hover:text-red-600"
                                 >
                                     @isset($_LOCALE_FLAG_URLS_[$localeCode])
-                                        <img src="{{ $_LOCALE_FLAG_URLS_[$localeCode] }}" alt="" decoding="async" class="lang-dropdown__flag shrink-0">
+                                        <x-front::placeholder-image
+                                            :src="$_LOCALE_FLAG_URLS_[$localeCode]"
+                                            alt=""
+                                            decoding="async"
+                                            class="lang-dropdown__flag shrink-0"
+                                        />
                                     @else
                                         <i class="fas fa-globe text-gray-400 lang-dropdown__flag-icon" aria-hidden="true"></i>
                                     @endisset

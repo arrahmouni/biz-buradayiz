@@ -29,5 +29,5 @@ return [
         'tr'                            => Module::asset('admin:metronic/demo/media/flags/tr.svg'),
     ],
 
-    'default_placeholder'               => getSetting(Constatnt::APP_PLACEHOLDER, asset('images/default/placeholder/global.png')),
+    'default_placeholder'               => getSetting(Constatnt::APP_PLACEHOLDER, asset('images/default/placeholder.png')),
 ];

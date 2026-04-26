@@ -34,7 +34,11 @@
                                 <article class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-shadow front-reveal-child">
                                     @if ($post->front_blog_show_url && $post->front_cover_image_url !== '')
                                         <a href="{{ $post->front_blog_show_url }}">
-                                            <img src="{{ $post->front_cover_image_url }}" alt="{{ $post->smartTrans('title') }}" class="w-full h-56 md:h-64 object-cover">
+                                            <x-front::placeholder-image
+                                                :src="$post->front_cover_image_url"
+                                                :alt="$post->smartTrans('title')"
+                                                class="w-full h-56 md:h-64 object-cover"
+                                            />
                                         </a>
                                     @endif
                                     <div class="p-6">
@@ -114,7 +118,11 @@
                                         <li>
                                             <a href="{{ $recent->front_blog_show_url }}" class="flex gap-3 hover:text-red-600 transition">
                                                 @if ($recent->front_cover_thumb_sidebar_url !== '')
-                                                    <img src="{{ $recent->front_cover_thumb_sidebar_url }}" alt="" class="w-16 h-16 object-contain rounded-md shrink-0 bg-gray-100">
+                                                    <x-front::placeholder-image
+                                                        :src="$recent->front_cover_thumb_sidebar_url"
+                                                        alt=""
+                                                        class="w-16 h-16 object-contain rounded-md shrink-0 bg-gray-100"
+                                                    />
                                                 @else
                                                     <span class="w-16 h-16 rounded-md bg-gray-100 flex items-center justify-center text-gray-400 shrink-0" aria-hidden="true">
                                                         <i class="fas fa-newspaper"></i>

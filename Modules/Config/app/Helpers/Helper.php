@@ -41,6 +41,28 @@ if (! function_exists('getSetting')) {
     }
 }
 
+if (! function_exists('app_placeholder_url')) {
+
+    /**
+     * Public site default / fallback image URL (app_placeholder setting, or static asset).
+     */
+    function app_placeholder_url(): string
+    {
+        return (string) getSetting(Constatnt::APP_PLACEHOLDER, asset('images/default/placeholder.png'));
+    }
+}
+
+if (! function_exists('provider_avatar_placeholder_url')) {
+
+    /**
+     * Default provider profile image when the real avatar fails to load.
+     */
+    function provider_avatar_placeholder_url(): string
+    {
+        return asset('images/default/avatars/blank.png');
+    }
+}
+
 if (! function_exists('youtubeEmbedSrcFromUrl')) {
 
     /**

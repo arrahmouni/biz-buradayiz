@@ -142,8 +142,8 @@ class CustomDataTable
         if (in_array($ability, $this->excludeActions) || empty($ability)) {
             return false;
         }
-        
-        if (app('owner') || auth('admin')->user()->can(strtoupper($ability . '_' . $this->modelName))) {
+
+        if (app('owner') || app('admin')->can(strtoupper($ability . '_' . $this->modelName))) {
             return true;
         }
 

@@ -20,7 +20,7 @@
                 </div>
 
                 <!-- Dynamic CMS content -->
-                <div class="p-6 md:p-8 lg:p-10 text-gray-700 leading-relaxed
+                <div class="front-cms-prose p-6 md:p-8 lg:p-10 text-gray-700 leading-relaxed
                             [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-gray-800 [&_h2]:mt-8 [&_h2]:mb-4 [&_h2]:pb-2 [&_h2]:border-b [&_h2]:border-gray-200
                             [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:text-gray-800 [&_h3]:mt-6 [&_h3]:mb-3
                             [&_h4]:text-lg [&_h4]:font-semibold [&_h4]:mt-5 [&_h4]:mb-2

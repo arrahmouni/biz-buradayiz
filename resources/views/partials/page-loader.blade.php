@@ -9,11 +9,11 @@
         </div>
         <div class="page-loader__logo-row">
             <div class="page-loader__logo-anchor" data-page-loader-logo-anchor>
-                <img
-                    src="{{ getSetting(\Modules\Config\Constatnt::LOADER_LOGO, asset('images/default/logos/loader_logo.svg')) }}"
-                    alt="{{ __('front::home.brand') }}"
+                <x-front::placeholder-image
+                    :src="getSetting(\Modules\Config\Constatnt::LOADER_LOGO, asset('images/default/logos/loader_logo.svg'))"
+                    :alt="__('front::home.brand')"
                     class="page-loader__logo"
-                >
+                />
             </div>
         </div>
         <div class="page-loader__progress" aria-hidden="true">

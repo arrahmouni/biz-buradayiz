@@ -161,3 +161,39 @@
 <script src="{{ asset('modules/front/js/front-form-submit-loading.js') }}?v={{$_STYLE_VER_}}"></script>
 <script src="{{ asset('modules/front/js/front-provider-location-select.js') }}?v={{$_STYLE_VER_}}"></script>
 <script src="{{ asset('modules/front/js/front-scroll-reveal.js') }}?v={{$_STYLE_VER_}}"></script>
+
+@php
+    $frontHeroBgProbeUrl = getSetting(\Modules\Config\Constatnt::FRONT_HERO_BACKGROUND, config('front.default_hero_background_url'));
+@endphp
+<script>
+    (function () {
+        const placeholder = {!! \Illuminate\Support\Js::from(app_placeholder_url()) !!};
+        window.__FRONT_PLACEHOLDER_IMAGE__ = placeholder;
+
+        const heroUrl = {!! \Illuminate\Support\Js::from($frontHeroBgProbeUrl) !!};
+        if (heroUrl && typeof Image !== 'undefined') {
+            const probe = new Image();
+            probe.onerror = function () {
+                document.documentElement.style.setProperty('--front-hero-bg-image', 'url(' + JSON.stringify(placeholder) + ')');
+            };
+            probe.src = heroUrl;
+        }
+
+        function bindCmsImageFallbacks() {
+            document.querySelectorAll('.front-cms-prose img').forEach((img) => {
+                if (img.hasAttribute('data-skip-image-placeholder')) {
+                    return;
+                }
+                img.addEventListener('error', function onCmsImageError() {
+                    this.onerror = null;
+                    this.src = placeholder;
+                }, { once: true });
+            });
+        }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', bindCmsImageFallbacks);
+        } else {
+            bindCmsImageFallbacks();
+        }
+    })();
+</script>

@@ -66,7 +66,11 @@
                     href="{{ route('front.index') }}"
                     class="inline-flex items-center space-x-2 mb-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 rounded"
                 >
-                    <img src="{{ getSetting(\Modules\Config\Constatnt::WEB_LOGO, asset('images/default/logos/web_logo.svg')) }}" alt="{{ __('front::home.brand') }}" class="h-10 w-auto md:h-12 brightness-0 invert">
+                    <x-front::placeholder-image
+                        :src="getSetting(\Modules\Config\Constatnt::WEB_LOGO, asset('images/default/logos/web_logo.svg'))"
+                        :alt="__('front::home.brand')"
+                        class="h-10 w-auto md:h-12 brightness-0 invert"
+                    />
                 </a>
                 <p class="text-sm text-gray-400">{{ __('front::home.footer_desc') }}</p>
             </div>
