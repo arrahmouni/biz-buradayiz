@@ -97,17 +97,18 @@ jobs:
             set -e
             cd ${{ secrets.CLOUDWAYS_STAGING_APP_PATH }}
 
-            # Storage/bootstrap dirs: rsync excludes cache contents and --no-perms; missing
-            # storage/framework/cache/data causes file cache writes to fail. Align ownership
-            # with the deploy user (same as Cloudways app user/PHP in typical setups).
+            # Create Laravel writable dirs if missing. Do not "chmod -R storage" here: on
+            # Cloudways, log/cache files are often owned by the PHP (application) user. If
+            # GitHub uses a different SSH user (e.g. Master user vs. application user), chmod
+            # gets EPERM ("Operation not permitted") and, with set -e, would abort the deploy.
+            # Fix ownership once: use the same SSH user in secrets as the Cloudways *application*
+            # user (not Master), or run a one-time chown as that user in the app directory.
             mkdir -p storage/app/public
             mkdir -p storage/framework/cache/data
             mkdir -p storage/framework/sessions
             mkdir -p storage/framework/views
             mkdir -p storage/logs
             mkdir -p bootstrap/cache
-            chmod -R 775 storage bootstrap/cache
-            chown -R "$(whoami):$(id -gn)" storage bootstrap/cache 2>/dev/null || true
 
             php artisan down --render="errors::503" --retry=30 || true
 
