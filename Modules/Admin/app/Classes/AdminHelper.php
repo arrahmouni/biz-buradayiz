@@ -94,7 +94,39 @@ class AdminHelper
             }
         }
 
-        return $menuItems;
+        return $this->pruneEmptyAsideMenuBranches($menuItems);
+    }
+
+    /**
+     * Remove section headers and accordion parents with no visible links
+     * (e.g. when the user has no permissions for any child items).
+     */
+    private function pruneEmptyAsideMenuBranches(array $items): array
+    {
+        $pruned = [];
+        foreach ($items as $item) {
+            $children = $item['children'] ?? [];
+            if (count($children) > 0) {
+                $item['children'] = $this->pruneEmptyAsideMenuBranches($children);
+            } else {
+                $item['children'] = [];
+            }
+
+            $childCount = count($item['children'] ?? []);
+            if (($item['type'] ?? '') === 'header' && $childCount === 0) {
+                continue;
+            }
+            if (($item['type'] ?? '') === 'item' && $childCount === 0) {
+                $link = $item['link'] ?? 'javascript:;';
+                if ($link === 'javascript:;') {
+                    continue;
+                }
+            }
+
+            $pruned[] = $item;
+        }
+
+        return $pruned;
     }
 
     private function handleUrl()

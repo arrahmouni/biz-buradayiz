@@ -56,6 +56,8 @@ class ViewServiceProvider extends ServiceProvider
             // $this->registerNotificationAsideMenu();
             $this->registerCrmAsideMenu();
             // $this->registerLogAsideMenu();
+
+            $view->with('asideMenu', app('adminHelper')->asideMenuGet());
         });
     }
 
