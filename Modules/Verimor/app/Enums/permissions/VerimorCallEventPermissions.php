@@ -8,7 +8,7 @@ final class VerimorCallEventPermissions
 
     const READ = 'READ_'.self::PERMISSION_NAMESPACE;
 
-    const VIEW = 'VIEW_'.self::PERMISSION_NAMESPACE;
+    const SHOW = 'SHOW_'.self::PERMISSION_NAMESPACE;
 
     const CREATE = 'CREATE_'.self::PERMISSION_NAMESPACE;
 

@@ -10,6 +10,9 @@ return [
     'view' => [
         'title' => 'Goruntule',
     ],
+    'show' => [
+        'title' => 'Görüntüle',
+    ],
     'update' => [
         'title' => 'Guncelle',
     ],
@@ -256,6 +259,7 @@ return [
         ],
         'accept_not_pending' => 'Bu hizmet sağlayıcı onay beklemiyor.',
         'central_phone_required_approval' => 'Onaylamak ve etkinleştirmek için merkez (ilan) telefonu zorunludur.',
+        'central_phone_required_when_active' => 'Durum etkin olduğunda merkez (ilan) telefonu zorunludur.',
         'accept_approval_modal' => [
             'title' => 'Hizmet sağlayıcıyı onayla',
             'description' => 'Sağlayıcı etkinleşmeden önce herkese açık merkez telefon numarası gerekir. Numarayı girin veya onaylayın, ardından onaylayın.',

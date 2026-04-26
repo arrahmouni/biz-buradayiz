@@ -20,7 +20,7 @@ Route::prefix('contactuses')->name('contactuses.')->controller(ContactusControll
     Route::get('list'                           , 'index')->name('index');
     Route::get('datatable'                      , 'datatable')->name('datatable');
     Route::get('ajax-list'                      , 'ajaxList')->name('ajaxList');
-    Route::get('view/{model}'                   , 'view')->name('view');
+    Route::get('view/{model}'                   , 'show')->name('show');
     Route::post('send-reply/{model}'            , 'sendReply')->name('sendReply');
     Route::delete('soft-delete/{model}'         , 'softDelete')->name('softDelete');
     Route::delete('hard-delete/{model}'         , 'hardDelete')->name('hardDelete');

@@ -23,7 +23,7 @@ Route::prefix('services')->name('services.')->controller(ServiceController::clas
     Route::get('datatable', 'datatable')->name('datatable');
     Route::get('ajax-list', 'ajaxList')->name('ajaxList');
     Route::get('create', 'create')->name('create');
-    Route::get('view/{model}', 'view')->name('view');
+    Route::get('view/{model}', 'show')->name('show');
     Route::post('create', 'postCreate')->name('postCreate');
     Route::get('update/{model}', 'update')->name('update');
     Route::put('update/{model}', 'postUpdate')->name('postUpdate');
@@ -46,7 +46,7 @@ Route::prefix('packages')->name('packages.')->controller(PackageController::clas
     Route::get('datatable', 'datatable')->name('datatable');
     Route::get('ajax-list', 'ajaxList')->name('ajaxList');
     Route::get('create', 'create')->name('create');
-    Route::get('view/{model}', 'view')->name('view');
+    Route::get('view/{model}', 'show')->name('show');
     Route::post('create', 'postCreate')->name('postCreate');
     Route::get('update/{model}', 'update')->name('update');
     Route::put('update/{model}', 'postUpdate')->name('postUpdate');
@@ -70,7 +70,7 @@ Route::prefix('package-subscriptions')->name('package_subscriptions.')->controll
     Route::get('datatable', 'datatable')->name('datatable');
     Route::get('ajax-list', 'ajaxList')->name('ajaxList');
     Route::get('create', 'create')->name('create');
-    Route::get('view/{model}', 'view')->name('view');
+    Route::get('view/{model}', 'show')->name('show');
     Route::post('create', 'postCreate')->name('postCreate');
     Route::get('update/{model}', 'update')->name('update');
     Route::put('update/{model}', 'postUpdate')->name('postUpdate');

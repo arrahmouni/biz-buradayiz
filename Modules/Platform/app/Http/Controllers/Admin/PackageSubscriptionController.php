@@ -58,7 +58,7 @@ class PackageSubscriptionController extends BaseCrudController
 
         if (static::$hasPermission) {
             $middlewares = array_merge($middlewares, [
-                new Middleware('need.permissions:'.UserPermissions::VIEW, only : ['serviceProviderPreview']),
+                new Middleware('need.permissions:'.UserPermissions::SHOW, only : ['serviceProviderPreview']),
             ]);
         }
 

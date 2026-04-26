@@ -21,9 +21,9 @@ Route::prefix('users/{userType}')->name('users.')->whereIn('userType', UserType:
     Route::get('datatable', 'datatable')->name('datatable');
     Route::get('create', 'create')->name('create');
     Route::post('create', 'postCreate')->name('postCreate');
-    Route::get('view/{model}', 'view')->name('view');
-    Route::get('view/{model}/subscriptions/datatable', 'providerSubscriptionsDatatable')->name('viewSubscriptionsDatatable');
-    Route::get('view/{model}/call-events/datatable', 'providerCallEventsDatatable')->name('viewCallEventsDatatable');
+    Route::get('show/{model}', 'show')->name('show');
+    Route::get('show/{model}/subscriptions/datatable', 'providerSubscriptionsDatatable')->name('showSubscriptionsDatatable');
+    Route::get('show/{model}/call-events/datatable', 'providerCallEventsDatatable')->name('showCallEventsDatatable');
     Route::get('update/{model}', 'update')->name('update');
     Route::put('update/{model}', 'postUpdate')->name('postUpdate');
     Route::delete('soft-delete/{model}', 'softDelete')->name('softDelete');

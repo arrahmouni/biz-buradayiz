@@ -10,6 +10,9 @@ return [
     'view' => [
         'title' => 'View',
     ],
+    'show' => [
+        'title' => 'Show',
+    ],
     'update' => [
         'title' => 'Update',
     ],
@@ -256,6 +259,7 @@ return [
         ],
         'accept_not_pending' => 'This service provider is not awaiting approval.',
         'central_phone_required_approval' => 'The central (listing) phone is required to approve and activate this provider.',
+        'central_phone_required_when_active' => 'The central (listing) phone is required when status is active.',
         'accept_approval_modal' => [
             'title' => 'Approve service provider',
             'description' => 'A public central phone number is required before this provider can be activated. Enter or confirm the number, then approve.',

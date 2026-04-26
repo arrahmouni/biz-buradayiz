@@ -7,7 +7,7 @@ final class AbilityPermissions
     const PERMISSION_NAMESPACE  = 'PERMISSION';
     const CREATE                = 'CREATE_'         . self::PERMISSION_NAMESPACE;
     const READ                  = 'READ_'           . self::PERMISSION_NAMESPACE;
-    const VIEW                  = 'VIEW_'           . self::PERMISSION_NAMESPACE;
+    const SHOW                  = 'SHOW_'           . self::PERMISSION_NAMESPACE;
     const UPDATE                = 'UPDATE_'         . self::PERMISSION_NAMESPACE;
     const STATUS_UPDATE         = 'STATUS_UPDATE_'  . self::PERMISSION_NAMESPACE;
     const SOFT_DELETE           = 'SOFT_DELETE_'    . self::PERMISSION_NAMESPACE;

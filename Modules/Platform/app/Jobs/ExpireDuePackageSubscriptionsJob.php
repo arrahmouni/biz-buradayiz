@@ -14,7 +14,7 @@ class ExpireDuePackageSubscriptionsJob
     {
         logger()->info('ExpireDuePackageSubscriptionsJob started');
 
-        $subscriptions = PackageSubscription::query()
+        $expiredCount = PackageSubscription::query()
             ->where('status', PackageSubscriptionStatus::Active)
             ->whereNull('cancelled_at')
             ->where(function ($query) {
@@ -28,7 +28,7 @@ class ExpireDuePackageSubscriptionsJob
             ->update(['status' => PackageSubscriptionStatus::Expired]);
 
         logger()->info('ExpireDuePackageSubscriptionsJob completed', [
-            'subscriptions' => $subscriptions->count(),
+            'subscriptions' => $expiredCount,
         ]);
     }
 }

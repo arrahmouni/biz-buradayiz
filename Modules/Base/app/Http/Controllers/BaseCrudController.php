@@ -61,7 +61,7 @@ class BaseCrudController extends BaseController implements HasMiddleware
         if (static::$hasPermission) {
             $middlewares = array_merge($middlewares, [
                 new Middleware('need.permissions:'.static::$permissionClass::READ, only : ['index', 'datatable', 'ajaxList']),
-                new Middleware('need.permissions:'.static::$permissionClass::VIEW, only : ['view', 'viewAsModal']),
+                new Middleware('need.permissions:'.static::$permissionClass::SHOW, only : ['view', 'viewAsModal', 'show']),
                 new Middleware('need.permissions:'.static::$permissionClass::CREATE, only : ['create', 'postCreate']),
                 new Middleware('need.permissions:'.static::$permissionClass::UPDATE, only : ['update', 'postUpdate']),
                 new Middleware('need.permissions:'.static::$permissionClass::SOFT_DELETE, only : ['softDelete', 'bulkSoftDelete']),
@@ -194,7 +194,7 @@ class BaseCrudController extends BaseController implements HasMiddleware
      *
      * @return Response
      */
-    public function view(Request $request)
+    public function show(Request $request)
     {
         app('adminHelper')->addBreadcrumbs(trans('admin::dashboard.breadcrumbs.view'));
 

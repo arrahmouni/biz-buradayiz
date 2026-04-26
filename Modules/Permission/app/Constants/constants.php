@@ -5,7 +5,7 @@ if(!defined('READ_ACTION')) {
 }
 
 if(!defined('VIEW_ACTION')) {
-    define('VIEW_ACTION', 'view');
+    define('VIEW_ACTION', 'show');
 }
 
 if(!defined('CREATE_ACTION')) {

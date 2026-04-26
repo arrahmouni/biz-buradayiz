@@ -243,7 +243,7 @@
                                         @component('admin::components.datatables.table', [
                                                 'options' => [
                                                     'id' => 'provider-view-subscriptions-table',
-                                                    'url' => route('auth.users.viewSubscriptionsDatatable', [
+                                                    'url' => route('auth.users.showSubscriptionsDatatable', [
                                                         'userType' => $userType->value,
                                                         'model' => $model->id,
                                                     ]),
@@ -355,7 +355,7 @@
                                         @component('admin::components.datatables.table', [
                                                 'options' => [
                                                     'id' => 'provider-view-call-events-table',
-                                                    'url' => route('auth.users.viewCallEventsDatatable', [
+                                                    'url' => route('auth.users.showCallEventsDatatable', [
                                                         'userType' => $userType->value,
                                                         'model' => $model->id,
                                                     ]),

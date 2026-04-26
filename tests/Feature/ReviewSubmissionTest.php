@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Validation\ValidationException;
+use Modules\Admin\Enums\AdminStatus;
 use Modules\Auth\Enums\UserType;
 use Modules\Auth\Models\User;
 use Modules\Platform\Enums\ReviewStatus;
@@ -23,6 +24,7 @@ class ReviewSubmissionTest extends TestCase
     {
         $user = User::factory()->create([
             'type' => UserType::ServiceProvider,
+            'status' => AdminStatus::ACTIVE,
             'central_phone' => '+905551112233',
         ]);
 
@@ -63,6 +65,7 @@ class ReviewSubmissionTest extends TestCase
     {
         $user = User::factory()->create([
             'type' => UserType::ServiceProvider,
+            'status' => AdminStatus::ACTIVE,
             'central_phone' => '+905551112233',
         ]);
 

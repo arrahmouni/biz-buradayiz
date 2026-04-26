@@ -7,7 +7,7 @@ final class NotificationTemplatePermissions
     const PERMISSION_NAMESPACE  = 'NOTIFICATION_TEMPLATE';
     const CREATE                = 'CREATE_'         . self::PERMISSION_NAMESPACE;
     const READ                  = 'READ_'           . self::PERMISSION_NAMESPACE;
-    const VIEW                  = 'VIEW_'           . self::PERMISSION_NAMESPACE;
+    const SHOW                  = 'SHOW_'           . self::PERMISSION_NAMESPACE;
     const UPDATE                = 'UPDATE_'         . self::PERMISSION_NAMESPACE;
     const SOFT_DELETE           = 'SOFT_DELETE_'    . self::PERMISSION_NAMESPACE;
     const HARD_DELETE           = 'HARD_DELETE_'    . self::PERMISSION_NAMESPACE;

@@ -86,7 +86,7 @@
             @php
                 use Modules\Auth\Enums\UserType;
 
-                $serviceProviderViewUrlTemplate = route('auth.users.view', [
+                $serviceProviderViewUrlTemplate = route('auth.users.show', [
                     'userType' => UserType::ServiceProvider->value,
                     'model' => 900000001,
                 ]);

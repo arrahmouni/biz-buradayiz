@@ -45,7 +45,11 @@ class VerimorCallEventService extends BaseCrudService
                 ];
             })
             ->addColumn('actions', function (CrudModel $model) {
-                $modalAction = app('customDataTable')->viewAsModal(
+                $datatable = app('customDataTable')
+                    ->routePrefix('verimor.verimor_call_events')
+                    ->of($model, VerimorCallEventPermissions::PERMISSION_NAMESPACE);
+
+                $modalAction = $datatable->viewAsModal(
                     route('verimor.verimor_call_events.viewAsModal', ['model' => $model->id]),
                     $model->id,
                     'verimorCallEventViewModal',
@@ -54,10 +58,7 @@ class VerimorCallEventService extends BaseCrudService
 
                 $additionalActions = empty($modalAction) ? [] : [$modalAction];
 
-                return app('customDataTable')
-                    ->routePrefix('verimor.verimor_call_events')
-                    ->of($model, VerimorCallEventPermissions::PERMISSION_NAMESPACE)
-                    ->getDatatableActions(additionalActions: $additionalActions, withMainCrudActions: false);
+                return $datatable->getDatatableActions(additionalActions: $additionalActions, withMainCrudActions: false);
             })
             ->rawColumns(['actions'])
             ->toJson();

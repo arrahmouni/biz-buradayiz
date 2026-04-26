@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "491908081e8879f150a4208c6b9d3d34",
+    "content-hash": "48bff5fb50274fff221756a679495a53",
     "packages": [
         {
             "name": "arrahmouni/crud-generator",
-            "version": "2.0.0",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/arrahmouni/crud-generator.git",
-                "reference": "e1a6bf054a2d8efd7151622596202dd50f10eaa6"
+                "reference": "f0c5d8cf4ed339040b5b98f8b83cb820b8863cc7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/arrahmouni/crud-generator/zipball/e1a6bf054a2d8efd7151622596202dd50f10eaa6",
-                "reference": "e1a6bf054a2d8efd7151622596202dd50f10eaa6",
+                "url": "https://api.github.com/repos/arrahmouni/crud-generator/zipball/f0c5d8cf4ed339040b5b98f8b83cb820b8863cc7",
+                "reference": "f0c5d8cf4ed339040b5b98f8b83cb820b8863cc7",
                 "shasum": ""
             },
             "require": {
@@ -59,9 +59,9 @@
             ],
             "support": {
                 "issues": "https://github.com/arrahmouni/crud-generator/issues",
-                "source": "https://github.com/arrahmouni/crud-generator/tree/2.0.0"
+                "source": "https://github.com/arrahmouni/crud-generator/tree/2.0.2"
             },
-            "time": "2026-02-02T00:11:32+00:00"
+            "time": "2026-04-26T18:47:41+00:00"
         },
         {
             "name": "arrahmouni/response-helper",

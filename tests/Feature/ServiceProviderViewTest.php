@@ -43,7 +43,7 @@ class ServiceProviderViewTest extends TestCase
         ]);
 
         $response = $this->actingAs($admin, 'admin')
-            ->get($this->localizedAdminUrl('auth.users.view', [
+            ->get($this->localizedAdminUrl('auth.users.show', [
                 'userType' => UserType::ServiceProvider->value,
                 'model' => $user->id,
             ]));
@@ -70,13 +70,12 @@ class ServiceProviderViewTest extends TestCase
         ]);
 
         $response = $this->actingAs($admin, 'admin')
-            ->get($this->localizedAdminUrl('auth.users.view', [
+            ->get($this->localizedAdminUrl('auth.users.show', [
                 'userType' => UserType::Customer->value,
                 'model' => $user->id,
             ]));
 
-        $response->assertOk();
-        $this->assertStringContainsString('Not Found Page', $response->getContent());
+        $response->assertNotFound();
     }
 
     public function test_provider_subscriptions_datatable_returns_json(): void
@@ -90,7 +89,7 @@ class ServiceProviderViewTest extends TestCase
         ]);
 
         $response = $this->actingAs($admin, 'admin')
-            ->getJson($this->localizedAdminUrl('auth.users.viewSubscriptionsDatatable', [
+            ->getJson($this->localizedAdminUrl('auth.users.showSubscriptionsDatatable', [
                 'userType' => UserType::ServiceProvider->value,
                 'model' => $user->id,
             ]));
@@ -110,7 +109,7 @@ class ServiceProviderViewTest extends TestCase
         ]);
 
         $response = $this->actingAs($admin, 'admin')
-            ->getJson($this->localizedAdminUrl('auth.users.viewCallEventsDatatable', [
+            ->getJson($this->localizedAdminUrl('auth.users.showCallEventsDatatable', [
                 'userType' => UserType::ServiceProvider->value,
                 'model' => $user->id,
             ]));

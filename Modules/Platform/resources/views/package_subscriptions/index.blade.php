@@ -4,7 +4,7 @@
     use Modules\Platform\Enums\PackageSubscriptionPaymentStatus;
     use Modules\Platform\Enums\PackageSubscriptionStatus;
 
-    $serviceProviderViewUrlTemplate = route('auth.users.view', [
+    $serviceProviderViewUrlTemplate = route('auth.users.show', [
         'userType' => UserType::ServiceProvider->value,
         'model' => 900000001,
     ]);

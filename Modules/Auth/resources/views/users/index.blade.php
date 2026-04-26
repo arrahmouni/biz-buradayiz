@@ -159,7 +159,7 @@
             <div class="card-body  py-4">
                 @php
                     $serviceProviderViewUrlTemplate = $isServiceProvider
-                        ? route('auth.users.view', ['userType' => $userType->value, 'model' => 900000001])
+                        ? route('auth.users.show', ['userType' => $userType->value, 'model' => 900000001])
                         : '';
                 @endphp
                 @component('admin::components.datatables.table', [

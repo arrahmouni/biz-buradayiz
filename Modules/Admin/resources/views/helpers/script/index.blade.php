@@ -532,7 +532,7 @@
         if(value.type == 'divider') {
             items += `<div class="separator my-2"></div>`;
         }
-        else if(value.type == 'button' && (value.action == 'update' || value.action == 'view' || value.action == 'show_log')) {
+        else if(value.type == 'button' && (value.action == 'update' || value.action == 'view' || value.action == 'show' || value.action == 'show_log')) {
             items +=  `
                 <div class="menu-item px-3">
                     <a href="${value.route}" class="menu-link px-3"${linkTargetAttr}>
@@ -683,7 +683,7 @@
                     $('.view-modal-body').html(response.view);
                 },
                 error: function () {
-                    $('.view-modal-body').html('<p>{{ trans('admin::messages.web_response_messages.error_occured_while_fetching_data') }}</p>');
+                    $('.view-modal-body').html('<p>{{ trans('response::messages.web_response_messages.error_occured_while_fetching_data') }}</p>');
                 },
             }).always(function () {
                 $('.modal-spinner').hide();

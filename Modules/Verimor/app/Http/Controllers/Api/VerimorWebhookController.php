@@ -9,18 +9,18 @@ use Modules\Verimor\Jobs\ProcessVerimorCrmWebhookJob;
 
 class VerimorWebhookController extends Controller
 {
-    public function crm(Request $request): Response
+    public function crm(Request $request, string $token): Response
     {
         logger()->info('Verimor CRM webhook received', ['request' => $request->all()]);
 
-        // $expected = (string) config('verimor.webhook_token');
-        // if ($expected === '') {
-        //     abort(503);
-        // }
-        // if (! hash_equals($expected, $token)) {
-        //     logger()->error('Verimor CRM webhook token mismatch', ['expected' => $expected, 'token' => $token]);
-        //     abort(403);
-        // }
+        $expected = (string) config('verimor.webhook_token');
+        if ($expected === '') {
+            abort(503);
+        }
+        if (! hash_equals($expected, $token)) {
+            logger()->error('Verimor CRM webhook token mismatch', ['expected' => $expected, 'token' => $token]);
+            abort(403);
+        }
 
         ProcessVerimorCrmWebhookJob::dispatch($request->all());
 

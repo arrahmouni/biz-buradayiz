@@ -64,16 +64,24 @@ class ApiLogService extends BaseCrudService
                 }
             })
             ->addColumn('actions', function ($model) {
-                $excludeActions      = [VIEW_ACTION, UPDATE_ACTION];
-                $modelId             = $model->id;
-                $additionalActions[] = app('customDataTable')->viewAsModal(route('log.api_logs.viewAsModal', ['model' => $modelId]), $modelId, 'apiLogViewModal', trans('log::strings.details'));
+                $excludeActions = [VIEW_ACTION, UPDATE_ACTION];
+                $modelId        = $model->id;
 
-                return
-                    app('customDataTable')
+                $datatable = app('customDataTable')
                     ->routePrefix('log.api_logs')
                     ->of($model, ApiLogPermissions::PERMISSION_NAMESPACE)
-                    ->excludeActions($excludeActions)
-                    ->getDatatableActions(additionalActions: $additionalActions, withMainCrudActions: true);
+                    ->excludeActions($excludeActions);
+
+                $modalAction = $datatable->viewAsModal(
+                    route('log.api_logs.viewAsModal', ['model' => $modelId]),
+                    $modelId,
+                    'apiLogViewModal',
+                    trans('log::strings.details'),
+                );
+
+                $additionalActions = empty($modalAction) ? [] : [$modalAction];
+
+                return $datatable->getDatatableActions(additionalActions: $additionalActions, withMainCrudActions: true);
             })
             ->toJson();
     }

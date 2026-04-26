@@ -34,7 +34,7 @@ class UserCrudRequest extends BaseRequest
             'last_name'     => ['required', 'string', 'max:255'],
             'email'         => ['required', 'string', 'email', 'max:255', Rule::unique('users', 'email')->ignore($this->model)],
             'phone_number'  => ['required', 'string', 'min:9', 'max:20', Rule::unique('users', 'phone_number')->ignore($this->model)],
-            'central_phone' => ['nullable', 'string', 'max:255', 'regex:/^\+?[0-9]*$/'],
+            'central_phone' => $this->centralPhoneRules(),
             'password'      => ['confirmed', Password::defaults()],
             'lang'          => ['required', 'in:' . implode(',', LaravelLocalization::getSupportedLanguagesKeys())],
             'status'        => ['required', 'in:' . implode(',', AdminStatus::all())],
@@ -68,7 +68,24 @@ class UserCrudRequest extends BaseRequest
     public function messages(): array
     {
         return [
+            'central_phone.required' => trans('admin::cruds.users.central_phone_required_when_active'),
             'central_phone.regex' => trans('admin::validation.central_phone_regex'),
         ];
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function centralPhoneRules(): array
+    {
+        $rules = ['string', 'max:255', 'regex:/^\+?[0-9]*$/'];
+
+        if ($this->isUpdate() && $this->input('status') === AdminStatus::ACTIVE) {
+            array_unshift($rules, 'required');
+        } else {
+            array_unshift($rules, 'nullable');
+        }
+
+        return $rules;
     }
 }

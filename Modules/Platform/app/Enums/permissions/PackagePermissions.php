@@ -10,7 +10,7 @@ final class PackagePermissions
 
     const READ = 'READ_'.self::PERMISSION_NAMESPACE;
 
-    const VIEW = 'VIEW_'.self::PERMISSION_NAMESPACE;
+    const SHOW = 'SHOW_'.self::PERMISSION_NAMESPACE;
 
     const UPDATE = 'UPDATE_'.self::PERMISSION_NAMESPACE;
 

@@ -144,7 +144,7 @@ class UserCrudController extends BaseCrudController
         return parent::index();
     }
 
-    public function view(Request $request)
+    public function show(Request $request)
     {
         if ($this->userType === null) {
             abort(404);

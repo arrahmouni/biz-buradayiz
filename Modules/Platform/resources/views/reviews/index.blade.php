@@ -2,7 +2,7 @@
     use Modules\Auth\Enums\UserType;
     use Modules\Platform\Enums\ReviewStatus;
 
-    $serviceProviderViewUrlTemplate = route('auth.users.view', [
+    $serviceProviderViewUrlTemplate = route('auth.users.show', [
         'userType' => UserType::ServiceProvider->value,
         'model' => 900000001,
     ]);

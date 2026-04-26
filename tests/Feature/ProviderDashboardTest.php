@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRedirectFilter;
@@ -35,6 +36,7 @@ class ProviderDashboardTest extends TestCase
             LaravelLocalizationRedirectFilter::class,
             LocaleSessionRedirect::class,
             LocaleCookieRedirect::class,
+            ValidateCsrfToken::class,
         ]);
     }
 

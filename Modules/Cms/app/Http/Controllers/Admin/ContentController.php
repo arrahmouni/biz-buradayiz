@@ -48,7 +48,7 @@ class ContentController extends BaseCrudController
 
         return array_merge(['active.admin'], [
             new Middleware('need.permissions:' . $permissionClass::READ,        only : ['index', 'datatable', 'ajaxList']),
-            new Middleware('need.permissions:' . $permissionClass::VIEW,        only : ['view', 'viewAsModal']),
+            new Middleware('need.permissions:' . $permissionClass::SHOW,        only : ['view', 'viewAsModal']),
             new Middleware('need.permissions:' . $permissionClass::CREATE,      only : ['create', 'postCreate']),
             new Middleware('need.permissions:' . $permissionClass::UPDATE,      only : ['update', 'postUpdate']),
             new Middleware('need.permissions:' . $permissionClass::SOFT_DELETE, only : ['softDelete', 'bulkSoftDelete']),
