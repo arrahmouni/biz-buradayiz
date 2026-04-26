@@ -46,7 +46,7 @@ jobs:
       - name: Install PHP dependencies (production)
         run: composer install --no-interaction --prefer-dist --optimize-autoloader --no-progress
 
-      - name: Setup Node.js  
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
@@ -66,8 +66,9 @@ jobs:
       - name: Add Cloudways host to known_hosts
         run: |
           mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
           ssh-keyscan -p ${{ secrets.CLOUDWAYS_STAGING_SSH_PORT || 22 }} -H ${{ secrets.CLOUDWAYS_STAGING_SSH_HOST }} >> ~/.ssh/known_hosts
-
+          chmod 644 ~/.ssh/known_hosts || true
       - name: Deploy files to Cloudways via rsync
         run: |
           rsync -avz --delete --no-perms --no-owner --omit-dir-times \
@@ -112,6 +113,11 @@ jobs:
             php artisan up
           ENDSSH
 
+      - name: Set permissions on Cloudways
+        run: |
+          ssh -p ${{ secrets.CLOUDWAYS_STAGING_SSH_PORT || 22 }} -o StrictHostKeyChecking=no ${{ secrets.CLOUDWAYS_STAGING_SSH_USER }}@${{ secrets.CLOUDWAYS_STAGING_SSH_HOST }} "cd ${{ secrets.CLOUDWAYS_STAGING_APP_PATH }} && \
+          chmod -R 775 storage/app storage/framework storage/logs && \
+          chmod -R 755 storage bootstrap/cache"
       - name: Notify deployment status
         if: always()
         run: |
