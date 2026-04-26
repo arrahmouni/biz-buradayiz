@@ -4,9 +4,9 @@
     $providerAvatarOnError = 'this.onerror=null;this.src='.(string) \Illuminate\Support\Js::from(provider_avatar_placeholder_url());
 @endphp
 <article @class([
-    'bg-white rounded-2xl shadow-md hover:shadow-lg transition p-4 sm:p-5 border',
+    'bg-white rounded-2xl shadow-md hover:shadow-lg transition p-4 sm:p-5',
     'featured-provider-card border-red-200 border-l-4 border-l-red-600 ring-1 ring-red-100' => $isFeaturedCard,
-    'new-provider-card border-emerald-200 border-l-4 border-l-emerald-600 ring-1 ring-emerald-50' => $isNewCard && ! $isFeaturedCard,
+    // 'new-provider-card border-emerald-200 border-l-4 border-l-emerald-600 ring-1 ring-emerald-50' => $isNewCard && ! $isFeaturedCard,
     'border-gray-100' => ! $isFeaturedCard && ! $isNewCard,
 ])>
     @if ($isFeaturedCard)
