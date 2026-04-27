@@ -1,6 +1,6 @@
 name: Deploy to Staging (Cloudways)
 
-on:
+on: 
   push:
     branches:
       - dev
