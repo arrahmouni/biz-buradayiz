@@ -90,6 +90,7 @@ class UpdateSettingRequest extends BaseRequest
             'session_lifetime' => ['required', 'integer', 'min:60'],
             'allow_debug_for_custom_ip' => ['required', 'boolean'],
             'custom_ips' => ['nullable', 'string', 'regex:/^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(,\s*\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})*$/'],
+            'verimor_webhook_allowed_ips' => ['nullable', 'string', 'regex:/^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(,\s*\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})*$/'],
         ] : [];
 
         return array_merge($generalSettingRules, $socialSettingRules, $mobileSettingRules, $contactSettingRules, $platformSettingRules, $mediaSettingRules, $developerSettingRules, $providerRankingSettingRules);

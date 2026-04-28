@@ -493,6 +493,21 @@ class ConfigDatabaseSeeder extends Seeder
             ] + array_merge_recursive($translatableCustomIpTitle, $translatableCustomIpDescription)
         );
 
+        $translatableVerimorWebhookIpsTitle = createTranslateArray('title', 'settings.groups.developers.fields.verimor_webhook_allowed_ips.title', 'config');
+        $translatableVerimorWebhookIpsDescription = createTranslateArray('description', 'settings.groups.developers.fields.verimor_webhook_allowed_ips.description', 'config');
+
+        Setting::firstOrCreate(
+            [
+                'group' => SettingGroups::DEVELOPERS,
+                'key' => 'verimor_webhook_allowed_ips',
+            ],
+            [
+                'type' => SettingTypes::TEXTAREA,
+                'order' => 7,
+                'value' => '194.49.126.36',
+            ] + array_merge_recursive($translatableVerimorWebhookIpsTitle, $translatableVerimorWebhookIpsDescription)
+        );
+
         Setting::firstOrCreate(
             [
                 'group' => SettingGroups::DEVELOPERS,

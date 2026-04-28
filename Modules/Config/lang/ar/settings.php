@@ -76,6 +76,10 @@ return [
                     'title' => 'عناوين IP المخصصة',
                     'description' => 'أدخل عناوين IP مفصولة بفاصلة مثال : xxx.xxx.xxx.xxx, yyy.yyy.yyy.yyy',
                 ],
+                'verimor_webhook_allowed_ips' => [
+                    'title' => 'عناوين IP المسموحة لخطاف Verimor CRM',
+                    'description' => 'عناوين IPv4 المسموح لها بالوصول إلى خطاف Verimor CRM، مفصولة بفاصلة، مثال: 194.49.126.36',
+                ],
             ],
         ],
         'provider_ranking' => [

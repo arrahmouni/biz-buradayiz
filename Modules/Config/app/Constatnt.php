@@ -63,6 +63,8 @@ final class Constatnt
 
     public const CUSTOM_IPS = 'custom_ips';
 
+    public const VERIMOR_WEBHOOK_ALLOWED_IPS = 'verimor_webhook_allowed_ips';
+
     public const APP_MOBILE_LOGO = 'app_mobile_logo';
 
     public const FRONT_SEARCH_DEFAULT_COUNTRY_ID = 'front_search_default_country_id';

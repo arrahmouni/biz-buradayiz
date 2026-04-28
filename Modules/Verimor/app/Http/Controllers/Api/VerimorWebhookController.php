@@ -9,22 +9,12 @@ use Modules\Verimor\Jobs\ProcessVerimorCrmWebhookJob;
 
 class VerimorWebhookController extends Controller
 {
-    public function crm(Request $request, string $token): Response
+    public function crm(Request $request): Response
     {
-        logger()->info('Webhook IP', [
-            'ip' => $request->ip()
+        logger()->info('Verimor CRM webhook received', [
+            'ip' => $request->ip(),
+            'request' => $request->all(),
         ]);
-        logger()->info('Verimor CRM webhook received', ['request' => $request->all()]);
-
-        $expected = (string) config('verimor.webhook_token');
-        if ($expected === '') {
-            logger()->error('Verimor CRM webhook token is not set');
-            abort(503);
-        }
-        if (! hash_equals($expected, $token)) {
-            logger()->error('Verimor CRM webhook token mismatch', ['expected' => $expected, 'token' => $token]);
-            abort(403);
-        }
 
         ProcessVerimorCrmWebhookJob::dispatch($request->all());
 

@@ -78,6 +78,10 @@ return [
                     'title' => 'Özel IP\'ler',
                     'description' => 'IP\'leri virgul ile ayirarak girin. ornek: xxx.xxx.xxx.xxx, yyy.yyy.yyy.yyy',
                 ],
+                'verimor_webhook_allowed_ips' => [
+                    'title' => 'Verimor CRM webhook için izin verilen IP\'ler',
+                    'description' => 'Verimor CRM webhook\'a POST atmasına izin verilen IPv4 adresleri. Virgülle ayırın, örn. 194.49.126.36',
+                ],
             ],
         ],
         'provider_ranking' => [

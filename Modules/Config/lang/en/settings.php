@@ -78,6 +78,10 @@ return [
                     'title' => 'Custom IPs',
                     'description' => 'Enter IPs separated by comma example: xxx.xxx.xxx.xxx, yyy.yyy.yyy.yyy',
                 ],
+                'verimor_webhook_allowed_ips' => [
+                    'title' => 'Verimor CRM webhook allowed IPs',
+                    'description' => 'IPv4 addresses allowed to POST to the Verimor CRM webhook. Comma-separated, e.g. 194.49.126.36',
+                ],
             ],
         ],
         'provider_ranking' => [
