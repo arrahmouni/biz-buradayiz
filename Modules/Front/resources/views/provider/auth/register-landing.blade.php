@@ -30,10 +30,10 @@
 
     <div class="bg-white border-b border-gray-200 shadow-sm">
         <div
-            class="container mx-auto px-5 py-4 grid grid-cols-2 md:grid-cols-4 gap-4 text-center js-register-stats-bar js-front-reveal-group front-reveal-group"
+            class="container mx-auto px-5 py-4 grid grid-cols-2 md:grid-cols-3 gap-3 text-center js-register-stats-bar js-front-reveal-group front-reveal-group"
             data-stats-locale="{{ str_replace('_', '-', app()->getLocale()) }}"
         >
-            <div class="front-reveal-child">
+            {{-- <div class="front-reveal-child">
                 <span
                     class="js-prl-stat-counter text-2xl font-bold text-red-600 tabular-nums"
                     data-counter-type="int"
@@ -42,7 +42,7 @@
                     data-counter-final="{{ __('front::provider_register.stats_providers_value') }}"
                 >0</span>
                 <p class="text-gray-600 text-sm">{{ __('front::provider_register.stats_providers_label') }}</p>
-            </div>
+            </div> --}}
             <div class="front-reveal-child">
                 <span
                     class="js-prl-stat-counter text-2xl font-bold text-red-600 tabular-nums"
