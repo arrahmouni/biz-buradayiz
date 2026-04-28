@@ -68,7 +68,7 @@ return [
     'search_hidden_service_notice_body' => 'Bu hizmet şu anda web sitesindeki arama filtresinde listelenmiyor. Bu hizmetle devam etmek için mobil uygulamayı kullanabilirsiniz.',
     'filter_hint' => 'Konumunuzu girerek yakınınızdaki ekipleri görüntüleyin.',
     'hero_badge_arrival' => 'Ort. varış 15 dk',
-    'hero_badge_licensed' => 'Lisanslı ve sigortalı',
+    'hero_badge_licensed' => 'Hızlı ve Güvenilir',
     'hero_badge_no_fees' => 'Gizli ücret yok',
     'emergency_call_text' => 'Acil durum mu?',
     'emergency_call_with_phone' => 'Acil durum mu? :phone',

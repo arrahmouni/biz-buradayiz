@@ -194,7 +194,7 @@
                 aria-controls="mobileMenuWrapper"
             >
                 <i class="fas fa-bars menu-btn-icon menu-btn-icon--bars" aria-hidden="true"></i>
-                <i class="fas fa-times menu-btn-icon menu-btn-icon--close hidden" aria-hidden="true"></i>
+                <i class="fas fa-times menu-btn-icon menu-btn-icon--close" aria-hidden="true"></i>
             </button>
         </div>
     </div>

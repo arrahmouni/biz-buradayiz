@@ -183,6 +183,15 @@ html {
     overflow: hidden;
 }
 
+/* Toggle icons: avoid Tailwind `hidden` vs Font Awesome `.fas` display conflicts */
+#menuBtn .menu-btn-icon--bars {
+    display: inline-block;
+}
+
+#menuBtn .menu-btn-icon--close {
+    display: none;
+}
+
 #menuBtn.is-open .menu-btn-icon--bars {
     display: none;
 }

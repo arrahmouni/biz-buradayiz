@@ -67,7 +67,7 @@ return [
     'search_hidden_service_notice_body' => 'This service is currently not listed in the website search filter. Use the mobile app to continue with this service.',
     'filter_hint' => 'Enter your location to see available rescue units near you.',
     'hero_badge_arrival' => '15 min avg arrival',
-    'hero_badge_licensed' => 'Licensed & insured',
+    'hero_badge_licensed' => 'Fast & Reliable',
     'hero_badge_no_fees' => 'No hidden fees',
     'emergency_call_text' => 'Emergency Call?',
     'emergency_call_with_phone' => 'Emergency? Call :phone',
