@@ -49,7 +49,7 @@ return [
     'benefits_revenue_text' => 'Get matched with customers actively looking for your services. No upfront costs.',
     'benefits_tools_title' => 'Modern app & tools',
     'benefits_tools_text' => 'Manage jobs, track payments, and communicate with customers via our dashboard.',
-    'benefits_payments_title' => 'Protected payments',
-    'benefits_payments_text' => 'Secure and fast payouts — weekly settlements directly to your bank account.',
+    'benefits_payments_title' => 'Continuous Workflow',
+    'benefits_payments_text' => 'Access new job opportunities throughout the day, and fully utilize your capacity.',
     'benefits_cta_link' => 'Register your company now',
 ];

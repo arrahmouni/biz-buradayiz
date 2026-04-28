@@ -49,7 +49,7 @@ return [
     'benefits_revenue_text' => 'Hizmetinizi arayan müşterilerle eşleşin. Ön maliyet yoktur.',
     'benefits_tools_title' => 'Modern uygulama ve araçlar',
     'benefits_tools_text' => 'İşleri yönetin, ödemeleri takip edin ve müşterilerle panelimiz üzerinden iletişim kurun.',
-    'benefits_payments_title' => 'Güvenli ödemeler',
-    'benefits_payments_text' => 'Güvenli ve hızlı ödemeler — haftalık tahsilatlar doğrudan banka hesabınıza.',
+    'benefits_payments_title' => 'Kesintisiz İş Akışı',
+    'benefits_payments_text' => 'Günün her saatinde yeni iş fırsatlarına ulaşın، kapasitenizi tam verimle kullanın.',
     'benefits_cta_link' => 'Şirketinizi şimdi kaydedin',
 ];

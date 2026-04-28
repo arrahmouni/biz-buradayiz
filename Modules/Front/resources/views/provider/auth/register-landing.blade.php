@@ -162,7 +162,9 @@
                     <p class="text-gray-600 mt-2">{{ __('front::provider_register.benefits_tools_text') }}</p>
                 </div>
                 <div class="flex flex-col items-center text-center p-6 rounded-xl bg-gray-50 hover:shadow-md transition front-reveal-child">
-                    <div class="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mb-4"><i class="fas fa-shield-alt text-red-600 text-xl" aria-hidden="true"></i></div>
+                    <div class="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="fa-solid fa-clock text-red-600 text-xl" aria-hidden="true"></i>
+                    </div>
                     <h3 class="text-xl font-bold text-gray-800">{{ __('front::provider_register.benefits_payments_title') }}</h3>
                     <p class="text-gray-600 mt-2">{{ __('front::provider_register.benefits_payments_text') }}</p>
                 </div>
