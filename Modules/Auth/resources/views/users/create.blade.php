@@ -37,6 +37,7 @@
                         @component('admin::components.forms.form', [
                                 'options'       => [
                                     'isAjax'    => true,
+                                    'isMultiPart' => true,
                                     'action'    => route('auth.users.postCreate', ['userType' => $userType->value]),
                                 ]
                             ])

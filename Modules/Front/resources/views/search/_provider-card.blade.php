@@ -47,6 +47,9 @@
                     <span class="text-red-600 shrink-0" aria-hidden="true"><i class="{{ $provider->service->icon }} text-lg sm:text-xl"></i></span>
                 @endif
             </div>
+            @if (filled($provider->company_name))
+                <p class="text-sm text-gray-600 font-medium mt-1">{{ $provider->company_name }}</p>
+            @endif
             <div class="flex flex-wrap items-center gap-x-2 sm:gap-x-3 gap-y-1 text-xs sm:text-sm text-gray-500 mt-0.5 sm:mt-1">
                 @if ((int) $provider->approved_reviews_count > 0)
                     <span>

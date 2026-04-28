@@ -105,9 +105,13 @@ if (! function_exists('getImageTypes')) {
     /**
      * Get Image Types For Img Tag
      */
-    function getImageTypes(bool $forDisplay = false, array $types = []): string
+    function getImageTypes(bool $forDisplay = false, array $types = [], bool $allowSvg = true): string
     {
         $types = empty($types) ? config('base.file.image.accepted_types') : $types;
+
+        if (! $allowSvg) {
+            $types = array_values(array_filter($types, fn ($type) => $type !== 'svg'));
+        }
 
         if ($forDisplay) {
             return implode(' | ', array_map(function ($type) {

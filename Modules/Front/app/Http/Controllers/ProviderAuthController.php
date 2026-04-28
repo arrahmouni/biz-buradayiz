@@ -4,6 +4,7 @@ namespace Modules\Front\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Modules\Admin\Enums\AdminStatus;
@@ -92,18 +93,24 @@ class ProviderAuthController extends BaseController
     {
         $data = $request->validated();
 
-        User::query()->create([
-            'first_name' => $data['first_name'],
-            'last_name' => $data['last_name'],
-            'email' => $data['email'],
-            'phone_number' => $data['phone_number'],
-            'password' => $data['password'],
-            'type' => UserType::ServiceProvider,
-            'status' => AdminStatus::PENDING,
-            'lang' => app()->getLocale(),
-            'service_id' => $data['service_id'],
-            'city_id' => $data['city_id'],
-        ]);
+        DB::transaction(function () use ($data): void {
+            $user = User::query()->create([
+                'first_name' => $data['first_name'],
+                'last_name' => $data['last_name'],
+                'company_name' => $data['company_name'],
+                'email' => $data['email'],
+                'phone_number' => $data['phone_number'],
+                'password' => $data['password'],
+                'type' => UserType::ServiceProvider,
+                'status' => AdminStatus::PENDING,
+                'lang' => app()->getLocale(),
+                'service_id' => $data['service_id'],
+                'city_id' => $data['city_id'],
+            ]);
+
+            $user->addMediaFromRequest('personal_photo')->toMediaCollection(User::MEDIA_COLLECTION);
+            $user->addMediaFromRequest('service_image')->toMediaCollection(User::SERVICE_IMAGE_MEDIA_COLLECTION);
+        });
 
         return redirect()
             ->route('front.provider.login')

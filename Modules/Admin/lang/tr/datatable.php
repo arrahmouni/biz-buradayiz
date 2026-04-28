@@ -137,6 +137,7 @@ return [
         'quick_filter_pending_approval_option' => 'Onay bekliyor',
         'filtered_results_count_label' => 'sağlayıcı (filtreye uyan)',
         'columns' => [
+            'company_name' => 'Şirket adı',
             'service_type' => 'Hizmet türü',
             'country' => 'Ülke',
             'state' => 'Şehir',

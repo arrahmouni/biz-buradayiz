@@ -32,10 +32,53 @@
                 }
             @endphp
 
-            <form id="front-provider-register-form" class="mt-6" method="post" action="{{ route('front.provider.register.store') }}">
+            <form id="front-provider-register-form" class="mt-6" method="post" action="{{ route('front.provider.register.store') }}" enctype="multipart/form-data">
                 @csrf
                 {{-- Row-based grid: each row is [left field | right field] on lg so labels and inputs align horizontally --}}
                 <div class="grid grid-cols-1 gap-x-8 gap-y-4 lg:grid-cols-2 lg:gap-y-5 lg:items-start">
+                    <div class="front-auth-register-field">
+                        <label for="personal_photo" class="block text-sm font-medium text-gray-700 mb-1">{{ __('front::auth.personal_photo') }}</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
+                                <i class="fas fa-camera text-gray-400 text-sm" aria-hidden="true"></i>
+                            </div>
+                            <input id="personal_photo" name="personal_photo" type="file" accept="{{ getImageTypes(allowSvg: false) }}" required
+                                class="front-auth-file-input">
+                        </div>
+                        <p class="mt-1 text-xs text-gray-500">{{ __('front::auth.photo_types_hint', ['size' => config('base.file.image.max_size')]) }}</p>
+                        @error('personal_photo')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div class="front-auth-register-field">
+                        <label for="service_image" class="block text-sm font-medium text-gray-700 mb-1">{{ __('front::auth.service_image') }}</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
+                                <i class="fas fa-images text-gray-400 text-sm" aria-hidden="true"></i>
+                            </div>
+                            <input id="service_image" name="service_image" type="file" accept="{{ getImageTypes(allowSvg: false) }}" required
+                                class="front-auth-file-input">
+                        </div>
+                        <p class="mt-1 text-xs text-gray-500">{{ __('front::auth.photo_types_hint', ['size' => config('base.file.image.max_size')]) }}</p>
+                        @error('service_image')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div class="front-auth-register-field lg:col-span-2">
+                        <label for="company_name" class="block text-sm font-medium text-gray-700 mb-1">{{ __('front::auth.company_name') }}</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-building text-gray-400 text-sm" aria-hidden="true"></i>
+                            </div>
+                            <input id="company_name" name="company_name" type="text" value="{{ old('company_name') }}" autocomplete="organization" required
+                                class="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-gray-900 outline-none focus:border-red-400 focus:ring-2 focus:ring-red-200 sm:text-sm transition">
+                        </div>
+                        @error('company_name')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
+
                     <div class="front-auth-register-field">
                         <label for="first_name" class="block text-sm font-medium text-gray-700 mb-1">{{ __('front::auth.first_name') }}</label>
                         <div class="relative">
@@ -77,6 +120,7 @@
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
+
                     <div
                         class="js-provider-location-search front-auth-register-field grid grid-cols-1 gap-4 sm:grid-cols-2"
                         data-states-list-url="{{ route('zms.states.list') }}"

@@ -137,6 +137,7 @@ return [
         'quick_filter_pending_approval_option' => 'Pending approval',
         'filtered_results_count_label' => 'providers in these results',
         'columns' => [
+            'company_name' => 'Company name',
             'service_type' => 'Service type',
             'country' => 'Country',
             'state' => 'State',

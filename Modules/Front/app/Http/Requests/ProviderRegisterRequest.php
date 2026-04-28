@@ -3,6 +3,7 @@
 namespace Modules\Front\Http\Requests;
 
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\File;
 use Illuminate\Validation\Rules\Password;
 use Modules\Base\Http\Requests\BaseRequest;
 use Modules\Verimor\Support\VerimorPhoneNormalizer;
@@ -11,9 +12,14 @@ class ProviderRegisterRequest extends BaseRequest
 {
     public function rules(): array
     {
+        $imageRules = ['required', 'image', File::image()->types(config('base.file.image.accepted_types'))->max(config('base.file.image.max_size').'mb')];
+
         return [
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
+            'company_name' => ['required', 'string', 'max:255'],
+            'personal_photo' => $imageRules,
+            'service_image' => $imageRules,
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'phone_number' => ['required', 'string', 'min:9', 'max:20', 'unique:users,phone_number'],
             'password' => ['required', 'confirmed', Password::defaults()],

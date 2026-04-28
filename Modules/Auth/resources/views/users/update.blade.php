@@ -31,6 +31,7 @@
                         @component('admin::components.forms.form', [
                                 'options'       => [
                                     'isAjax'    => true,
+                                    'isMultiPart' => true,
                                     'action'    => route('auth.users.postUpdate', ['userType' => $userType->value, 'model' => $model->id]),
                                     'method'    => 'PUT',
                                 ]

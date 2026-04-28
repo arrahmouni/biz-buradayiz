@@ -1,11 +1,15 @@
 
 @php
     $serviceDescription = $provider->provider_card_service_description;
-    $metaTitle = $provider->full_name;
+    $metaTitle = filled($provider->company_name)
+        ? $provider->company_name.' — '.$provider->full_name
+        : $provider->full_name;
     $metaDescription = filled($serviceDescription)
         ? \Illuminate\Support\Str::limit(strip_tags($serviceDescription), 160)
         : __('front::home.provider_detail_meta_fallback', ['name' => $provider->full_name]);
     $providerAvatarOnError = 'this.onerror=null;this.src='.(string) \Illuminate\Support\Js::from(provider_avatar_placeholder_url());
+    $providerServiceImage = $provider->getFirstMedia(\Modules\Auth\Models\User::SERVICE_IMAGE_MEDIA_COLLECTION);
+    $serviceImageOnError = 'this.onerror=null;this.src='.(string) \Illuminate\Support\Js::from(app_placeholder_url());
 @endphp
 
 @extends('front::layouts.master', ['title' => $metaTitle])
@@ -70,6 +74,9 @@
                                         </span>
                                     @endif
                                 </div>
+                                @if (filled($provider->company_name))
+                                    <p class="mt-2 text-base md:text-lg font-semibold text-gray-700">{{ $provider->company_name }}</p>
+                                @endif
                                 <div class="mt-3 flex flex-wrap items-center justify-center sm:justify-start gap-3 text-sm text-gray-600">
                                     @if ((int) $provider->approved_reviews_count > 0)
                                         <span>
@@ -102,7 +109,18 @@
                                 </p>
                             </div>
                         </div>
+
                     </div>
+                    @if ($providerServiceImage)
+                        <div class="mb-6 overflow-hidden rounded-2xl border border-gray-100 bg-gray-100 shadow-md aspect-[21/9] max-h-72 w-full mt-6">
+                            <img
+                                src="{{ $providerServiceImage->getUrl() }}"
+                                alt="{{ $provider->company_name ?: $provider->full_name }}"
+                                class="h-full w-full object-cover"
+                                onerror="{{ $serviceImageOnError }}"
+                            >
+                        </div>
+                    @endif
                 </div>
 
                 <div class="provider-show-reviews min-w-0">

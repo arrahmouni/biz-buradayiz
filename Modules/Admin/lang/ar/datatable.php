@@ -140,6 +140,7 @@ return [
         'quick_filter_pending_approval_option' => 'بانتظار الموافقة',
         'filtered_results_count_label' => 'مقدّم خدمة يطابق النتائج',
         'columns' => [
+            'company_name' => 'اسم الشركة',
             'service_type' => 'نوع الخدمة',
             'country' => 'الدولة',
             'state' => 'المنطقة',

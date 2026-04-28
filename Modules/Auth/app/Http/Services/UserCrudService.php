@@ -24,6 +24,8 @@ class UserCrudService extends BaseCrudService
         'state_id',
         'image',
         'image_remove',
+        'service_image',
+        'service_image_remove',
     ];
 
     public function createModel(array $data): CrudModel
@@ -34,6 +36,9 @@ class UserCrudService extends BaseCrudService
         $model = DB::transaction(function () use ($modelData, $data) {
             $model = CrudModel::create($modelData);
             $this->uploadImageForModel($model, $data, CrudModel::MEDIA_COLLECTION, 'image');
+            if (($modelData['type'] ?? null) === UserType::ServiceProvider->value) {
+                $this->uploadImageForModel($model, $data, CrudModel::SERVICE_IMAGE_MEDIA_COLLECTION, 'service_image');
+            }
 
             return $model;
         });
@@ -65,6 +70,13 @@ class UserCrudService extends BaseCrudService
             }
 
             $this->uploadImageForModel($model, $data, CrudModel::MEDIA_COLLECTION, 'image');
+
+            if ($model->type === UserType::ServiceProvider) {
+                if (isset($data['service_image_remove']) && $data['service_image_remove'] == true) {
+                    $this->removeServiceImage($model);
+                }
+                $this->uploadImageForModel($model, $data, CrudModel::SERVICE_IMAGE_MEDIA_COLLECTION, 'service_image');
+            }
 
             if ($data['status'] != AdminStatus::ACTIVE) {
                 $this->removeFcmToken($model);
@@ -127,11 +139,21 @@ class UserCrudService extends BaseCrudService
         }
     }
 
+    private function removeServiceImage(CrudModel $model): void
+    {
+        $media = $model->getFirstMedia(CrudModel::SERVICE_IMAGE_MEDIA_COLLECTION);
+
+        if ($media) {
+            $media->delete();
+        }
+    }
+
     private function normalizeUserCrudPayload(array $data): array
     {
         if (($data['type'] ?? null) !== UserType::ServiceProvider->value) {
             $data['service_id'] = null;
             $data['city_id'] = null;
+            $data['company_name'] = null;
         }
 
         if (array_key_exists('central_phone', $data) && $data['central_phone'] === '') {

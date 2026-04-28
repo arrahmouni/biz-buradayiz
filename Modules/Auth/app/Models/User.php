@@ -38,6 +38,8 @@ class User extends Authenticatable implements Auditable, CanResetPasswordContrac
 
     public const MEDIA_COLLECTION = 'user_image';
 
+    public const SERVICE_IMAGE_MEDIA_COLLECTION = 'provider_service_image';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -51,6 +53,7 @@ class User extends Authenticatable implements Auditable, CanResetPasswordContrac
         'status',
         'first_name',
         'last_name',
+        'company_name',
         'phone_number',
         'central_phone',
         'email_verified_at',
@@ -169,6 +172,7 @@ class User extends Authenticatable implements Auditable, CanResetPasswordContrac
     public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaCollection(self::MEDIA_COLLECTION);
+        $this->addMediaCollection(self::SERVICE_IMAGE_MEDIA_COLLECTION);
     }
 
     public function getAuthPasswordName()
@@ -222,7 +226,7 @@ class User extends Authenticatable implements Auditable, CanResetPasswordContrac
 
         return $query->where(function ($q) use ($like) {
             $q->whereAny(
-                ['id', 'first_name', 'last_name', 'phone_number', 'central_phone', 'email'],
+                ['id', 'first_name', 'last_name', 'company_name', 'phone_number', 'central_phone', 'email'],
                 'LIKE',
                 $like
             )->orWhereRaw(
@@ -284,6 +288,13 @@ class User extends Authenticatable implements Auditable, CanResetPasswordContrac
     {
         return Attribute::make(
             get: fn () => $this->getFirstMedia(self::MEDIA_COLLECTION)?->getUrl() ?? asset('images/default/avatars/blank.png'),
+        );
+    }
+
+    protected function serviceImageUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->getFirstMedia(self::SERVICE_IMAGE_MEDIA_COLLECTION)?->getUrl() ?? app_placeholder_url(),
         );
     }
 
@@ -370,6 +381,7 @@ class User extends Authenticatable implements Auditable, CanResetPasswordContrac
 
         if ($this->type === UserType::ServiceProvider) {
             $appends = array_merge($appends, [
+                'service_image_url',
                 'provider_card_service_name',
                 'provider_card_service_description',
                 'provider_card_location_line',

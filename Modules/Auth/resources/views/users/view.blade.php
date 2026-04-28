@@ -115,12 +115,46 @@
                                 </div>
                             </div>
                             <div class="card-body pt-0">
+                                @php
+                                    $providerServiceImageMedia = $model->getFirstMedia(\Modules\Auth\Models\User::SERVICE_IMAGE_MEDIA_COLLECTION);
+                                @endphp
                                 <div class="table-responsive">
                                     <table class="table align-middle table-row-bordered mb-0 fs-6 gy-5 min-w-300px">
                                         <tbody class="fw-bold text-gray-600">
                                             <tr>
+                                                <td class="text-muted">@lang('admin::inputs.user_crud.company_name.label')</td>
+                                                <td class="fw-bolder text-end">{{ $model->company_name ?: '—' }}</td>
+                                            </tr>
+                                            <tr>
                                                 <td class="text-muted">@lang('admin::inputs.user_crud.service_id.label')</td>
                                                 <td class="fw-bolder text-end">{{ $model->service?->name ?? '—' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-muted">@lang('admin::inputs.user_crud.service_image.label')</td>
+                                                <td class="fw-bolder text-end">
+                                                    @if ($providerServiceImageMedia)
+                                                        @php
+                                                            $providerServiceImageUrl = $providerServiceImageMedia->getUrl();
+                                                        @endphp
+                                                        <a
+                                                            href="{{ $providerServiceImageUrl }}"
+                                                            class="d-inline-flex justify-content-end cursor-pointer"
+                                                            data-fslightbox="admin-provider-service-{{ $model->id }}"
+                                                            aria-label="{{ trans('admin::inputs.user_crud.service_image.label') }}"
+                                                        >
+                                                            <div class="symbol symbol-75px flex-shrink-0">
+                                                                <img
+                                                                    src="{{ $providerServiceImageUrl }}"
+                                                                    alt="{{ $model->service?->name ?? $model->full_name }}"
+                                                                    class="rounded"
+                                                                    onerror="this.onerror=null; this.src='{{ app_placeholder_url() }}';"
+                                                                />
+                                                            </div>
+                                                        </a>
+                                                    @else
+                                                        —
+                                                    @endif
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td class="text-muted">@lang('admin::inputs.user_crud.country_id.label')</td>
@@ -593,6 +627,18 @@
         </div>
     </div>
 @endsection
+
+@if ($isServiceProvider && $model->getFirstMedia(\Modules\Auth\Models\User::SERVICE_IMAGE_MEDIA_COLLECTION))
+    @push('script')
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                if (typeof refreshFsLightbox === 'function') {
+                    refreshFsLightbox();
+                }
+            });
+        </script>
+    @endpush
+@endif
 
 @if ($isServiceProvider && (($canViewProviderSubscriptionHistory ?? false) || ($canViewProviderCallLog ?? false)))
     @push('script')

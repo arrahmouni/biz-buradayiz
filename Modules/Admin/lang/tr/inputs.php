@@ -333,6 +333,17 @@ return [
             'help' => 'Bir soyad girin (gerekli)',
         ],
 
+        'company_name' => [
+            'label' => 'Şirket adı',
+            'placeholder' => 'Şirket veya işletme adını girin',
+            'help' => 'Hizmet sağlayıcılar için zorunludur.',
+        ],
+
+        'service_image' => [
+            'label' => 'Hizmet görseli',
+            'help' => 'Hizmeti veya işletmeyi temsil eden görsel (hizmet sağlayıcılar için zorunlu).',
+        ],
+
         'central_phone' => [
             'label' => 'Merkez telefon (Verimor)',
             'placeholder' => 'örn. +905551234567',

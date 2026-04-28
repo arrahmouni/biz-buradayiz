@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRedirectFilter;
@@ -29,6 +30,8 @@ use Tests\TestCase;
 class ProviderWebAuthTest extends TestCase
 {
     use RefreshDatabase;
+
+    private const TEST_PROVIDER_COMPANY = 'Test Provider Co';
 
     protected function setUp(): void
     {
@@ -91,6 +94,14 @@ class ProviderWebAuthTest extends TestCase
         ];
     }
 
+    private function attachMinimalProviderMedia(User $user): void
+    {
+        $personal = UploadedFile::fake()->image('personal.jpg', 80, 80);
+        $service = UploadedFile::fake()->image('service.jpg', 120, 80);
+        $user->addMedia($personal->getRealPath())->toMediaCollection(User::MEDIA_COLLECTION);
+        $user->addMedia($service->getRealPath())->toMediaCollection(User::SERVICE_IMAGE_MEDIA_COLLECTION);
+    }
+
     public function test_forgot_password_sends_reset_notification(): void
     {
         $serviceId = $this->createServiceWithTranslation();
@@ -125,6 +136,9 @@ class ProviderWebAuthTest extends TestCase
         $response = $this->from(route('front.provider.register.form'))->post(route('front.provider.register.store'), [
             'first_name' => 'Pat',
             'last_name' => 'Provider',
+            'company_name' => 'Pat Provider LLC',
+            'personal_photo' => UploadedFile::fake()->image('personal.jpg', 100, 100),
+            'service_image' => UploadedFile::fake()->image('service.jpg', 320, 180),
             'email' => 'pat-provider@example.test',
             'phone_number' => '5551234567',
             'password' => 'Str0ng!Pass',
@@ -136,6 +150,12 @@ class ProviderWebAuthTest extends TestCase
 
         $response->assertRedirect(route('front.provider.login'));
         $response->assertSessionHas('success');
+
+        $created = User::query()->where('email', 'pat-provider@example.test')->first();
+        $this->assertNotNull($created);
+        $this->assertSame('Pat Provider LLC', $created->company_name);
+        $this->assertNotNull($created->getFirstMedia(User::MEDIA_COLLECTION));
+        $this->assertNotNull($created->getFirstMedia(User::SERVICE_IMAGE_MEDIA_COLLECTION));
 
         $this->assertDatabaseHas('users', [
             'email' => 'pat-provider@example.test',
@@ -385,9 +405,12 @@ class ProviderWebAuthTest extends TestCase
             'city_id' => $location['city_id'],
         ]);
 
+        $this->attachMinimalProviderMedia($user);
+
         $response = $this->actingAs($user, 'web')->from(route('front.provider.account'))->put(route('front.provider.account.update'), [
             'first_name' => 'N1',
             'last_name' => 'N2',
+            'company_name' => self::TEST_PROVIDER_COMPANY,
             'email' => 'account-upd-new@example.test',
             'service_id' => $serviceId,
             'state_id' => $location['state_id'],
@@ -424,12 +447,15 @@ class ProviderWebAuthTest extends TestCase
             'city_id' => $location['city_id'],
         ]);
 
+        $this->attachMinimalProviderMedia($user);
+
         $slugBefore = $user->fresh()->profile_slug;
         $this->assertNotNull($slugBefore);
 
         $response = $this->actingAs($user, 'web')->from(route('front.provider.account'))->put(route('front.provider.account.update'), [
             'first_name' => 'Slug',
             'last_name' => 'Keep',
+            'company_name' => self::TEST_PROVIDER_COMPANY,
             'email' => 'slug-keep-new@example.test',
             'service_id' => $serviceId,
             'state_id' => $location['state_id'],
@@ -474,9 +500,12 @@ class ProviderWebAuthTest extends TestCase
             'city_id' => $location['city_id'],
         ]);
 
+        $this->attachMinimalProviderMedia($user);
+
         $response = $this->actingAs($user, 'web')->from(route('front.provider.account'))->put(route('front.provider.account.update'), [
             'first_name' => $user->first_name,
             'last_name' => $user->last_name,
+            'company_name' => self::TEST_PROVIDER_COMPANY,
             'email' => 'taken@example.test',
             'service_id' => $serviceId,
             'state_id' => $location['state_id'],
@@ -544,6 +573,8 @@ class ProviderWebAuthTest extends TestCase
             'city_id' => $location['city_id'],
         ]);
 
+        $this->attachMinimalProviderMedia($user);
+
         $paid = Package::query()->create([
             'price' => 99,
             'currency' => 'TRY',
@@ -574,6 +605,7 @@ class ProviderWebAuthTest extends TestCase
         $response = $this->actingAs($user, 'web')->from(route('front.provider.account'))->put(route('front.provider.account.update'), [
             'first_name' => $user->first_name,
             'last_name' => $user->last_name,
+            'company_name' => self::TEST_PROVIDER_COMPANY,
             'email' => $user->email,
             'service_id' => $serviceId2,
             'state_id' => $location['state_id'],

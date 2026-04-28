@@ -25,6 +25,7 @@ class UserFactory extends Factory
         return [
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
+            'company_name' => fake()->company(),
             'type' => UserType::ServiceProvider,
             'phone_number' => '+'.fake()->unique()->numerify('90##########'),
             'central_phone' => $this->faker->phoneNumber,
@@ -50,6 +51,9 @@ class UserFactory extends Factory
                 $user->addMedia($randomImagePath)
                     ->preservingOriginal()
                     ->toMediaCollection(User::MEDIA_COLLECTION);
+                $user->addMedia($randomImagePath)
+                    ->preservingOriginal()
+                    ->toMediaCollection(User::SERVICE_IMAGE_MEDIA_COLLECTION);
             }
 
             if ($user->status === AdminStatus::ACTIVE) {

@@ -333,6 +333,17 @@ return [
             'help' => 'Enter a Last Name (required)',
         ],
 
+        'company_name' => [
+            'label' => 'Company name',
+            'placeholder' => 'Enter the company or business name',
+            'help' => 'Required for service providers.',
+        ],
+
+        'service_image' => [
+            'label' => 'Service image',
+            'help' => 'Image representing the service or business (required for service providers).',
+        ],
+
         'central_phone' => [
             'label' => 'Central phone',
             'placeholder' => 'e.g. +905551234567',

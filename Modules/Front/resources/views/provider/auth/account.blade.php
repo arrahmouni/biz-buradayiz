@@ -28,6 +28,11 @@
         $accountOldStateId = (string) ($user->city?->state_id ?? '');
         $accountOldStateName = (string) ($user->city?->state?->name ?? $user->city?->state?->native_name ?? '');
     }
+
+    $accountPersonalMedia = $user->getFirstMedia(\Modules\Auth\Models\User::MEDIA_COLLECTION);
+    $accountServiceMedia = $user->getFirstMedia(\Modules\Auth\Models\User::SERVICE_IMAGE_MEDIA_COLLECTION);
+    $accountAvatarOnError = 'this.onerror=null;this.src='.(string) \Illuminate\Support\Js::from(provider_avatar_placeholder_url());
+    $accountServiceImageOnError = 'this.onerror=null;this.src='.(string) \Illuminate\Support\Js::from(app_placeholder_url());
 @endphp
 
 @section('content')
@@ -90,7 +95,7 @@
                     </div>
                 </div>
 
-                <form method="post" action="{{ route('front.provider.account.update') }}" class="mt-6 space-y-6">
+                <form method="post" action="{{ route('front.provider.account.update') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 
@@ -180,7 +185,20 @@
                             </div>
                         </div>
 
-                        <div class="lg:col-span-2">
+                        <div>
+                            <label for="account_company_name" class="block text-sm font-medium text-gray-700 mb-1">{{ __('front::auth.company_name') }}</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <i class="fas fa-building text-gray-400 text-sm" aria-hidden="true"></i>
+                                </div>
+                                <input id="account_company_name" name="company_name" type="text" value="{{ old('company_name', $user->company_name) }}" autocomplete="organization" required
+                                    class="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-gray-900 outline-none focus:border-red-400 focus:ring-2 focus:ring-red-200 sm:text-sm transition">
+                            </div>
+                            @error('company_name')
+                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div>
                             <label for="account_email" class="block text-sm font-medium text-gray-700 mb-1">{{ __('front::auth.email') }}</label>
                             <div class="relative">
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -192,6 +210,92 @@
                             @error('email')
                                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                             @enderror
+                        </div>
+
+                        <div class="lg:col-span-2">
+                            <div class="rounded-2xl border border-gray-200/90 bg-gradient-to-br from-slate-50/80 via-white to-white p-5 ring-1 ring-black/[0.04] sm:p-6">
+                                <div class="grid gap-10 sm:gap-8 lg:grid-cols-2 lg:gap-x-10 xl:gap-x-14">
+                                    <div class="space-y-4">
+                                        <label class="block text-sm font-medium text-gray-700">{{ __('front::auth.personal_photo') }}</label>
+                                        <div class="flex flex-col items-stretch gap-5 sm:items-start sm:gap-6">
+                                            <div class="flex shrink-0 justify-center sm:justify-start">
+                                                @if ($accountPersonalMedia)
+                                                    <div class="provider-account-media-avatar-frame">
+                                                        <img
+                                                            src="{{ $accountPersonalMedia->getUrl() }}"
+                                                            alt="{{ $user->full_name }}"
+                                                            class="provider-account-media-avatar-img"
+                                                            onerror="{{ $accountAvatarOnError }}"
+                                                        >
+                                                    </div>
+                                                @else
+                                                    <div class="provider-account-media-avatar-placeholder" role="presentation">
+                                                        <i class="fas fa-user text-3xl text-gray-300" aria-hidden="true"></i>
+                                                        <span class="mt-2 block max-w-[9rem] text-center text-xs font-medium leading-snug text-gray-500">{{ __('front::provider_account.preview_no_personal_photo') }}</span>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                            <div class="flex min-w-0 flex-1 flex-col justify-center gap-3 rounded-xl border border-gray-200/80 bg-white/90 p-4 shadow-sm sm:min-h-[11rem]">
+                                                <div class="relative">
+                                                    <div class="absolute inset-y-0 left-0 z-10 flex items-center pl-3 pointer-events-none">
+                                                        <i class="fas fa-camera text-gray-400 text-sm" aria-hidden="true"></i>
+                                                    </div>
+                                                    <input id="account_personal_photo" name="personal_photo" type="file" accept="{{ getImageTypes(allowSvg: false) }}"
+                                                        class="front-auth-file-input">
+                                                </div>
+                                                <p class="text-xs text-gray-500">{{ __('front::auth.photo_types_hint', ['size' => config('base.file.image.max_size')]) }}</p>
+                                                @if ($accountPersonalMedia)
+                                                    <p class="flex items-start gap-2 text-xs leading-relaxed text-emerald-800">
+                                                        <i class="fas fa-check-circle mt-0.5 shrink-0 text-emerald-600" aria-hidden="true"></i>
+                                                        <span>{{ __('front::provider_account.current_photo_set') }}</span>
+                                                    </p>
+                                                @endif
+                                                @error('personal_photo')
+                                                    <p class="text-sm text-red-600">{{ $message }}</p>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="space-y-4">
+                                        <label  class="block text-sm font-medium text-gray-700">{{ __('front::auth.service_image') }}</label>
+                                        @if ($accountServiceMedia)
+                                            <div class="provider-account-media-banner-frame">
+                                                <img
+                                                    src="{{ $accountServiceMedia->getUrl() }}"
+                                                    alt="{{ filled($user->company_name) ? $user->company_name : $user->full_name }}"
+                                                    class="provider-account-media-banner-img"
+                                                    onerror="{{ $accountServiceImageOnError }}"
+                                                >
+                                            </div>
+                                        @else
+                                            <div class="provider-account-media-banner-placeholder" role="presentation">
+                                                <i class="fas fa-panorama text-3xl text-gray-300 sm:text-4xl" aria-hidden="true"></i>
+                                                <p class="mt-3 max-w-md text-center text-sm font-medium text-gray-600">{{ __('front::provider_account.preview_no_service_image') }}</p>
+                                            </div>
+                                        @endif
+                                        <div class="rounded-xl border border-gray-200/80 bg-white/90 p-4 shadow-sm">
+                                            <div class="relative">
+                                                <div class="absolute inset-y-0 left-0 z-10 flex items-center pl-3 pointer-events-none">
+                                                    <i class="fas fa-images text-gray-400 text-sm" aria-hidden="true"></i>
+                                                </div>
+                                                <input id="account_service_image" name="service_image" type="file" accept="{{ getImageTypes(allowSvg: false) }}"
+                                                    class="front-auth-file-input">
+                                            </div>
+                                            <p class="mt-2 text-xs text-gray-500">{{ __('front::auth.photo_types_hint', ['size' => config('base.file.image.max_size')]) }}</p>
+                                            @if ($accountServiceMedia)
+                                                <p class="flex items-start gap-2 text-xs leading-relaxed text-emerald-800 mt-2">
+                                                    <i class="fas fa-check-circle mt-0.5 shrink-0 text-emerald-600" aria-hidden="true"></i>
+                                                    <span>{{ __('front::provider_account.current_service_image_set') }}</span>
+                                                </p>
+                                            @endif
+                                            @error('service_image')
+                                                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

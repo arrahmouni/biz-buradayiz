@@ -25,6 +25,44 @@
 @endphp
 
 <div class="row">
+    <div class="col-12 mb-10 form-group">
+        @include('admin::components.inputs.text', [
+            'options' => [
+                'name' => 'company_name',
+                'label' => trans('admin::inputs.user_crud.company_name.label'),
+                'placeholder' => trans('admin::inputs.user_crud.company_name.placeholder'),
+                'help' => trans('admin::inputs.user_crud.company_name.help'),
+                'required' => true,
+                'value' => $model?->company_name,
+            ],
+        ])
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 mb-10 form-group">
+        @include('admin::components.inputs.image', [
+            'options' => [
+                'name' => 'service_image',
+                'removeFieldName' => 'service_image_remove',
+                'label' => trans('admin::inputs.user_crud.service_image.label'),
+                'help' => trans('admin::inputs.user_crud.service_image.help'),
+                'isAvatar' => false,
+                'width' => '320',
+                'height' => '180',
+                'circle' => false,
+                'value' => $model?->getFirstMedia(\Modules\Auth\Models\User::SERVICE_IMAGE_MEDIA_COLLECTION)?->getUrl(),
+                'subText' => trans('admin::inputs.user_crud.image.subText', [
+                    'types' => getImageTypes(true),
+                    'size' => config('base.file.image.max_size'),
+                ]),
+                'accept' => getImageTypes(),
+            ],
+        ])
+    </div>
+</div>
+
+<div class="row">
     <div class="col-lg-6 col-12 mb-10 form-group">
         @include('admin::components.inputs.select', [
             'options' => [

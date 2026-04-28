@@ -5,6 +5,7 @@ namespace Modules\Front\Http\Controllers;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Modules\Auth\Http\Requests\ChangePasswordRequest;
 use Modules\Auth\Http\Services\ProfileService;
@@ -37,16 +38,31 @@ class ProviderAccountController extends BaseController
         $user = Auth::guard('web')->user();
         abort_unless($user instanceof User, 403);
 
-        $this->profileService->updateProfile(
-            $user,
-            Arr::only($request->validated(), [
-                'first_name',
-                'last_name',
-                'email',
-                'service_id',
-                'city_id',
-            ])
-        );
+        $data = $request->validated();
+
+        DB::transaction(function () use ($user, $data, $request): void {
+            $this->profileService->updateProfile(
+                $user,
+                Arr::only($data, [
+                    'first_name',
+                    'last_name',
+                    'company_name',
+                    'email',
+                    'service_id',
+                    'city_id',
+                ])
+            );
+
+            if ($request->hasFile('personal_photo')) {
+                $user->getFirstMedia(User::MEDIA_COLLECTION)?->delete();
+                $user->addMediaFromRequest('personal_photo')->toMediaCollection(User::MEDIA_COLLECTION);
+            }
+
+            if ($request->hasFile('service_image')) {
+                $user->getFirstMedia(User::SERVICE_IMAGE_MEDIA_COLLECTION)?->delete();
+                $user->addMediaFromRequest('service_image')->toMediaCollection(User::SERVICE_IMAGE_MEDIA_COLLECTION);
+            }
+        });
 
         return redirect()
             ->route('front.provider.account')
