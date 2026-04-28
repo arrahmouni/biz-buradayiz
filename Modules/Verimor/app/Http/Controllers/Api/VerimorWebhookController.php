@@ -15,6 +15,7 @@ class VerimorWebhookController extends Controller
 
         $expected = (string) config('verimor.webhook_token');
         if ($expected === '') {
+            logger()->error('Verimor CRM webhook token is not set');
             abort(503);
         }
         if (! hash_equals($expected, $token)) {

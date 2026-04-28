@@ -87,16 +87,25 @@ class ProcessVerimorCrmWebhookJob implements ShouldQueue
                 throw $e;
             }
 
-            if (! $answered || $user === null) {
-                if ($user === null && $normalizedDestination !== '') {
-                    Log::channel('single')->info('Verimor CRM webhook: no service provider for destination', [
-                        'call_uuid' => $callUuid,
-                        'destination_number_normalized' => $normalizedDestination,
-                    ]);
-                }
-
+            if(!$answered) {
+                Log::channel('single')->info('Verimor CRM webhook: not answered', [
+                    'call_uuid' => $callUuid,
+                    'destination_number_normalized' => $normalizedDestination,
+                    'answered' => $answered,
+                    'user' => $user,
+                ]);
+                
                 return;
             }
+
+            if ($user === null && $normalizedDestination !== '') {
+                Log::channel('single')->info('Verimor CRM webhook: no service provider for destination', [
+                    'call_uuid' => $callUuid,
+                    'destination_number_normalized' => $normalizedDestination,
+                ]);
+                return;
+            }
+
 
             $subscription = PackageSubscription::query()
                 ->activeSubscription()
@@ -156,6 +165,6 @@ class ProcessVerimorCrmWebhookJob implements ShouldQueue
 
         $v = strtolower(trim((string) $value));
 
-        return in_array($v, ['1', 'true', 'yes', 'on'], true);
+        return in_array($v, ['1', 'true', 'yes', 'on', 'y', 't'], true);
     }
 }
