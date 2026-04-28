@@ -46,8 +46,9 @@
         'pb-36 lg:pb-12' => filled($provider->central_phone),
     ])>
         <div class="container mx-auto px-5 lg:px-8">
-            <div class="flex flex-col lg:flex-row gap-8 lg:gap-10">
-                <div class="lg:w-2/3 space-y-6 min-w-0">
+            {{-- Mobile: profile → reviews → sidebar (phone / email / feedback). lg+: explicit grid keeps profile + reviews left, sidebar right. --}}
+            <div class="provider-show-layout grid grid-cols-1 gap-8 lg:gap-10">
+                <div class="provider-show-profile min-w-0">
                     <div class="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden">
                         <div class="flex flex-col sm:flex-row gap-6 p-6 md:p-8">
                             <div class="sm:w-40 h-40 bg-gray-100 rounded-2xl overflow-hidden shrink-0 mx-auto sm:mx-0">
@@ -102,9 +103,11 @@
                             </div>
                         </div>
                     </div>
+                </div>
 
+                <div class="provider-show-reviews min-w-0">
                     <div class="bg-white rounded-2xl shadow-md border border-gray-100 p-6 md:p-8">
-                        <h2 class="text-xl font-bold text-gray-800">{{ __('front::home.provider_detail_reviews_title') }}</h2>
+                        <h2 id="providerReviewsHeading" class="text-xl font-bold text-gray-800">{{ __('front::home.provider_detail_reviews_title') }}</h2>
                         <p class="text-sm text-gray-600 mt-1">{{ __('front::home.provider_detail_reviews_intro') }}</p>
 
                         @if ($reviews->count() === 0)
@@ -117,9 +120,17 @@
                                 data-provider-reviews
                                 data-next-page-url="{{ e($reviews->hasMorePages() ? route('front.provider.reviews.fragment', ['provider' => $provider->profile_slug, 'page' => $reviews->currentPage() + 1]) : '') }}"
                             >
-                                <ul class="mt-6 divide-y divide-gray-100 border-t border-gray-100" data-reviews-list>
-                                    @include('front::providers.partials.review-items', ['reviews' => $reviews])
-                                </ul>
+                                <div
+                                    class="provider-reviews-scroll"
+                                    data-reviews-scroll
+                                    role="region"
+                                    aria-labelledby="providerReviewsHeading"
+                                    tabindex="0"
+                                >
+                                    <ul class="provider-reviews-scroll__list divide-y divide-gray-100 border-t border-gray-100" data-reviews-list>
+                                        @include('front::providers.partials.review-items', ['reviews' => $reviews])
+                                    </ul>
+                                </div>
                                 <div class="mt-4 hidden" data-reviews-loader>
                                     <div class="flex items-center justify-center">
                                         <span class="inline-flex items-center gap-2 text-sm text-gray-500">
@@ -136,7 +147,7 @@
                     </div>
                 </div>
 
-                <aside class="lg:w-1/3 space-y-6">
+                <aside class="provider-show-aside min-w-0 space-y-6">
                     @if (filled($provider->central_phone))
                         @php
                             $telHref = phoneToTelHref(trim((string) $provider->central_phone));
@@ -300,6 +311,7 @@
                 return;
             }
 
+            const scrollBox = root.querySelector('[data-reviews-scroll]');
             const list = root.querySelector('[data-reviews-list]');
             const loader = root.querySelector('[data-reviews-loader]');
             const end = root.querySelector('[data-reviews-end]');
@@ -367,12 +379,26 @@
                     abortPaginationSilently();
                 } finally {
                     setLoading(false);
+                    queueMicrotask(onScroll);
                 }
+            }
+
+            function scrollBoxHasOverflow() {
+                if (!scrollBox) {
+                    return false;
+                }
+                return scrollBox.scrollHeight > scrollBox.clientHeight + 2;
             }
 
             function shouldLoadMore() {
                 if (!nextPageUrl || loading) {
                     return false;
+                }
+                if (scrollBox && scrollBoxHasOverflow()) {
+                    const thresholdPx = 280;
+                    const remaining =
+                        scrollBox.scrollHeight - scrollBox.scrollTop - scrollBox.clientHeight;
+                    return remaining < thresholdPx;
                 }
                 const rect = root.getBoundingClientRect();
                 return rect.bottom - window.innerHeight < 450;
@@ -384,6 +410,9 @@
                 }
             }
 
+            if (scrollBox) {
+                scrollBox.addEventListener('scroll', onScroll, { passive: true });
+            }
             window.addEventListener('scroll', onScroll, { passive: true });
             window.addEventListener('resize', onScroll);
             onScroll();

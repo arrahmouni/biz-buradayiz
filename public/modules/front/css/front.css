@@ -622,6 +622,47 @@ html {
     background-color: #fef9c3;
 }
 
+/* Provider detail — long review lists scroll inside a capped box (all viewports; balances sidebar vs main column) */
+.provider-reviews-scroll {
+    margin-top: 1.5rem;
+    max-height: min(70vh, 26rem);
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 0.75rem;
+    /* border: 1px solid #f3f4f6; */
+}
+
+.provider-reviews-scroll .provider-reviews-scroll__list {
+    border-top-width: 0;
+}
+
+@media (min-width: 64rem) {
+    .provider-show-layout {
+        grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+        align-items: start;
+    }
+
+    .provider-show-layout .provider-show-profile {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .provider-show-layout .provider-show-aside {
+        grid-column: 2;
+        grid-row: 1 / span 2;
+    }
+
+    .provider-show-layout .provider-show-reviews {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    .provider-reviews-scroll {
+        max-height: min(78vh, 42rem);
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     .provider-rating-field__star {
         transition-duration: 0.01ms;
