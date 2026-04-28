@@ -11,6 +11,9 @@ class VerimorWebhookController extends Controller
 {
     public function crm(Request $request, string $token): Response
     {
+        logger()->info('Webhook IP', [
+            'ip' => $request->ip()
+        ]);
         logger()->info('Verimor CRM webhook received', ['request' => $request->all()]);
 
         $expected = (string) config('verimor.webhook_token');
