@@ -9,18 +9,6 @@
     // 'new-provider-card border-emerald-200 border-l-4 border-l-emerald-600 ring-1 ring-emerald-50' => $isNewCard && ! $isFeaturedCard,
     'border-gray-100' => ! $isFeaturedCard && ! $isNewCard,
 ])>
-    @if ($isFeaturedCard)
-        <div class="featured-provider-callout" role="status">
-            <span class="featured-provider-callout__icon" aria-hidden="true">
-                <i class="fas fa-award"></i>
-            </span>
-            <span class="featured-provider-callout__text">
-                <span class="featured-provider-callout__title">{{ __('front::home.search_featured_badge') }}</span>
-                <span class="featured-provider-callout__subtitle">{{ __('front::home.search_featured_callout') }}</span>
-            </span>
-        </div>
-    @endif
-
     <div class="flex flex-row gap-3 sm:gap-5">
         <div class="h-14 w-14 sm:h-32 sm:w-32 bg-gray-100 rounded-full sm:rounded-xl overflow-hidden flex-shrink-0">
             <img
@@ -34,8 +22,14 @@
             <div class="flex flex-wrap justify-between items-start gap-2">
                 <h2 class="text-base sm:text-xl font-bold text-gray-800 leading-snug flex flex-wrap items-center gap-2">
                     <a href="{{ route('front.provider.show', ['provider' => $provider->frontProfileSlug()]) }}" class="text-gray-800 hover:text-red-600 transition">
-                        {{ $provider->full_name }}
+                        {{ $provider->company_name ?? $provider->full_name }}
                     </a>
+                    @if ($isFeaturedCard)
+                        <span class="provider-featured-badge">
+                            <i class="fas fa-award" aria-hidden="true"></i>
+                            {{ __('front::home.search_featured_badge') }}
+                        </span>
+                    @endif
                     @if ($isNewCard)
                         <span class="provider-new-badge">
                             <i class="fas fa-rocket" aria-hidden="true"></i>
@@ -47,9 +41,7 @@
                     <span class="text-red-600 shrink-0" aria-hidden="true"><i class="{{ $provider->service->icon }} text-lg sm:text-xl"></i></span>
                 @endif
             </div>
-            @if (filled($provider->company_name))
-                <p class="text-sm text-gray-600 font-medium mt-1">{{ $provider->company_name }}</p>
-            @endif
+            <p class="text-sm text-gray-600 font-medium mt-1">{{ $provider->full_name }}</p>
             <div class="flex flex-wrap items-center gap-x-2 sm:gap-x-3 gap-y-1 text-xs sm:text-sm text-gray-500 mt-0.5 sm:mt-1">
                 @if ((int) $provider->approved_reviews_count > 0)
                     <span>
@@ -64,22 +56,13 @@
                     <span><i class="fas fa-map-marker-alt text-red-400" aria-hidden="true"></i> {{ $provider->provider_card_location_line }}</span>
                 @endif
             </div>
-            @if (filled($provider->provider_card_service_description))
-                <p class="text-gray-600 text-xs sm:text-sm mt-1.5 sm:mt-2 line-clamp-2 sm:line-clamp-none">{{ \Illuminate\Support\Str::limit(strip_tags($provider->provider_card_service_description), 220) }}</p>
+            @if (filled($provider->provider_card_platform_tenure_label))
+                <p class="text-gray-600 text-xs sm:text-sm mt-1.5 sm:mt-2">{{ $provider->provider_card_platform_tenure_label }} {{ __('front::home.provider_card_platform_tenure_label') }}</p>
             @endif
             <div class="mt-2 sm:mt-3 flex flex-wrap gap-1.5 sm:gap-2 items-center">
-                <a href="{{ route('front.provider.show', ['provider' => $provider->frontProfileSlug()]) }}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-red-600 hover:text-red-700 transition">
-                    {{ __('front::home.provider_detail_view_profile') }}
-                    <i class="fas fa-arrow-right text-xs" aria-hidden="true"></i>
-                </a>
                 <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">
                     <i class="fas fa-wrench" aria-hidden="true"></i> {{ $provider->provider_card_service_name }}
                 </span>
-                @if (filled($provider->email))
-                    <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full truncate max-w-full">
-                        <i class="fas fa-envelope" aria-hidden="true"></i> {{ $provider->email }}
-                    </span>
-                @endif
             </div>
         </div>
     </div>

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\Admin\Enums\AdminStatus;
@@ -336,6 +337,27 @@ class User extends Authenticatable implements Auditable, CanResetPasswordContrac
             },
         );
     }
+
+    /**
+     * How long ago this provider account started on the platform (relative to approval, else registration).
+     */
+    protected function providerCardPlatformTenureLabel(): Attribute
+    {
+        return Attribute::make(
+            get: function (): ?string {
+                if ($this->type !== UserType::ServiceProvider) {
+                    return null;
+                }
+
+                $startDate = $this->approved_at ?? $this->created_at;
+                if ($startDate === null) {
+                    return null;
+                }
+
+                return Carbon::parse($startDate)->locale(app()->getLocale())->diffForHumans();
+            },
+        );
+    }
     // End Accessors
 
     /**
@@ -385,6 +407,7 @@ class User extends Authenticatable implements Auditable, CanResetPasswordContrac
                 'provider_card_service_name',
                 'provider_card_service_description',
                 'provider_card_location_line',
+                'provider_card_platform_tenure_label',
             ]);
         }
 

@@ -52,6 +52,7 @@ return [
     'provider_card_call_now' => 'Hemen ara:',
     'provider_card_call_provider' => 'Sağlayıcıyı ara',
     'provider_card_email' => 'E-posta',
+    'provider_card_platform_tenure_label' => 'katıldı',
     'search_show_map' => 'Haritayı göster',
     'search_map_placeholder' => 'Etkileşimli harita',
     'search_featured_title' => 'Öne Çıkan Sağlayıcılar',

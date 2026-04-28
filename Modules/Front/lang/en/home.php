@@ -52,6 +52,7 @@ return [
     'provider_card_call_provider' => 'Call provider',
     'provider_card_email' => 'Email',
     'search_show_map' => 'Show map',
+    'provider_card_platform_tenure_label' => 'On the platform',
     'search_map_placeholder' => 'Interactive map',
     'search_featured_title' => 'Featured Providers',
     'search_featured_badge' => 'Featured',
