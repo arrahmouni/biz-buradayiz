@@ -38,7 +38,7 @@ return [
     'billing_monthly' => 'aylık',
     'billing_yearly' => 'yıllık',
     'billing_one_time' => 'tek seferlik',
-    'connections' => ':count bağlantı',
+    'connections' => ':count Arama Hakkı',
     'features_label' => 'Dahil olanlar',
     'form_back_to_landing' => 'Sağlayıcı kaydı ve planlar hakkında',
 

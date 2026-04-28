@@ -22,7 +22,7 @@ return [
     'plan_name' => 'Paket',
     'plan_price' => 'Fiyat',
     'plan_billing' => 'Faturalama',
-    'plan_connections_remaining' => 'Kalan bağlantı',
+    'plan_connections_remaining' => 'Kalan Arama Hakkınız',
     'plan_period_end' => 'Dönem bitişi',
     'plan_status' => 'Durum',
     'plan_payment' => 'Ödeme',
@@ -94,14 +94,14 @@ return [
     'subscription_error_modal_close' => 'Tamam',
     'subscription_success_modal_title' => 'Talebiniz alındı',
     'subscription_success_modal_close' => 'Tamam',
-    'package_connections' => ':count bağlantı',
+    'package_connections' => ':count Arama Hakkı',
     'package_price' => ':price :currency',
 
     'bank_block_title' => 'Banka havalesi bilgileri',
     'bank_block_empty' => 'Ödeme talimatları site yöneticisi tarafından yapılandırıldığında burada görünecek.',
 
     'free_tier_carryover_title' => 'Ücretsiz paket bağlantılarınız korunur',
-    'free_tier_carryover_body' => 'Ücretsiz paketinizde şu anda :count kalan bağlantınız var. Ücretli bir pakete geçtiğinizde ve ekibimiz ödemenizi onayladığında, bu kalan bağlantılar yeni paket bakiyenize eklenir; böylece kullanılmayan kotanız kaybolmaz.',
+    'free_tier_carryover_body' => 'Ücretsiz paketinizde şu anda :count kalan Arama Hakkınız var. Ücretli bir pakete geçtiğinizde ve ekibimiz ödemenizi onayladığında, bu kalan bağlantılar yeni paket bakiyenize eklenir; böylece kullanılmayan kotanız kaybolmaz.',
 
     'subscription_requested_flash' => 'Abonelik talebiniz alındı. Ödemeyi tamamlayıp aşağıdaki bağlantı varsa dekontunuzu WhatsApp ile gönderin.',
     'whatsapp_cta' => 'WhatsApp ile dekont gönder',
