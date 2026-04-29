@@ -15,6 +15,21 @@
             </p>
 
             @php
+                $registerPhoneDisplay = '';
+                $registerOldPhone = old('phone_number');
+                if ($registerOldPhone !== null && $registerOldPhone !== '') {
+                    $digits = preg_replace('/\D+/', '', (string) $registerOldPhone) ?? '';
+                    if (str_starts_with($digits, '90') && strlen($digits) >= 12) {
+                        $registerPhoneDisplay = '0'.substr($digits, 2);
+                    } elseif (str_starts_with($digits, '0')) {
+                        $registerPhoneDisplay = $digits;
+                    } elseif (str_starts_with($digits, '5') && strlen($digits) === 10) {
+                        $registerPhoneDisplay = '0'.$digits;
+                    } else {
+                        $registerPhoneDisplay = $digits;
+                    }
+                }
+
                 $registerOldStateId = (string) old('state_id', '');
                 $registerOldCityId = (string) old('city_id', '');
                 $registerOldStateName = '';
@@ -171,8 +186,9 @@
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <i class="fas fa-envelope text-gray-400 text-sm" aria-hidden="true"></i>
                             </div>
-                            <input id="email" name="email" type="email" value="{{ old('email') }}" autocomplete="email" required
-                                class="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-gray-900 outline-none focus:border-red-400 focus:ring-2 focus:ring-red-200 sm:text-sm transition">
+                            <input id="email" name="email" type="text" value="{{ old('email') }}" autocomplete="email" required
+                                inputmode="email" autocapitalize="none" spellcheck="false"
+                                class="js-front-provider-register-email-mask appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-gray-900 outline-none focus:border-red-400 focus:ring-2 focus:ring-red-200 sm:text-sm transition">
                         </div>
                         @error('email')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -201,8 +217,8 @@
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <i class="fas fa-phone text-gray-400 text-sm" aria-hidden="true"></i>
                             </div>
-                            <input id="phone_number" name="phone_number" type="tel" value="{{ old('phone_number') }}" autocomplete="tel" required
-                                class="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-gray-900 outline-none focus:border-red-400 focus:ring-2 focus:ring-red-200 sm:text-sm transition">
+                            <input id="phone_number" name="phone_number" type="tel" value="{{ $registerPhoneDisplay }}" autocomplete="tel" required
+                                class="js-front-provider-register-phone-tr appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-gray-900 outline-none focus:border-red-400 focus:ring-2 focus:ring-red-200 sm:text-sm transition">
                         </div>
                         @error('phone_number')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -243,6 +259,7 @@
 @endsection
 
 @push('script')
+    <script src="https://cdn.jsdelivr.net/npm/inputmask@5.0.9/dist/inputmask.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             if (window.jQuery && jQuery.fn.select2) {
@@ -250,6 +267,48 @@
                     width: '100%',
                     dropdownParent: jQuery(document.body),
                 });
+            }
+
+            if (typeof Inputmask === 'undefined') {
+                return;
+            }
+
+            var emailEl = document.getElementById('email');
+            if (emailEl) {
+                Inputmask({
+                    mask: '*{1,20}[.*{1,20}][.*{1,20}][.*{1,20}]@*{1,20}[.*{2,6}][.*{1,2}]',
+                    greedy: false,
+                    onBeforePaste: function (pastedValue) {
+                        pastedValue = String(pastedValue).toLowerCase();
+                        return pastedValue.replace(/^mailto:/i, '');
+                    },
+                    definitions: {
+                        '*': {
+                            validator: '[0-9A-Za-z!#$%&"*+/=?^_`{|}~-]',
+                            cardinality: 1,
+                            casing: 'lower',
+                        },
+                    },
+                }).mask(emailEl);
+            }
+
+            var phoneEl = document.getElementById('phone_number');
+            if (phoneEl) {
+                Inputmask({
+                    mask: '0 (599) 999 99 99',
+                    placeholder: '_',
+                    clearIncomplete: true,
+                    onBeforePaste: function (pastedValue) {
+                        var digits = String(pastedValue).replace(/\D/g, '');
+                        if (digits.startsWith('90') && digits.length >= 12) {
+                            return '0' + digits.slice(2);
+                        }
+                        if (digits.startsWith('5') && digits.length === 10) {
+                            return '0' + digits;
+                        }
+                        return pastedValue;
+                    },
+                }).mask(phoneEl);
             }
         });
     </script>
