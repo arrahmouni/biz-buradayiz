@@ -33,6 +33,15 @@
     $hasAppLinks = $appStoreUrl !== '' || $googlePlayUrl !== '';
 @endphp
 
+@push('style')
+    <style>
+        .select2-container--default .select2-selection--single .select2-selection__clear {
+            height: 36px;
+        }
+    </style>
+
+@endpush
+
 @section('content')
     <div class="hidden sm:block">
         <x-front::page-hero
@@ -55,7 +64,7 @@
         </x-front::page-hero>
     </div>
 
-    <section class="bg-gray-50 py-8 md:py-12">
+    <section class="bg-gray-50 md:py-12">
         <div class="container mx-auto px-5 lg:px-8">
             @if ($selectedServiceHiddenFromFilters)
                 <div class="mb-6 rounded-2xl border border-amber-200 bg-amber-50 p-4 md:p-5">
@@ -103,21 +112,31 @@
                 <button
                     type="button"
                     id="providerSearchFiltersToggle"
-                    class="mb-4 flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm font-semibold text-gray-800 shadow-sm transition hover:bg-gray-50 lg:hidden"
+                    class="fixed z-[60] right-0 top-20 flex w-[3.375rem] appearance-none flex-col items-center justify-center gap-1 rounded-tl-2xl rounded-bl-2xl border border-r-0 border-gray-200 bg-white px-1 py-3 text-center text-xs font-semibold leading-tight text-gray-800 shadow-md transition hover:bg-gray-50 max-md:flex md:hidden"
                     aria-expanded="false"
                     aria-controls="providerSearchFiltersPanel"
                 >
-                    <i class="fas fa-sliders-h text-red-600" aria-hidden="true"></i>
-                    <span>{{ __('front::home.search_filters_toggle') }}</span>
+                    <i class="fas fa-sliders-h text-lg text-red-600" aria-hidden="true"></i>
+                    <span class="hyphens-auto break-words px-0.5">{{ __('front::home.search_filters_toggle') }}</span>
                 </button>
+
+                <div
+                    id="providerSearchFiltersBackdrop"
+                    class="fixed inset-0 z-40 bg-black/40 opacity-0 pointer-events-none transition-opacity duration-300 motion-reduce:transition-none max-md:block md:hidden"
+                    aria-hidden="true"
+                ></div>
+
                 <div
                     id="providerSearchFiltersPanel"
-                    class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-in-out motion-reduce:transition-none lg:grid-rows-[1fr] data-[open=true]:grid-rows-[1fr]"
+                    class="group max-md:pointer-events-none md:pointer-events-auto md:static md:grid md:grid-rows-[1fr] md:transition-[grid-template-rows] md:duration-300 md:ease-in-out md:motion-reduce:transition-none max-md:fixed max-md:inset-0 max-md:z-50 max-md:flex max-md:items-end max-md:justify-end"
                     data-open="false"
                     role="region"
                     aria-label="{{ __('front::home.search_filters_toggle') }}"
                 >
-                    <div id="providerSearchFiltersPanelInner" class="min-h-0 overflow-hidden bg-white rounded-2xl shadow-md ">
+                    <div
+                        id="providerSearchFiltersPanelInner"
+                        class="pointer-events-auto min-h-0 w-full max-md:max-w-md md:max-w-none overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-md transition-transform duration-300 ease-out motion-reduce:transition-none max-md:max-h-[min(88vh,100%)] max-md:translate-y-full max-md:overflow-y-auto max-md:rounded-b-none max-md:rounded-t-2xl max-md:shadow-2xl group-data-[open=true]:max-md:translate-y-0 md:translate-y-0 md:overflow-visible md:rounded-2xl"
+                    >
                         <div class="p-5 md:p-6">
                             <x-front::provider-location-search-form
                                 form-id="providerSearchFiltersForm"
@@ -129,6 +148,7 @@
                         </div>
                     </div>
                 </div>
+                {{-- <div class="h-4 md:hidden" aria-hidden="true"></div> --}}
             </div>
 
             <div class="flex flex-col lg:flex-row gap-8">
@@ -152,7 +172,7 @@
                             'icon' => 'fas fa-hard-hat',
                         ])
                     @else
-                        <div class="flex flex-wrap justify-between items-center gap-3 mb-4 hidden sm:block">
+                        <div class="flex flex-wrap justify-between items-center gap-3 mb-4">
                             <p class="text-gray-600 text-sm">
                                 <i class="fas fa-list-ul text-red-500" aria-hidden="true"></i>
                                 {{ trans_choice('front::home.search_results_count', $providers->total() + $featuredProviders->count(), ['count' => $providers->total() + $featuredProviders->count()]) }}
@@ -161,7 +181,7 @@
 
                         @if ($featuredProviders->isNotEmpty())
                             <div class="mb-6">
-                                <h3 class="text-sm font-semibold text-red-600 uppercase tracking-wide mb-3 hidden sm:block">
+                                <h3 class="text-sm font-semibold text-red-600 uppercase tracking-wide mb-3">
                                     <i class="fas fa-award" aria-hidden="true"></i>
                                     {{ __('front::home.search_featured_title') }}
                                 </h3>
@@ -220,11 +240,51 @@
             var panel = document.getElementById('providerSearchFiltersPanel');
             var inner = document.getElementById('providerSearchFiltersPanelInner');
             var toggle = document.getElementById('providerSearchFiltersToggle');
+            var backdrop = document.getElementById('providerSearchFiltersBackdrop');
             if (!panel || !inner || !toggle) {
                 return;
             }
 
-            var narrowMq = window.matchMedia('(max-width: 1023px)');
+            var narrowMq = window.matchMedia('(max-width: 767px)');
+
+            function syncDialogRole() {
+                if (!narrowMq.matches) {
+                    panel.setAttribute('role', 'region');
+                    panel.removeAttribute('aria-modal');
+                    return;
+                }
+                if (panel.getAttribute('data-open') === 'true') {
+                    panel.setAttribute('role', 'dialog');
+                    panel.setAttribute('aria-modal', 'true');
+                } else {
+                    panel.setAttribute('role', 'region');
+                    panel.removeAttribute('aria-modal');
+                }
+            }
+
+            function syncBackdrop() {
+                if (!backdrop) {
+                    return;
+                }
+                if (!narrowMq.matches) {
+                    backdrop.classList.remove('opacity-100', 'pointer-events-auto');
+                    backdrop.classList.add('opacity-0', 'pointer-events-none');
+                    backdrop.setAttribute('aria-hidden', 'true');
+                    document.body.style.overflow = '';
+                    return;
+                }
+                if (panel.getAttribute('data-open') === 'true') {
+                    backdrop.classList.add('opacity-100', 'pointer-events-auto');
+                    backdrop.classList.remove('opacity-0', 'pointer-events-none');
+                    backdrop.setAttribute('aria-hidden', 'false');
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    backdrop.classList.remove('opacity-100', 'pointer-events-auto');
+                    backdrop.classList.add('opacity-0', 'pointer-events-none');
+                    backdrop.setAttribute('aria-hidden', 'true');
+                    document.body.style.overflow = '';
+                }
+            }
 
             function syncInert() {
                 if (!narrowMq.matches) {
@@ -238,15 +298,48 @@
                 }
             }
 
-            toggle.addEventListener('click', function () {
-                var nextOpen = panel.getAttribute('data-open') !== 'true';
+            function setOpen(nextOpen) {
                 panel.setAttribute('data-open', nextOpen ? 'true' : 'false');
                 toggle.setAttribute('aria-expanded', nextOpen ? 'true' : 'false');
                 syncInert();
+                syncBackdrop();
+                syncDialogRole();
+            }
+
+            toggle.addEventListener('click', function () {
+                var nextOpen = panel.getAttribute('data-open') !== 'true';
+                setOpen(nextOpen);
             });
 
-            narrowMq.addEventListener('change', syncInert);
+            if (backdrop) {
+                backdrop.addEventListener('click', function () {
+                    setOpen(false);
+                });
+            }
+
+            document.addEventListener('keydown', function (e) {
+                if (!narrowMq.matches || panel.getAttribute('data-open') !== 'true') {
+                    return;
+                }
+                if (e.key === 'Escape') {
+                    e.preventDefault();
+                    setOpen(false);
+                }
+            });
+
+            narrowMq.addEventListener('change', function () {
+                if (!narrowMq.matches) {
+                    panel.setAttribute('data-open', 'false');
+                    toggle.setAttribute('aria-expanded', 'false');
+                }
+                syncInert();
+                syncBackdrop();
+                syncDialogRole();
+            });
+
             syncInert();
+            syncBackdrop();
+            syncDialogRole();
         })();
     </script>
 @endpush
