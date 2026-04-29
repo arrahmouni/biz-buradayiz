@@ -46,11 +46,16 @@ class FrontServiceProvider extends ServiceProvider
             if (is_string($name) && (str_starts_with($name, 'front::errors.') || $name === 'front::coming-soon')) {
                 return;
             }
-            $view->with([
-                'frontPublicServices' => FrontPublicServices::all(),
-                'frontPublicFilterServices' => FrontPublicServices::forSearchFilters(),
-                'frontSearchDefaultCountryId' => resolveFrontSearchDefaultCountryIdFromIp(),
-            ]);
+            $request = request();
+            $attrKey = '_front_default_composer_data';
+            if (! $request->attributes->has($attrKey)) {
+                $request->attributes->set($attrKey, [
+                    'frontPublicServices' => FrontPublicServices::all(),
+                    'frontPublicFilterServices' => FrontPublicServices::forSearchFilters(),
+                    'frontSearchDefaultCountryId' => resolveFrontSearchDefaultCountryIdFromIp(),
+                ]);
+            }
+            $view->with($request->attributes->get($attrKey));
         });
 
         View::composer('front::layouts.master', FrontLayoutMetaComposer::class);

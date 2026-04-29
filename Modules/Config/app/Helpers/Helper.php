@@ -332,11 +332,11 @@ if (! function_exists('resolveFrontSearchDefaultCountryIdFromIp')) {
 
         $iso2 = strtoupper((string) $data['country_code']);
 
-        $country = Country::query()
+        $countryId = Country::without(['translations', 'states'])
             ->where('iso2', $iso2)
-            ->first();
+            ->value('id');
 
-        return $country !== null ? (int) $country->id : $fallback;
+        return $countryId !== null ? (int) $countryId : $fallback;
     }
 }
 
@@ -357,7 +357,7 @@ if (! function_exists('getStateFromIp')) {
             return null;
         }
 
-        $country = Country::query()
+        $country = Country::without(['translations', 'states'])
             ->where('iso2', strtoupper((string) $data['country_code']))
             ->first();
 
@@ -388,7 +388,7 @@ if (! function_exists('getCityFromIp')) {
             return null;
         }
 
-        $country = Country::query()
+        $country = Country::without(['translations', 'states'])
             ->where('iso2', strtoupper((string) $data['country_code']))
             ->first();
 
