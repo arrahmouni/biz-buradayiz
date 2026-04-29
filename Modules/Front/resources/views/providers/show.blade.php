@@ -64,9 +64,9 @@
                                 >
                             </div>
                             <div class="min-w-0 flex-1 text-center sm:text-left">
-                                <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide">{{ __('front::home.provider_detail_about_title') }}</p>
+                                {{-- <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide">{{ __('front::home.provider_detail_about_title') }}</p> --}}
                                 <div class="mt-2 flex flex-wrap items-center gap-2 justify-center sm:justify-start">
-                                    <h1 class="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">{{ $provider->full_name }}</h1>
+                                    <h1 class="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">{{ $provider->company_name ?? $provider->full_name }}</h1>
                                     @if ($provider->isNewProvider())
                                         <span class="provider-new-badge provider-new-badge--large">
                                             <i class="fas fa-rocket" aria-hidden="true"></i>
@@ -74,9 +74,7 @@
                                         </span>
                                     @endif
                                 </div>
-                                @if (filled($provider->company_name))
-                                    <p class="mt-2 text-base md:text-lg font-semibold text-gray-700">{{ $provider->company_name }}</p>
-                                @endif
+                                <p class="mt-2 text-base md:text-lg font-semibold text-gray-700">{{ $provider->full_name }}</p>
                                 <div class="mt-3 flex flex-wrap items-center justify-center sm:justify-start gap-3 text-sm text-gray-600">
                                     @if ((int) $provider->approved_reviews_count > 0)
                                         <span>
@@ -90,6 +88,9 @@
                                     @endif
                                     @if (filled($provider->provider_card_location_line))
                                         <span><i class="fas fa-map-marker-alt text-red-500" aria-hidden="true"></i> {{ $provider->provider_card_location_line }}</span>
+                                    @endif
+                                    @if (filled($provider->provider_card_platform_tenure_label))
+                                        <span><i class="fas fa-clock text-red-500" aria-hidden="true"></i> {{ $provider->provider_card_platform_tenure_label }} {{ __('front::home.provider_card_platform_tenure_label') }}</span>
                                     @endif
                                     <span class="inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700">
                                         @if ($provider->service && filled($provider->service->icon))
@@ -188,12 +189,12 @@
                         </div>
                     @endif
 
-                    @if (filled($provider->email))
+                    {{-- @if (filled($provider->email))
                         <div class="bg-white rounded-2xl shadow-md border border-gray-100 p-6">
                             <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wide">{{ __('front::home.provider_card_email') }}</h3>
                             <a href="mailto:{{ $provider->email }}" class="mt-2 block text-red-600 font-medium hover:text-red-700 break-all">{{ $provider->email }}</a>
                         </div>
-                    @endif
+                    @endif --}}
 
                     <div class="bg-white rounded-2xl shadow-md border border-gray-100 p-6 md:p-7">
                         <h3 class="text-lg font-bold text-gray-800">{{ __('front::home.provider_detail_feedback_title') }}</h3>

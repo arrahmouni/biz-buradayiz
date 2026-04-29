@@ -57,7 +57,7 @@
                 @endif
             </div>
             @if (filled($provider->provider_card_platform_tenure_label))
-                <p class="text-gray-600 text-xs sm:text-sm mt-1.5 sm:mt-2">{{ $provider->provider_card_platform_tenure_label }} {{ __('front::home.provider_card_platform_tenure_label') }}</p>
+                <p class="text-gray-600 text-xs sm:text-sm mt-1.5 sm:mt-2"><i class="fas fa-clock text-red-500 mr-1" aria-hidden="true"></i>{{ $provider->provider_card_platform_tenure_label }} {{ __('front::home.provider_card_platform_tenure_label') }}</p>
             @endif
             <div class="mt-2 sm:mt-3 flex flex-wrap gap-1.5 sm:gap-2 items-center">
                 <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">
