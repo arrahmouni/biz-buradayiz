@@ -37,6 +37,7 @@ return [
     'search_button' => 'Hizmet Bul',
     'search_results_title' => 'Hizmet sağlayıcılar',
     'search_results_intro' => 'Hizmet türü ve konuma göre aramanızı daraltın; ardından doğrudan iletişime geçin.',
+    'search_filters_toggle' => 'Filtreler',
     'search_results_breadcrumb_label' => 'İçerik yolu',
     'search_results_count' => '{0} Filtrelerinize uygun sağlayıcı yok.|{1} :count sağlayıcı bulundu.|[2,*] :count sağlayıcı bulundu.',
     'search_results_empty' => 'Filtrelerinize uygun sağlayıcı bulunamadı. Aramayı genişletmeyi veya yakın bir ilçe seçmeyi deneyin.',

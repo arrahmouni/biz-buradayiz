@@ -38,7 +38,7 @@
                     @endif
                 </h2>
                 @if ($provider->service && filled($provider->service->icon))
-                    <span class="text-red-600 shrink-0" aria-hidden="true"><i class="{{ $provider->service->icon }} text-lg sm:text-xl"></i></span>
+                    <span class="hidden sm:inline text-red-600 shrink-0" aria-hidden="true"><i class="{{ $provider->service->icon }} text-lg sm:text-xl"></i></span>
                 @endif
             </div>
             <p class="text-sm text-gray-600 font-medium mt-1">{{ $provider->full_name }}</p>
@@ -83,7 +83,7 @@
                         </a>
                     </div>
                 </div>
-                <a href="{{ $telHref }}" class="inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2.5 sm:px-6 sm:py-3 rounded-full text-xs sm:text-sm font-semibold transition shadow-md hover:shadow-lg shrink-0 sm:min-w-[10rem]">
+                <a href="{{ $telHref }}" class="hidden sm:inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2.5 sm:px-6 sm:py-3 rounded-full text-xs sm:text-sm font-semibold transition shadow-md hover:shadow-lg shrink-0 sm:min-w-[10rem]">
                     <i class="fas fa-phone-alt" aria-hidden="true"></i> {{ __('front::home.provider_card_call_provider') }}
                 </a>
             </div>

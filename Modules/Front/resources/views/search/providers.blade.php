@@ -34,24 +34,26 @@
 @endphp
 
 @section('content')
-    <x-front::page-hero
-        :heading="__('front::home.search_results_title')"
-        :breadcrumb-label="__('front::home.search_results_breadcrumb_label')"
-    >
-        <x-slot name="breadcrumb">
-            <a href="{{ route('front.index') }}" class="hover:text-red-400 transition">{{ __('front::home.nav_home') }}</a>
-            <span class="mx-2">/</span>
-            <span class="text-white font-medium">{{ __('front::home.search_results_title') }}</span>
-        </x-slot>
-        <x-slot name="belowDivider">
-            <p class="text-gray-300 mt-4 text-base md:text-lg">
-                {{ __('front::home.search_results_hero_showing') }}
-                <strong class="text-white">{{ $heroServiceLabel }}</strong>
-                {{ __('front::home.search_results_hero_in') }}
-                <strong class="text-white">{{ $heroLocationLabel }}</strong>
-            </p>
-        </x-slot>
-    </x-front::page-hero>
+    <div class="hidden sm:block">
+        <x-front::page-hero
+            :heading="__('front::home.search_results_title')"
+            :breadcrumb-label="__('front::home.search_results_breadcrumb_label')"
+        >
+            <x-slot name="breadcrumb">
+                <a href="{{ route('front.index') }}" class="hover:text-red-400 transition">{{ __('front::home.nav_home') }}</a>
+                <span class="mx-2">/</span>
+                <span class="text-white font-medium">{{ __('front::home.search_results_title') }}</span>
+            </x-slot>
+            <x-slot name="belowDivider">
+                <p class="text-gray-300 mt-4 text-base md:text-lg">
+                    {{ __('front::home.search_results_hero_showing') }}
+                    <strong class="text-white">{{ $heroServiceLabel }}</strong>
+                    {{ __('front::home.search_results_hero_in') }}
+                    <strong class="text-white">{{ $heroLocationLabel }}</strong>
+                </p>
+            </x-slot>
+        </x-front::page-hero>
+    </div>
 
     <section class="bg-gray-50 py-8 md:py-12">
         <div class="container mx-auto px-5 lg:px-8">
@@ -97,14 +99,36 @@
                 </div>
             @endif
 
-            <div class="bg-white rounded-2xl shadow-md p-5 md:p-6 mb-8">
-                <x-front::provider-location-search-form
-                    form-id="providerSearchFiltersForm"
-                    form-class="provider-search-filters flex flex-col lg:flex-row gap-4 items-end"
-                    :selected-service-id="$filters['service_id'] ?? null"
-                    :selected-state="$selectedState"
-                    :selected-city="$selectedCity"
-                />
+            <div class="mb-8">
+                <button
+                    type="button"
+                    id="providerSearchFiltersToggle"
+                    class="mb-4 flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm font-semibold text-gray-800 shadow-sm transition hover:bg-gray-50 lg:hidden"
+                    aria-expanded="false"
+                    aria-controls="providerSearchFiltersPanel"
+                >
+                    <i class="fas fa-sliders-h text-red-600" aria-hidden="true"></i>
+                    <span>{{ __('front::home.search_filters_toggle') }}</span>
+                </button>
+                <div
+                    id="providerSearchFiltersPanel"
+                    class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-in-out motion-reduce:transition-none lg:grid-rows-[1fr] data-[open=true]:grid-rows-[1fr]"
+                    data-open="false"
+                    role="region"
+                    aria-label="{{ __('front::home.search_filters_toggle') }}"
+                >
+                    <div id="providerSearchFiltersPanelInner" class="min-h-0 overflow-hidden bg-white rounded-2xl shadow-md ">
+                        <div class="p-5 md:p-6">
+                            <x-front::provider-location-search-form
+                                form-id="providerSearchFiltersForm"
+                                form-class="provider-search-filters flex flex-col lg:flex-row gap-4 items-end"
+                                :selected-service-id="$filters['service_id'] ?? null"
+                                :selected-state="$selectedState"
+                                :selected-city="$selectedCity"
+                            />
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="flex flex-col lg:flex-row gap-8">
@@ -128,7 +152,7 @@
                             'icon' => 'fas fa-hard-hat',
                         ])
                     @else
-                        <div class="flex flex-wrap justify-between items-center gap-3 mb-4">
+                        <div class="flex flex-wrap justify-between items-center gap-3 mb-4 hidden sm:block">
                             <p class="text-gray-600 text-sm">
                                 <i class="fas fa-list-ul text-red-500" aria-hidden="true"></i>
                                 {{ trans_choice('front::home.search_results_count', $providers->total() + $featuredProviders->count(), ['count' => $providers->total() + $featuredProviders->count()]) }}
@@ -137,7 +161,7 @@
 
                         @if ($featuredProviders->isNotEmpty())
                             <div class="mb-6">
-                                <h3 class="text-sm font-semibold text-red-600 uppercase tracking-wide mb-3">
+                                <h3 class="text-sm font-semibold text-red-600 uppercase tracking-wide mb-3 hidden sm:block">
                                     <i class="fas fa-award" aria-hidden="true"></i>
                                     {{ __('front::home.search_featured_title') }}
                                 </h3>
@@ -189,3 +213,40 @@
         </div>
     </section>
 @endsection
+
+@push('script')
+    <script>
+        (function () {
+            var panel = document.getElementById('providerSearchFiltersPanel');
+            var inner = document.getElementById('providerSearchFiltersPanelInner');
+            var toggle = document.getElementById('providerSearchFiltersToggle');
+            if (!panel || !inner || !toggle) {
+                return;
+            }
+
+            var narrowMq = window.matchMedia('(max-width: 1023px)');
+
+            function syncInert() {
+                if (!narrowMq.matches) {
+                    inner.removeAttribute('inert');
+                    return;
+                }
+                if (panel.getAttribute('data-open') === 'true') {
+                    inner.removeAttribute('inert');
+                } else {
+                    inner.setAttribute('inert', '');
+                }
+            }
+
+            toggle.addEventListener('click', function () {
+                var nextOpen = panel.getAttribute('data-open') !== 'true';
+                panel.setAttribute('data-open', nextOpen ? 'true' : 'false');
+                toggle.setAttribute('aria-expanded', nextOpen ? 'true' : 'false');
+                syncInert();
+            });
+
+            narrowMq.addEventListener('change', syncInert);
+            syncInert();
+        })();
+    </script>
+@endpush

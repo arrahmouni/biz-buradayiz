@@ -36,6 +36,7 @@ return [
     'search_button' => 'Find Services',
     'search_results_title' => 'Service providers',
     'search_results_intro' => 'Refine your search by service type and location, then contact a provider directly.',
+    'search_filters_toggle' => 'Filters',
     'search_results_breadcrumb_label' => 'Breadcrumb',
     'search_results_count' => '{0} No providers matched your filters.|{1} :count provider found.|[2,*] :count providers found.',
     'search_results_empty' => 'No providers matched your filters. Try widening your search or choosing a nearby district.',
