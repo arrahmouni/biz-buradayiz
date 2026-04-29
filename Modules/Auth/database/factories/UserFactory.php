@@ -2,6 +2,7 @@
 
 namespace Modules\Auth\database\factories;
 
+use App\Support\ProviderServiceBanner;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -51,9 +52,16 @@ class UserFactory extends Factory
                 $user->addMedia($randomImagePath)
                     ->preservingOriginal()
                     ->toMediaCollection(User::MEDIA_COLLECTION);
-                $user->addMedia($randomImagePath)
+            }
+
+            $user->load('service.translations');
+            try {
+                $bannerPath = ProviderServiceBanner::absolutePathForService($user->service);
+                $user->addMedia($bannerPath)
                     ->preservingOriginal()
                     ->toMediaCollection(User::SERVICE_IMAGE_MEDIA_COLLECTION);
+            } catch (\Throwable) {
+                // Banner assets missing from public/images/services (e.g. partial checkout); skip silently.
             }
 
             if ($user->status === AdminStatus::ACTIVE) {
