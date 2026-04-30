@@ -172,7 +172,7 @@
                             'icon' => 'fas fa-hard-hat',
                         ])
                     @else
-                        <div class="flex flex-wrap justify-between items-center gap-3 mb-4">
+                        <div class="flex flex-wrap justify-between items-center gap-3 mb-4 hidden md:block">
                             <p class="text-gray-600 text-sm">
                                 <i class="fas fa-list-ul text-red-500" aria-hidden="true"></i>
                                 {{ trans_choice('front::home.search_results_count', $providers->total() + $featuredProviders->count(), ['count' => $providers->total() + $featuredProviders->count()]) }}
@@ -180,8 +180,8 @@
                         </div>
 
                         @if ($featuredProviders->isNotEmpty())
-                            <div class="mb-6">
-                                <h3 class="text-sm font-semibold text-red-600 uppercase tracking-wide mb-3">
+                            <div >
+                                <h3 class="text-sm font-semibold text-red-600 uppercase tracking-wide mb-3 hidden md:block">
                                     <i class="fas fa-award" aria-hidden="true"></i>
                                     {{ __('front::home.search_featured_title') }}
                                 </h3>
