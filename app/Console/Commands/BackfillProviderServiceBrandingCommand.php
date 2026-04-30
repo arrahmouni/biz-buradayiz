@@ -16,6 +16,7 @@ class BackfillProviderServiceBrandingCommand extends Command
                             {--images : Only attach service banner and user avatar images}
                             {--force-company : Overwrite non-empty company names}
                             {--force-images : Replace existing service banner and user avatar media}';
+                            
 
     protected $description = 'Fill missing service provider company names, provider_service_image media (public/images/services), and user_image avatars (modules/admin/metronic/demo/media/avatars).';
 
