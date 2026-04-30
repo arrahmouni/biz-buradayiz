@@ -81,6 +81,7 @@ jobs:
             --exclude='.env.testing' \
             --exclude='.env.testing.example' \
             --exclude='storage/app/public' \
+            --exclude='public/media' \
             --exclude='storage/logs' \
             --exclude='storage/framework/cache/*' \
             --exclude='storage/framework/sessions/*' \

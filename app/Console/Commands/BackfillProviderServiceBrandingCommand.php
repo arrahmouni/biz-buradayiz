@@ -13,11 +13,11 @@ class BackfillProviderServiceBrandingCommand extends Command
     protected $signature = 'providers:backfill-service-branding
                             {--dry-run : Show what would change without saving}
                             {--company : Only update company names}
-                            {--images : Only attach service banner images}
+                            {--images : Only attach service banner and user avatar images}
                             {--force-company : Overwrite non-empty company names}
-                            {--force-images : Replace existing provider service images}';
+                            {--force-images : Replace existing service banner and user avatar media}';
 
-    protected $description = 'Fill missing service provider company names and provider_service_image media using files from public/images/services (see ProviderServiceBanner).';
+    protected $description = 'Fill missing service provider company names, provider_service_image media (public/images/services), and user_image avatars (modules/admin/metronic/demo/media/avatars).';
 
     public function handle(): int
     {
@@ -43,6 +43,7 @@ class BackfillProviderServiceBrandingCommand extends Command
         $savedImages = 0;
         /** @var list<string> $errors */
         $errors = [];
+        $demoAvatarPaths = $doImages ? $this->demoAvatarPaths() : [];
 
         foreach ($providers->lazyById() as $user) {
 
@@ -75,49 +76,87 @@ class BackfillProviderServiceBrandingCommand extends Command
 
             $user->loadMissing('service.translations');
 
-            $hasImage = $user->getMedia(User::SERVICE_IMAGE_MEDIA_COLLECTION)->isNotEmpty();
-            if ($hasImage && ! $forceImages) {
+            $hasServiceImage = $user->getMedia(User::SERVICE_IMAGE_MEDIA_COLLECTION)->isNotEmpty();
+            if ($hasServiceImage && ! $forceImages) {
                 if ($this->output->isVerbose()) {
                     $this->line("[image] #{$user->id}: skipped (service image already set)");
                 }
-
-                continue;
-            }
-
-            try {
-                $sourcePath = ProviderServiceBanner::absolutePathForService($user->service);
-            } catch (\RuntimeException $e) {
-                $errors[] = "User #{$user->id}: ".$e->getMessage();
-
-                continue;
-            }
-
-            $this->line(sprintf(
-                '[image] #%d %s%s → %s',
-                $user->id,
-                $hasImage ? 'replace' : 'add',
-                $forceImages && $hasImage ? ' (forced)' : '',
-                $sourcePath,
-            ));
-
-            if (! $dryRun) {
+            } else {
                 try {
-                    DB::transaction(function () use ($user, $sourcePath): void {
-                        $user->refresh();
-                        $user->loadMissing('service.translations');
-                        if ($user->getMedia(User::SERVICE_IMAGE_MEDIA_COLLECTION)->isNotEmpty()) {
-                            $user->clearMediaCollection(User::SERVICE_IMAGE_MEDIA_COLLECTION);
+                    $sourcePath = ProviderServiceBanner::absolutePathForService($user->service);
+                } catch (\RuntimeException $e) {
+                    $errors[] = "User #{$user->id}: ".$e->getMessage();
+                    $sourcePath = null;
+                }
+
+                if (isset($sourcePath)) {
+                    $this->line(sprintf(
+                        '[image] #%d %s%s → %s',
+                        $user->id,
+                        $hasServiceImage ? 'replace' : 'add',
+                        $forceImages && $hasServiceImage ? ' (forced)' : '',
+                        $sourcePath,
+                    ));
+
+                    if (! $dryRun) {
+                        try {
+                            DB::transaction(function () use ($user, $sourcePath): void {
+                                $user->refresh();
+                                $user->loadMissing('service.translations');
+                                if ($user->getMedia(User::SERVICE_IMAGE_MEDIA_COLLECTION)->isNotEmpty()) {
+                                    $user->clearMediaCollection(User::SERVICE_IMAGE_MEDIA_COLLECTION);
+                                }
+                                $user->addMedia($sourcePath)
+                                    ->preservingOriginal()
+                                    ->toMediaCollection(User::SERVICE_IMAGE_MEDIA_COLLECTION);
+                            });
+                            $savedImages++;
+                        } catch (\Throwable $e) {
+                            $errors[] = "User #{$user->id} image: ".$e->getMessage();
                         }
-                        $user->addMedia($sourcePath)
-                            ->preservingOriginal()
-                            ->toMediaCollection(User::SERVICE_IMAGE_MEDIA_COLLECTION);
-                    });
-                    $savedImages++;
-                } catch (\Throwable $e) {
-                    $errors[] = "User #{$user->id} image: ".$e->getMessage();
+                    } else {
+                        $savedImages++;
+                    }
+                }
+            }
+
+            $hasUserImage = $user->getMedia(User::MEDIA_COLLECTION)->isNotEmpty();
+            if ($hasUserImage && ! $forceImages) {
+                if ($this->output->isVerbose()) {
+                    $this->line("[avatar] #{$user->id}: skipped (user image already set)");
+                }
+            } elseif ($demoAvatarPaths === []) {
+                if ($this->output->isVerbose()) {
+                    $this->line("[avatar] #{$user->id}: skipped (no demo avatars in metronic folder)");
                 }
             } else {
-                $savedImages++;
+                $avatarPath = fake()->randomElement($demoAvatarPaths);
+                $this->line(sprintf(
+                    '[avatar] #%d %s%s → %s',
+                    $user->id,
+                    $hasUserImage ? 'replace' : 'add',
+                    $forceImages && $hasUserImage ? ' (forced)' : '',
+                    $avatarPath,
+                ));
+
+                if (! $dryRun) {
+                    try {
+                        DB::transaction(function () use ($user, $avatarPath): void {
+                            $user->refresh();
+                            if ($user->getMedia(User::MEDIA_COLLECTION)->isNotEmpty()) {
+                                $user->clearMediaCollection(User::MEDIA_COLLECTION);
+                            }
+                            $user->addMedia($avatarPath)
+                                ->preservingOriginal()
+                                ->toMediaCollection(User::MEDIA_COLLECTION);
+                        });
+                        $savedImages++;
+                    } catch (\Throwable $e) {
+                        $errors[] = "User #{$user->id} avatar: ".$e->getMessage();
+                    }
+                } else {
+                    $savedImages++;
+                }
             }
         }
 
@@ -127,7 +166,7 @@ class BackfillProviderServiceBrandingCommand extends Command
 
         $label = $dryRun ? 'Rows that would be updated' : 'Rows updated';
         $this->table(
-            [$label.' (company)', $label.' (images)'],
+            [$label.' (company)', $label.' (service + avatar images)'],
             [[(string) $savedCompanies, (string) $savedImages]],
         );
 
@@ -136,6 +175,16 @@ class BackfillProviderServiceBrandingCommand extends Command
         }
 
         return $errors !== [] ? self::FAILURE : self::SUCCESS;
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function demoAvatarPaths(): array
+    {
+        $avatarDir = public_path('modules/admin/metronic/demo/media/avatars');
+
+        return glob($avatarDir.'/*.jpg') ?: [];
     }
 
     /**
